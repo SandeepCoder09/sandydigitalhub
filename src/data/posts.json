@@ -1,0 +1,35 @@
+[
+  {
+    "id": "1",
+    "slug": "why-your-business-needs-a-website",
+    "title": "Why Your Local Business Needs a Website in 2026",
+    "excerpt": "Discover the undeniable benefits of having a professional online presence for your local shop or service business.",
+    "content": "Full content goes here...",
+    "category": "Website Development",
+    "author": "Sandy Team",
+    "date": "2026-06-15T10:00:00Z",
+    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
+  },
+  {
+    "id": "2",
+    "slug": "top-5-mobile-app-trends",
+    "title": "Top 5 Mobile App Trends for Small Businesses",
+    "excerpt": "Stay ahead of the curve with these emerging mobile app trends that can boost your customer engagement.",
+    "content": "Full content goes here...",
+    "category": "Mobile Apps",
+    "author": "Sandy Team",
+    "date": "2026-06-20T14:30:00Z",
+    "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80"
+  },
+  {
+    "id": "3",
+    "slug": "how-to-apply-pan-card-online",
+    "title": "How to Apply for a New PAN Card Online Quickly",
+    "excerpt": "A step-by-step guide to filling out your PAN card application online without any hassle.",
+    "content": "Full content goes here...",
+    "category": "Digital Services",
+    "author": "Sandy Team",
+    "date": "2026-07-02T09:15:00Z",
+    "image": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80"
+  }
+]
