@@ -1,148 +1,108 @@
-import { getSession } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, FileDigit, IndianRupee, Activity, Target } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { connectDB } from "@/lib/db";
+import { Order } from "@/models/Order";
+import { User } from "@/models/User";
+import { Service } from "@/models/Service";
 
 export default async function AdminDashboard() {
-  const session = await getSession();
+  const session = await getServerSession(authOptions);
   
-  if (!session) {
+  console.log("SERVER SESSION IN ADMIN:", JSON.stringify(session));
+
+  if (!session || session.user.role !== 'ADMIN') {
     redirect("/login");
   }
 
-  // In a real app, verify admin role here
-  // if (session.role !== 'admin') redirect('/dashboard');
+  await connectDB();
+
+  const totalOrders = await Order.countDocuments();
+  const totalUsers = await User.countDocuments({ role: 'CUSTOMER' });
+  const totalServices = await Service.countDocuments();
+  
+  const revenueResult = await Order.aggregate([
+    { $match: { paymentStatus: 'PAID' } },
+    { $group: { _id: null, totalRevenue: { $sum: '$total' } } }
+  ]);
+  const revenue = revenueResult[0]?.totalRevenue || 0;
+
+  const recentOrders = await Order.find().sort({ createdAt: -1 }).limit(5).populate('userId', 'name email');
 
   return (
-    <div className="bg-muted/30 min-h-[calc(100vh-140px)] py-12">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen pt-32 pb-20 px-4 md:px-8 bg-[#0a0a0a]">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
         
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Admin Overview</h1>
-            <p className="text-muted-foreground">Manage your business metrics, clients, and content.</p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline">View Site</Button>
-            <Button>Generate Report</Button>
-          </div>
+        {/* Sidebar */}
+        <div className="w-full md:w-64 bg-[#111111] p-6 rounded-2xl border border-white/10 h-fit">
+          <h2 className="text-xl font-bold text-white mb-6">Admin Panel</h2>
+          <nav className="flex flex-col gap-2">
+            <Link href="/admin" className="text-[#FF7A00] bg-white/5 px-4 py-2 rounded-lg font-medium">Dashboard</Link>
+            <Link href="/admin/services" className="text-white/60 hover:text-white px-4 py-2 transition-colors">Manage Services</Link>
+            <Link href="/admin/orders" className="text-white/60 hover:text-white px-4 py-2 transition-colors">Manage Orders</Link>
+            <Link href="/admin/users" className="text-white/60 hover:text-white px-4 py-2 transition-colors">Manage Users</Link>
+          </nav>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-              <IndianRupee className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">₹1,24,500</div>
-              <p className="text-xs text-green-500 mt-1 flex items-center">
-                 +20.1% from last month
-              </p>
-            </CardContent>
-          </Card>
+        {/* Main Content */}
+        <div className="flex-1">
+          <h1 className="text-3xl font-bold text-white mb-8">Overview</h1>
           
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Active Clients</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">+14</div>
-              <p className="text-xs text-muted-foreground mt-1">+3 this week</p>
-            </CardContent>
-          </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="bg-[#111111] p-6 rounded-2xl border border-white/10">
+              <p className="text-white/50 text-sm mb-1">Total Revenue</p>
+              <h3 className="text-2xl font-bold text-[#FF7A00]">₹{revenue.toFixed(2)}</h3>
+            </div>
+            <div className="bg-[#111111] p-6 rounded-2xl border border-white/10">
+              <p className="text-white/50 text-sm mb-1">Total Orders</p>
+              <h3 className="text-2xl font-bold text-white">{totalOrders}</h3>
+            </div>
+            <div className="bg-[#111111] p-6 rounded-2xl border border-white/10">
+              <p className="text-white/50 text-sm mb-1">Total Customers</p>
+              <h3 className="text-2xl font-bold text-white">{totalUsers}</h3>
+            </div>
+            <div className="bg-[#111111] p-6 rounded-2xl border border-white/10">
+              <p className="text-white/50 text-sm mb-1">Active Services</p>
+              <h3 className="text-2xl font-bold text-white">{totalServices}</h3>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">New Leads</CardTitle>
-              <Target className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">24</div>
-              <p className="text-xs text-green-500 mt-1 flex items-center">
-                 +12% conversion rate
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Service Requests</CardTitle>
-              <FileDigit className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">8</div>
-              <p className="text-xs text-muted-foreground mt-1">3 pending review</p>
-            </CardContent>
-          </Card>
+          <div className="bg-[#111111] p-6 rounded-2xl border border-white/10">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-white">Recent Orders</h2>
+              <Link href="/admin/orders" className="text-[#FF7A00] text-sm hover:underline">View All</Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-white/80">
+                <thead className="border-b border-white/10">
+                  <tr>
+                    <th className="pb-4">Order ID</th>
+                    <th className="pb-4">Customer</th>
+                    <th className="pb-4">Amount</th>
+                    <th className="pb-4">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {recentOrders.map((order: any) => (
+                    <tr key={order._id.toString()}>
+                      <td className="py-4 text-sm">{order._id.toString().slice(-8).toUpperCase()}</td>
+                      <td className="py-4 text-sm">{order.userId?.name || 'Unknown'}</td>
+                      <td className="py-4 text-sm font-bold">₹{order.total}</td>
+                      <td className="py-4 text-sm">
+                        <span className={`px-2 py-1 rounded-full text-xs font-bold ${
+                          order.paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'
+                        }`}>
+                          {order.paymentStatus}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle>Recent Leads</CardTitle>
-              <CardDescription>Latest inquiries from the contact form.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-muted-foreground">
-                  <thead className="text-xs text-foreground uppercase bg-muted/50">
-                    <tr>
-                      <th className="px-4 py-3 rounded-tl-lg">Name</th>
-                      <th className="px-4 py-3">Service</th>
-                      <th className="px-4 py-3">Date</th>
-                      <th className="px-4 py-3 rounded-tr-lg">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b">
-                      <td className="px-4 py-3 font-medium text-foreground">Rahul Kumar</td>
-                      <td className="px-4 py-3">Website Development</td>
-                      <td className="px-4 py-3">Today, 10:23 AM</td>
-                      <td className="px-4 py-3"><span className="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">New</span></td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="px-4 py-3 font-medium text-foreground">Priya Singh</td>
-                      <td className="px-4 py-3">PAN Card Correction</td>
-                      <td className="px-4 py-3">Yesterday</td>
-                      <td className="px-4 py-3"><span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Contacted</span></td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-3 font-medium text-foreground">Amit Patel</td>
-                      <td className="px-4 py-3">Mobile App</td>
-                      <td className="px-4 py-3">Oct 24, 2024</td>
-                      <td className="px-4 py-3"><span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Converted</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Links</CardTitle>
-              <CardDescription>Manage content and users</CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-3">
-              <Button className="w-full justify-start" variant="outline">
-                <Users className="mr-2 h-4 w-4" /> Manage Clients
-              </Button>
-              <Button className="w-full justify-start" variant="outline">
-                <Activity className="mr-2 h-4 w-4" /> Manage Projects
-              </Button>
-              <Button className="w-full justify-start" variant="outline">
-                <FileDigit className="mr-2 h-4 w-4" /> Blog CMS
-              </Button>
-              <Button className="w-full justify-start" variant="outline">
-                <Target className="mr-2 h-4 w-4" /> Portfolio CMS
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-        
       </div>
     </div>
   );

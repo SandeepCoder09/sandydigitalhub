@@ -1,146 +1,101 @@
-import { getSession } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Briefcase, CreditCard, FileText, LifeBuoy } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { connectDB } from "@/lib/db";
+import { Order } from "@/models/Order";
+import { User } from "@/models/User";
+import Link from "next/link";
+import { DownloadInvoiceButton } from "@/components/dashboard/DownloadInvoiceButton";
 
-export default async function ClientDashboard() {
-  const session = await getSession();
-  
+export default async function CustomerDashboard() {
+  const session = await getServerSession(authOptions);
+
   if (!session) {
     redirect("/login");
   }
 
-  // Mock user data based on session
-  const sessionData = session as any;
-  const user = {
-    name: sessionData.email?.split("@")[0] || "User",
-    email: sessionData.email,
-    initials: (sessionData.email as string)?.substring(0, 2).toUpperCase() || "US"
-  };
+  await connectDB();
+  const user = await User.findById(session.user.id);
+  const orders = await Order.find({ userId: session.user.id }).sort({ createdAt: -1 });
 
   return (
-    <div className="bg-muted/30 min-h-[calc(100vh-140px)] py-12">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen pt-32 pb-20 px-4 md:px-8 bg-[#0a0a0a]">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-3xl font-bold text-white mb-8">Welcome, {user?.name}</h1>
         
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-          <div className="flex items-center gap-4">
-            <Avatar className="h-16 w-16 border-2 border-primary">
-              <AvatarFallback className="text-xl bg-primary/10 text-primary">{user.initials}</AvatarFallback>
-            </Avatar>
-            <div>
-              <h1 className="text-2xl font-bold">Welcome back, {user.name}</h1>
-              <p className="text-muted-foreground">{user.email}</p>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="col-span-1">
+            <div className="bg-[#111111] p-6 rounded-2xl border border-white/10 flex flex-col gap-4">
+              <h3 className="text-xl font-bold text-white border-b border-white/10 pb-4">Profile</h3>
+              <div className="text-white/80">
+                <p><span className="text-white/50">Email:</span> {user?.email}</p>
+                <p><span className="text-white/50">Mobile:</span> {user?.mobile}</p>
+              </div>
+              <button className="text-[#FF7A00] text-left mt-4 hover:underline">Edit Profile</button>
+              <button className="text-red-400 text-left mt-2 hover:underline">Logout</button>
             </div>
           </div>
-          <Button variant="outline">Edit Profile</Button>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
-              <Briefcase className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">1</div>
-              <p className="text-xs text-muted-foreground mt-1">E-Commerce Website</p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Service Requests</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">2</div>
-              <p className="text-xs text-muted-foreground mt-1">1 Pending, 1 Completed</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Invoices</CardTitle>
-              <CreditCard className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">1</div>
-              <p className="text-xs text-muted-foreground mt-1">0 Unpaid</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Support Tickets</CardTitle>
-              <LifeBuoy className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground mt-1">No active tickets</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
-              <CardDescription>Your latest project updates and requests.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-8">
-                <div className="flex items-start gap-4 border-b pb-4">
-                  <div className="w-2 h-2 rounded-full bg-primary mt-2"></div>
-                  <div>
-                    <h4 className="font-semibold">Project Phase 1 Completed</h4>
-                    <p className="text-sm text-muted-foreground">The design phase for your E-Commerce website is now approved.</p>
-                    <span className="text-xs text-muted-foreground mt-1 block">2 days ago</span>
-                  </div>
+          <div className="col-span-3">
+            <div className="bg-[#111111] p-6 rounded-2xl border border-white/10">
+              <h2 className="text-2xl font-bold text-white mb-6">My Orders</h2>
+              {orders.length === 0 ? (
+                <div className="text-white/50 text-center py-8">
+                  <p>You have no orders yet.</p>
+                  <Link href="/services" className="text-[#FF7A00] hover:underline mt-4 inline-block">Browse Services</Link>
                 </div>
-                <div className="flex items-start gap-4 border-b pb-4">
-                  <div className="w-2 h-2 rounded-full bg-primary mt-2"></div>
-                  <div>
-                    <h4 className="font-semibold">Invoice Paid</h4>
-                    <p className="text-sm text-muted-foreground">Payment of ₹4,999 received successfully.</p>
-                    <span className="text-xs text-muted-foreground mt-1 block">1 week ago</span>
-                  </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-white/80">
+                    <thead className="border-b border-white/10">
+                      <tr>
+                        <th className="pb-4">Order ID</th>
+                        <th className="pb-4">Date</th>
+                        <th className="pb-4">Payment Method</th>
+                        <th className="pb-4">Payment Status</th>
+                        <th className="pb-4">Order Status</th>
+                        <th className="pb-4">Total</th>
+                        <th className="pb-4">Invoice</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                      {orders.map((order) => (
+                        <tr key={order._id.toString()}>
+                          <td className="py-4 text-sm font-mono">{order._id.toString().slice(-8).toUpperCase()}</td>
+                          <td className="py-4 text-sm">{new Date(order.createdAt).toLocaleDateString()}</td>
+                          <td className="py-4 text-sm">
+                            {order.paymentMethod === 'online' ? 'Pay Online' : 'Pay at Shop'}
+                          </td>
+                          <td className="py-4 text-sm">
+                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${
+                              order.paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400' : 
+                              order.paymentStatus === 'FAILED' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'
+                            }`}>
+                              {order.paymentStatus}
+                            </span>
+                          </td>
+                          <td className="py-4 text-sm">
+                            <span className="text-white/60">
+                              {order.orderStatus === 'AWAITING_CUSTOMER_VISIT' ? 'Awaiting Visit' : order.orderStatus}
+                            </span>
+                          </td>
+                          <td className="py-4 text-sm font-bold text-[#FF7A00]">₹{order.total}</td>
+                          <td className="py-4 text-sm">
+                            {order.paymentStatus === 'PAID' ? (
+                              <DownloadInvoiceButton order={JSON.parse(JSON.stringify(order))} user={JSON.parse(JSON.stringify(user))} />
+                            ) : (
+                              <span className="text-white/30">N/A</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-                <div className="flex items-start gap-4 pb-2">
-                  <div className="w-2 h-2 rounded-full bg-primary mt-2"></div>
-                  <div>
-                    <h4 className="font-semibold">Account Created</h4>
-                    <p className="text-sm text-muted-foreground">Welcome to Sandy Digital Hub client portal.</p>
-                    <span className="text-xs text-muted-foreground mt-1 block">1 week ago</span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>What would you like to do?</CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-3">
-              <Button className="w-full justify-start" variant="outline">
-                <FileText className="mr-2 h-4 w-4" /> New Service Request
-              </Button>
-              <Button className="w-full justify-start" variant="outline">
-                <Briefcase className="mr-2 h-4 w-4" /> Track Project
-              </Button>
-              <Button className="w-full justify-start" variant="outline">
-                <CreditCard className="mr-2 h-4 w-4" /> Make a Payment
-              </Button>
-              <Button className="w-full justify-start" variant="outline">
-                <LifeBuoy className="mr-2 h-4 w-4" /> Open Support Ticket
-              </Button>
-            </CardContent>
-          </Card>
+              )}
+            </div>
+          </div>
         </div>
-        
       </div>
     </div>
   );

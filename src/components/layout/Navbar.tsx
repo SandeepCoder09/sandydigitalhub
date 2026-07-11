@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-
+import { CartDrawer } from "@/components/cart/CartDrawer";
 export function Navbar() {
   const routes = [
     { name: "Home", path: "/" },
@@ -35,6 +35,7 @@ export function Navbar() {
               </Link>
             ))}
             <div className="flex items-center space-x-4 ml-4">
+              <CartDrawer />
               <Link href="/login">
                 <Button variant="ghost">Login</Button>
               </Link>
@@ -45,7 +46,8 @@ export function Navbar() {
           </nav>
 
           {/* Mobile Navigation */}
-          <div className="flex md:hidden items-center">
+          <div className="flex md:hidden items-center gap-2">
+            <CartDrawer />
             <Sheet>
               <SheetTrigger className={buttonVariants({ variant: "ghost", className: "px-2" })}>
                 <Menu className="h-6 w-6" />

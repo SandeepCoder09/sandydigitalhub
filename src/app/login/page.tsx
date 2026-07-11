@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
+import { signIn, getSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +30,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,20 +45,22 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values)
+      const response = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to login');
+      if (response?.error) {
+        throw new Error(response.error);
       }
 
-      router.push('/dashboard');
-      router.refresh();
+      const session = await getSession();
+      if (session?.user?.role === 'ADMIN') {
+        router.push('/admin');
+      } else {
+        router.push('/dashboard');
+      }
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -68,9 +72,8 @@ export default function LoginPage() {
     <div className="min-h-[80vh] flex items-center justify-center bg-background px-4 py-12">
       <Card className="w-full max-w-md shadow-xl border-border/50">
         <CardHeader className="text-center">
-          <Link href="/" className="inline-block mb-4">
-            <span className="text-2xl font-bold text-primary">Sandy Digital</span>
-            <span className="text-2xl font-bold">Hub</span>
+          <Link href="/" className="flex justify-center mb-6">
+            <img src="/logo.png" alt="Sandy Digital Hub" className="h-16 w-auto object-contain" />
           </Link>
           <CardTitle className="text-2xl">Welcome back</CardTitle>
           <CardDescription>
@@ -112,7 +115,21 @@ export default function LoginPage() {
                       </Link>
                     </div>
                     <FormControl>
-                      <Input placeholder="••••••••" type="password" {...field} />
+                      <div className="relative">
+                        <Input 
+                          placeholder="••••••••" 
+                          type={showPassword ? "text" : "password"} 
+                          className="pr-10"
+                          {...field} 
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
