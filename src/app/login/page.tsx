@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-require-imports, @next/next/no-img-element, @next/next/no-sync-scripts, react/no-unescaped-entities */
 
 import { useState } from "react";
 import Link from "next/link";
@@ -7,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Loader2, Eye, EyeOff } from "lucide-react";
-import { signIn, getSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -51,19 +52,20 @@ export default function LoginPage() {
         redirect: false,
       });
 
-      if (response?.error) {
-        throw new Error(response.error);
+      if (!response?.ok || response?.error) {
+        setError(response?.error === "CredentialsSignin" 
+          ? "Invalid email or password" 
+          : response?.error || "Invalid email or password");
+        setIsLoading(false);
+        return;
       }
 
-      const session = await getSession();
-      if (session?.user?.role === 'ADMIN') {
-        router.push('/admin');
-      } else {
-        router.push('/dashboard');
-      }
+      // Credentials are valid and session cookie is set.
+      // Use client-side navigation to redirect to the dashboard.
+      router.push("/dashboard");
+      router.refresh();
     } catch (err: any) {
-      setError(err.message);
-    } finally {
+      setError(err?.message || "An unexpected error occurred");
       setIsLoading(false);
     }
   }

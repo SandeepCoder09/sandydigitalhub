@@ -1,11 +1,13 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
 import { connectDB } from "@/lib/db";
 import { Order } from "@/models/Order";
 import { User } from "@/models/User";
 import Link from "next/link";
 import { DownloadInvoiceButton } from "@/components/dashboard/DownloadInvoiceButton";
+import { EditProfileForm } from "@/components/dashboard/EditProfileForm";
+import { LogoutButton } from "@/components/dashboard/LogoutButton";
 
 export default async function CustomerDashboard() {
   const session = await getServerSession(authOptions);
@@ -27,12 +29,8 @@ export default async function CustomerDashboard() {
           <div className="col-span-1">
             <div className="bg-[#111111] p-6 rounded-2xl border border-white/10 flex flex-col gap-4">
               <h3 className="text-xl font-bold text-white border-b border-white/10 pb-4">Profile</h3>
-              <div className="text-white/80">
-                <p><span className="text-white/50">Email:</span> {user?.email}</p>
-                <p><span className="text-white/50">Mobile:</span> {user?.mobile}</p>
-              </div>
-              <button className="text-[#FF7A00] text-left mt-4 hover:underline">Edit Profile</button>
-              <button className="text-red-400 text-left mt-2 hover:underline">Logout</button>
+              <EditProfileForm user={JSON.parse(JSON.stringify({ name: user?.name, email: user?.email, mobile: user?.mobile }))} />
+              <LogoutButton />
             </div>
           </div>
 

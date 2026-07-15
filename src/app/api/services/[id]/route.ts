@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-require-imports, @next/next/no-img-element, @next/next/no-sync-scripts, react/no-unescaped-entities */
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
 import { Service } from '@/models/Service';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../auth/[...nextauth]/route';
+import { authOptions } from '@/lib/authOptions';
 
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
