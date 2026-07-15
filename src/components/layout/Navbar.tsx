@@ -4,7 +4,12 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { CartDrawer } from "@/components/cart/CartDrawer";
-export function Navbar() {
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
+
+export async function Navbar() {
+  const session = await getServerSession(authOptions);
+  
   const routes = [
     { name: "Home", path: "/" },
     { name: "Services", path: "/services" },
@@ -37,12 +42,27 @@ export function Navbar() {
             ))}
             <div className="flex items-center space-x-4 ml-4">
               <CartDrawer />
-              <Link href="/login">
-                <Button variant="ghost">Login</Button>
-              </Link>
-              <Link href="/signup">
-                <Button>Get Started</Button>
-              </Link>
+              {session ? (
+                // @ts-ignore
+                session.user?.role === 'ADMIN' || session.user?.role === 'admin' ? (
+                  <Link href="/admin">
+                    <Button variant="destructive">Admin Dashboard</Button>
+                  </Link>
+                ) : (
+                  <Link href="/dashboard">
+                    <Button>Dashboard</Button>
+                  </Link>
+                )
+              ) : (
+                <>
+                  <Link href="/login">
+                    <Button variant="ghost">Login</Button>
+                  </Link>
+                  <Link href="/signup">
+                    <Button>Get Started</Button>
+                  </Link>
+                </>
+              )}
             </div>
           </nav>
 
@@ -65,12 +85,27 @@ export function Navbar() {
                     </Link>
                   ))}
                   <div className="flex flex-col gap-2 mt-4 border-t pt-4">
-                    <Link href="/login">
-                      <Button variant="outline" className="w-full">Login</Button>
-                    </Link>
-                    <Link href="/signup">
-                      <Button className="w-full">Get Started</Button>
-                    </Link>
+                    {session ? (
+                      // @ts-ignore
+                      session.user?.role === 'ADMIN' || session.user?.role === 'admin' ? (
+                        <Link href="/admin">
+                          <Button variant="destructive" className="w-full">Admin Dashboard</Button>
+                        </Link>
+                      ) : (
+                        <Link href="/dashboard">
+                          <Button className="w-full">Dashboard</Button>
+                        </Link>
+                      )
+                    ) : (
+                      <>
+                        <Link href="/login">
+                          <Button variant="outline" className="w-full">Login</Button>
+                        </Link>
+                        <Link href="/signup">
+                          <Button className="w-full">Get Started</Button>
+                        </Link>
+                      </>
+                    )}
                   </div>
                 </nav>
               </SheetContent>

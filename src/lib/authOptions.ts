@@ -25,6 +25,10 @@ export const authOptions: NextAuthOptions = {
           throw new Error('No user found with this email');
         }
 
+        if (user.status === 'SUSPENDED') {
+          throw new Error('Your account has been suspended. Please contact support.');
+        }
+
         const isPasswordMatch = await bcrypt.compare(credentials.password, user.password);
         if (!isPasswordMatch) {
           throw new Error('Incorrect password');

@@ -6,6 +6,7 @@ export interface IUser extends Document {
   mobile: string;
   password?: string;
   role: 'ADMIN' | 'CUSTOMER';
+  status: 'ACTIVE' | 'SUSPENDED';
   createdAt: Date;
 }
 
@@ -15,6 +16,7 @@ const userSchema = new Schema<IUser>({
   mobile: { type: String, required: true, unique: true },
   password: { type: String }, // Optional for OAuth if added later
   role: { type: String, enum: ['ADMIN', 'CUSTOMER'], default: 'CUSTOMER' },
+  status: { type: String, enum: ['ACTIVE', 'SUSPENDED'], default: 'ACTIVE' },
   createdAt: { type: Date, default: Date.now },
 });
 

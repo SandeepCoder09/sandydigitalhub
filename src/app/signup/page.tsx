@@ -78,9 +78,8 @@ export default function SignupPage() {
     <div className="min-h-[80vh] flex items-center justify-center bg-background px-4 py-12">
       <Card className="w-full max-w-md shadow-xl border-border/50">
         <CardHeader className="text-center">
-          <Link href="/" className="inline-block mb-4">
-            <span className="text-2xl font-bold text-primary">Sandy Digital</span>
-            <span className="text-2xl font-bold">Hub</span>
+          <Link href="/" className="flex justify-center mb-6">
+            <img src="/logo.png" alt="Sandy Digital Hub" className="h-16 w-auto object-contain" />
           </Link>
           <CardTitle className="text-2xl">Create an account</CardTitle>
           <CardDescription>
