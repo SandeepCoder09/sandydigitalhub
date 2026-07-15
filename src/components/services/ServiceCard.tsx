@@ -17,7 +17,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
   const handleAddToCart = () => {
     addItem({
-      serviceId: service._id as string,
+      serviceId: String(service._id),
       title: service.title,
       price: service.price,
       quantity: 1,
