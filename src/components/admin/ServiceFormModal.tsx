@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X, Loader2 } from "lucide-react";
+import Image from "next/image";
 
 export type ServiceFormData = {
   title: string;
@@ -210,11 +211,13 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
             {formData.image && (
               <div className="space-y-2 md:col-span-2">
                  <label className="text-sm font-medium text-white/80">Image Preview</label>
-                 <div className="w-full h-48 bg-black/50 rounded-xl border border-white/10 overflow-hidden flex items-center justify-center">
-                    <img 
+                 <div className="w-full h-48 bg-black/50 rounded-xl border border-white/10 overflow-hidden flex items-center justify-center relative">
+                    <Image 
                       src={formData.image} 
                       alt="Preview" 
-                      className="h-full object-contain"
+                      fill
+                      className="object-contain"
+                      unoptimized
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x200?text=Invalid+Image+URL';
                       }}

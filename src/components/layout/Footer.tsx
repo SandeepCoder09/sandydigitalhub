@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-require-imports, @next/next/no-img-element, @next/next/no-sync-scripts, react/no-unescaped-entities */
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export function Footer() {
@@ -9,7 +10,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           <div>
             <Link href="/" className="inline-block mb-4">
-              <img src="/logo-footer.png" alt="Sandy Digital Hub" className="h-20 w-auto object-contain" />
+              <Image src="/logo-footer.png" alt="Sandy Digital Hub" width={200} height={80} className="h-20 w-auto object-contain" />
             </Link>
             <p className="text-muted-foreground mb-6">
               Your One-Stop Digital Solution Center for Website Development, Mobile Apps, and Digital Services.

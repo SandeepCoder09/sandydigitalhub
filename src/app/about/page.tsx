@@ -130,12 +130,13 @@ export default function AboutPage() {
             </div>
           </div>
           <div className="w-full md:w-auto">
-             {/* Map Placeholder */}
-             <div className="w-full md:w-80 aspect-square rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-12 h-12 text-primary mx-auto mb-3" />
-                  <span className="text-sm text-muted-foreground">Google Maps Location</span>
-                </div>
+             <div className="w-full md:w-80 aspect-square rounded-2xl border border-white/10 flex items-center justify-center overflow-hidden relative shadow-lg">
+                <Image 
+                  src="/about-map.png"
+                  alt="Location Map"
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-700"
+                />
              </div>
           </div>
         </div>

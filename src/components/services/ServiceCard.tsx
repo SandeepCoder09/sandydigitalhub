@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { useCartStore } from '@/store/cartStore';
 import { IService } from '@/models/Service';
 import { X, CheckCircle2 } from 'lucide-react';
@@ -32,10 +33,11 @@ export function ServiceCard({ service }: ServiceCardProps) {
         className="bg-[#111111] rounded-2xl overflow-hidden border border-white/10 flex flex-col h-full hover:border-[#FF7A00] transition-colors"
       >
         <div className="relative h-48 w-full bg-white/5">
-          <img 
+          <Image 
             src={service.image} 
             alt={service.title} 
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
           />
         </div>
         <div className="p-6 flex flex-col flex-grow">
@@ -79,10 +81,11 @@ export function ServiceCard({ service }: ServiceCardProps) {
               className="relative w-full max-w-lg bg-[#111111] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-10 flex flex-col max-h-full"
             >
               <div className="relative h-64 w-full">
-                <img 
+                <Image 
                   src={service.image} 
                   alt={service.title} 
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
                 <button 
                   onClick={() => setShowDetails(false)}

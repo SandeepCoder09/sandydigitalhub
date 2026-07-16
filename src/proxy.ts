@@ -7,8 +7,8 @@ export function proxy(request: NextRequest) {
     || request.cookies.get('__Secure-next-auth.session-token')?.value;
   const path = request.nextUrl.pathname;
 
-  // Protect dashboard routes
-  if (path.startsWith('/dashboard') || path.startsWith('/admin')) {
+  // Protect profile routes
+  if (path.startsWith('/profile') || path.startsWith('/admin')) {
     if (!token) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
@@ -16,12 +16,12 @@ export function proxy(request: NextRequest) {
 
   // Prevent logged in users from seeing login/signup
   if ((path === '/login' || path === '/signup') && token) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    return NextResponse.redirect(new URL('/profile', request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/admin/:path*', '/login', '/signup'],
+  matcher: ['/profile/:path*', '/admin/:path*', '/login', '/signup'],
 };

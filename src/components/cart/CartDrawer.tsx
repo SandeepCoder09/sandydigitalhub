@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/cartStore';
 import { ShoppingCart, X, Plus, Minus, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function CartDrawer() {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,8 +70,8 @@ export function CartDrawer() {
               ) : (
                 items.map(item => (
                   <div key={item.serviceId} className="flex gap-4 bg-white/5 p-4 rounded-xl border border-white/5 items-center">
-                    <div className="w-16 h-16 bg-black/20 rounded-lg overflow-hidden shrink-0">
-                      <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                    <div className="w-16 h-16 bg-black/20 rounded-lg overflow-hidden shrink-0 relative">
+                      <Image src={item.image} alt={item.title} fill className="object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="text-white font-medium text-sm mb-1 truncate">{item.title}</h4>

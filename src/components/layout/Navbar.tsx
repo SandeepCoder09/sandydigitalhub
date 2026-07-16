@@ -3,9 +3,11 @@ import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import Image from "next/image";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import { NavLogoutButton } from "@/components/layout/NavLogoutButton";
 
 export async function Navbar() {
   const session = await getServerSession(authOptions);
@@ -25,7 +27,7 @@ export async function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <img src="/logo.png" alt="Sandy Digital Hub" className="h-16 w-auto object-contain" />
+              <Image src="/logo.png" alt="Sandy Digital Hub" width={200} height={60} className="h-16 w-auto object-contain" priority />
             </Link>
           </div>
 
@@ -43,16 +45,19 @@ export async function Navbar() {
             <div className="flex items-center space-x-4 ml-4">
               <CartDrawer />
               {session ? (
-                // @ts-ignore
-                session.user?.role === 'ADMIN' || session.user?.role === 'admin' ? (
-                  <Link href="/admin">
-                    <Button variant="destructive">Admin Dashboard</Button>
-                  </Link>
-                ) : (
-                  <Link href="/dashboard">
-                    <Button>Dashboard</Button>
-                  </Link>
-                )
+                <>
+                  {/* @ts-ignore */}
+                  {session.user?.role === 'ADMIN' || session.user?.role === 'admin' ? (
+                    <Link href="/admin">
+                      <Button variant="destructive">Admin Dashboard</Button>
+                    </Link>
+                  ) : (
+                    <Link href="/profile">
+                      <Button>Profile</Button>
+                    </Link>
+                  )}
+                  <NavLogoutButton />
+                </>
               ) : (
                 <>
                   <Link href="/login">
@@ -86,16 +91,19 @@ export async function Navbar() {
                   ))}
                   <div className="flex flex-col gap-2 mt-4 border-t pt-4">
                     {session ? (
-                      // @ts-ignore
-                      session.user?.role === 'ADMIN' || session.user?.role === 'admin' ? (
-                        <Link href="/admin">
-                          <Button variant="destructive" className="w-full">Admin Dashboard</Button>
-                        </Link>
-                      ) : (
-                        <Link href="/dashboard">
-                          <Button className="w-full">Dashboard</Button>
-                        </Link>
-                      )
+                      <>
+                        {/* @ts-ignore */}
+                        {session.user?.role === 'ADMIN' || session.user?.role === 'admin' ? (
+                          <Link href="/admin">
+                            <Button variant="destructive" className="w-full">Admin Dashboard</Button>
+                          </Link>
+                        ) : (
+                          <Link href="/profile">
+                            <Button className="w-full">Profile</Button>
+                          </Link>
+                        )}
+                        <NavLogoutButton className="w-full mt-2" />
+                      </>
                     ) : (
                       <>
                         <Link href="/login">

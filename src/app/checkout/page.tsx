@@ -35,7 +35,7 @@ export default function CheckoutPage() {
 
       if (paymentMethod === 'pay_at_shop') {
         clearCart();
-        router.push('/dashboard?payment=pending');
+        router.push('/profile?payment=pending');
         return;
       }
 
@@ -60,9 +60,9 @@ export default function CheckoutPage() {
           
           if (verifyRes.ok) {
             clearCart();
-            router.push('/dashboard?payment=success');
+            router.push('/profile?payment=success');
           } else {
-            router.push('/dashboard?payment=failed');
+            router.push('/profile?payment=failed');
           }
         },
         prefill: {

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MonitorSmartphone, Code, Briefcase } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export function HeroSection() {
   return (
@@ -11,7 +12,7 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -39,7 +40,7 @@ export function HeroSection() {
                 </Button>
               </Link>
             </div>
-            
+
             <div className="mt-10 flex items-center justify-center lg:justify-start gap-8 text-sm font-medium text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Code className="h-5 w-5 text-primary" />
@@ -63,11 +64,14 @@ export function HeroSection() {
             className="relative mx-auto w-full max-w-lg lg:max-w-none"
           >
             <div className="relative rounded-2xl bg-secondary/5 p-2 ring-1 ring-inset ring-secondary/10 lg:-m-4 lg:rounded-3xl lg:p-4 shadow-2xl overflow-hidden backdrop-blur-3xl glassmorphism">
-              <div className="rounded-xl overflow-hidden bg-white/50 dark:bg-black/50 aspect-video relative flex items-center justify-center border border-white/20">
-                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20 flex flex-col items-center justify-center">
-                   <MonitorSmartphone className="w-32 h-32 text-primary opacity-80" />
-                   <p className="mt-4 font-semibold text-lg text-foreground/70">Premium Digital Solutions</p>
-                </div>
+              <div className="rounded-xl overflow-hidden bg-white/50 dark:bg-black/50 aspect-[4/3] relative flex items-center justify-center border border-white/20">
+                <Image
+                  src="/hero-dashboard.png"
+                  alt="Premium Digital Solutions Dashboard"
+                  fill
+                  className="object-cover"
+                  priority
+                />
               </div>
             </div>
           </motion.div>
