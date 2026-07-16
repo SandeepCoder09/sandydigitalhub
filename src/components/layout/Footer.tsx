@@ -43,7 +43,7 @@ export function Footer() {
             <h4 className="text-lg font-semibold mb-4 text-white">Company</h4>
             <ul className="space-y-2">
               <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
-              <li><Link href="https://sandycoder.vercel.app" className="text-muted-foreground hover:text-primary transition-colors">Portfolio</Link></li>
+              <li><Link href="https://sandycoder.vercel.app/portfolio" className="text-muted-foreground hover:text-primary transition-colors">Portfolio</Link></li>
               <li><Link href="/pricing" className="text-muted-foreground hover:text-primary transition-colors">Pricing</Link></li>
               <li><Link href="https://sandycoder.vercel.app/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</Link></li>
               <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>

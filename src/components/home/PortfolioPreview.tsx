@@ -9,24 +9,67 @@ import Image from "next/image";
 const projects = [
   {
     id: 1,
-    title: "E-Commerce Fashion Store",
-    category: "Website Development",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80",
-    tech: ["Next.js", "Tailwind", "Stripe"],
+    title: "3D Portfolio",
+    category: "3D / Interactive",
+    image: "https://sandycoder.vercel.app/assets/Portfolio3D.png",
+    tech: ["Three.js", "HTML5", "CSS3", "JavaScript"],
+    url: "https://sandeepcoder09.github.io/3DPortfolioBySandy/",
   },
   {
     id: 2,
-    title: "Food Delivery App",
-    category: "Mobile App",
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80",
-    tech: ["React Native", "Firebase"],
+    title: "BudgetMate",
+    category: "Finance App",
+    image: "https://sandycoder.vercel.app/assets/BudgeMateLogo.png",
+    tech: ["HTML5", "CSS3", "JavaScript"],
+    url: "https://sandycoder.vercel.app/budgetmet/index.html",
   },
   {
     id: 3,
-    title: "Corporate Dashboard",
-    category: "Web Application",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-    tech: ["React", "Node.js", "MongoDB"],
+    title: "Neon Calculator",
+    category: "Tool",
+    image: "https://sandycoder.vercel.app/assets/cal.png",
+    tech: ["React", "CSS3", "Keyboard Input"],
+    url: "https://calcbysandy.vercel.app/",
+  },
+  {
+    id: 4,
+    title: "SH — The Hunger Point",
+    category: "Food App",
+    image: "https://sandycoder.vercel.app/assets/sh-thehungerpoint.png",
+    tech: ["Firebase Auth", "HTML5", "CSS3", "JavaScript"],
+    url: "https://sandycoder.vercel.app/sh-TheHungerPoint.html",
+  },
+  {
+    id: 5,
+    title: "Habit Mover",
+    category: "PWA",
+    image: "https://sandycoder.vercel.app/assets/habitmover.png",
+    tech: ["PWA", "HTML5", "CSS3", "JavaScript"],
+    url: "https://habitmover.vercel.app",
+  },
+  {
+    id: 6,
+    title: "QR GenDecoder",
+    category: "QR Gen. & Dec.",
+    image: "https://sandycoder.vercel.app/assets/qr-logo-09-brand.png",
+    tech: ["HTML5", "CSS3", "JavaScript"],
+    url: "https://qrgendecoder.vercel.app",
+  },
+  {
+    id: 7,
+    title: "Mohalla",
+    category: "PWA",
+    image: "https://sandycoder.vercel.app/assets/mohalla.png",
+    tech: ["PWA", "Node.js", "Express", "MongoDB"],
+    url: "https://mohalla-app.onrender.com",
+  },
+  {
+    id: 8,
+    title: "Website Design",
+    category: "Web Design",
+    image: "https://sandycoder.vercel.app/assets/webdesign.png",
+    tech: ["Figma", "UI/UX", "Responsive Design"],
+    url: "https://sandycoder.vercel.app/portfolio#projects",
   },
 ];
 
@@ -41,7 +84,7 @@ export function PortfolioPreview() {
               Take a look at some of our recent work. We take pride in delivering high-quality digital products.
             </p>
           </div>
-          <Link href="https://sandycoder.vercel.app" className="hidden md:block">
+          <Link href="https://sandycoder.vercel.app/portfolio#projects" target="_blank" rel="noopener noreferrer" className="hidden md:block">
             <Button variant="outline" className="group">
               View All Projects 
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -64,6 +107,7 @@ export function PortfolioPreview() {
                   src={project.image} 
                   alt={project.title} 
                   fill 
+                  unoptimized
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
@@ -78,9 +122,9 @@ export function PortfolioPreview() {
                     </span>
                   ))}
                 </div>
-                <Link href={`/portfolio/${project.id}`}>
+                <Link href={project.url} target="_blank" rel="noopener noreferrer">
                   <Button variant="secondary" className="w-full group/btn">
-                    View Details
+                    View Live Project
                     <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
@@ -90,7 +134,7 @@ export function PortfolioPreview() {
         </div>
         
         <div className="mt-10 text-center md:hidden">
-          <Link href="https://sandycoder.vercel.app">
+          <Link href="https://sandycoder.vercel.app/portfolio#projects" target="_blank" rel="noopener noreferrer">
             <Button variant="outline" className="group w-full sm:w-auto">
               View All Projects 
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

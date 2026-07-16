@@ -5,6 +5,7 @@ import { useCartStore } from '@/store/cartStore';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { CheckCircle2, Circle, CreditCard, Store } from 'lucide-react';
+import Script from 'next/script';
 
 export default function CheckoutPage() {
   const { items, getTotal, getSubtotal, getTax, clearCart } = useCartStore();
@@ -190,9 +191,9 @@ export default function CheckoutPage() {
                       <Store size={16} className="text-[#FF7A00]" />
                       Sandy Digital Hub
                     </div>
-                    <p>123 Digital Market Street, Sector 4</p>
-                    <p>New Delhi, 110001</p>
-                    <p className="pt-2 border-t border-white/10 mt-1">Mobile: +91 98765 43210</p>
+                    <p>Bairi, Khakhreru</p>
+                    <p>Fatehpur, Uttar Pradesh, India</p>
+                    <p className="pt-2 border-t border-white/10 mt-1">Mobile: +91 9876543210</p>
                     <p>Hours: Mon-Sat, 10:00 AM - 8:00 PM</p>
                   </div>
                 )}
@@ -212,7 +213,7 @@ export default function CheckoutPage() {
             )}
           </button>
           
-          <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+          <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
         </div>
       </div>
     </div>

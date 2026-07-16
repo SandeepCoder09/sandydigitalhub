@@ -5,7 +5,19 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'sandycoder.vercel.app',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'sandeepcoder09.github.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'portfolio4sandy.vercel.app',
       },
     ],
   },

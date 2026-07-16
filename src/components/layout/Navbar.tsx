@@ -15,7 +15,7 @@ export async function Navbar() {
   const routes = [
     { name: "Home", path: "/" },
     { name: "Services", path: "/services" },
-    { name: "Portfolio", path: "https://sandycoder.vercel.app" },
+    { name: "Portfolio", path: "https://sandycoder.vercel.app/portfolio" },
     { name: "Pricing", path: "/pricing" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
@@ -46,7 +46,6 @@ export async function Navbar() {
               <CartDrawer />
               {session ? (
                 <>
-                  {/* @ts-ignore */}
                   {session.user?.role === 'ADMIN' || session.user?.role === 'admin' ? (
                     <Link href="/admin">
                       <Button variant="destructive">Admin Dashboard</Button>
@@ -92,7 +91,6 @@ export async function Navbar() {
                   <div className="flex flex-col gap-2 mt-4 border-t pt-4">
                     {session ? (
                       <>
-                        {/* @ts-ignore */}
                         {session.user?.role === 'ADMIN' || session.user?.role === 'admin' ? (
                           <Link href="/admin">
                             <Button variant="destructive" className="w-full">Admin Dashboard</Button>
