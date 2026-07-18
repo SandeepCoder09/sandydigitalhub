@@ -69,14 +69,14 @@ export default function ContactPage() {
                   <p className="text-muted-foreground">Bairi, Khakhreru, Fatehpur,<br />Uttar Pradesh, India</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
                   <Phone className="w-6 h-6" />
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2">Phone & WhatsApp</h3>
-                  <p className="text-muted-foreground">+91 9876543210</p>
+                  <p className="text-muted-foreground">+91 8756454282</p>
                 </div>
               </div>
 
@@ -102,7 +102,7 @@ export default function ContactPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="w-full sm:w-auto">
+              <a href="https://wa.me/+918756454282" target="_blank" rel="noreferrer" className="w-full sm:w-auto">
                 <Button className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white h-12">
                   <MessageCircle className="mr-2 h-5 w-5" /> Chat on WhatsApp
                 </Button>
@@ -143,7 +143,7 @@ export default function ContactPage() {
                     )}
                   />
                 </div>
-                
+
                 <FormField
                   control={form.control}
                   name="email"
@@ -179,17 +179,17 @@ export default function ContactPage() {
                     <FormItem>
                       <FormLabel>Your Message</FormLabel>
                       <FormControl>
-                        <Textarea 
-                          placeholder="Tell us about your project or inquiry..." 
+                        <Textarea
+                          placeholder="Tell us about your project or inquiry..."
                           className="min-h-[120px]"
-                          {...field} 
+                          {...field}
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                
+
                 <Button type="submit" className="w-full h-12 text-lg">
                   <Send className="mr-2 h-5 w-5" /> Send Message
                 </Button>
@@ -200,9 +200,9 @@ export default function ContactPage() {
 
         {/* Map */}
         <div className="mt-24 rounded-3xl overflow-hidden border shadow-sm aspect-[21/9] bg-muted relative">
-            <div className="absolute inset-0 flex items-center justify-center bg-secondary/5">
-                <p className="text-lg text-muted-foreground font-medium">Interactive Google Map integration goes here</p>
-            </div>
+          <div className="absolute inset-0 flex items-center justify-center bg-secondary/5">
+            <p className="text-lg text-muted-foreground font-medium">Interactive Google Map integration goes here</p>
+          </div>
         </div>
       </div>
     </div>

@@ -39,7 +39,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
   ];
 
   const whatsappText = encodeURIComponent(`Hi Sandy Digital Hub! I need an update regarding my order ${brandedId}.`);
-  const whatsappUrl = `https://wa.me/919876543210?text=${whatsappText}`;
+  const whatsappUrl = `https://wa.me/+918756454282?text=${whatsappText}`;
 
   const handlePrintWorkOrder = () => {
     const printContent = `
@@ -104,7 +104,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
           ` : ''}
 
           <div className="footer">
-            Sandy Digital Hub • Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India • Phone: +91 9876543210
+            Sandy Digital Hub • Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India • Phone: +91 8756454282
           </div>
         </body>
       </html>
@@ -123,14 +123,14 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm">
         <div className="bg-[#111111] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto shadow-2xl text-white">
-          
+
           {/* Modal Header */}
           <div className="sticky top-0 bg-[#111111]/95 backdrop-blur border-b border-white/10 p-4 sm:p-6 flex items-center justify-between z-10">
             <div>
               <div className="text-[10px] sm:text-xs font-semibold text-[#FF7A00] tracking-wider uppercase mb-0.5 sm:mb-1">Service Request Details</div>
               <h2 className="text-base sm:text-xl md:text-2xl font-bold font-mono text-white">{brandedId}</h2>
             </div>
-            <button 
+            <button
               onClick={onClose}
               className="p-1.5 sm:p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors"
               aria-label="Close modal"
@@ -187,16 +187,15 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
                     const stepNum = idx + 1;
                     const isDone = stepNum < currentStep || currentStep === 4;
                     const isCurrent = stepNum === currentStep && currentStep !== 4;
-                    
+
                     return (
                       <div key={idx} className="flex flex-col items-center text-center space-y-1.5 bg-white/5 sm:bg-transparent p-2.5 sm:p-0 rounded-xl">
-                        <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all ${
-                          isDone 
-                            ? 'bg-green-500 text-black shadow-lg shadow-green-500/20' 
-                            : isCurrent 
-                            ? 'bg-[#FF7A00] text-white ring-4 ring-[#FF7A00]/20 animate-pulse' 
-                            : 'bg-white/10 text-white/40'
-                        }`}>
+                        <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all ${isDone
+                            ? 'bg-green-500 text-black shadow-lg shadow-green-500/20'
+                            : isCurrent
+                              ? 'bg-[#FF7A00] text-white ring-4 ring-[#FF7A00]/20 animate-pulse'
+                              : 'bg-white/10 text-white/40'
+                          }`}>
                           {isDone ? <CheckCircle2 size={16} /> : isCurrent ? <Loader2 size={15} className="animate-spin" /> : stepNum}
                         </div>
                         <div>
@@ -213,7 +212,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
                 </div>
               )}
             </div>
-            
+
             {/* Metadata Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="bg-white/5 p-3.5 sm:p-4 rounded-xl border border-white/5 space-y-1.5">
@@ -233,10 +232,9 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
                   <span className="font-medium text-white">
                     {activeOrder.paymentMethod === 'online' ? 'Pay Online' : 'Pay at Shop'}
                   </span>
-                  <span className={`px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold ${
-                    activeOrder.paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400' : 
-                    activeOrder.paymentStatus === 'FAILED' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'
-                  }`}>
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold ${activeOrder.paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400' :
+                      activeOrder.paymentStatus === 'FAILED' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'
+                    }`}>
                     {activeOrder.paymentStatus}
                   </span>
                 </div>
@@ -261,8 +259,8 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
                   <Paperclip size={13} className="text-[#FF7A00]" />
                   <span>Attached Document</span>
                 </div>
-                <a 
-                  href={activeOrder.documentUrl} 
+                <a
+                  href={activeOrder.documentUrl}
                   download={activeOrder.documentName || 'attached-document'}
                   target="_blank"
                   rel="noreferrer"

@@ -33,7 +33,7 @@ export default function CheckoutPage() {
   const handlePayment = async () => {
     if (items.length === 0) return;
     setLoading(true);
-    
+
     try {
       const res = await fetch('/api/orders', {
         method: 'POST',
@@ -51,7 +51,7 @@ export default function CheckoutPage() {
       });
 
       const data = await res.json();
-      
+
       if (!res.ok) throw new Error(data.message);
 
       if (paymentMethod === 'pay_at_shop') {
@@ -78,7 +78,7 @@ export default function CheckoutPage() {
               orderId: data.orderId,
             }),
           });
-          
+
           if (verifyRes.ok) {
             clearCart();
             router.push('/requests?payment=success');
@@ -194,19 +194,18 @@ export default function CheckoutPage() {
             </div>
           </div>
         </div>
-        
+
         <div>
           <h2 className="text-xl font-bold text-white mb-6 md:mt-[68px]">Select Payment Method</h2>
-          
+
           <div className="space-y-4 mb-8">
             {/* Pay Online Option */}
-            <div 
+            <div
               onClick={() => setPaymentMethod('online')}
-              className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-start gap-4 ${
-                paymentMethod === 'online' 
-                  ? 'border-[#FF7A00] bg-[#FF7A00]/10' 
+              className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-start gap-4 ${paymentMethod === 'online'
+                  ? 'border-[#FF7A00] bg-[#FF7A00]/10'
                   : 'border-white/10 bg-[#111111] hover:border-white/30'
-              }`}
+                }`}
             >
               <div className="mt-1">
                 {paymentMethod === 'online' ? (
@@ -230,13 +229,12 @@ export default function CheckoutPage() {
             </div>
 
             {/* Pay at Shop Option */}
-            <div 
+            <div
               onClick={() => setPaymentMethod('pay_at_shop')}
-              className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-start gap-4 ${
-                paymentMethod === 'pay_at_shop' 
-                  ? 'border-[#FF7A00] bg-[#FF7A00]/10' 
+              className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-start gap-4 ${paymentMethod === 'pay_at_shop'
+                  ? 'border-[#FF7A00] bg-[#FF7A00]/10'
                   : 'border-white/10 bg-[#111111] hover:border-white/30'
-              }`}
+                }`}
             >
               <div className="mt-1">
                 {paymentMethod === 'pay_at_shop' ? (
@@ -258,7 +256,7 @@ export default function CheckoutPage() {
                     </div>
                     <p>Bairi, Khakhreru</p>
                     <p>Fatehpur, Uttar Pradesh, India</p>
-                    <p className="pt-2 border-t border-white/10 mt-1">Mobile: +91 9876543210</p>
+                    <p className="pt-2 border-t border-white/10 mt-1">Mobile: +91 8756454282</p>
                     <p>Hours: Mon-Sat, 10:00 AM - 8:00 PM</p>
                   </div>
                 )}
@@ -266,18 +264,18 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          <button 
+          <button
             onClick={handlePayment}
             disabled={loading}
             className="w-full bg-[#FF7A00] text-white py-4 rounded-xl font-bold hover:bg-[#FF7A00]/90 transition-colors disabled:opacity-50"
           >
             {loading ? 'Processing...' : (
-              paymentMethod === 'online' 
-                ? `Pay ₹${getTotal().toFixed(2)} Securely` 
+              paymentMethod === 'online'
+                ? `Pay ₹${getTotal().toFixed(2)} Securely`
                 : 'Confirm Order'
             )}
           </button>
-          
+
           <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
         </div>
       </div>

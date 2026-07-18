@@ -27,7 +27,7 @@ export function Footer() {
               </Link>
             </div>
           </div>
-          
+
           <div>
             <h4 className="text-lg font-semibold mb-4 text-white">Services</h4>
             <ul className="space-y-2">
@@ -68,7 +68,7 @@ export function Footer() {
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 text-primary mr-3 shrink-0" />
-                <span className="text-muted-foreground">+91 9876543210</span>
+                <span className="text-muted-foreground">+91 8756454282</span>
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 text-primary mr-3 shrink-0" />
@@ -77,7 +77,7 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        
+
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} Sandy Digital Hub. All rights reserved.</p>
           <div className="flex flex-wrap gap-x-4 gap-y-2 mt-4 md:mt-0">

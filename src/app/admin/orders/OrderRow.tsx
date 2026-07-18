@@ -13,8 +13,8 @@ export default function OrderRow({ order, isMobile = false }: { order: any; isMo
   const handleUpdate = async (type: 'payment' | 'order', value: string) => {
     setLoading(true);
     try {
-      const payload = type === 'payment' 
-        ? { paymentStatus: value, orderStatus } 
+      const payload = type === 'payment'
+        ? { paymentStatus: value, orderStatus }
         : { paymentStatus, orderStatus: value };
 
       const res = await fetch(`/api/admin/orders/${order._id}`, {
@@ -102,7 +102,7 @@ export default function OrderRow({ order, isMobile = false }: { order: any; isMo
           ` : ''}
 
           <div className="footer">
-            Sandy Digital Hub • Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India • Phone: +91 9876543210
+            Sandy Digital Hub • Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India • Phone: +91 8756454282
           </div>
         </body>
       </html>
@@ -167,12 +167,11 @@ export default function OrderRow({ order, isMobile = false }: { order: any; isMo
         <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/5">
           <div>
             <label className="block text-[10px] text-white/40 uppercase mb-1 font-semibold">Payment Status</label>
-            <select 
+            <select
               disabled={loading}
-              className={`w-full text-xs font-bold rounded px-2 py-1.5 outline-none cursor-pointer ${
-                paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 
-                paymentStatus === 'FAILED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
-              }`}
+              className={`w-full text-xs font-bold rounded px-2 py-1.5 outline-none cursor-pointer ${paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                  paymentStatus === 'FAILED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                }`}
               value={paymentStatus}
               onChange={(e) => handleUpdate('payment', e.target.value)}
             >
@@ -184,7 +183,7 @@ export default function OrderRow({ order, isMobile = false }: { order: any; isMo
 
           <div>
             <label className="block text-[10px] text-white/40 uppercase mb-1 font-semibold">Order Status</label>
-            <select 
+            <select
               disabled={loading}
               className="w-full bg-black/50 border border-white/20 rounded px-2 py-1.5 text-white/80 outline-none focus:border-[#FF7A00] text-xs font-semibold"
               value={orderStatus}
@@ -250,12 +249,11 @@ export default function OrderRow({ order, isMobile = false }: { order: any; isMo
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-orange-500"></span> Shop</span>
           )}
         </div>
-        <select 
+        <select
           disabled={loading}
-          className={`text-xs font-bold rounded px-2 py-1 outline-none cursor-pointer ${
-            paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 
-            paymentStatus === 'FAILED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
-          }`}
+          className={`text-xs font-bold rounded px-2 py-1 outline-none cursor-pointer ${paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+              paymentStatus === 'FAILED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+            }`}
           value={paymentStatus}
           onChange={(e) => handleUpdate('payment', e.target.value)}
         >
@@ -265,7 +263,7 @@ export default function OrderRow({ order, isMobile = false }: { order: any; isMo
         </select>
       </td>
       <td className="p-4 text-sm">
-        <select 
+        <select
           disabled={loading}
           className="bg-black/50 border border-white/20 rounded p-1.5 text-white/80 outline-none focus:border-[#FF7A00] text-xs font-semibold"
           value={orderStatus}
