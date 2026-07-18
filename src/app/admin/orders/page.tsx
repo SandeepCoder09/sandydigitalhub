@@ -2,6 +2,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import { connectDB } from "@/lib/db";
 import { Order } from "@/models/Order";
 import { AdminOrdersTable } from "@/components/admin/AdminOrdersTable";
@@ -27,7 +28,9 @@ export default async function AdminOrders() {
         {/* Main Content */}
         <div className="flex-1 min-w-0">
           <h1 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">All Customer Orders</h1>
-          <AdminOrdersTable initialOrders={JSON.parse(JSON.stringify(orders))} />
+          <Suspense fallback={<div className="text-white/50 text-sm py-8">Loading order lookup...</div>}>
+            <AdminOrdersTable initialOrders={JSON.parse(JSON.stringify(orders))} />
+          </Suspense>
         </div>
       </div>
     </div>

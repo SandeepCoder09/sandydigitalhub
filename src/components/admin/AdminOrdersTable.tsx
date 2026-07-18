@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { formatOrderId } from '@/lib/utils';
 import OrderRow from '@/app/admin/orders/OrderRow';
+import { AdminOrderInspectorModal } from './AdminOrderInspectorModal';
 import { Search, ShoppingBag } from 'lucide-react';
 
 interface AdminOrdersTableProps {
@@ -10,20 +12,36 @@ interface AdminOrdersTableProps {
 }
 
 export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
-  const [orders] = useState<any[]>(initialOrders);
+  const [orders, setOrders] = useState<any[]>(initialOrders);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
+  const [inspectingOrder, setInspectingOrder] = useState<any>(null);
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const searchFromUrl = searchParams.get('search');
+    if (searchFromUrl) {
+      setSearchQuery(searchFromUrl);
+    }
+  }, [searchParams]);
+
+  const handleOrderUpdate = (updated: any) => {
+    setOrders(prev => prev.map(o => o._id === updated._id ? updated : o));
+  };
 
   const filteredOrders = orders.filter((order) => {
     const brandedId = formatOrderId(order._id, order.createdAt).toLowerCase();
+    const rawId = order._id.toString().toLowerCase();
     const customerName = (order.userId?.name || '').toLowerCase();
     const customerEmail = (order.userId?.email || '').toLowerCase();
     const customerMobile = (order.userId?.mobile || '').toLowerCase();
     const serviceTitles = order.services?.map((s: any) => s.title).join(' ').toLowerCase() || '';
 
-    const query = searchQuery.toLowerCase();
+    const query = searchQuery.toLowerCase().trim();
     const matchesQuery = 
       brandedId.includes(query) || 
+      rawId.includes(query) || 
       customerName.includes(query) || 
       customerEmail.includes(query) || 
       customerMobile.includes(query) || 
@@ -46,13 +64,13 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         {/* Search Input */}
         <div className="relative flex-1 w-full max-w-md">
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40" />
+          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#FF7A00]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search Order ID (SDH-...), Name, Email..."
-            className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-[#FF7A00] outline-none transition-colors"
+            placeholder="Search Order ID (SDH-...), Customer Name, Email, Phone..."
+            className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-[#FF7A00] outline-none transition-colors shadow-inner"
           />
         </div>
 
@@ -71,7 +89,7 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
               onClick={() => setStatusFilter(tab.id)}
               className={`px-3 py-2 rounded-xl transition-all whitespace-nowrap ${
                 statusFilter === tab.id
-                  ? 'bg-[#FF7A00] text-white shadow-md'
+                  ? 'bg-[#FF7A00] text-white shadow-md font-bold'
                   : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10'
               }`}
             >
@@ -91,7 +109,12 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
           {/* Mobile Cards View (< md) */}
           <div className="block md:hidden space-y-4">
             {filteredOrders.map((order: any) => (
-              <OrderRow key={order._id.toString()} order={order} isMobile />
+              <OrderRow 
+                key={order._id.toString()} 
+                order={order} 
+                isMobile 
+                onInspect={(ord) => setInspectingOrder(ord)}
+              />
             ))}
           </div>
 
@@ -112,7 +135,11 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {filteredOrders.map((order: any) => (
-                    <OrderRow key={order._id.toString()} order={order} />
+                    <OrderRow 
+                      key={order._id.toString()} 
+                      order={order} 
+                      onInspect={(ord) => setInspectingOrder(ord)}
+                    />
                   ))}
                 </tbody>
               </table>
@@ -120,6 +147,14 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
           </div>
         </>
       )}
+
+      {/* Admin Order Inspector Modal */}
+      <AdminOrderInspectorModal
+        order={inspectingOrder}
+        isOpen={!!inspectingOrder}
+        onClose={() => setInspectingOrder(null)}
+        onOrderUpdate={handleOrderUpdate}
+      />
     </>
   );
 }

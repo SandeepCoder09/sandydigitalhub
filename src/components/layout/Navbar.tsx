@@ -5,6 +5,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { NotificationBell } from "@/components/layout/NotificationBell";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { NavLogoutButton } from "@/components/layout/NavLogoutButton";
@@ -43,6 +44,7 @@ export async function Navbar() {
               </Link>
             ))}
             <div className="flex items-center space-x-4 ml-4">
+              <NotificationBell />
               <CartDrawer />
               {session ? (
                 <>
@@ -77,6 +79,7 @@ export async function Navbar() {
 
           {/* Mobile Navigation */}
           <div className="flex md:hidden items-center gap-2">
+            <NotificationBell />
             <CartDrawer />
             <Sheet>
               <SheetTrigger className={buttonVariants({ variant: "ghost", className: "px-2" })}>

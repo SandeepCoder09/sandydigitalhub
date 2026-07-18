@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
-import { User as UserIcon, Mail, Phone, Shield, ShieldAlert } from "lucide-react";
+import { User as UserIcon, Mail, Phone, Shield, ShieldAlert, Search } from "lucide-react";
 
 type User = {
   _id: string;
@@ -20,6 +20,9 @@ type Props = {
 
 export function AdminUsersManager({ initialUsers }: Props) {
   const [users, setUsers] = useState<User[]>(initialUsers);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [roleFilter, setRoleFilter] = useState('ALL');
+
   const [confirmAction, setConfirmAction] = useState<{
     id: string;
     type: 'PROMOTE' | 'DEMOTE' | 'SUSPEND' | 'ACTIVATE';
@@ -28,6 +31,22 @@ export function AdminUsersManager({ initialUsers }: Props) {
     confirmText: string;
   } | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const filteredUsers = users.filter((u) => {
+    const q = searchQuery.toLowerCase().trim();
+    const matchesQuery =
+      (u.name || '').toLowerCase().includes(q) ||
+      (u.email || '').toLowerCase().includes(q) ||
+      (u.mobile || '').toLowerCase().includes(q) ||
+      (u.role || '').toLowerCase().includes(q);
+
+    if (!matchesQuery) return false;
+
+    if (roleFilter === 'CUSTOMERS') return u.role === 'CUSTOMER';
+    if (roleFilter === 'ADMINS') return u.role === 'ADMIN';
+
+    return true;
+  });
 
   const executeAction = async () => {
     if (!confirmAction) return;
@@ -64,19 +83,53 @@ export function AdminUsersManager({ initialUsers }: Props) {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-6 sm:mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-white">Manage Users</h1>
       </div>
 
-      {users.length === 0 ? (
+      {/* Search Bar & Role Filter Tabs */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div className="relative flex-1 w-full max-w-md">
+          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#FF7A00]" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search User Name, Mobile, Email..."
+            className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-[#FF7A00] outline-none transition-colors"
+          />
+        </div>
+
+        <div className="flex items-center gap-1.5 text-xs font-semibold">
+          {[
+            { id: 'ALL', label: `All Users (${users.length})` },
+            { id: 'CUSTOMERS', label: `Customers (${users.filter(u => u.role === 'CUSTOMER').length})` },
+            { id: 'ADMINS', label: `Admins (${users.filter(u => u.role === 'ADMIN').length})` },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setRoleFilter(tab.id)}
+              className={`px-3 py-2 rounded-xl transition-all whitespace-nowrap ${
+                roleFilter === tab.id
+                  ? 'bg-[#FF7A00] text-white shadow-md font-bold'
+                  : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {filteredUsers.length === 0 ? (
         <div className="bg-[#111111] p-8 rounded-2xl border border-white/10 text-center text-white/50">
-          No users found.
+          No users match your search criteria.
         </div>
       ) : (
         <>
           {/* Mobile User Cards View (< md) */}
           <div className="block md:hidden space-y-4">
-            {users.map((user) => (
+            {filteredUsers.map((user) => (
               <div key={user._id.toString()} className="bg-[#111111] p-4 rounded-xl border border-white/10 space-y-3">
                 <div className="flex justify-between items-start border-b border-white/5 pb-2">
                   <div className="flex items-center gap-2.5">
@@ -189,7 +242,7 @@ export function AdminUsersManager({ initialUsers }: Props) {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5 text-sm">
-                  {users.map((user) => (
+                  {filteredUsers.map((user) => (
                     <tr key={user._id.toString()} className="hover:bg-white/[0.02] transition-colors">
                       <td className="p-4 font-medium text-white">{user.name}</td>
                       <td className="p-4 text-white/70">{user.email}</td>

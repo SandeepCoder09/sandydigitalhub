@@ -4,10 +4,12 @@ import { connectDB } from '@/lib/db';
 import { Service } from '@/models/Service';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
+import { ensureServicesSeeded } from '@/lib/seedServices';
 
 export async function GET() {
   try {
     await connectDB();
+    await ensureServicesSeeded();
     const services = await Service.find({ status: 'ACTIVE' }).sort({ createdAt: -1 });
     return NextResponse.json({ services });
   } catch (error) {

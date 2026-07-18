@@ -2,6 +2,7 @@
 import { connectDB } from "@/lib/db";
 import { Service } from "@/models/Service";
 import { ServiceCard } from "@/components/services/ServiceCard";
+import { ensureServicesSeeded } from "@/lib/seedServices";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,6 +14,7 @@ export const dynamic = "force-dynamic";
 
 export default async function ServicesPage() {
   await connectDB();
+  await ensureServicesSeeded();
   const services = await Service.find({ status: 'ACTIVE' }).sort({ category: 1, title: 1 });
 
   // Group services by category

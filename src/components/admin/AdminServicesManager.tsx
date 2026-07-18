@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ServiceFormModal, ServiceFormData } from "./ServiceFormModal";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
-import { Edit, Trash2, Tag, Plus } from "lucide-react";
+import { Edit, Trash2, Tag, Plus, RefreshCw } from "lucide-react";
 
 type Service = ServiceFormData & {
   _id: string;
@@ -78,13 +78,23 @@ export function AdminServicesManager({ initialServices }: Props) {
     <>
       <div className="flex flex-row justify-between items-center mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-white">Manage Services</h1>
-        <button 
-          onClick={handleAdd}
-          className="inline-flex items-center gap-1.5 bg-[#FF7A00] text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold hover:bg-[#FF7A00]/90 transition-colors shadow-lg"
-        >
-          <Plus size={16} />
-          <span>Add Service</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={fetchServices}
+            className="inline-flex items-center gap-1.5 bg-white/10 text-white px-3 py-2 rounded-xl text-xs font-semibold hover:bg-white/20 transition-colors"
+            title="Refresh & sync services list"
+          >
+            <RefreshCw size={14} />
+            <span className="hidden sm:inline">Sync Services</span>
+          </button>
+          <button 
+            onClick={handleAdd}
+            className="inline-flex items-center gap-1.5 bg-[#FF7A00] text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold hover:bg-[#FF7A00]/90 transition-colors shadow-lg"
+          >
+            <Plus size={16} />
+            <span>Add Service</span>
+          </button>
+        </div>
       </div>
 
       {services.length === 0 ? (

@@ -6,6 +6,7 @@ import { connectDB } from "@/lib/db";
 import { Service } from "@/models/Service";
 import { AdminServicesManager } from "@/components/admin/AdminServicesManager";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { ensureServicesSeeded } from "@/lib/seedServices";
 
 export default async function AdminServices() {
   const session = await getServerSession(authOptions);
@@ -15,6 +16,7 @@ export default async function AdminServices() {
   }
 
   await connectDB();
+  await ensureServicesSeeded();
   const services = await Service.find().sort({ createdAt: -1 });
 
   return (

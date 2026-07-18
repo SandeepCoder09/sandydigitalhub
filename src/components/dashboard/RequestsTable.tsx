@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { formatOrderId, formatDateTime } from '@/lib/utils';
 import { OrderDetailsModal } from './OrderDetailsModal';
+import { CopyButton } from '@/components/ui/CopyButton';
 import { Eye, ShoppingBag, Search, Calendar, Tag } from 'lucide-react';
 import Link from 'next/link';
 
@@ -42,10 +43,35 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
     
     if (statusFilter === 'PAID') return order.paymentStatus === 'PAID';
     if (statusFilter === 'AWAITING_VISIT') return order.orderStatus === 'AWAITING_CUSTOMER_VISIT';
+    if (statusFilter === 'PROCESSING') return order.orderStatus === 'PROCESSING';
     if (statusFilter === 'COMPLETED') return order.orderStatus === 'COMPLETED';
+    if (statusFilter === 'CANCELLED') return order.orderStatus === 'CANCELLED';
     
     return true;
   });
+
+  const getStatusBadge = (orderStatus: string, paymentStatus: string) => {
+    if (orderStatus === 'COMPLETED') {
+      return <span className="bg-green-500/20 text-green-400 border border-green-500/30 px-2.5 py-0.5 rounded-full text-[11px] font-bold">COMPLETED</span>;
+    }
+    if (orderStatus === 'PROCESSING') {
+      return <span className="bg-blue-500/20 text-blue-400 border border-blue-500/30 px-2.5 py-0.5 rounded-full text-[11px] font-bold">PROCESSING</span>;
+    }
+    if (orderStatus === 'CANCELLED') {
+      return <span className="bg-red-500/20 text-red-400 border border-red-500/30 px-2.5 py-0.5 rounded-full text-[11px] font-bold">CANCELLED</span>;
+    }
+    if (orderStatus === 'AWAITING_CUSTOMER_VISIT') {
+      return <span className="bg-orange-500/20 text-orange-400 border border-orange-500/30 px-2.5 py-0.5 rounded-full text-[11px] font-bold">AWAITING VISIT</span>;
+    }
+    return (
+      <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
+        paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 
+        paymentStatus === 'FAILED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+      }`}>
+        {paymentStatus}
+      </span>
+    );
+  };
 
   return (
     <>
@@ -69,7 +95,9 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
             { id: 'ALL', label: 'All Requests' },
             { id: 'PAID', label: 'Paid' },
             { id: 'AWAITING_VISIT', label: 'Awaiting Visit' },
+            { id: 'PROCESSING', label: 'Processing' },
             { id: 'COMPLETED', label: 'Completed' },
+            { id: 'CANCELLED', label: 'Cancelled' },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -103,18 +131,16 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
                 <div key={order._id.toString()} className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
                   <div className="flex justify-between items-start gap-2 border-b border-white/5 pb-2">
                     <div>
-                      <div className="text-xs text-[#FF7A00] font-mono font-bold">{brandedId}</div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs text-[#FF7A00] font-mono font-bold">{brandedId}</span>
+                        <CopyButton text={brandedId} />
+                      </div>
                       <div className="text-[11px] text-white/50 flex items-center gap-1 mt-0.5">
                         <Calendar size={12} />
                         <span>{dateTimeStr}</span>
                       </div>
                     </div>
-                    <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
-                      order.paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 
-                      order.paymentStatus === 'FAILED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
-                    }`}>
-                      {order.paymentStatus}
-                    </span>
+                    {getStatusBadge(order.orderStatus, order.paymentStatus)}
                   </div>
 
                   <div className="space-y-1">
@@ -168,7 +194,10 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
                   return (
                     <tr key={order._id.toString()} className="hover:bg-white/[0.02] transition-colors">
                       <td className="px-6 py-4 font-mono font-bold text-white whitespace-nowrap">
-                        {brandedId}
+                        <div className="flex items-center gap-2">
+                          <span>{brandedId}</span>
+                          <CopyButton text={brandedId} />
+                        </div>
                       </td>
                       <td className="px-6 py-4 text-white/70 whitespace-nowrap text-xs">
                         {dateTimeStr}
@@ -189,8 +218,8 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
                           {order.paymentStatus}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-white/70">
-                        {order.orderStatus === 'AWAITING_CUSTOMER_VISIT' ? 'Awaiting Visit' : order.orderStatus}
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {getStatusBadge(order.orderStatus, order.paymentStatus)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap font-bold text-[#FF7A00]">
                         ₹{order.total}

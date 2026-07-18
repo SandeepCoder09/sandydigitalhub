@@ -4,6 +4,7 @@ import { useState } from "react";
 import { formatOrderId, formatDateTime } from "@/lib/utils";
 import { DownloadInvoiceButton } from "./DownloadInvoiceButton";
 import { OrderReviewModal } from "./OrderReviewModal";
+import { CopyButton } from "@/components/ui/CopyButton";
 import { X, Calendar, CreditCard, Tag, FileText, CheckCircle2, Loader2, MessageSquare, Printer, Paperclip, Star } from "lucide-react";
 
 interface OrderDetailsModalProps {
@@ -128,7 +129,10 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
           <div className="sticky top-0 bg-[#111111]/95 backdrop-blur border-b border-white/10 p-4 sm:p-6 flex items-center justify-between z-10">
             <div>
               <div className="text-[10px] sm:text-xs font-semibold text-[#FF7A00] tracking-wider uppercase mb-0.5 sm:mb-1">Service Request Details</div>
-              <h2 className="text-base sm:text-xl md:text-2xl font-bold font-mono text-white">{brandedId}</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-base sm:text-xl md:text-2xl font-bold font-mono text-white">{brandedId}</h2>
+                <CopyButton text={brandedId} />
+              </div>
             </div>
             <button
               onClick={onClose}

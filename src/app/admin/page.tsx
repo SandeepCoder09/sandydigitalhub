@@ -9,6 +9,7 @@ import { User } from "@/models/User";
 import { Service } from "@/models/Service";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminAnalyticsChart } from "@/components/admin/AdminAnalyticsChart";
+import { AdminQuickTrackerBar } from "@/components/admin/AdminQuickTrackerBar";
 import { formatOrderId } from "@/lib/utils";
 
 export default async function AdminDashboard() {
@@ -43,6 +44,9 @@ export default async function AdminDashboard() {
         <div className="flex-1 min-w-0">
           <h1 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">Dashboard Overview</h1>
           
+          {/* Instant WhatsApp Order Tracker Bar */}
+          <AdminQuickTrackerBar />
+
           {/* Metrics Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6 mb-6 sm:mb-8">
             <div className="bg-[#111111] p-4 sm:p-6 rounded-2xl border border-white/10 space-y-1">
