@@ -11,9 +11,11 @@ export interface CartItem {
 
 interface CartState {
   items: CartItem[];
+  notes: string;
   addItem: (item: CartItem) => void;
   removeItem: (serviceId: string) => void;
   updateQuantity: (serviceId: string, quantity: number) => void;
+  setNotes: (notes: string) => void;
   clearCart: () => void;
   getSubtotal: () => number;
   getTax: () => number;
@@ -24,6 +26,7 @@ export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
+      notes: '',
       addItem: (item) => {
         set((state) => {
           const existingItem = state.items.find((i) => i.serviceId === item.serviceId);
@@ -49,7 +52,8 @@ export const useCartStore = create<CartState>()(
           ),
         }));
       },
-      clearCart: () => set({ items: [] }),
+      setNotes: (notes: string) => set({ notes }),
+      clearCart: () => set({ items: [], notes: '' }),
       getSubtotal: () => {
         return get().items.reduce((total, item) => total + item.price * item.quantity, 0);
       },

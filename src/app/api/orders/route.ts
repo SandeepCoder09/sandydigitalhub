@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const { items, subtotal, tax, total, paymentMethod } = await req.json();
+    const { items, subtotal, tax, total, paymentMethod, notes, documentUrl, documentName } = await req.json();
 
     if (!items || items.length === 0) {
       return NextResponse.json({ message: 'Cart is empty' }, { status: 400 });
@@ -39,6 +39,9 @@ export async function POST(req: Request) {
         paymentMethod: 'pay_at_shop',
         paymentStatus: 'PENDING',
         orderStatus: 'AWAITING_CUSTOMER_VISIT',
+        notes,
+        documentUrl,
+        documentName,
       });
       return NextResponse.json({ 
         orderId: order._id, 
@@ -64,6 +67,9 @@ export async function POST(req: Request) {
       razorpayOrderId: razorpayOrder.id,
       paymentStatus: 'PENDING',
       orderStatus: 'PENDING',
+      notes,
+      documentUrl,
+      documentName,
     });
 
     return NextResponse.json({ 

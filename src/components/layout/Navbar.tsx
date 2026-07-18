@@ -15,7 +15,7 @@ export async function Navbar() {
   const routes = [
     { name: "Home", path: "/" },
     { name: "Services", path: "/services" },
-    { name: "Portfolio", path: "https://sandycoder.vercel.app/portfolio" },
+    { name: "Portfolio", path: "https://sandycoder.vercel.app/portfolio", target: "_blank"},
     { name: "Pricing", path: "/pricing" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
@@ -51,9 +51,14 @@ export async function Navbar() {
                       <Button variant="destructive">Admin Dashboard</Button>
                     </Link>
                   ) : (
-                    <Link href="/profile">
-                      <Button>Profile</Button>
-                    </Link>
+                    <>
+                      <Link href="/requests">
+                        <Button variant="outline">My Requests</Button>
+                      </Link>
+                      <Link href="/account">
+                        <Button>Account</Button>
+                      </Link>
+                    </>
                   )}
                   <NavLogoutButton />
                 </>
@@ -96,9 +101,14 @@ export async function Navbar() {
                             <Button variant="destructive" className="w-full">Admin Dashboard</Button>
                           </Link>
                         ) : (
-                          <Link href="/profile">
-                            <Button className="w-full">Profile</Button>
-                          </Link>
+                          <>
+                            <Link href="/requests">
+                              <Button variant="outline" className="w-full">My Requests</Button>
+                            </Link>
+                            <Link href="/account">
+                              <Button className="w-full">Account</Button>
+                            </Link>
+                          </>
                         )}
                         <NavLogoutButton className="w-full mt-2" />
                       </>

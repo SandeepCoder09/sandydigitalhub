@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import { User as UserIcon, Mail, Phone, Shield, ShieldAlert } from "lucide-react";
 
 type User = {
   _id: string;
@@ -27,18 +28,6 @@ export function AdminUsersManager({ initialUsers }: Props) {
     confirmText: string;
   } | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-
-  const fetchUsers = async () => {
-    try {
-      const res = await fetch('/api/admin/users');
-      const data = await res.json();
-      if (res.ok) {
-        setUsers(data.users);
-      }
-    } catch (error) {
-      console.error("Failed to fetch users:", error);
-    }
-  };
 
   const executeAction = async () => {
     if (!confirmAction) return;
@@ -75,56 +64,67 @@ export function AdminUsersManager({ initialUsers }: Props) {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-white">Manage Users</h1>
+      <div className="flex justify-between items-center mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white">Manage Users</h1>
       </div>
-      
-      <div className="bg-[#111111] rounded-2xl border border-white/10 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-white/80">
-            <thead className="bg-white/5 border-b border-white/10">
-              <tr>
-                <th className="p-4">Name</th>
-                <th className="p-4">Email</th>
-                <th className="p-4">Mobile</th>
-                <th className="p-4">Role</th>
-                <th className="p-4">Status</th>
-                <th className="p-4">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/5">
-              {users.map((user) => (
-                <tr key={user._id.toString()}>
-                  <td className="p-4 font-medium text-white">{user.name}</td>
-                  <td className="p-4 text-sm">{user.email}</td>
-                  <td className="p-4 text-sm">{user.mobile}</td>
-                  <td className="p-4 text-sm">
-                    <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                      user.role === 'ADMIN' ? 'bg-purple-500/20 text-purple-400' : 'bg-gray-500/20 text-gray-400'
-                    }`}>
-                      {user.role}
-                    </span>
-                  </td>
-                  <td className="p-4 text-sm">
-                    <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                      user.status === 'SUSPENDED' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'
-                    }`}>
-                      {user.status || 'ACTIVE'}
-                    </span>
-                  </td>
-                  <td className="p-4 text-sm flex flex-wrap gap-3">
+
+      {users.length === 0 ? (
+        <div className="bg-[#111111] p-8 rounded-2xl border border-white/10 text-center text-white/50">
+          No users found.
+        </div>
+      ) : (
+        <>
+          {/* Mobile User Cards View (< md) */}
+          <div className="block md:hidden space-y-4">
+            {users.map((user) => (
+              <div key={user._id.toString()} className="bg-[#111111] p-4 rounded-xl border border-white/10 space-y-3">
+                <div className="flex justify-between items-start border-b border-white/5 pb-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs uppercase">
+                      {user.name ? user.name.slice(0, 2) : 'U'}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-white text-sm">{user.name}</h3>
+                      <div className="text-[11px] text-white/50 flex items-center gap-1">
+                        <Mail size={11} />
+                        <span>{user.email}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                    user.role === 'ADMIN' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
+                  }`}>
+                    {user.role}
+                  </span>
+                </div>
+
+                {user.mobile && (
+                  <div className="text-xs text-white/60 flex items-center gap-1.5 pl-1">
+                    <Phone size={12} className="text-[#FF7A00]" />
+                    <span>{user.mobile}</span>
+                  </div>
+                )}
+
+                <div className="flex justify-between items-center pt-2 border-t border-white/5">
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                    user.status === 'SUSPENDED' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'
+                  }`}>
+                    {user.status || 'ACTIVE'}
+                  </span>
+
+                  <div className="flex items-center gap-2 text-xs font-semibold">
                     {user.role === 'CUSTOMER' ? (
                       <button 
                         onClick={() => setConfirmAction({
                           id: user._id,
                           type: 'PROMOTE',
                           title: 'Promote to Admin',
-                          message: `Are you sure you want to promote ${user.name} to Admin? They will have full access to manage services and other users.`,
+                          message: `Are you sure you want to promote ${user.name} to Admin?`,
                           confirmText: 'Promote'
                         })}
-                        className="text-purple-400 hover:underline transition-colors"
+                        className="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-400 border border-purple-500/30 hover:bg-purple-500/30 transition-colors"
                       >
-                        Promote to Admin
+                        Promote
                       </button>
                     ) : (
                       <button 
@@ -132,12 +132,12 @@ export function AdminUsersManager({ initialUsers }: Props) {
                           id: user._id,
                           type: 'DEMOTE',
                           title: 'Demote to User',
-                          message: `Are you sure you want to demote ${user.name} to a regular User? They will lose access to the admin dashboard.`,
+                          message: `Are you sure you want to demote ${user.name} to a regular User?`,
                           confirmText: 'Demote'
                         })}
-                        className="text-gray-400 hover:underline transition-colors"
+                        className="px-2.5 py-1 rounded-lg bg-gray-500/20 text-gray-400 border border-gray-500/30 hover:bg-gray-500/30 transition-colors"
                       >
-                        Demote to User
+                        Demote
                       </button>
                     )}
 
@@ -147,10 +147,10 @@ export function AdminUsersManager({ initialUsers }: Props) {
                           id: user._id,
                           type: 'SUSPEND',
                           title: 'Suspend User',
-                          message: `Are you sure you want to suspend ${user.name}? They will no longer be able to log in.`,
+                          message: `Are you sure you want to suspend ${user.name}?`,
                           confirmText: 'Suspend'
                         })}
-                        className="text-red-400 hover:underline transition-colors"
+                        className="px-2.5 py-1 rounded-lg bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30 transition-colors"
                       >
                         Suspend
                       </button>
@@ -160,29 +160,119 @@ export function AdminUsersManager({ initialUsers }: Props) {
                           id: user._id,
                           type: 'ACTIVATE',
                           title: 'Activate User',
-                          message: `Are you sure you want to activate ${user.name}'s account? They will regain access to log in.`,
+                          message: `Are you sure you want to activate ${user.name}'s account?`,
                           confirmText: 'Activate'
                         })}
-                        className="text-green-400 hover:underline transition-colors"
+                        className="px-2.5 py-1 rounded-lg bg-green-500/20 text-green-400 border border-green-500/30 hover:bg-green-500/30 transition-colors"
                       >
                         Activate
                       </button>
                     )}
-                  </td>
-                </tr>
-              ))}
-              
-              {users.length === 0 && (
-                <tr>
-                  <td colSpan={6} className="p-8 text-center text-white/50">
-                    No users found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop User Table View (>= md) */}
+          <div className="hidden md:block bg-[#111111] rounded-2xl border border-white/10 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-white/80">
+                <thead className="bg-white/5 border-b border-white/10 text-xs uppercase text-white/50 font-semibold">
+                  <tr>
+                    <th className="p-4">Name</th>
+                    <th className="p-4">Email</th>
+                    <th className="p-4">Mobile</th>
+                    <th className="p-4">Role</th>
+                    <th className="p-4">Status</th>
+                    <th className="p-4">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5 text-sm">
+                  {users.map((user) => (
+                    <tr key={user._id.toString()} className="hover:bg-white/[0.02] transition-colors">
+                      <td className="p-4 font-medium text-white">{user.name}</td>
+                      <td className="p-4 text-white/70">{user.email}</td>
+                      <td className="p-4 text-white/70">{user.mobile || 'N/A'}</td>
+                      <td className="p-4">
+                        <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
+                          user.role === 'ADMIN' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
+                        }`}>
+                          {user.role}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
+                          user.status === 'SUSPENDED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-green-500/20 text-green-400 border border-green-500/30'
+                        }`}>
+                          {user.status || 'ACTIVE'}
+                        </span>
+                      </td>
+                      <td className="p-4 flex flex-wrap gap-3">
+                        {user.role === 'CUSTOMER' ? (
+                          <button 
+                            onClick={() => setConfirmAction({
+                              id: user._id,
+                              type: 'PROMOTE',
+                              title: 'Promote to Admin',
+                              message: `Are you sure you want to promote ${user.name} to Admin? They will have full access to manage services and other users.`,
+                              confirmText: 'Promote'
+                            })}
+                            className="text-purple-400 hover:underline transition-colors font-medium"
+                          >
+                            Promote to Admin
+                          </button>
+                        ) : (
+                          <button 
+                            onClick={() => setConfirmAction({
+                              id: user._id,
+                              type: 'DEMOTE',
+                              title: 'Demote to User',
+                              message: `Are you sure you want to demote ${user.name} to a regular User? They will lose access to the admin dashboard.`,
+                              confirmText: 'Demote'
+                            })}
+                            className="text-gray-400 hover:underline transition-colors font-medium"
+                          >
+                            Demote to User
+                          </button>
+                        )}
+
+                        {(user.status === 'ACTIVE' || !user.status) ? (
+                          <button 
+                            onClick={() => setConfirmAction({
+                              id: user._id,
+                              type: 'SUSPEND',
+                              title: 'Suspend User',
+                              message: `Are you sure you want to suspend ${user.name}? They will no longer be able to log in.`,
+                              confirmText: 'Suspend'
+                            })}
+                            className="text-red-400 hover:underline transition-colors font-medium"
+                          >
+                            Suspend
+                          </button>
+                        ) : (
+                          <button 
+                            onClick={() => setConfirmAction({
+                              id: user._id,
+                              type: 'ACTIVATE',
+                              title: 'Activate User',
+                              message: `Are you sure you want to activate ${user.name}'s account? They will regain access to log in.`,
+                              confirmText: 'Activate'
+                            })}
+                            className="text-green-400 hover:underline transition-colors font-medium"
+                          >
+                            Activate
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      )}
 
       <ConfirmModal
         isOpen={!!confirmAction}

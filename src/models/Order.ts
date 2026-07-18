@@ -18,6 +18,11 @@ export interface IOrder extends Document {
   orderStatus: 'PENDING' | 'AWAITING_CUSTOMER_VISIT' | 'PROCESSING' | 'COMPLETED' | 'CANCELLED';
   razorpayOrderId?: string;
   razorpayPaymentId?: string;
+  notes?: string;
+  documentUrl?: string;
+  documentName?: string;
+  rating?: number;
+  reviewText?: string;
   createdAt: Date;
 }
 
@@ -39,6 +44,11 @@ const orderSchema = new Schema<IOrder>({
   orderStatus: { type: String, enum: ['PENDING', 'AWAITING_CUSTOMER_VISIT', 'PROCESSING', 'COMPLETED', 'CANCELLED'], default: 'PENDING' },
   razorpayOrderId: { type: String },
   razorpayPaymentId: { type: String },
+  notes: { type: String },
+  documentUrl: { type: String },
+  documentName: { type: String },
+  rating: { type: Number },
+  reviewText: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 

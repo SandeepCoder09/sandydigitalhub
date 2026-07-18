@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/home/HeroSection";
+import { RecentRequestsBanner } from "@/components/home/RecentRequestsBanner";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 import { Statistics } from "@/components/home/Statistics";
@@ -10,6 +11,7 @@ export default function Home() {
   return (
     <>
       <HeroSection />
+      <RecentRequestsBanner />
       <ServicesOverview />
       <WhyChooseUs />
       <Statistics />

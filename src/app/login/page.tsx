@@ -63,7 +63,7 @@ export default function LoginPage() {
 
       // Credentials are valid and session cookie is set.
       // Use client-side navigation to redirect to the dashboard.
-      router.push(response.url?.includes('/admin') ? '/admin' : '/profile');
+      router.push(response.url?.includes('/admin') ? '/admin' : '/account');
       router.refresh();
     } catch (err: any) {
       setError(err?.message || "An unexpected error occurred");

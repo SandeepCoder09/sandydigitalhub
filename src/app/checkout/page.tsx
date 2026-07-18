@@ -8,10 +8,27 @@ import { CheckCircle2, Circle, CreditCard, Store } from 'lucide-react';
 import Script from 'next/script';
 
 export default function CheckoutPage() {
-  const { items, getTotal, getSubtotal, getTax, clearCart } = useCartStore();
+  const { items, notes, setNotes, getTotal, getSubtotal, getTax, clearCart } = useCartStore();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'online' | 'pay_at_shop'>('online');
+  const [documentUrl, setDocumentUrl] = useState<string>('');
+  const [documentName, setDocumentName] = useState<string>('');
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert("File size must be under 5MB");
+      return;
+    }
+    setDocumentName(file.name);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setDocumentUrl(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handlePayment = async () => {
     if (items.length === 0) return;
@@ -27,6 +44,9 @@ export default function CheckoutPage() {
           tax: getTax(),
           total: getTotal(),
           paymentMethod,
+          notes,
+          documentUrl,
+          documentName,
         }),
       });
 
@@ -36,7 +56,7 @@ export default function CheckoutPage() {
 
       if (paymentMethod === 'pay_at_shop') {
         clearCart();
-        router.push('/profile?payment=pending');
+        router.push('/requests?payment=pending');
         return;
       }
 
@@ -61,9 +81,9 @@ export default function CheckoutPage() {
           
           if (verifyRes.ok) {
             clearCart();
-            router.push('/profile?payment=success');
+            router.push('/requests?payment=success');
           } else {
-            router.push('/profile?payment=failed');
+            router.push('/requests?payment=failed');
           }
         },
         prefill: {
@@ -125,6 +145,51 @@ export default function CheckoutPage() {
               <div className="flex justify-between text-white font-bold text-xl pt-2 border-t border-white/10">
                 <span>Total</span>
                 <span className="text-[#FF7A00]">₹{getTotal().toFixed(2)}</span>
+              </div>
+            </div>
+
+            {/* Custom Project Notes / Instructions */}
+            <div className="mt-6 pt-4 border-t border-white/10 space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-white/80 mb-2">
+                  Project Notes / Service Instructions (Optional)
+                </label>
+                <textarea
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Enter any specific requirements, preferences, or notes for your requested service..."
+                  className="w-full bg-[#0a0a0a] text-white p-3.5 rounded-xl border border-white/10 focus:border-[#FF7A00] outline-none text-sm min-h-[90px] resize-y transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-white/80 mb-2">
+                  Attach Document / Photo (Optional)
+                </label>
+                <div className="bg-[#0a0a0a] p-3.5 rounded-xl border border-white/10 flex flex-col sm:flex-row items-center gap-3">
+                  <input
+                    type="file"
+                    id="document-upload"
+                    accept="image/*,application/pdf"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor="document-upload"
+                    className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-semibold cursor-pointer transition-colors w-full sm:w-auto text-center"
+                  >
+                    Choose File (PDF/Image)
+                  </label>
+                  {documentName ? (
+                    <span className="text-xs text-[#FF7A00] font-medium truncate max-w-xs">
+                      ✓ {documentName}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-white/40">
+                      No file attached (Max 5MB)
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
