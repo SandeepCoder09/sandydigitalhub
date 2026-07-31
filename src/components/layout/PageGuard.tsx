@@ -3,7 +3,7 @@
 import { useState, useEffect, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { ShieldAlert, Lock, AlertTriangle, RefreshCw, Home, PhoneCall, Eye } from 'lucide-react';
+import { ShieldAlert, Lock, AlertTriangle, RefreshCw, Home, PhoneCall, Eye, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 interface SiteSettings {
@@ -25,33 +25,40 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
   const { data: session } = useSession();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [previewAsUser, setPreviewAsUser] = useState(false);
 
   const isAdmin = session?.user?.role === 'ADMIN' || session?.user?.role === 'admin';
 
-  useEffect(() => {
-    // Admin dashboard routes (/admin/*) are never blocked for Admin users
-    if (pathname?.startsWith('/admin') && isAdmin) {
-      setLoading(false);
-      return;
-    }
-
-    const fetchSettings = async () => {
-      try {
-        const res = await fetch('/api/site-control');
-        if (res.ok) {
-          const data = await res.json();
-          setSettings(data.settings);
-        }
-      } catch (error) {
-        console.error('Error fetching site control in PageGuard:', error);
-      } finally {
-        setLoading(false);
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch('/api/site-control', { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        setSettings(data.settings);
+        return data.settings;
       }
-    };
+    } catch (error) {
+      console.error('Error fetching site control in PageGuard:', error);
+    } finally {
+      setLoading(false);
+    }
+    return null;
+  };
 
+  useEffect(() => {
     fetchSettings();
   }, [pathname, isAdmin]);
+
+  const handleRefreshStatus = async () => {
+    setRefreshing(true);
+    const updatedSettings = await fetchSettings();
+    setRefreshing(false);
+
+    if (updatedSettings && !updatedSettings.isEmergencyLockdown) {
+      window.location.reload();
+    }
+  };
 
   const renderNormalPageLayout = (content: ReactNode) => (
     <>
@@ -64,7 +71,20 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
     </>
   );
 
-  if (loading || !settings) {
+  // 1. Sleek loading state during initial status check (Prevents any content flash)
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center p-6">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <Loader2 size={36} className="animate-spin text-[#FF4500]" />
+          <p className="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Checking System Security Status...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If settings failed to load, fallback to normal page layout
+  if (!settings) {
     return renderNormalPageLayout(children);
   }
 
@@ -113,7 +133,7 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
     );
   }
 
-  // 1. Emergency Lockdown Mode (Hides Navbar, Footer, and LiveChatWidget completely!)
+  // 2. Emergency Lockdown Mode (Hides Navbar, Footer, and LiveChatWidget completely with smooth refresh)
   if (settings.isEmergencyLockdown) {
     return (
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-6 py-20 relative">
@@ -148,10 +168,12 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
 
           <div className="pt-2">
             <button
-              onClick={() => window.location.reload()}
-              className="px-6 py-3 rounded-2xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-extrabold text-sm inline-flex items-center gap-2 shadow-lg shadow-orange-500/20 transition-all cursor-pointer"
+              onClick={handleRefreshStatus}
+              disabled={refreshing}
+              className="px-6 py-3 rounded-2xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-extrabold text-sm inline-flex items-center gap-2 shadow-lg shadow-orange-500/20 transition-all cursor-pointer disabled:opacity-50"
             >
-              <RefreshCw size={16} /> Refresh Status
+              <RefreshCw size={16} className={refreshing ? 'animate-spin' : ''} />
+              <span>{refreshing ? 'Checking Status...' : 'Refresh Status'}</span>
             </button>
           </div>
         </div>
@@ -159,7 +181,7 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
     );
   }
 
-  // 2. Individual Page Route Block (Hides Navbar, Footer, and LiveChatWidget for blocked route)
+  // 3. Individual Page Route Block (Hides Navbar, Footer, and LiveChatWidget for blocked route)
   if (isCurrentPageBlocked) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6 py-20 relative">
