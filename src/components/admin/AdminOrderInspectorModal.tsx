@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { formatOrderId, formatDateTime } from '@/lib/utils';
 import { CopyButton } from '@/components/ui/CopyButton';
-import { X, Calendar, User, Phone, Mail, Tag, FileText, Paperclip, MessageSquare, Printer, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
+import Link from 'next/link';
+import { X, Calendar, User, Phone, Mail, Tag, FileText, Paperclip, MessageSquare, Printer, CheckCircle2, Loader2, AlertCircle, Download } from 'lucide-react';
 
 interface AdminOrderInspectorModalProps {
   order: any;
@@ -330,20 +331,53 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
           )}
 
           {activeOrder.documentUrl && (
-            <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-100 space-y-1">
-              <div className="text-[11px] font-semibold text-gray-400 uppercase flex items-center gap-1">
-                <Paperclip size={12} className="text-[#FF4500]" />
-                <span>Attached Client File</span>
+            <div className="bg-orange-50/60 p-4 rounded-2xl border border-orange-200 space-y-2.5">
+              <div className="text-[11px] font-extrabold text-[#FF4500] uppercase tracking-wider flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <Paperclip size={13} />
+                  <span>Attached Client File / Document</span>
+                </div>
+                <Link href="/admin/uploads" target="_blank" className="text-[10px] text-gray-500 hover:text-gray-900 underline font-semibold">
+                  Open Uploads Gallery ↗
+                </Link>
               </div>
-              <a
-                href={activeOrder.documentUrl}
-                download={activeOrder.documentName || 'attachment'}
-                target="_blank"
-                rel="noreferrer"
-                className="text-xs text-[#FF4500] font-medium hover:underline inline-flex items-center gap-1"
-              >
-                📎 {activeOrder.documentName || 'Download File'}
-              </a>
+
+              {activeOrder.documentUrl.startsWith('data:image/') || activeOrder.documentName?.match(/\.(jpg|jpeg|png|webp|gif)$/i) ? (
+                <div className="space-y-2">
+                  <div className="relative h-44 w-full max-w-sm rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm">
+                    <img src={activeOrder.documentUrl} alt={activeOrder.documentName || 'Attached preview'} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-xs font-bold text-gray-800 truncate max-w-[200px]">
+                      📎 {activeOrder.documentName || 'Attached Image'}
+                    </span>
+                    <a
+                      href={activeOrder.documentUrl}
+                      download={activeOrder.documentName || 'client_attachment'}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="px-3 py-1.5 rounded-lg bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold text-xs inline-flex items-center gap-1 shadow-sm"
+                    >
+                      <Download size={13} /> Download Image
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between pt-1">
+                  <span className="text-xs font-bold text-gray-800 truncate max-w-[220px]">
+                    📎 {activeOrder.documentName || 'Download Attached File'}
+                  </span>
+                  <a
+                    href={activeOrder.documentUrl}
+                    download={activeOrder.documentName || 'client_attachment'}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-3.5 py-1.5 rounded-lg bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold text-xs inline-flex items-center gap-1 shadow-sm"
+                  >
+                    <Download size={13} /> Download File
+                  </a>
+                </div>
+              )}
             </div>
           )}
         </div>

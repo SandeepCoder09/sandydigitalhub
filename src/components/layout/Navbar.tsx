@@ -26,27 +26,39 @@ export async function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-md shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2 transition-transform hover:scale-105">
-              <Image src="/logo.png" alt="Sandy Digital Hub" width={190} height={55} className="h-14 w-auto object-contain" priority />
+        <div className="flex h-16 items-center justify-between gap-2">
+          {/* Logo Section (Fixed for Pixel & Small Mobile Screens) */}
+          <div className="flex items-center shrink-0">
+            <Link href="/" className="flex items-center transition-transform hover:scale-105 shrink-0">
+              <Image 
+                src="/logo.png" 
+                alt="Sandy Digital Hub" 
+                width={180} 
+                height={50} 
+                className="h-10 sm:h-12 w-auto object-contain shrink-0 max-w-[150px] sm:max-w-[190px]" 
+                priority 
+              />
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-semibold text-gray-700">
-            {routes.map((route) => (
-              <Link
-                key={route.path}
-                href={route.path}
-                target={route.target || "_self"}
-                rel={route.target === "_blank" ? "noreferrer" : undefined}
-                className="transition-colors hover:text-[#FF4500] hover:font-bold"
-              >
-                {route.name}
-              </Link>
-            ))}
-            <div className="flex items-center space-x-3 ml-4">
+          {/* Desktop Navigation with SVG Icons */}
+          <nav className="hidden lg:flex items-center space-x-5 text-sm font-semibold text-gray-700">
+            {routes.map((route) => {
+              const RouteIcon = route.icon;
+              return (
+                <Link
+                  key={route.path}
+                  href={route.path}
+                  target={route.target || "_self"}
+                  rel={route.target === "_blank" ? "noreferrer" : undefined}
+                  className="flex items-center gap-1.5 transition-colors hover:text-[#FF4500] hover:font-bold"
+                >
+                  <RouteIcon size={15} className="text-[#FF4500] shrink-0" />
+                  <span>{route.name}</span>
+                </Link>
+              );
+            })}
+            <div className="flex items-center space-x-3 ml-3">
               <NotificationBell />
               <CartDrawer />
               {session ? (
@@ -54,25 +66,25 @@ export async function Navbar() {
                   {session.user?.role === 'ADMIN' || session.user?.role === 'admin' ? (
                     <>
                       <Link href="/account">
-                        <Button variant="outline" className="border-gray-300 text-gray-800 hover:bg-gray-100 font-bold rounded-xl flex items-center gap-1.5">
+                        <Button variant="outline" className="border-gray-300 text-gray-800 hover:bg-gray-100 font-bold rounded-xl flex items-center gap-1.5 px-3">
                           <User size={15} className="text-[#FF4500]" /> My Account
                         </Button>
                       </Link>
                       <Link href="/admin">
-                        <Button className="bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-xl shadow-md shadow-orange-200 transition-all hover:scale-105 flex items-center gap-1.5">
-                          <ShieldCheck size={16} /> Admin Dashboard
+                        <Button className="bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-xl shadow-md shadow-orange-200 transition-all hover:scale-105 flex items-center gap-1.5 px-3">
+                          <ShieldCheck size={16} /> Admin
                         </Button>
                       </Link>
                     </>
                   ) : (
                     <>
                       <Link href="/requests">
-                        <Button variant="outline" className="border-orange-200 text-[#FF4500] hover:bg-orange-50 font-bold rounded-xl">
+                        <Button variant="outline" className="border-orange-200 text-[#FF4500] hover:bg-orange-50 font-bold rounded-xl px-3">
                           My Requests
                         </Button>
                       </Link>
                       <Link href="/account">
-                        <Button className="bg-gray-900 hover:bg-black text-white font-bold rounded-xl">
+                        <Button className="bg-gray-900 hover:bg-black text-white font-bold rounded-xl px-3">
                           Account
                         </Button>
                       </Link>
@@ -83,12 +95,12 @@ export async function Navbar() {
               ) : (
                 <>
                   <Link href="/login">
-                    <Button variant="ghost" className="font-bold text-gray-700 hover:text-[#FF4500]">
+                    <Button variant="ghost" className="font-bold text-gray-700 hover:text-[#FF4500] px-3">
                       Login
                     </Button>
                   </Link>
                   <Link href="/signup">
-                    <Button className="bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-xl shadow-md shadow-orange-200 transition-all hover:scale-105">
+                    <Button className="bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-xl shadow-md shadow-orange-200 transition-all hover:scale-105 px-3">
                       Get Started
                     </Button>
                   </Link>
@@ -98,7 +110,7 @@ export async function Navbar() {
           </nav>
 
           {/* Mobile Navigation (Sliding Top to Bottom) */}
-          <div className="flex md:hidden items-center gap-2">
+          <div className="flex lg:hidden items-center gap-2">
             <NotificationBell />
             <CartDrawer />
             <Sheet>

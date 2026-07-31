@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { ToolCard } from "@/components/image-tools/ToolCard";
 import {
-  Minimize2, User, RefreshCcw, Maximize2, Crop, Eraser, Layers, Zap, FileText, QrCode, Search, Sparkles, Lock, FileCode
+  Minimize2, User, RefreshCcw, Maximize2, Crop, Eraser, Layers, Zap, FileText, QrCode, Search, Sparkles, Lock, FileCode, Image as ImageIcon, Wrench
 } from "lucide-react";
 
 const allTools = [
@@ -110,10 +110,10 @@ const allTools = [
 ];
 
 const categories = [
-  { id: "all", label: "All Free Tools", icon: "⚡" },
-  { id: "image", label: "Image & Photo Tools", icon: "🖼️" },
-  { id: "pdf", label: "PDF & Document Tools", icon: "📄" },
-  { id: "utility", label: "Utilities & Generators", icon: "🛠️" },
+  { id: "all", label: "All Free Tools", icon: Zap },
+  { id: "image", label: "Image & Photo Tools", icon: ImageIcon },
+  { id: "pdf", label: "PDF & Document Tools", icon: FileText },
+  { id: "utility", label: "Utilities & Generators", icon: Wrench },
 ];
 
 export default function ToolsHubPage() {
@@ -167,20 +167,23 @@ export default function ToolsHubPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Category Tabs */}
         <div className="flex flex-wrap items-center justify-center gap-2.5 mb-10">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer ${
-                activeCategory === cat.id
-                  ? "bg-[#FF4500] text-white shadow-lg shadow-orange-500/20 scale-105"
-                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 shadow-sm"
-              }`}
-            >
-              <span>{cat.icon}</span>
-              <span>{cat.label}</span>
-            </button>
-          ))}
+          {categories.map((cat) => {
+            const CatIcon = cat.icon;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer ${
+                  activeCategory === cat.id
+                    ? "bg-[#FF4500] text-white shadow-lg shadow-orange-500/20 scale-105"
+                    : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 shadow-sm"
+                }`}
+              >
+                <CatIcon size={16} className={activeCategory === cat.id ? "text-white" : "text-[#FF4500]"} />
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Tools Grid */}
