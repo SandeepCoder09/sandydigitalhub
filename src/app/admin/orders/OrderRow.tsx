@@ -268,39 +268,42 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
       </td>
       <td className="p-4 text-sm font-bold text-[#FF4500]">₹{order.total}</td>
       <td className="p-4">
-        <div className="text-xs text-white/80 mb-1">
+        <div className="text-xs text-gray-700 font-bold mb-1">
           {order.paymentMethod === 'online' ? (
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500"></span> Online</span>
+            <span className="flex items-center gap-1.5 text-blue-700 font-bold"><span className="w-2 h-2 rounded-full bg-blue-600"></span> Online</span>
           ) : (
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-orange-500"></span> Shop</span>
+            <span className="flex items-center gap-1.5 text-[#FF4500] font-bold"><span className="w-2 h-2 rounded-full bg-[#FF4500]"></span> Shop</span>
           )}
         </div>
         <select 
           disabled={loading}
-          className={`text-xs font-bold rounded px-2 py-1 outline-none cursor-pointer ${
-            paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 
-            paymentStatus === 'FAILED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+          className={`text-xs font-extrabold rounded-lg px-2.5 py-1 outline-none cursor-pointer border shadow-2xs ${
+            paymentStatus === 'PAID'
+              ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
+              : paymentStatus === 'FAILED'
+              ? 'bg-red-100 text-red-900 border-red-300'
+              : 'bg-amber-100 text-amber-900 border-amber-300'
           }`}
           value={paymentStatus}
           onChange={(e) => handleUpdate('payment', e.target.value)}
         >
-          <option value="PENDING">PENDING</option>
-          <option value="PAID">PAID</option>
-          <option value="FAILED">FAILED</option>
+          <option value="PENDING" className="bg-white text-gray-900 font-bold">PENDING</option>
+          <option value="PAID" className="bg-white text-gray-900 font-bold">PAID</option>
+          <option value="FAILED" className="bg-white text-gray-900 font-bold">FAILED</option>
         </select>
       </td>
       <td className="p-4 text-sm">
         <select 
           disabled={loading}
-          className="bg-white border border-gray-300 rounded p-1.5 text-gray-700 outline-none focus:border-[#FF4500] text-xs font-semibold"
+          className="bg-white border border-gray-300 rounded-lg p-1.5 text-gray-900 outline-none focus:border-[#FF4500] text-xs font-bold cursor-pointer shadow-2xs"
           value={orderStatus}
           onChange={(e) => handleUpdate('order', e.target.value)}
         >
-          <option value="PENDING">PENDING</option>
-          <option value="AWAITING_CUSTOMER_VISIT">AWAITING VISIT</option>
-          <option value="PROCESSING">PROCESSING</option>
-          <option value="COMPLETED">COMPLETED</option>
-          <option value="CANCELLED">CANCELLED</option>
+          <option value="PENDING" className="bg-white text-gray-900 font-bold">PENDING</option>
+          <option value="AWAITING_CUSTOMER_VISIT" className="bg-white text-gray-900 font-bold">AWAITING VISIT</option>
+          <option value="PROCESSING" className="bg-white text-gray-900 font-bold">PROCESSING</option>
+          <option value="COMPLETED" className="bg-white text-gray-900 font-bold">COMPLETED</option>
+          <option value="CANCELLED" className="bg-white text-gray-900 font-bold">CANCELLED</option>
         </select>
       </td>
       <td className="p-4 text-xs text-gray-500 whitespace-nowrap">
