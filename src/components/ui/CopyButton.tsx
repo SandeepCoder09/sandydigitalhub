@@ -27,14 +27,20 @@ export function CopyButton({ text, className = '' }: CopyButtonProps) {
       onClick={handleCopy}
       type="button"
       title="Copy Order ID"
-      className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-lg transition-all ${
+      className={`inline-flex items-center gap-1 text-[11px] font-black px-2 py-0.5 rounded-md transition-all border cursor-pointer shadow-2xs ${
         copied
-          ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-          : 'bg-white/10 hover:bg-white/20 text-white/70 hover:text-white border border-white/10'
+          ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
+          : 'bg-gray-100 hover:bg-orange-100 text-gray-800 hover:text-[#FF4500] border-gray-300 hover:border-orange-300'
       } ${className}`}
     >
-      {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
-      <span>{copied ? 'Copied!' : 'Copy'}</span>
+      {copied ? (
+        <Check size={12} className="text-emerald-700 shrink-0" />
+      ) : (
+        <Copy size={12} className="text-[#FF4500] shrink-0" />
+      )}
+      <span className={copied ? 'text-emerald-900' : 'text-gray-800'}>
+        {copied ? 'Copied!' : 'Copy'}
+      </span>
     </button>
   );
 }
