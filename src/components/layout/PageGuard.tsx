@@ -3,8 +3,11 @@
 import { useState, useEffect, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { ShieldAlert, Lock, AlertTriangle, RefreshCw, Home, PhoneCall, Eye, ShieldCheck } from 'lucide-react';
+import { ShieldAlert, Lock, AlertTriangle, RefreshCw, Home, PhoneCall, Eye } from 'lucide-react';
 import Link from 'next/link';
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
+import { LiveChatWidget } from '@/components/layout/LiveChatWidget';
 
 interface SiteSettings {
   isEmergencyLockdown: boolean;
@@ -46,13 +49,24 @@ export function PageGuard({ children }: { children: ReactNode }) {
     fetchSettings();
   }, [pathname, isAdmin]);
 
+  const renderNormalPageLayout = (content: ReactNode) => (
+    <>
+      <Navbar />
+      <main className="flex-1">
+        {content}
+      </main>
+      <Footer />
+      <LiveChatWidget />
+    </>
+  );
+
   if (loading || !settings) {
-    return <>{children}</>;
+    return renderNormalPageLayout(children);
   }
 
   // Admin users on /admin routes can always access their dashboard
   if (isAdmin && pathname?.startsWith('/admin')) {
-    return <>{children}</>;
+    return renderNormalPageLayout(children);
   }
 
   const isCurrentPageBlocked = settings.blockedPages.some((blockedPath) => {
@@ -62,7 +76,7 @@ export function PageGuard({ children }: { children: ReactNode }) {
 
   const shouldBlockAccess = (settings.isEmergencyLockdown || isCurrentPageBlocked);
 
-  // If Admin is viewing public page while Lockdown or Route Block is active
+  // If Admin is viewing public page while Lockdown or Route Block is active (and not previewing as user)
   if (isAdmin && shouldBlockAccess && !previewAsUser) {
     return (
       <>
@@ -71,7 +85,7 @@ export function PageGuard({ children }: { children: ReactNode }) {
           <div className="flex items-center gap-2">
             <ShieldAlert size={16} className="text-yellow-300 animate-pulse shrink-0" />
             <span>
-              <strong>ADMIN SECURITY NOTICE:</strong> {settings.isEmergencyLockdown ? 'Emergency Lockdown Mode IS ACTIVE' : `Page Route (${pathname}) IS BLOCKED`}. Regular visitors see the blocked screen.
+              <strong>ADMIN SECURITY NOTICE:</strong> {settings.isEmergencyLockdown ? 'Emergency Lockdown Mode IS ACTIVE' : `Page Route (${pathname}) IS BLOCKED`}. Regular visitors see the blocked screen without Navbar/Footer.
             </span>
           </div>
 
@@ -90,19 +104,19 @@ export function PageGuard({ children }: { children: ReactNode }) {
             </Link>
           </div>
         </div>
-        {children}
+        {renderNormalPageLayout(children)}
       </>
     );
   }
 
-  // 1. Emergency Lockdown Mode (for public users or Admin in preview mode)
+  // 1. Emergency Lockdown Mode (Hides Navbar, Footer, and LiveChatWidget completely!)
   if (settings.isEmergencyLockdown) {
     return (
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-6 py-20 relative">
         {isAdmin && previewAsUser && (
           <button
             onClick={() => setPreviewAsUser(false)}
-            className="absolute top-4 right-4 px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-extrabold shadow-lg cursor-pointer"
+            className="absolute top-4 right-4 px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-extrabold shadow-lg cursor-pointer z-[9999]"
           >
             Exit User Preview Mode
           </button>
@@ -141,14 +155,14 @@ export function PageGuard({ children }: { children: ReactNode }) {
     );
   }
 
-  // 2. Individual Page Route Block (for public users or Admin in preview mode)
+  // 2. Individual Page Route Block (Hides Navbar, Footer, and LiveChatWidget for blocked route)
   if (isCurrentPageBlocked) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6 py-20 relative">
         {isAdmin && previewAsUser && (
           <button
             onClick={() => setPreviewAsUser(false)}
-            className="absolute top-4 right-4 px-4 py-2 rounded-xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white text-xs font-extrabold shadow-lg cursor-pointer"
+            className="absolute top-4 right-4 px-4 py-2 rounded-xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white text-xs font-extrabold shadow-lg cursor-pointer z-[9999]"
           >
             Exit User Preview Mode
           </button>
@@ -188,5 +202,5 @@ export function PageGuard({ children }: { children: ReactNode }) {
     );
   }
 
-  return <>{children}</>;
+  return renderNormalPageLayout(children);
 }
