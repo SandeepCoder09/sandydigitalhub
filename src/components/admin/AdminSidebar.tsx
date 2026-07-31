@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { LayoutDashboard, ShoppingBag, Wrench, Users, MessageSquare, User, FolderCheck, ShieldAlert } from "lucide-react";
+import { LayoutDashboard, ShoppingBag, Wrench, Users, MessageSquare, User, FolderCheck, ShieldAlert, BarChart3, AlertOctagon } from "lucide-react";
 
 export function AdminSidebar() {
   const pathname = usePathname();
@@ -43,8 +43,10 @@ export function AdminSidebar() {
 
   const links = [
     { href: '/admin', label: 'Dashboard', mobileLabel: 'Dashboard', icon: LayoutDashboard, exact: true },
+    { href: '/admin/analytics', label: 'Visitor Analytics', mobileLabel: 'Analytics', icon: BarChart3 },
     { href: '/admin/orders', label: 'Manage Orders', mobileLabel: 'Orders', icon: ShoppingBag },
     { href: '/admin/site-control', label: 'Site & Page Control', mobileLabel: 'Control', icon: ShieldAlert },
+    { href: '/admin/security-logs', label: 'Security Audit Logs', mobileLabel: 'Security Logs', icon: AlertOctagon },
     { href: '/admin/uploads', label: 'User Uploads', mobileLabel: 'Uploads', icon: FolderCheck },
     { href: '/admin/services', label: 'Manage Services', mobileLabel: 'Services', icon: Wrench },
     { href: '/admin/users', label: 'Manage Users', mobileLabel: 'Users', icon: Users },

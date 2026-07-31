@@ -7,6 +7,7 @@ import { LiveChatWidget } from "@/components/layout/LiveChatWidget";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { ToastProvider } from "@/components/ui/Toast";
 import { PageGuard } from "@/components/layout/PageGuard";
+import { VisitorTracker } from "@/components/layout/VisitorTracker";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-screen flex flex-col antialiased`}>
         <AuthProvider>
           <ToastProvider>
+            <VisitorTracker />
             <PageGuard navbar={<Navbar />} footer={<Footer />} liveChat={<LiveChatWidget />}>
               {children}
             </PageGuard>
