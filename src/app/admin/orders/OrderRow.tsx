@@ -233,11 +233,17 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
           <CopyButton text={brandedId} />
           {onInspect && (
             <button
-              onClick={() => onInspect(order)}
-              className="p-1 rounded bg-[#FF4500]/20 text-[#FF4500] hover:bg-[#FF4500] hover:text-white transition-colors"
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onInspect(order);
+              }}
+              className="px-2 py-1 rounded-lg bg-[#FF4500] text-white hover:bg-[#FF4500]/90 transition-all cursor-pointer font-bold text-xs inline-flex items-center gap-1 shadow-sm"
               title="Inspect & Track Order"
             >
               <Eye size={13} />
+              <span>Inspect</span>
             </button>
           )}
         </div>

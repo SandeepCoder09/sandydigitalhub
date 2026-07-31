@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { formatOrderId, formatDateTime } from '@/lib/utils';
 import { CopyButton } from '@/components/ui/CopyButton';
 import Link from 'next/link';
@@ -17,6 +17,12 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
   const [activeOrder, setActiveOrder] = useState<any>(order);
   const [loading, setLoading] = useState(false);
   const [customMsg, setCustomMsg] = useState('');
+
+  useEffect(() => {
+    if (order) {
+      setActiveOrder(order);
+    }
+  }, [order]);
 
   if (!isOpen || !activeOrder) return null;
 
