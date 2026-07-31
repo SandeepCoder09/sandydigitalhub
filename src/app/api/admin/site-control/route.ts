@@ -41,9 +41,9 @@ export async function PUT(req: Request) {
       if (typeof body.isEmergencyLockdown === 'boolean') settings.isEmergencyLockdown = body.isEmergencyLockdown;
       if (typeof body.maintenanceMessage === 'string') settings.maintenanceMessage = body.maintenanceMessage;
       if (typeof body.allowFileUploads === 'boolean') settings.allowFileUploads = body.allowFileUploads;
-      if (Array.isArray(body.blockedPages)) settings.blockedPages = body.blockedPages;
-      if (Array.isArray(body.blockedIps)) settings.blockedIps = body.blockedIps;
-      if (Array.isArray(body.blockedEmails)) settings.blockedEmails = body.blockedEmails;
+      if (Array.isArray(body.blockedPages)) settings.blockedPages = body.blockedPages.filter((p: any) => typeof p === 'string' && p.trim().length > 0);
+      if (Array.isArray(body.blockedIps)) settings.blockedIps = body.blockedIps.filter((i: any) => typeof i === 'string' && i.trim().length > 0);
+      if (Array.isArray(body.blockedEmails)) settings.blockedEmails = body.blockedEmails.filter((e: any) => typeof e === 'string' && e.trim().length > 0);
     }
 
     await settings.save();

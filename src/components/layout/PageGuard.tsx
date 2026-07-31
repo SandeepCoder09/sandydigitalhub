@@ -93,9 +93,12 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
     return renderNormalPageLayout(children);
   }
 
-  const isCurrentPageBlocked = settings.blockedPages.some((blockedPath) => {
-    if (blockedPath === '/') return pathname === '/';
-    return pathname?.startsWith(blockedPath);
+  const isCurrentPageBlocked = Array.isArray(settings.blockedPages) && settings.blockedPages.some((blockedPath) => {
+    if (!blockedPath || typeof blockedPath !== 'string') return false;
+    const clean = blockedPath.trim();
+    if (!clean) return false;
+    if (clean === '/') return pathname === '/';
+    return pathname === clean || pathname?.startsWith(clean + '/');
   });
 
   const shouldBlockAccess = (settings.isEmergencyLockdown || isCurrentPageBlocked);
