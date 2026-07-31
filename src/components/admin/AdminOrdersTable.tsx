@@ -122,7 +122,7 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
           <div className="hidden md:block bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-gray-700">
-                <thead className="bg-gray-50 border-b border-gray-200 text-xs text-gray-500 uppercase">
+                <thead className="bg-gray-50 border-b border-gray-200 text-xs text-gray-700 font-extrabold uppercase">
                   <tr>
                     <th className="p-4">Branded Order ID</th>
                     <th className="p-4">Customer Info</th>
@@ -131,6 +131,7 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
                     <th className="p-4">Payment Status</th>
                     <th className="p-4">Order Status</th>
                     <th className="p-4">Date & Time</th>
+                    <th className="p-4 text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">

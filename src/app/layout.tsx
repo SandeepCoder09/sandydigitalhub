@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { LiveChatWidget } from "@/components/layout/LiveChatWidget";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { ToastProvider } from "@/components/ui/Toast";
+import { PageGuard } from "@/components/layout/PageGuard";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +35,9 @@ export default function RootLayout({
           <ToastProvider>
             <Navbar />
             <main className="flex-1">
-              {children}
+              <PageGuard>
+                {children}
+              </PageGuard>
             </main>
             <Footer />
             <LiveChatWidget />

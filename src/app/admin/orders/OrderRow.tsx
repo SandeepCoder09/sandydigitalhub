@@ -231,48 +231,33 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
         <div className="flex items-center gap-2">
           <span>{brandedId}</span>
           <CopyButton text={brandedId} />
-          {onInspect && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onInspect(order);
-              }}
-              className="px-2 py-1 rounded-lg bg-[#FF4500] text-white hover:bg-[#FF4500]/90 transition-all cursor-pointer font-bold text-xs inline-flex items-center gap-1 shadow-sm"
-              title="Inspect & Track Order"
-            >
-              <Eye size={13} />
-              <span>Inspect</span>
-            </button>
-          )}
         </div>
       </td>
       <td className="p-4">
-        <div className="text-sm font-medium text-gray-800">{order.userId?.name || 'Customer'}</div>
-        <div className="text-xs text-gray-500">{order.userId?.email}</div>
-        {order.userId?.mobile && <div className="text-xs text-gray-400">{order.userId?.mobile}</div>}
+        <div className="text-sm font-bold text-gray-900">{order.userId?.name || 'Customer'}</div>
+        <div className="text-xs text-gray-500 font-medium">{order.userId?.email}</div>
+        {order.userId?.mobile && <div className="text-xs text-[#FF4500] font-semibold">{order.userId?.mobile}</div>}
       </td>
       <td className="p-4 max-w-[200px]">
-        <div className="text-sm font-medium text-gray-800 truncate">
+        <div className="text-sm font-bold text-gray-900 truncate">
           {servicesText}
         </div>
         {order.notes && (
-          <div className="mt-1 text-xs text-[#FF4500] flex items-center gap-1 font-medium" title={order.notes}>
+          <div className="mt-1 text-xs text-[#FF4500] flex items-center gap-1 font-semibold" title={order.notes}>
             <FileText size={12} />
             <span className="truncate max-w-[180px]">Note: {order.notes}</span>
           </div>
         )}
         {order.documentUrl && (
           <div className="mt-1 text-xs text-[#FF4500]">
-            <a href={order.documentUrl} download={order.documentName || 'attachment'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:underline">
+            <a href={order.documentUrl} download={order.documentName || 'attachment'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:underline font-bold">
               <Paperclip size={12} />
               <span className="truncate max-w-[180px]">{order.documentName || 'Attached File'}</span>
             </a>
           </div>
         )}
       </td>
-      <td className="p-4 text-sm font-bold text-[#FF4500]">₹{order.total}</td>
+      <td className="p-4 text-sm font-black text-[#FF4500]">₹{order.total}</td>
       <td className="p-4">
         <div className="text-xs text-gray-700 font-bold mb-1">
           {order.paymentMethod === 'online' ? (
@@ -312,15 +297,34 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
           <option value="CANCELLED" className="bg-white text-gray-900 font-bold">CANCELLED</option>
         </select>
       </td>
-      <td className="p-4 text-xs text-gray-500 whitespace-nowrap">
-        <div>{dateTimeStr}</div>
-        <button
-          onClick={handlePrintWorkOrder}
-          className="mt-1.5 inline-flex items-center gap-1 px-2 py-1 rounded bg-gray-100 text-gray-600 text-[11px] font-medium hover:bg-gray-200 transition-colors"
-        >
-          <Printer size={12} />
-          <span>Work Order</span>
-        </button>
+      <td className="p-4 text-xs font-semibold text-gray-600 whitespace-nowrap">
+        {dateTimeStr}
+      </td>
+      <td className="p-4 text-xs whitespace-nowrap text-center">
+        <div className="flex flex-col items-center gap-1.5 min-w-[100px]">
+          {onInspect && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onInspect(order);
+              }}
+              className="px-3 py-1.5 rounded-xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-extrabold text-xs inline-flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/20 transition-all hover:scale-105 cursor-pointer w-full"
+              title="Inspect & Track Order"
+            >
+              <Eye size={13} />
+              <span>Inspect</span>
+            </button>
+          )}
+          <button
+            onClick={handlePrintWorkOrder}
+            className="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 transition-colors inline-flex items-center justify-center gap-1 border border-gray-200 w-full"
+          >
+            <Printer size={12} />
+            <span>Print Sheet</span>
+          </button>
+        </div>
       </td>
     </tr>
   );
