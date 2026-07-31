@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { LiveChatWidget } from "@/components/layout/LiveChatWidget";
 import AuthProvider from "@/components/providers/AuthProvider";
+import { ToastProvider } from "@/components/ui/Toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,12 +31,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} min-h-screen flex flex-col antialiased`}>
         <AuthProvider>
-          <Navbar />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-          <LiveChatWidget />
+          <ToastProvider>
+            <Navbar />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+            <LiveChatWidget />
+          </ToastProvider>
         </AuthProvider>
       </body>
     </html>

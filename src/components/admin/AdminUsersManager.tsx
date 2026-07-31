@@ -5,6 +5,7 @@ type UserRole = "ADMIN" | "CUSTOMER";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
 import { ShieldCheck, UserCheck, ShieldAlert, UserX, Search, Mail, Phone, Calendar } from "lucide-react";
 import { formatDateTime } from "@/lib/utils";
+import { toast } from "@/components/ui/Toast";
 
 type UserType = {
   _id: string;
@@ -59,13 +60,14 @@ export function AdminUsersManager({ initialUsers }: Props) {
       if (res.ok) {
         setUsers(users.map((u) => (u._id === userId ? { ...u, role: newRole } : u)));
         setConfirmAction(null);
+        toast.success(`User role updated to ${newRole}`);
       } else {
         const data = await res.json();
-        alert(data.message || "Failed to update role");
+        toast.error(data.message || "Failed to update role");
       }
     } catch (error) {
       console.error(error);
-      alert("Error updating user role");
+      toast.error("Error updating user role");
     } finally {
       setIsProcessing(false);
     }
@@ -83,13 +85,14 @@ export function AdminUsersManager({ initialUsers }: Props) {
       if (res.ok) {
         setUsers(users.map((u) => (u._id === userId ? { ...u, status: newStatus } : u)));
         setConfirmAction(null);
+        toast.success(`User status updated to ${newStatus}`);
       } else {
         const data = await res.json();
-        alert(data.message || "Failed to update status");
+        toast.error(data.message || "Failed to update status");
       }
     } catch (error) {
       console.error(error);
-      alert("Error updating user status");
+      toast.error("Error updating user status");
     } finally {
       setIsProcessing(false);
     }

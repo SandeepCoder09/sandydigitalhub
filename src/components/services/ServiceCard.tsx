@@ -37,6 +37,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
             src={service.image} 
             alt={service.title} 
             fill
+            unoptimized
             className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
           <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase text-[#FF4500] border border-orange-100 shadow-sm">
@@ -89,6 +90,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                   src={service.image} 
                   alt={service.title} 
                   fill
+                  unoptimized
                   className="object-cover"
                 />
                 <button 

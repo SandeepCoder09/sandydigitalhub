@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Star, X } from 'lucide-react';
 import { formatOrderId } from '@/lib/utils';
+import { toast } from '@/components/ui/Toast';
 
 interface OrderReviewModalProps {
   order: any;
@@ -34,11 +35,13 @@ export function OrderReviewModal({ order, isOpen, onClose, onSuccess }: OrderRev
       if (res.ok) {
         onSuccess(data.order);
         onClose();
+        toast.success("Thank you for your valuable feedback!", "Review Submitted");
       } else {
-        alert(data.message || 'Failed to submit review');
+        toast.error(data.message || 'Failed to submit review');
       }
     } catch (error) {
       console.error(error);
+      toast.error('An error occurred while submitting your review.');
     } finally {
       setSubmitting(false);
     }

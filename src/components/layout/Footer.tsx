@@ -36,7 +36,7 @@ export function Footer() {
               <li><Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">Digital Services & PAN Card</Link></li>
               <li><Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">Digital Marketing & SEO</Link></li>
               <li><Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">Graphic Design</Link></li>
-              <li><Link href="/image-tools" className="text-muted-foreground hover:text-primary transition-colors font-medium">🖼️ Free Image Tools</Link></li>
+              <li><Link href="/tools" className="text-muted-foreground hover:text-primary transition-colors font-semibold">⚡ Free Tools Hub</Link></li>
             </ul>
           </div>
 

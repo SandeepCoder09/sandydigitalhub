@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle, Sparkles } from "lucide-react";
+import { toast } from "@/components/ui/Toast";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -56,7 +57,7 @@ export default function ContactPage() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    alert("Message sent successfully! We will contact you soon.");
+    toast.success("Message sent successfully! We will contact you soon.", "Thank You!");
     form.reset();
     setSelectedServiceCategory("");
     setCustomService("");

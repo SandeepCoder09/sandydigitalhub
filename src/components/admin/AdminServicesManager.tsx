@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ServiceFormModal, ServiceFormData } from "./ServiceFormModal";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
 import { Edit, Trash2, Tag, Plus, RefreshCw } from "lucide-react";
+import { toast } from "@/components/ui/Toast";
 
 type Service = ServiceFormData & {
   _id: string;
@@ -54,13 +55,14 @@ export function AdminServicesManager({ initialServices }: Props) {
       if (res.ok) {
         setServices(services.filter(s => s._id !== id));
         setServiceToDelete(null);
+        toast.success("Service deleted successfully.");
       } else {
         const data = await res.json();
-        alert(data.message || 'Failed to delete service');
+        toast.error(data.message || 'Failed to delete service');
       }
     } catch (error) {
       console.error("Failed to delete service:", error);
-      alert("An error occurred while deleting the service.");
+      toast.error("An error occurred while deleting the service.");
     } finally {
       setIsDeleting(null);
     }
