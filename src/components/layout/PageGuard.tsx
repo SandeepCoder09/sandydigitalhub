@@ -3,7 +3,7 @@
 import { useState, useEffect, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { ShieldAlert, Lock, AlertTriangle, RefreshCw, Home, PhoneCall } from 'lucide-react';
+import { ShieldAlert, Lock, AlertTriangle, RefreshCw, Home, PhoneCall, Eye, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 
 interface SiteSettings {
@@ -18,11 +18,12 @@ export function PageGuard({ children }: { children: ReactNode }) {
   const { data: session } = useSession();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(true);
+  const [previewAsUser, setPreviewAsUser] = useState(false);
 
   const isAdmin = session?.user?.role === 'ADMIN' || session?.user?.role === 'admin';
 
   useEffect(() => {
-    // Admin dashboard routes are never blocked for Admin users
+    // Admin dashboard routes (/admin/*) are never blocked for Admin users
     if (pathname?.startsWith('/admin') && isAdmin) {
       setLoading(false);
       return;
@@ -45,14 +46,68 @@ export function PageGuard({ children }: { children: ReactNode }) {
     fetchSettings();
   }, [pathname, isAdmin]);
 
-  if (loading || isAdmin || !settings) {
+  if (loading || !settings) {
     return <>{children}</>;
   }
 
-  // 1. Emergency Lockdown Mode check
-  if (settings.isEmergencyLockdown && !pathname?.startsWith('/admin')) {
+  // Admin users on /admin routes can always access their dashboard
+  if (isAdmin && pathname?.startsWith('/admin')) {
+    return <>{children}</>;
+  }
+
+  const isCurrentPageBlocked = settings.blockedPages.some((blockedPath) => {
+    if (blockedPath === '/') return pathname === '/';
+    return pathname?.startsWith(blockedPath);
+  });
+
+  const shouldBlockAccess = (settings.isEmergencyLockdown || isCurrentPageBlocked);
+
+  // If Admin is viewing public page while Lockdown or Route Block is active
+  if (isAdmin && shouldBlockAccess && !previewAsUser) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-6 py-20">
+      <>
+        {/* Top Admin Security Notice Bar */}
+        <div className="bg-red-600 text-white text-xs font-bold py-2.5 px-4 flex flex-col sm:flex-row items-center justify-between gap-2 shadow-md z-[99999] relative">
+          <div className="flex items-center gap-2">
+            <ShieldAlert size={16} className="text-yellow-300 animate-pulse shrink-0" />
+            <span>
+              <strong>ADMIN SECURITY NOTICE:</strong> {settings.isEmergencyLockdown ? 'Emergency Lockdown Mode IS ACTIVE' : `Page Route (${pathname}) IS BLOCKED`}. Regular visitors see the blocked screen.
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => setPreviewAsUser(true)}
+              className="px-3 py-1 rounded-lg bg-white text-red-700 hover:bg-gray-100 font-extrabold text-xs inline-flex items-center gap-1 shadow-sm transition-all cursor-pointer"
+            >
+              <Eye size={13} /> Preview Blocked Screen as User
+            </button>
+            <Link
+              href="/admin/site-control"
+              className="px-3 py-1 rounded-lg bg-red-950 hover:bg-black text-white font-extrabold text-xs inline-flex items-center gap-1 transition-all"
+            >
+              Manage Firewall Settings ↗
+            </Link>
+          </div>
+        </div>
+        {children}
+      </>
+    );
+  }
+
+  // 1. Emergency Lockdown Mode (for public users or Admin in preview mode)
+  if (settings.isEmergencyLockdown) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-6 py-20 relative">
+        {isAdmin && previewAsUser && (
+          <button
+            onClick={() => setPreviewAsUser(false)}
+            className="absolute top-4 right-4 px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-extrabold shadow-lg cursor-pointer"
+          >
+            Exit User Preview Mode
+          </button>
+        )}
+
         <div className="max-w-xl w-full bg-gray-800/90 border border-orange-500/30 p-8 sm:p-10 rounded-3xl text-center space-y-6 shadow-2xl backdrop-blur-md">
           <div className="w-20 h-20 rounded-3xl bg-orange-500/10 text-[#FF4500] border border-[#FF4500]/30 flex items-center justify-center mx-auto shadow-lg shadow-orange-500/10 animate-pulse">
             <ShieldAlert size={44} />
@@ -78,7 +133,7 @@ export function PageGuard({ children }: { children: ReactNode }) {
               onClick={() => window.location.reload()}
               className="px-6 py-3 rounded-2xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-extrabold text-sm inline-flex items-center gap-2 shadow-lg shadow-orange-500/20 transition-all cursor-pointer"
             >
-              <RefreshCw size={16} /> Check Status Again
+              <RefreshCw size={16} /> Refresh Status
             </button>
           </div>
         </div>
@@ -86,15 +141,19 @@ export function PageGuard({ children }: { children: ReactNode }) {
     );
   }
 
-  // 2. Individual Page Block check
-  const isCurrentPageBlocked = settings.blockedPages.some((blockedPath) => {
-    if (blockedPath === '/') return pathname === '/';
-    return pathname?.startsWith(blockedPath);
-  });
-
+  // 2. Individual Page Route Block (for public users or Admin in preview mode)
   if (isCurrentPageBlocked) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6 py-20">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6 py-20 relative">
+        {isAdmin && previewAsUser && (
+          <button
+            onClick={() => setPreviewAsUser(false)}
+            className="absolute top-4 right-4 px-4 py-2 rounded-xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white text-xs font-extrabold shadow-lg cursor-pointer"
+          >
+            Exit User Preview Mode
+          </button>
+        )}
+
         <div className="max-w-lg w-full bg-white border border-gray-200 p-8 sm:p-10 rounded-3xl text-center space-y-6 shadow-xl">
           <div className="w-16 h-16 rounded-3xl bg-orange-100 text-[#FF4500] border border-orange-200 flex items-center justify-center mx-auto shadow-md">
             <Lock size={32} />
