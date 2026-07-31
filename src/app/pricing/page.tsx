@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Check, X } from "lucide-react";
+import { Check, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
@@ -56,43 +56,55 @@ const plans = [
 
 export default function PricingPage() {
   return (
-    <div className="py-16 md:py-24 bg-background">
+    <div className="py-16 md:py-24 bg-white min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl mb-6">Simple, Transparent Pricing</h1>
-          <p className="text-xl text-muted-foreground">
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-[#FF4500] text-xs font-bold uppercase tracking-wider shadow-sm">
+            <Sparkles size={14} /> Affordable Rates
+          </div>
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl text-gray-900">
+            Simple, Transparent <span className="text-[#FF4500]">Pricing</span>
+          </h1>
+          <p className="text-xl text-gray-600">
             No hidden fees. Choose the best plan that fits your business requirements.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch pt-4">
           {plans.map((plan) => (
-            <Card key={plan.name} className={`flex flex-col relative ${plan.popular ? 'border-primary shadow-lg scale-105 z-10' : ''}`}>
+            <Card 
+              key={plan.name} 
+              className={`flex flex-col relative bg-white transition-all rounded-3xl overflow-visible ${
+                plan.popular 
+                  ? 'border-2 border-[#FF4500] shadow-2xl shadow-orange-500/10 md:-translate-y-2 z-10' 
+                  : 'border border-gray-200 shadow-md hover:border-gray-300'
+              }`}
+            >
               {plan.popular && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <span className="bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider py-1 px-3 rounded-full">
-                    Most Popular
+                <div className="absolute -top-3.5 left-1/2 transform -translate-x-1/2 z-30">
+                  <span className="bg-[#FF4500] text-white text-xs font-extrabold uppercase tracking-wider py-1.5 px-4 rounded-full shadow-lg shadow-orange-500/30 whitespace-nowrap">
+                    🔥 Most Popular
                   </span>
                 </div>
               )}
-              <CardHeader>
-                <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                <CardDescription className="min-h-10">{plan.description}</CardDescription>
+              <CardHeader className={plan.popular ? "pt-8" : ""}>
+                <CardTitle className="text-2xl font-bold text-gray-900">{plan.name}</CardTitle>
+                <CardDescription className="min-h-10 text-gray-600">{plan.description}</CardDescription>
                 <div className="mt-4">
-                  <span className="text-4xl font-extrabold">{plan.price}</span>
-                  <span className="text-muted-foreground"> / project</span>
+                  <span className="text-4xl font-extrabold text-gray-900">{plan.price}</span>
+                  <span className="text-gray-500"> / project</span>
                 </div>
               </CardHeader>
               <CardContent className="flex-grow">
                 <ul className="space-y-4 mt-4">
                   {plan.features.map((feature) => (
-                    <li key={feature.name} className="flex items-center gap-3">
+                    <li key={feature.name} className="flex items-center gap-3 text-sm">
                       {feature.included ? (
-                        <Check className="h-5 w-5 text-primary shrink-0" />
+                        <Check className="h-5 w-5 text-[#FF4500] shrink-0" />
                       ) : (
-                        <X className="h-5 w-5 text-muted-foreground shrink-0" />
+                        <X className="h-5 w-5 text-gray-300 shrink-0" />
                       )}
-                      <span className={feature.included ? 'text-foreground' : 'text-muted-foreground line-through'}>
+                      <span className={feature.included ? 'text-gray-800 font-medium' : 'text-gray-400 line-through'}>
                         {feature.name}
                       </span>
                     </li>
@@ -101,7 +113,13 @@ export default function PricingPage() {
               </CardContent>
               <CardFooter>
                 <Link href="/contact" className="w-full">
-                  <Button className="w-full" variant={plan.popular ? "default" : "outline"}>
+                  <Button 
+                    className={`w-full h-12 font-bold rounded-2xl text-base transition-all ${
+                      plan.popular 
+                        ? 'bg-[#FF4500] hover:bg-[#FF4500]/90 text-white shadow-lg shadow-orange-500/20' 
+                        : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+                    }`}
+                  >
                     Choose Plan
                   </Button>
                 </Link>
@@ -110,13 +128,15 @@ export default function PricingPage() {
           ))}
         </div>
 
-        <div className="mt-24 max-w-4xl mx-auto bg-muted rounded-2xl p-8 md:p-12 text-center border">
-          <h2 className="text-2xl font-bold mb-4">Need Mobile Apps or Custom Solutions?</h2>
-          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+        <div className="mt-24 max-w-4xl mx-auto bg-gray-50 rounded-3xl p-8 md:p-12 text-center border border-gray-200 shadow-sm">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Need Mobile Apps or Custom Solutions?</h2>
+          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
             We also provide enterprise-grade Mobile App Development (Android/iOS) and custom software solutions. Get in touch with us for a custom quote tailored to your exact requirements.
           </p>
           <Link href="/contact">
-            <Button size="lg">Request Custom Quote</Button>
+            <Button size="lg" className="bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold h-12 px-8 rounded-2xl shadow-lg shadow-orange-500/20">
+              Request Custom Quote
+            </Button>
           </Link>
         </div>
       </div>

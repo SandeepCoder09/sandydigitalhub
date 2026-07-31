@@ -78,7 +78,7 @@ export const INITIAL_SERVICES: ServiceSeedData[] = [
     title: 'PF / EPFO Balance Withdrawal & KYC Update',
     category: 'Cyber Cafe Services',
     price: 250,
-    image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=800',
     description: 'UAN activation, Aadhaar/PAN/Bank KYC linking, and online Provident Fund (PF) advance/claim withdrawal.',
     status: 'ACTIVE',
   },
@@ -86,7 +86,7 @@ export const INITIAL_SERVICES: ServiceSeedData[] = [
     title: 'PAN Card Application / Correction',
     category: 'Cyber Cafe Services',
     price: 199,
-    image: 'https://images.unsplash.com/photo-1618042164219-62c820f10723?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800',
     description: 'Fast online application or correction service for physical and instant digital e-PAN cards.',
     status: 'ACTIVE',
   },
@@ -94,7 +94,7 @@ export const INITIAL_SERVICES: ServiceSeedData[] = [
     title: 'Aadhaar Card Download & Print',
     category: 'Cyber Cafe Services',
     price: 50,
-    image: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800',
     description: 'High-quality color printout and PVC plastic card printing for original Aadhaar card downloads.',
     status: 'ACTIVE',
   },
@@ -102,7 +102,7 @@ export const INITIAL_SERVICES: ServiceSeedData[] = [
     title: 'Passport Size Photo Printing',
     category: 'Digital Services',
     price: 100,
-    image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800',
     description: 'Professional background editing, retouching, and high-grade glossy photo printing for passport-size photographs.',
     status: 'ACTIVE',
   },
@@ -127,7 +127,6 @@ export const INITIAL_SERVICES: ServiceSeedData[] = [
 let isSeeded = false;
 
 export async function ensureServicesSeeded() {
-  // Fast path: if already seeded during server runtime, skip DB check
   if (isSeeded) return;
 
   try {
@@ -135,6 +134,14 @@ export async function ensureServicesSeeded() {
     if (count === 0) {
       await Service.insertMany(INITIAL_SERVICES);
       console.log(`Seeded ${INITIAL_SERVICES.length} initial services successfully.`);
+    } else {
+      // Sync exact matching service images for accurate visual representations
+      for (const service of INITIAL_SERVICES) {
+        await Service.updateOne(
+          { title: service.title },
+          { $set: { image: service.image } }
+        );
+      }
     }
     isSeeded = true;
   } catch (error) {

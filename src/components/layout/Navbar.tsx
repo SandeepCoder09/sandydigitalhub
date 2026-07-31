@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, Sparkles, User, ShieldCheck, Home, Zap, Image as ImageIcon, Briefcase, Tag, Building, PhoneCall } from "lucide-react";
 import Image from "next/image";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { NotificationBell } from "@/components/layout/NotificationBell";
@@ -14,52 +14,67 @@ export async function Navbar() {
   const session = await getServerSession(authOptions);
 
   const routes = [
-    { name: "Home", path: "/" },
-    { name: "Services", path: "/services" },
-    { name: "Image Tools", path: "/image-tools" },
-    { name: "Portfolio", path: "https://sandycoder.vercel.app/portfolio", target: "_blank" },
-    { name: "Pricing", path: "/pricing" },
-    { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
+    { name: "Home", path: "/", icon: Home },
+    { name: "Services", path: "/services", icon: Zap },
+    { name: "Image Tools", path: "/image-tools", icon: ImageIcon },
+    { name: "Portfolio", path: "https://sandycoder.vercel.app/portfolio", target: "_blank", icon: Briefcase },
+    { name: "Pricing", path: "/pricing", icon: Tag },
+    { name: "About", path: "/about", icon: Building },
+    { name: "Contact", path: "/contact", icon: PhoneCall },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-md shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <Image src="/logo.png" alt="Sandy Digital Hub" width={200} height={60} className="h-16 w-auto object-contain" priority />
+            <Link href="/" className="flex items-center space-x-2 transition-transform hover:scale-105">
+              <Image src="/logo.png" alt="Sandy Digital Hub" width={190} height={55} className="h-14 w-auto object-contain" priority />
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <nav className="hidden md:flex items-center space-x-6 text-sm font-semibold text-gray-700">
             {routes.map((route) => (
               <Link
                 key={route.path}
                 href={route.path}
-                className="transition-colors hover:text-primary"
+                target={route.target || "_self"}
+                rel={route.target === "_blank" ? "noreferrer" : undefined}
+                className="transition-colors hover:text-[#FF4500] hover:font-bold"
               >
                 {route.name}
               </Link>
             ))}
-            <div className="flex items-center space-x-4 ml-4">
+            <div className="flex items-center space-x-3 ml-4">
               <NotificationBell />
               <CartDrawer />
               {session ? (
                 <>
                   {session.user?.role === 'ADMIN' || session.user?.role === 'admin' ? (
-                    <Link href="/admin">
-                      <Button variant="destructive">Admin Dashboard</Button>
-                    </Link>
+                    <>
+                      <Link href="/account">
+                        <Button variant="outline" className="border-gray-300 text-gray-800 hover:bg-gray-100 font-bold rounded-xl flex items-center gap-1.5">
+                          <User size={15} className="text-[#FF4500]" /> My Account
+                        </Button>
+                      </Link>
+                      <Link href="/admin">
+                        <Button className="bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-xl shadow-md shadow-orange-200 transition-all hover:scale-105 flex items-center gap-1.5">
+                          <ShieldCheck size={16} /> Admin Dashboard
+                        </Button>
+                      </Link>
+                    </>
                   ) : (
                     <>
                       <Link href="/requests">
-                        <Button variant="outline">My Requests</Button>
+                        <Button variant="outline" className="border-orange-200 text-[#FF4500] hover:bg-orange-50 font-bold rounded-xl">
+                          My Requests
+                        </Button>
                       </Link>
                       <Link href="/account">
-                        <Button>Account</Button>
+                        <Button className="bg-gray-900 hover:bg-black text-white font-bold rounded-xl">
+                          Account
+                        </Button>
                       </Link>
                     </>
                   )}
@@ -68,66 +83,97 @@ export async function Navbar() {
               ) : (
                 <>
                   <Link href="/login">
-                    <Button variant="ghost">Login</Button>
+                    <Button variant="ghost" className="font-bold text-gray-700 hover:text-[#FF4500]">
+                      Login
+                    </Button>
                   </Link>
                   <Link href="/signup">
-                    <Button>Get Started</Button>
+                    <Button className="bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-xl shadow-md shadow-orange-200 transition-all hover:scale-105">
+                      Get Started
+                    </Button>
                   </Link>
                 </>
               )}
             </div>
           </nav>
 
-          {/* Mobile Navigation */}
+          {/* Mobile Navigation (Sliding Top to Bottom) */}
           <div className="flex md:hidden items-center gap-2">
             <NotificationBell />
             <CartDrawer />
             <Sheet>
-              <SheetTrigger className={buttonVariants({ variant: "ghost", className: "px-2" })}>
+              <SheetTrigger className={buttonVariants({ variant: "ghost", className: "px-2 text-gray-800" })}>
                 <Menu className="h-6 w-6" />
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                <nav className="flex flex-col gap-4 mt-8">
-                  {routes.map((route) => (
-                    <Link
-                      key={route.path}
-                      href={route.path}
-                      className="block px-2 py-1 text-lg font-medium hover:text-primary transition-colors"
-                    >
-                      {route.name}
-                    </Link>
-                  ))}
-                  <div className="flex flex-col gap-2 mt-4 border-t pt-4">
-                    {session ? (
-                      <>
-                        {session.user?.role === 'ADMIN' || session.user?.role === 'admin' ? (
-                          <Link href="/admin">
-                            <Button variant="destructive" className="w-full">Admin Dashboard</Button>
-                          </Link>
-                        ) : (
-                          <>
-                            <Link href="/requests">
-                              <Button variant="outline" className="w-full">My Requests</Button>
-                            </Link>
-                            <Link href="/account">
-                              <Button className="w-full">Account</Button>
-                            </Link>
-                          </>
-                        )}
-                        <NavLogoutButton className="w-full mt-2" />
-                      </>
-                    ) : (
-                      <>
-                        <Link href="/login">
-                          <Button variant="outline" className="w-full">Login</Button>
-                        </Link>
-                        <Link href="/signup">
-                          <Button className="w-full">Get Started</Button>
-                        </Link>
-                      </>
-                    )}
-                  </div>
+              <SheetContent side="top" className="w-full max-h-[90vh] overflow-y-auto bg-white border-b border-gray-200 shadow-2xl rounded-b-3xl p-6">
+                <div className="flex items-center justify-between mb-4 border-b border-gray-100 pb-3">
+                  <Image src="/logo.png" alt="Sandy Digital Hub" width={160} height={45} className="h-10 w-auto object-contain" />
+                </div>
+                <nav className="grid grid-cols-2 gap-2 text-sm font-bold">
+                  {routes.map((route) => {
+                    const RouteIcon = route.icon;
+                    return (
+                      <Link
+                        key={route.path}
+                        href={route.path}
+                        target={route.target || "_self"}
+                        rel={route.target === "_blank" ? "noreferrer" : undefined}
+                        className="flex items-center gap-2.5 px-3.5 py-2.5 text-gray-800 hover:text-[#FF4500] bg-gray-50 hover:bg-orange-50 rounded-xl transition-all border border-gray-100 shadow-sm"
+                      >
+                        <RouteIcon size={16} className="text-[#FF4500]" />
+                        <span>{route.name}</span>
+                      </Link>
+                    );
+                  })}
                 </nav>
+
+                <div className="flex flex-col gap-2.5 mt-6 border-t border-gray-100 pt-4">
+                  {session ? (
+                    <>
+                      {session.user?.role === 'ADMIN' || session.user?.role === 'admin' ? (
+                        <>
+                          <Link href="/admin">
+                            <Button className="w-full bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-xl shadow-md flex items-center justify-center gap-2">
+                              <ShieldCheck size={16} /> Admin Dashboard
+                            </Button>
+                          </Link>
+                          <Link href="/account">
+                            <Button variant="outline" className="w-full border-gray-300 text-gray-800 font-bold rounded-xl flex items-center justify-center gap-2">
+                              <User size={16} className="text-[#FF4500]" /> My Account
+                            </Button>
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <Link href="/requests">
+                            <Button variant="outline" className="w-full border-orange-200 text-[#FF4500] font-bold rounded-xl">
+                              My Requests
+                            </Button>
+                          </Link>
+                          <Link href="/account">
+                            <Button className="w-full bg-gray-900 text-white font-bold rounded-xl">
+                              My Account
+                            </Button>
+                          </Link>
+                        </>
+                      )}
+                      <NavLogoutButton className="w-full mt-1" />
+                    </>
+                  ) : (
+                    <>
+                      <Link href="/login">
+                        <Button variant="outline" className="w-full border-gray-300 font-bold rounded-xl">
+                          Login
+                        </Button>
+                      </Link>
+                      <Link href="/signup">
+                        <Button className="w-full bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-xl shadow-md">
+                          Get Started
+                        </Button>
+                      </Link>
+                    </>
+                  )}
+                </div>
               </SheetContent>
             </Sheet>
           </div>
