@@ -64,13 +64,13 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         {/* Search Input */}
         <div className="relative flex-1 w-full max-w-md">
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#FF7A00]" />
+          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#FF4500]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search Order ID (SDH-...), Customer Name, Email, Phone..."
-            className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-[#FF7A00] outline-none transition-colors shadow-inner"
+            className="w-full bg-white border border-gray-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-400 focus:border-[#FF4500] outline-none transition-colors shadow-sm"
           />
         </div>
 
@@ -89,8 +89,8 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
               onClick={() => setStatusFilter(tab.id)}
               className={`px-3 py-2 rounded-xl transition-all whitespace-nowrap ${
                 statusFilter === tab.id
-                  ? 'bg-[#FF7A00] text-white shadow-md font-bold'
-                  : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10'
+                  ? 'bg-[#FF4500] text-white shadow-md font-bold'
+                  : 'bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200'
               }`}
             >
               {tab.label}
@@ -100,8 +100,8 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
       </div>
 
       {filteredOrders.length === 0 ? (
-        <div className="text-white/50 text-center py-12 flex flex-col items-center gap-4 bg-[#111111] rounded-2xl border border-white/10">
-          <ShoppingBag size={32} className="text-white/30" />
+        <div className="text-gray-400 text-center py-12 flex flex-col items-center gap-4 bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <ShoppingBag size={32} className="text-gray-300" />
           <p className="text-sm">No orders match your search criteria.</p>
         </div>
       ) : (
@@ -119,10 +119,10 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
           </div>
 
           {/* Desktop Table View (>= md) */}
-          <div className="hidden md:block bg-[#111111] rounded-2xl border border-white/10 overflow-hidden">
+          <div className="hidden md:block bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-white/80">
-                <thead className="bg-white/5 border-b border-white/10 text-xs text-white/60 uppercase">
+              <table className="w-full text-left text-gray-700">
+                <thead className="bg-gray-50 border-b border-gray-200 text-xs text-gray-500 uppercase">
                   <tr>
                     <th className="p-4">Branded Order ID</th>
                     <th className="p-4">Customer Info</th>
@@ -133,7 +133,7 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
                     <th className="p-4">Date & Time</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-gray-100">
                   {filteredOrders.map((order: any) => (
                     <OrderRow 
                       key={order._id.toString()} 

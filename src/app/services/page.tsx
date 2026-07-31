@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 export default async function ServicesPage() {
   await connectDB();
   await ensureServicesSeeded();
-  const services = await Service.find({ status: 'ACTIVE' }).sort({ category: 1, title: 1 });
+  const services = await Service.find({ status: 'ACTIVE' }).sort({ category: 1, title: 1 }).lean();
 
   // Group services by category
   const categories = services.reduce((acc: any, service: any) => {
@@ -27,24 +27,24 @@ export default async function ServicesPage() {
   }, {});
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4 md:px-8 bg-[#0a0a0a]">
+    <div className="min-h-screen pt-24 pb-20 px-4 md:px-8 bg-gray-50">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Service Catalog</h1>
-          <p className="text-xl text-white/60 max-w-2xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Service Catalog</h1>
+          <p className="text-xl text-gray-500 max-w-2xl mx-auto">
             Choose from our wide range of premium digital services. Add to cart and checkout securely.
           </p>
         </div>
 
         {Object.keys(categories).length === 0 ? (
-          <div className="text-center py-20 text-white/40">
+          <div className="text-center py-20 text-gray-400">
             No services currently active.
           </div>
         ) : (
           <div className="space-y-16">
             {Object.entries(categories).map(([category, items]: [string, any]) => (
               <div key={category}>
-                <h2 className="text-2xl font-bold text-white mb-6 pb-2 border-b border-white/10">{category}</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6 pb-2 border-b border-gray-200">{category}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {items.map((service: any) => (
                     <ServiceCard key={service._id.toString()} service={JSON.parse(JSON.stringify(service))} />

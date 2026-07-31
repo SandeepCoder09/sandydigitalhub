@@ -7,7 +7,7 @@ export const generateInvoice = (order: any, user: any) => {
 
   // Header
   doc.setFontSize(22);
-  doc.setTextColor(255, 122, 0); // #FF7A00
+  doc.setTextColor(255, 122, 0); // #FF4500
   doc.text('Sandy Digital Hub', 14, 20);
   
   doc.setFontSize(10);
@@ -56,11 +56,11 @@ export const generateInvoice = (order: any, user: any) => {
   
   doc.setFontSize(10);
   doc.text(`Subtotal: Rs. ${order.subtotal.toFixed(2)}`, 140, finalY + 10);
-  doc.text(`GST (18%): Rs. ${order.tax.toFixed(2)}`, 140, finalY + 17);
+  doc.text(`GST (18%): Rs. 0.00`, 140, finalY + 17);
   
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
-  doc.text(`Total: Rs. ${order.total.toFixed(2)}`, 140, finalY + 25);
+  doc.text(`Total: Rs. ${order.subtotal.toFixed(2)}`, 140, finalY + 25);
 
   doc.save(`Invoice_${order._id}.pdf`);
 };

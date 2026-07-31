@@ -17,10 +17,10 @@ export default async function AdminServices() {
 
   await connectDB();
   await ensureServicesSeeded();
-  const services = await Service.find().sort({ createdAt: -1 });
+  const services = await Service.find().sort({ createdAt: -1 }).lean();
 
   return (
-    <div className="min-h-screen pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 md:px-8 bg-[#0a0a0a]">
+    <div className="min-h-screen pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 md:px-8 bg-white">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 md:gap-8">
         
         {/* Sidebar Navigation */}

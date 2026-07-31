@@ -16,6 +16,7 @@ export async function Navbar() {
   const routes = [
     { name: "Home", path: "/" },
     { name: "Services", path: "/services" },
+    { name: "Image Tools", path: "/image-tools" },
     { name: "Portfolio", path: "https://sandycoder.vercel.app/portfolio", target: "_blank"},
     { name: "Pricing", path: "/pricing" },
     { name: "About", path: "/about" },

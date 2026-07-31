@@ -30,7 +30,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
     <>
       <motion.div 
         whileHover={{ y: -5 }}
-        className="bg-[#111111] rounded-2xl overflow-hidden border border-white/10 flex flex-col h-full hover:border-[#FF7A00] transition-colors"
+        className="bg-[#111111] rounded-2xl overflow-hidden border border-white/10 flex flex-col h-full hover:border-[#FF4500] transition-colors"
       >
         <div className="relative h-48 w-full bg-white/5">
           <Image 
@@ -43,14 +43,14 @@ export function ServiceCard({ service }: ServiceCardProps) {
         <div className="p-6 flex flex-col flex-grow">
           <div className="flex justify-between items-start mb-2">
             <h3 className="text-xl font-bold text-white">{service.title}</h3>
-            <span className="text-[#FF7A00] font-bold">₹{service.price}</span>
+            <span className="text-[#FF4500] font-bold">₹{service.price}</span>
           </div>
           <p className="text-[#F5F5F5]/60 text-sm mb-6 flex-grow">{service.description}</p>
           
           <div className="flex gap-3 mt-auto">
             <button 
               onClick={handleAddToCart}
-              className="flex-1 bg-[#FF7A00] hover:bg-[#FF7A00]/90 text-white py-2 rounded-xl font-medium transition-colors"
+              className="flex-1 bg-[#FF4500] hover:bg-[#FF4500]/90 text-white py-2 rounded-xl font-medium transition-colors"
             >
               Add to Cart
             </button>
@@ -101,7 +101,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                     <span className="text-xs font-bold uppercase tracking-wider text-white/50 mb-1 block">{service.category}</span>
                     <h2 className="text-2xl font-bold text-white">{service.title}</h2>
                   </div>
-                  <span className="text-2xl font-bold text-[#FF7A00]">₹{service.price}</span>
+                  <span className="text-2xl font-bold text-[#FF4500]">₹{service.price}</span>
                 </div>
                 
                 <p className="text-white/70 text-base leading-relaxed mb-8">
@@ -110,15 +110,15 @@ export function ServiceCard({ service }: ServiceCardProps) {
                 
                 <div className="space-y-3 mb-8">
                   <div className="flex items-center gap-3 text-white/80">
-                    <CheckCircle2 size={18} className="text-[#FF7A00]" />
+                    <CheckCircle2 size={18} className="text-[#FF4500]" />
                     <span>Premium quality guarantee</span>
                   </div>
                   <div className="flex items-center gap-3 text-white/80">
-                    <CheckCircle2 size={18} className="text-[#FF7A00]" />
+                    <CheckCircle2 size={18} className="text-[#FF4500]" />
                     <span>Fast turnaround time</span>
                   </div>
                   <div className="flex items-center gap-3 text-white/80">
-                    <CheckCircle2 size={18} className="text-[#FF7A00]" />
+                    <CheckCircle2 size={18} className="text-[#FF4500]" />
                     <span>Dedicated customer support</span>
                   </div>
                 </div>
@@ -128,7 +128,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                     handleAddToCart();
                     setShowDetails(false);
                   }}
-                  className="w-full bg-[#FF7A00] text-white py-4 rounded-xl font-bold hover:bg-[#FF7A00]/90 transition-colors"
+                  className="w-full bg-[#FF4500] text-white py-4 rounded-xl font-bold hover:bg-[#FF4500]/90 transition-colors"
                 >
                   Add to Cart - ₹{service.price}
                 </button>

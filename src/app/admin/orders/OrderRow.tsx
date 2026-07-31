@@ -47,7 +47,7 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
           <title>Work Order - ${brandedId}</title>
           <style>
             body { font-family: system-ui, sans-serif; padding: 24px; color: #111; line-height: 1.5; }
-            h1 { font-size: 20px; margin-bottom: 4px; color: #000; border-bottom: 2px solid #FF7A00; padding-bottom: 8px; }
+            h1 { font-size: 20px; margin-bottom: 4px; color: #000; border-bottom: 2px solid #FF4500; padding-bottom: 8px; }
             .meta { margin-top: 16px; margin-bottom: 20px; font-size: 14px; }
             .meta p { margin: 4px 0; }
             table { width: 100%; border-collapse: collapse; margin-top: 16px; margin-bottom: 16px; font-size: 13px; }
@@ -103,7 +103,7 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
           ` : ''}
 
           <div class="footer">
-            Sandy Digital Hub • Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India • Phone: +91 8756454282
+            Sandy Digital Hub • Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India - 212656 • Phone: +91 8756454282
           </div>
         </body>
       </html>
@@ -120,46 +120,46 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
 
   if (isMobile) {
     return (
-      <div className="bg-[#111111] p-4 rounded-xl border border-white/10 space-y-3">
+      <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm space-y-3">
         <div className="flex justify-between items-start border-b border-white/5 pb-2">
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-xs text-[#FF7A00] font-mono font-bold">{brandedId}</span>
+              <span className="text-xs text-[#FF4500] font-mono font-bold">{brandedId}</span>
               <CopyButton text={brandedId} />
             </div>
-            <div className="text-[11px] text-white/50 flex items-center gap-1 mt-0.5">
+            <div className="text-[11px] text-gray-400 flex items-center gap-1 mt-0.5">
               <Calendar size={12} />
               <span>{dateTimeStr}</span>
             </div>
           </div>
           <div className="text-right">
-            <span className="text-xs text-white/50">Total: </span>
-            <span className="text-sm font-bold text-[#FF7A00]">₹{order.total}</span>
+            <span className="text-xs text-gray-500">Total: </span>
+            <span className="text-sm font-bold text-[#FF4500]">₹{order.total}</span>
           </div>
         </div>
 
         <div className="space-y-1">
-          <div className="text-xs font-semibold text-white flex items-center gap-1.5">
-            <User size={13} className="text-[#FF7A00]" />
+          <div className="text-xs font-semibold text-gray-800 flex items-center gap-1.5">
+            <User size={13} className="text-[#FF4500]" />
             <span>{order.userId?.name || 'Customer'}</span>
           </div>
-          <div className="text-xs text-white/50 pl-5">{order.userId?.email} {order.userId?.mobile && `• ${order.userId.mobile}`}</div>
+          <div className="text-xs text-gray-500 pl-5">{order.userId?.email} {order.userId?.mobile && `• ${order.userId.mobile}`}</div>
         </div>
 
-        <div className="space-y-1 bg-white/5 p-2.5 rounded-lg border border-white/5">
-          <div className="text-[11px] text-white/40 font-semibold uppercase flex items-center gap-1">
-            <Tag size={12} className="text-[#FF7A00]" />
+        <div className="space-y-1 bg-gray-50 p-2.5 rounded-lg border border-gray-200">
+          <div className="text-[11px] text-gray-400 font-semibold uppercase flex items-center gap-1">
+            <Tag size={12} className="text-[#FF4500]" />
             Services
           </div>
-          <div className="text-xs font-medium text-white line-clamp-2">{servicesText}</div>
+          <div className="text-xs font-medium text-gray-800 line-clamp-2">{servicesText}</div>
           {order.notes && (
-            <div className="mt-1 text-xs text-[#FF7A00] flex items-center gap-1 font-medium">
+            <div className="mt-1 text-xs text-[#FF4500] flex items-center gap-1 font-medium">
               <FileText size={12} />
               <span className="line-clamp-1">Note: {order.notes}</span>
             </div>
           )}
           {order.documentUrl && (
-            <div className="mt-1 text-xs text-[#FF7A00]">
+            <div className="mt-1 text-xs text-[#FF4500]">
               <a href={order.documentUrl} download={order.documentName || 'attachment'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:underline">
                 <Paperclip size={12} />
                 <span>Doc: {order.documentName || 'Download File'}</span>
@@ -170,7 +170,7 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
 
         <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/5">
           <div>
-            <label className="block text-[10px] text-white/40 uppercase mb-1 font-semibold">Payment Status</label>
+            <label className="block text-[10px] text-gray-400 uppercase mb-1 font-semibold">Payment Status</label>
             <select 
               disabled={loading}
               className={`w-full text-xs font-bold rounded px-2 py-1.5 outline-none cursor-pointer ${
@@ -187,10 +187,10 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
           </div>
 
           <div>
-            <label className="block text-[10px] text-white/40 uppercase mb-1 font-semibold">Order Status</label>
+            <label className="block text-[10px] text-gray-400 uppercase mb-1 font-semibold">Order Status</label>
             <select 
               disabled={loading}
-              className="w-full bg-black/50 border border-white/20 rounded px-2 py-1.5 text-white/80 outline-none focus:border-[#FF7A00] text-xs font-semibold"
+              className="w-full bg-white border border-gray-300 rounded px-2 py-1.5 text-gray-700 outline-none focus:border-[#FF4500] text-xs font-semibold"
               value={orderStatus}
               onChange={(e) => handleUpdate('order', e.target.value)}
             >
@@ -207,7 +207,7 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
           {onInspect && (
             <button
               onClick={() => onInspect(order)}
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#FF7A00] text-white text-xs font-bold shadow hover:bg-[#FF7A00]/90 transition-colors"
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#FF4500] text-white text-xs font-bold shadow hover:bg-[#FF4500]/90 transition-colors"
             >
               <Eye size={13} />
               <span>Inspect & Track</span>
@@ -215,7 +215,7 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
           )}
           <button
             onClick={handlePrintWorkOrder}
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/10 text-white text-xs font-semibold hover:bg-white/20 transition-colors"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-100 text-gray-600 text-xs font-semibold hover:bg-gray-200 transition-colors"
           >
             <Printer size={12} />
             <span>Print Sheet</span>
@@ -226,15 +226,15 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
   }
 
   return (
-    <tr className="hover:bg-white/[0.02] transition-colors">
-      <td className="p-4 text-sm font-mono font-bold text-white whitespace-nowrap">
+    <tr className="hover:bg-gray-50 transition-colors">
+      <td className="p-4 text-sm font-mono font-bold text-gray-900 whitespace-nowrap">
         <div className="flex items-center gap-2">
           <span>{brandedId}</span>
           <CopyButton text={brandedId} />
           {onInspect && (
             <button
               onClick={() => onInspect(order)}
-              className="p-1 rounded bg-[#FF7A00]/20 text-[#FF7A00] hover:bg-[#FF7A00] hover:text-white transition-colors"
+              className="p-1 rounded bg-[#FF4500]/20 text-[#FF4500] hover:bg-[#FF4500] hover:text-white transition-colors"
               title="Inspect & Track Order"
             >
               <Eye size={13} />
@@ -243,22 +243,22 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
         </div>
       </td>
       <td className="p-4">
-        <div className="text-sm font-medium text-white">{order.userId?.name || 'Customer'}</div>
-        <div className="text-xs text-white/50">{order.userId?.email}</div>
-        {order.userId?.mobile && <div className="text-xs text-white/40">{order.userId?.mobile}</div>}
+        <div className="text-sm font-medium text-gray-800">{order.userId?.name || 'Customer'}</div>
+        <div className="text-xs text-gray-500">{order.userId?.email}</div>
+        {order.userId?.mobile && <div className="text-xs text-gray-400">{order.userId?.mobile}</div>}
       </td>
       <td className="p-4 max-w-[200px]">
-        <div className="text-sm font-medium text-white truncate">
+        <div className="text-sm font-medium text-gray-800 truncate">
           {servicesText}
         </div>
         {order.notes && (
-          <div className="mt-1 text-xs text-[#FF7A00] flex items-center gap-1 font-medium" title={order.notes}>
+          <div className="mt-1 text-xs text-[#FF4500] flex items-center gap-1 font-medium" title={order.notes}>
             <FileText size={12} />
             <span className="truncate max-w-[180px]">Note: {order.notes}</span>
           </div>
         )}
         {order.documentUrl && (
-          <div className="mt-1 text-xs text-[#FF7A00]">
+          <div className="mt-1 text-xs text-[#FF4500]">
             <a href={order.documentUrl} download={order.documentName || 'attachment'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:underline">
               <Paperclip size={12} />
               <span className="truncate max-w-[180px]">{order.documentName || 'Attached File'}</span>
@@ -266,7 +266,7 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
           </div>
         )}
       </td>
-      <td className="p-4 text-sm font-bold text-[#FF7A00]">₹{order.total}</td>
+      <td className="p-4 text-sm font-bold text-[#FF4500]">₹{order.total}</td>
       <td className="p-4">
         <div className="text-xs text-white/80 mb-1">
           {order.paymentMethod === 'online' ? (
@@ -292,7 +292,7 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
       <td className="p-4 text-sm">
         <select 
           disabled={loading}
-          className="bg-black/50 border border-white/20 rounded p-1.5 text-white/80 outline-none focus:border-[#FF7A00] text-xs font-semibold"
+          className="bg-white border border-gray-300 rounded p-1.5 text-gray-700 outline-none focus:border-[#FF4500] text-xs font-semibold"
           value={orderStatus}
           onChange={(e) => handleUpdate('order', e.target.value)}
         >
@@ -303,11 +303,11 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
           <option value="CANCELLED">CANCELLED</option>
         </select>
       </td>
-      <td className="p-4 text-xs text-white/60 whitespace-nowrap">
+      <td className="p-4 text-xs text-gray-500 whitespace-nowrap">
         <div>{dateTimeStr}</div>
         <button
           onClick={handlePrintWorkOrder}
-          className="mt-1.5 inline-flex items-center gap-1 px-2 py-1 rounded bg-white/10 text-white text-[11px] font-medium hover:bg-white/20 transition-colors"
+          className="mt-1.5 inline-flex items-center gap-1 px-2 py-1 rounded bg-gray-100 text-gray-600 text-[11px] font-medium hover:bg-gray-200 transition-colors"
         >
           <Printer size={12} />
           <span>Work Order</span>

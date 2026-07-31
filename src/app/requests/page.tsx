@@ -22,19 +22,19 @@ export default async function RequestsPage({ searchParams }: RequestsPageProps) 
   const { payment, from } = await searchParams;
 
   await connectDB();
-  const user = await User.findById(session.user.id);
-  const orders = await Order.find({ userId: session.user.id }).sort({ createdAt: -1 });
+  const user = await User.findById(session.user.id).lean();
+  const orders = await Order.find({ userId: session.user.id }).sort({ createdAt: -1 }).lean();
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-4 md:px-8 bg-[#0a0a0a]">
+    <div className="min-h-screen pt-32 pb-20 px-4 md:px-8 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">My Requested Services</h1>
-            <p className="text-white/60">Track your order statuses, payment updates, and download invoices.</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">My Requested Services</h1>
+            <p className="text-gray-500">Track your order statuses, payment updates, and download invoices.</p>
           </div>
           {from === 'account' && (
-            <Link href="/account" className="inline-flex items-center gap-2 text-white/70 hover:text-white bg-[#111111] px-4 py-2 rounded-xl border border-white/10 text-sm font-medium w-fit">
+            <Link href="/account" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 px-4 py-2 rounded-xl border border-gray-200 text-sm font-medium w-fit">
               <ArrowLeft size={16} />
               Account Settings
             </Link>
@@ -42,27 +42,27 @@ export default async function RequestsPage({ searchParams }: RequestsPageProps) 
         </div>
 
         {payment === 'pending' && (
-          <div className="mb-6 bg-yellow-500/10 border border-yellow-500/30 p-4 rounded-xl text-yellow-400 flex items-center gap-3">
-            <Clock size={20} />
+          <div className="mb-6 bg-yellow-50 border border-yellow-200 p-4 rounded-xl text-yellow-800 flex items-center gap-3">
+            <Clock size={20} className="text-yellow-600" />
             <span>Order created! Please visit Sandy Digital Hub shop to complete payment and collect your service.</span>
           </div>
         )}
 
         {payment === 'success' && (
-          <div className="mb-6 bg-green-500/10 border border-green-500/30 p-4 rounded-xl text-green-400 flex items-center gap-3">
-            <CheckCircle2 size={20} />
+          <div className="mb-6 bg-green-50 border border-green-200 p-4 rounded-xl text-green-800 flex items-center gap-3">
+            <CheckCircle2 size={20} className="text-green-600" />
             <span>Payment successful! Your requested service order has been confirmed.</span>
           </div>
         )}
 
         {payment === 'failed' && (
-          <div className="mb-6 bg-red-500/10 border border-red-500/30 p-4 rounded-xl text-red-400 flex items-center gap-3">
-            <XCircle size={20} />
+          <div className="mb-6 bg-red-50 border border-red-200 p-4 rounded-xl text-red-800 flex items-center gap-3">
+            <XCircle size={20} className="text-red-600" />
             <span>Payment failed or was cancelled. Please try again or contact support.</span>
           </div>
         )}
 
-        <div className="bg-[#111111] p-6 rounded-2xl border border-white/10">
+        <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
           <RequestsTable 
             orders={JSON.parse(JSON.stringify(orders))} 
             user={JSON.parse(JSON.stringify(user))} 

@@ -36,6 +36,7 @@ export function Footer() {
               <li><Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">Digital Services & PAN Card</Link></li>
               <li><Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">Digital Marketing & SEO</Link></li>
               <li><Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">Graphic Design</Link></li>
+              <li><Link href="/image-tools" className="text-muted-foreground hover:text-primary transition-colors font-medium">🖼️ Free Image Tools</Link></li>
             </ul>
           </div>
 
@@ -64,7 +65,7 @@ export function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 text-primary mr-3 shrink-0 mt-0.5" />
-                <span className="text-muted-foreground">Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India</span>
+                <span className="text-muted-foreground">Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India - 212656</span>
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 text-primary mr-3 shrink-0" />

@@ -15,8 +15,8 @@ export function AdminQuickTrackerBar() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-[#111111] via-[#1a1614] to-[#111111] p-4 sm:p-5 rounded-2xl border border-[#FF7A00]/30 shadow-lg mb-6 sm:mb-8 space-y-2">
-      <div className="flex items-center gap-2 text-xs font-bold text-[#FF7A00] uppercase tracking-wider">
+    <div className="bg-gradient-to-r from-orange-50 via-orange-50/70 to-orange-50 p-4 sm:p-5 rounded-2xl border border-orange-200 shadow-sm mb-6 sm:mb-8 space-y-2">
+      <div className="flex items-center gap-2 text-xs font-bold text-[#FF4500] uppercase tracking-wider">
         <Search size={14} />
         <span>Instant Order Tracking & WhatsApp Request Lookup</span>
       </div>
@@ -26,11 +26,11 @@ export function AdminQuickTrackerBar() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Paste WhatsApp Order ID (e.g. SDH-20260711-E9AB1A or E9AB1A)..."
-          className="flex-1 bg-black/60 border border-white/10 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder:text-white/40 outline-none focus:border-[#FF7A00] transition-colors font-mono"
+          className="flex-1 bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-gray-700 placeholder:text-gray-400 outline-none focus:border-[#FF4500] transition-colors font-mono shadow-sm"
         />
         <button
           type="submit"
-          className="px-5 py-2.5 rounded-xl bg-[#FF7A00] hover:bg-[#FF7A00]/90 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all shadow-md shrink-0"
+          className="px-5 py-2.5 rounded-xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-gray-900 font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all shadow-md shrink-0"
         >
           <span>Track Order</span>
           <ArrowRight size={15} />

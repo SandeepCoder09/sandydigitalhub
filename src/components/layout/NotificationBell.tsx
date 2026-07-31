@@ -13,36 +13,48 @@ export function NotificationBell() {
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
-    if (!session?.user) return;
+    if (!session?.user) {
+      setNotifications([]);
+      setUnreadCount(0);
+      return;
+    }
+
+    let intervalId: NodeJS.Timeout | null = null;
 
     if (session.user.role === 'ADMIN') {
+      const fetchAdminNotifications = async () => {
+        if (document.hidden) return;
+
+        try {
+          const res = await fetch('/api/admin/chat');
+          if (res.ok) {
+            const data = await res.json();
+            const alerts = (data.sessions || []).filter((s: any) => s.needsAdmin && !s.adminRead);
+            setNotifications(alerts.map((a: any) => ({
+              id: a._id,
+              brandedId: 'Live Agent Needed 🚨',
+              status: 'LIVE_AGENT_REQUEST',
+              title: `${a.lastSender || 'Customer'} requested to talk with a live Sandy Digital Hub agent!`,
+              updatedAt: a.updatedAt,
+            })));
+            setUnreadCount(data.alertCount || 0);
+          } else if (res.status === 401 || res.status === 403) {
+            if (intervalId) clearInterval(intervalId);
+          }
+        } catch (err) {
+          console.error('Failed to fetch admin notifications:', err);
+        }
+      };
+
       fetchAdminNotifications();
-      const interval = setInterval(fetchAdminNotifications, 5000);
-      return () => clearInterval(interval);
+      intervalId = setInterval(fetchAdminNotifications, 20000); // Smart 20s interval
+      return () => {
+        if (intervalId) clearInterval(intervalId);
+      };
     } else {
       fetchCustomerOrders();
     }
   }, [session]);
-
-  const fetchAdminNotifications = async () => {
-    try {
-      const res = await fetch('/api/admin/chat');
-      if (res.ok) {
-        const data = await res.json();
-        const alerts = (data.sessions || []).filter((s: any) => s.needsAdmin && !s.adminRead);
-        setNotifications(alerts.map((a: any) => ({
-          id: a._id,
-          brandedId: 'Live Agent Needed 🚨',
-          status: 'LIVE_AGENT_REQUEST',
-          title: `${a.lastSender || 'Customer'} requested to talk with a live Sandy Digital Hub agent!`,
-          updatedAt: a.updatedAt,
-        })));
-        setUnreadCount(data.alertCount || 0);
-      }
-    } catch (err) {
-      console.error('Failed to fetch admin notifications:', err);
-    }
-  };
 
   const fetchCustomerOrders = async () => {
     try {
@@ -83,7 +95,7 @@ export function NotificationBell() {
       >
         <Bell size={18} className="text-foreground" />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#FF7A00] text-white text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-background animate-pulse">
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#FF4500] text-white text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-background animate-pulse">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
@@ -101,13 +113,13 @@ export function NotificationBell() {
             {/* Header */}
             <div className="p-4 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Bell size={16} className="text-[#FF7A00]" />
+                <Bell size={16} className="text-[#FF4500]" />
                 <span className="font-bold text-sm">
                   {isAdmin ? 'Admin Live Support Notifications' : 'Order Status Updates'}
                 </span>
               </div>
               {unreadCount > 0 && (
-                <span className="text-[10px] font-bold bg-[#FF7A00]/20 text-[#FF7A00] px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-bold bg-[#FF4500]/20 text-[#FF4500] px-2 py-0.5 rounded-full">
                   {unreadCount} {isAdmin ? 'Alerts' : 'Active'}
                 </span>
               )}
@@ -148,7 +160,7 @@ export function NotificationBell() {
                     </div>
                     <div className="flex-1 space-y-1">
                       <div className="flex justify-between items-center text-xs">
-                        <span className="font-mono font-bold text-[#FF7A00]">{n.brandedId}</span>
+                        <span className="font-mono font-bold text-[#FF4500]">{n.brandedId}</span>
                         <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
                           n.status === 'LIVE_AGENT_REQUEST' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
                           n.status === 'COMPLETED' ? 'bg-green-500/20 text-green-400' :
@@ -169,7 +181,7 @@ export function NotificationBell() {
               <Link
                 href={isAdmin ? '/admin/chat' : '/requests'}
                 onClick={() => setIsOpen(false)}
-                className="text-xs text-[#FF7A00] font-bold hover:underline inline-flex items-center gap-1"
+                className="text-xs text-[#FF4500] font-bold hover:underline inline-flex items-center gap-1"
               >
                 <span>{isAdmin ? 'Open Live Support Chat Inbox' : 'View All My Requests'}</span>
                 <ArrowRight size={13} />

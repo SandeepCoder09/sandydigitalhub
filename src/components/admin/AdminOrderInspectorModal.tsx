@@ -85,7 +85,7 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
           <title>Work Order - ${brandedId}</title>
           <style>
             body { font-family: system-ui, sans-serif; padding: 24px; color: #111; line-height: 1.5; }
-            h1 { font-size: 20px; margin-bottom: 4px; color: #000; border-bottom: 2px solid #FF7A00; padding-bottom: 8px; }
+            h1 { font-size: 20px; margin-bottom: 4px; color: #000; border-bottom: 2px solid #FF4500; padding-bottom: 8px; }
             .meta { margin-top: 16px; margin-bottom: 20px; font-size: 14px; }
             .meta p { margin: 4px 0; }
             table { width: 100%; border-collapse: collapse; margin-top: 16px; margin-bottom: 16px; font-size: 13px; }
@@ -162,23 +162,23 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
     : `https://wa.me/?text=${encodeURIComponent(currentStatusMsg)}`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm">
-      <div className="bg-[#111111] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto shadow-2xl text-white">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-sm">
+      <div className="bg-white border border-gray-200 rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto shadow-2xl text-gray-900">
         
         {/* Modal Header */}
-        <div className="sticky top-0 bg-[#111111]/95 backdrop-blur p-4 sm:p-6 border-b border-white/10 flex items-center justify-between z-10">
+        <div className="sticky top-0 bg-white/95 backdrop-blur p-4 sm:p-6 border-b border-gray-200 flex items-center justify-between z-10">
           <div>
-            <div className="text-[10px] sm:text-xs font-semibold text-[#FF7A00] tracking-wider uppercase mb-0.5 sm:mb-1">
+            <div className="text-[10px] sm:text-xs font-semibold text-[#FF4500] tracking-wider uppercase mb-0.5 sm:mb-1">
               Admin Order Inspector & Tracker
             </div>
             <div className="flex items-center gap-2">
-              <h2 className="text-base sm:text-xl font-bold font-mono text-white">{brandedId}</h2>
+              <h2 className="text-base sm:text-xl font-bold font-mono text-gray-900">{brandedId}</h2>
               <CopyButton text={brandedId} />
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 sm:p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+            className="p-1.5 sm:p-2 rounded-xl bg-gray-50 hover:bg-gray-200 text-gray-600 hover:text-gray-900 transition-colors"
           >
             <X size={18} />
           </button>
@@ -188,20 +188,20 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
         <div className="p-4 sm:p-6 space-y-5">
           
           {/* Customer Contact Card */}
-          <div className="bg-white/5 p-4 rounded-2xl border border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div className="bg-gray-50 p-4 rounded-2xl border border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div className="space-y-1">
               <div className="flex items-center gap-2 font-bold text-white text-base">
-                <User size={16} className="text-[#FF7A00]" />
+                <User size={16} className="text-[#FF4500]" />
                 <span>{customerName}</span>
               </div>
-              <div className="text-xs text-white/60 flex items-center gap-3 flex-wrap">
+              <div className="text-xs text-gray-500 flex items-center gap-3 flex-wrap">
                 {customerEmail && (
                   <span className="flex items-center gap-1">
                     <Mail size={12} /> {customerEmail}
                   </span>
                 )}
                 {customerMobile && (
-                  <span className="flex items-center gap-1 text-[#FF7A00] font-medium">
+                  <span className="flex items-center gap-1 text-[#FF4500] font-medium">
                     <Phone size={12} /> {customerMobile}
                   </span>
                 )}
@@ -223,13 +223,13 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
           </div>
 
           {/* Quick Status Update Controllers */}
-          <div className="bg-white/5 p-4 rounded-2xl border border-white/10 space-y-3">
-            <div className="text-xs font-bold text-white/70 uppercase tracking-wider">
+          <div className="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-3">
+            <div className="text-xs font-bold text-gray-600 uppercase tracking-wider">
               Quick Status Management
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs text-white/50 mb-1 font-semibold">Payment Status</label>
+                <label className="block text-xs text-gray-400 mb-1 font-semibold">Payment Status</label>
                 <select
                   disabled={loading}
                   value={activeOrder.paymentStatus}
@@ -246,12 +246,12 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
               </div>
 
               <div>
-                <label className="block text-xs text-white/50 mb-1 font-semibold">Order Status</label>
+                <label className="block text-xs text-gray-400 mb-1 font-semibold">Order Status</label>
                 <select
                   disabled={loading}
                   value={activeOrder.orderStatus}
                   onChange={(e) => handleStatusChange('order', e.target.value)}
-                  className="w-full bg-black/60 border border-white/20 rounded-xl px-3 py-2.5 text-white font-semibold outline-none focus:border-[#FF7A00] text-xs"
+                  className="w-full bg-white border border-gray-300 rounded-xl px-3 py-2.5 text-white font-semibold outline-none focus:border-[#FF4500] text-xs"
                 >
                   <option value="PENDING">PENDING</option>
                   <option value="AWAITING_CUSTOMER_VISIT">AWAITING VISIT</option>
@@ -274,7 +274,7 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
             <textarea
               value={currentStatusMsg}
               onChange={(e) => setCustomMsg(e.target.value)}
-              className="w-full bg-black/60 text-white text-xs p-3 rounded-xl border border-green-500/20 outline-none focus:border-green-500 min-h-[70px] resize-y"
+              className="w-full bg-white text-gray-700 text-xs p-3 rounded-xl border border-green-500/20 outline-none focus:border-green-500 min-h-[70px] resize-y"
               placeholder="Custom status message for customer..."
             />
             <div className="flex justify-end">
@@ -292,25 +292,25 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
 
           {/* Requested Services Summary */}
           <div>
-            <h4 className="text-xs font-semibold text-white/70 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <Tag size={13} className="text-[#FF7A00]" />
+            <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <Tag size={13} className="text-[#FF4500]" />
               Requested Services List
             </h4>
-            <div className="bg-white/5 rounded-xl border border-white/5 overflow-x-auto">
-              <table className="w-full text-left text-xs sm:text-sm text-white/80">
-                <thead className="bg-white/5 border-b border-white/5 text-[10px] text-white/50 uppercase">
+            <div className="bg-gray-50 rounded-xl border border-gray-100 overflow-x-auto">
+              <table className="w-full text-left text-xs sm:text-sm text-gray-700">
+                <thead className="bg-gray-50 border-b border-gray-100 text-[10px] text-gray-400 uppercase">
                   <tr>
                     <th className="p-3">Service Name</th>
                     <th className="p-3 text-center">Qty</th>
                     <th className="p-3 text-right">Price</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5 text-xs">
+                <tbody className="divide-y divide-gray-100 text-xs">
                   {activeOrder.services?.map((s: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="p-3 font-medium text-white">{s.title}</td>
-                      <td className="p-3 text-center text-white/60">{s.quantity}</td>
-                      <td className="p-3 text-right font-bold text-[#FF7A00]">₹{s.price * s.quantity}</td>
+                      <td className="p-3 font-medium text-gray-900">{s.title}</td>
+                      <td className="p-3 text-center text-gray-500">{s.quantity}</td>
+                      <td className="p-3 text-right font-bold text-[#FF4500]">₹{s.price * s.quantity}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -320,19 +320,19 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
 
           {/* Instructions & Attachments */}
           {activeOrder.notes && (
-            <div className="bg-white/5 p-3.5 rounded-xl border border-white/5 space-y-1">
-              <div className="text-[11px] font-semibold text-white/50 uppercase flex items-center gap-1">
-                <FileText size={12} className="text-[#FF7A00]" />
+            <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-100 space-y-1">
+              <div className="text-[11px] font-semibold text-gray-400 uppercase flex items-center gap-1">
+                <FileText size={12} className="text-[#FF4500]" />
                 <span>Client Notes</span>
               </div>
-              <p className="text-xs text-white/90 whitespace-pre-wrap">{activeOrder.notes}</p>
+              <p className="text-xs text-gray-800 whitespace-pre-wrap">{activeOrder.notes}</p>
             </div>
           )}
 
           {activeOrder.documentUrl && (
-            <div className="bg-white/5 p-3.5 rounded-xl border border-white/5 space-y-1">
-              <div className="text-[11px] font-semibold text-white/50 uppercase flex items-center gap-1">
-                <Paperclip size={12} className="text-[#FF7A00]" />
+            <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-100 space-y-1">
+              <div className="text-[11px] font-semibold text-gray-400 uppercase flex items-center gap-1">
+                <Paperclip size={12} className="text-[#FF4500]" />
                 <span>Attached Client File</span>
               </div>
               <a
@@ -340,7 +340,7 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
                 download={activeOrder.documentName || 'attachment'}
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs text-[#FF7A00] font-medium hover:underline inline-flex items-center gap-1"
+                className="text-xs text-[#FF4500] font-medium hover:underline inline-flex items-center gap-1"
               >
                 📎 {activeOrder.documentName || 'Download File'}
               </a>
@@ -349,17 +349,17 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
         </div>
 
         {/* Modal Footer */}
-        <div className="sticky bottom-0 bg-[#111111]/95 backdrop-blur border-t border-white/10 p-4 sm:p-6 flex justify-between items-center gap-3">
+        <div className="sticky bottom-0 bg-white/95 backdrop-blur border-t border-gray-200 p-4 sm:p-6 flex justify-between items-center gap-3">
           <button
             onClick={handlePrintWorkOrder}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 text-white text-xs font-bold hover:bg-white/20 transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 text-gray-700 text-xs font-bold hover:bg-gray-200 transition-colors"
           >
             <Printer size={14} />
             <span>Print Work Order</span>
           </button>
           <button
             onClick={onClose}
-            className="px-6 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-colors"
+            className="px-6 py-2 rounded-xl bg-white/10 hover:bg-gray-200 text-gray-700 text-xs font-bold transition-colors"
           >
             Close
           </button>

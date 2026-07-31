@@ -320,14 +320,14 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
 
   return (
     <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-3 sm:p-4 backdrop-blur-sm">
-      <div className="bg-[#111111] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto shadow-2xl">
-        <div className="sticky top-0 bg-[#111111]/95 backdrop-blur p-4 sm:p-6 border-b border-white/10 flex justify-between items-center z-10">
-          <h2 className="text-xl sm:text-2xl font-bold text-white">
+      <div className="bg-white border border-gray-200 rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto shadow-2xl">
+        <div className="sticky top-0 bg-white/95 backdrop-blur p-4 sm:p-6 border-b border-gray-200 flex justify-between items-center z-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
             {initialData ? 'Edit Service' : 'Add New Service'}
           </h2>
           <button 
             onClick={onClose}
-            className="text-white/60 hover:text-white transition-colors p-2 rounded-lg bg-white/5"
+            className="text-gray-500 hover:text-gray-900 transition-colors p-2 rounded-lg bg-gray-50"
           >
             <X size={20} />
           </button>
@@ -341,15 +341,15 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
           )}
 
           {/* Preset Quick Select Bar */}
-          <div className="bg-gradient-to-r from-[#FF7A00]/20 to-orange-600/10 p-4 rounded-2xl border border-[#FF7A00]/30 space-y-2">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-[#FF7A00] uppercase tracking-wider">
+          <div className="bg-gradient-to-r from-[#FF4500]/20 to-orange-600/10 p-4 rounded-2xl border border-[#FF4500]/30 space-y-2">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-[#FF4500] uppercase tracking-wider">
               <Sparkles size={15} />
               <span>Quick Select Service Preset</span>
             </div>
             <select
               value={selectedPresetId}
               onChange={(e) => handlePresetSelect(e.target.value)}
-              className="w-full bg-[#0a0a0a] border border-white/20 rounded-xl px-3.5 py-2.5 text-white text-xs sm:text-sm font-medium outline-none focus:border-[#FF7A00] transition-colors"
+              className="w-full bg-gray-50 border border-gray-300 rounded-xl px-3.5 py-2.5 text-gray-700 text-xs sm:text-sm font-medium outline-none focus:border-[#FF4500] transition-colors"
             >
               <option value="">Select a service preset to auto-fill Title, Price & Description...</option>
               {SERVICE_PRESETS.map((preset) => (
@@ -365,12 +365,12 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
             
             {/* Title with Preset Dropdown & Custom Input */}
             <div className="space-y-2">
-              <label className="text-xs sm:text-sm font-medium text-white/80">Service Title</label>
+              <label className="text-xs sm:text-sm font-medium text-gray-700">Service Title</label>
               <div className="space-y-2">
                 <select
                   value={SERVICE_PRESETS.some(p => p.title === formData.title) ? SERVICE_PRESETS.find(p => p.title === formData.title)?.id : 'custom'}
                   onChange={(e) => handlePresetSelect(e.target.value)}
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-3.5 py-2 text-white/80 text-xs focus:outline-none focus:border-[#FF7A00] transition-colors"
+                  className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2 text-gray-700 text-xs focus:outline-none focus:border-[#FF4500] transition-colors"
                 >
                   <option value="custom">-- Choose Preset Title or Custom --</option>
                   {SERVICE_PRESETS.map((preset) => (
@@ -385,27 +385,27 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
                   required
                   value={formData.title}
                   onChange={handleChange}
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#FF7A00] transition-colors"
+                  className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-700 text-sm focus:outline-none focus:border-[#FF4500] transition-colors"
                   placeholder="e.g. Website Development"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs sm:text-sm font-medium text-white/80">Category</label>
+              <label className="text-xs sm:text-sm font-medium text-gray-700">Category</label>
               <input
                 type="text"
                 name="category"
                 required
                 value={formData.category}
                 onChange={handleChange}
-                className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#FF7A00] transition-colors"
+                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-700 text-sm focus:outline-none focus:border-[#FF4500] transition-colors"
                 placeholder="e.g. Web Development"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs sm:text-sm font-medium text-white/80">Price (₹)</label>
+              <label className="text-xs sm:text-sm font-medium text-gray-700">Price (₹)</label>
               <input
                 type="number"
                 name="price"
@@ -413,18 +413,18 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
                 min="0"
                 value={formData.price}
                 onChange={handleChange}
-                className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#FF7A00] transition-colors"
+                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-700 text-sm focus:outline-none focus:border-[#FF4500] transition-colors"
                 placeholder="e.g. 4999"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs sm:text-sm font-medium text-white/80">Status</label>
+              <label className="text-xs sm:text-sm font-medium text-gray-700">Status</label>
               <select
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#FF7A00] transition-colors"
+                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-700 text-sm focus:outline-none focus:border-[#FF4500] transition-colors"
               >
                 <option value="ACTIVE">ACTIVE</option>
                 <option value="INACTIVE">INACTIVE</option>
@@ -432,20 +432,20 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
             </div>
 
             {/* Service Photo Upload & Gallery Selection */}
-            <div className="space-y-3 md:col-span-2 bg-white/5 p-4 rounded-2xl border border-white/10">
+            <div className="space-y-3 md:col-span-2 bg-gray-50 p-4 rounded-2xl border border-gray-200">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                 <label className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
-                  <ImageIcon size={16} className="text-[#FF7A00]" />
+                  <ImageIcon size={16} className="text-[#FF4500]" />
                   Service Photo Management
                 </label>
 
                 {/* Tab Controls */}
-                <div className="flex items-center gap-1 bg-black/50 p-1 rounded-xl text-[11px] font-semibold">
+                <div className="flex items-center gap-1 bg-white p-1 rounded-xl text-[11px] font-semibold">
                   <button
                     type="button"
                     onClick={() => setImageMode('upload')}
                     className={`px-2.5 py-1 rounded-lg transition-all inline-flex items-center gap-1 ${
-                      imageMode === 'upload' ? 'bg-[#FF7A00] text-white font-bold' : 'text-white/60 hover:text-white'
+                      imageMode === 'upload' ? 'bg-[#FF4500] text-gray-900 font-bold' : 'text-gray-500 hover:text-gray-900'
                     }`}
                   >
                     <Upload size={12} />
@@ -455,7 +455,7 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
                     type="button"
                     onClick={() => setImageMode('gallery')}
                     className={`px-2.5 py-1 rounded-lg transition-all inline-flex items-center gap-1 ${
-                      imageMode === 'gallery' ? 'bg-[#FF7A00] text-white font-bold' : 'text-white/60 hover:text-white'
+                      imageMode === 'gallery' ? 'bg-[#FF4500] text-gray-900 font-bold' : 'text-gray-500 hover:text-gray-900'
                     }`}
                   >
                     <ImageIcon size={12} />
@@ -465,7 +465,7 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
                     type="button"
                     onClick={() => setImageMode('url')}
                     className={`px-2.5 py-1 rounded-lg transition-all inline-flex items-center gap-1 ${
-                      imageMode === 'url' ? 'bg-[#FF7A00] text-white font-bold' : 'text-white/60 hover:text-white'
+                      imageMode === 'url' ? 'bg-[#FF4500] text-gray-900 font-bold' : 'text-gray-500 hover:text-gray-900'
                     }`}
                   >
                     <LinkIcon size={12} />
@@ -476,7 +476,7 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
 
               {/* Mode 1: File Upload */}
               {imageMode === 'upload' && (
-                <div className="bg-black/40 p-4 rounded-xl border border-dashed border-white/20 text-center space-y-3">
+                <div className="bg-gray-50 p-4 rounded-xl border border-dashed border-gray-300 text-center space-y-3">
                   <input
                     type="file"
                     id="service-photo-input"
@@ -486,7 +486,7 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
                   />
                   <label
                     htmlFor="service-photo-input"
-                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#FF7A00] hover:bg-[#FF7A00]/90 text-white rounded-xl text-xs font-bold cursor-pointer transition-colors shadow-md"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#FF4500] hover:bg-[#FF4500]/90 text-white rounded-xl text-xs font-bold cursor-pointer transition-colors shadow-md"
                   >
                     {isUploading ? (
                       <>
@@ -500,7 +500,7 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
                       </>
                     )}
                   </label>
-                  <p className="text-[11px] text-white/40">Supports JPG, PNG, WEBP, SVG (Max 5MB)</p>
+                  <p className="text-[11px] text-gray-400">Supports JPG, PNG, WEBP, SVG (Max 5MB)</p>
                 </div>
               )}
 
@@ -508,11 +508,11 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
               {imageMode === 'gallery' && (
                 <div className="space-y-3">
                   {existingImages.length === 0 ? (
-                    <div className="text-xs text-white/40 p-4 bg-black/40 rounded-xl text-center">
+                    <div className="text-xs text-gray-400 p-4 bg-gray-50 rounded-xl text-center">
                       No uploaded photos found in server backend. Upload one using the "Upload" tab.
                     </div>
                   ) : (
-                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 max-h-48 overflow-y-auto p-2 bg-black/40 rounded-xl border border-white/10">
+                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 max-h-48 overflow-y-auto p-2 bg-gray-50 rounded-xl border border-gray-200">
                       {existingImages.map((imgPath, idx) => {
                         const isSelected = formData.image === imgPath;
                         return (
@@ -520,7 +520,7 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
                             key={idx}
                             onClick={() => setFormData(prev => ({ ...prev, image: imgPath }))}
                             className={`relative h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all ${
-                              isSelected ? 'border-[#FF7A00] ring-2 ring-[#FF7A00]/30 scale-95' : 'border-white/10 hover:border-white/30'
+                              isSelected ? 'border-[#FF4500] ring-2 ring-[#FF4500]/30 scale-95' : 'border-gray-200 hover:border-white/30'
                             }`}
                           >
                             <Image
@@ -531,7 +531,7 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
                               unoptimized
                             />
                             {isSelected && (
-                              <div className="absolute top-1 right-1 bg-[#FF7A00] text-white rounded-full p-0.5 shadow">
+                              <div className="absolute top-1 right-1 bg-[#FF4500] text-white rounded-full p-0.5 shadow">
                                 <Check size={10} />
                               </div>
                             )}
@@ -551,7 +551,7 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
                     name="image"
                     value={formData.image}
                     onChange={handleChange}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#FF7A00] transition-colors"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-700 text-sm focus:outline-none focus:border-[#FF4500] transition-colors"
                     placeholder="https://example.com/image.jpg"
                   />
                 </div>
@@ -560,10 +560,10 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
               {/* Live Preview Box */}
               {formData.image && (
                 <div className="pt-2">
-                  <div className="text-[11px] font-semibold text-white/60 mb-1 flex justify-between items-center">
-                    <span>Selected Photo Path: <code className="text-[#FF7A00] font-mono">{formData.image}</code></span>
+                  <div className="text-[11px] font-semibold text-gray-500 mb-1 flex justify-between items-center">
+                    <span>Selected Photo Path: <code className="text-[#FF4500] font-mono">{formData.image}</code></span>
                   </div>
-                  <div className="w-full h-36 bg-black/60 rounded-xl border border-white/10 overflow-hidden flex items-center justify-center relative">
+                  <div className="w-full h-36 bg-white rounded-xl border border-gray-200 overflow-hidden flex items-center justify-center relative">
                     <Image 
                       src={formData.image} 
                       alt="Preview" 
@@ -582,8 +582,8 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
             {/* Description Field */}
             <div className="space-y-2 md:col-span-2">
               <div className="flex justify-between items-center">
-                <label className="text-xs sm:text-sm font-medium text-white/80">Description</label>
-                <span className="text-[11px] text-white/40">Select preset above to auto-fill description</span>
+                <label className="text-xs sm:text-sm font-medium text-gray-700">Description</label>
+                <span className="text-[11px] text-gray-400">Select preset above to auto-fill description</span>
               </div>
               <textarea
                 name="description"
@@ -591,25 +591,25 @@ export function ServiceFormModal({ isOpen, onClose, initialData, onSuccess }: Pr
                 rows={4}
                 value={formData.description}
                 onChange={handleChange}
-                className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#FF7A00] transition-colors resize-y"
+                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-700 text-sm focus:outline-none focus:border-[#FF4500] transition-colors resize-y"
                 placeholder="Service description..."
               />
             </div>
           </div>
 
-          <div className="pt-4 border-t border-white/10 flex justify-end gap-4">
+          <div className="pt-4 border-t border-gray-200 flex justify-end gap-4">
             <button
               type="button"
               onClick={onClose}
               disabled={isLoading}
-              className="px-6 py-3 rounded-xl font-medium text-white text-sm hover:bg-white/5 transition-colors disabled:opacity-50"
+              className="px-6 py-3 rounded-xl font-medium text-gray-700 text-sm hover:bg-gray-100 transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isLoading || !formData.image}
-              className="px-6 py-3 rounded-xl font-medium bg-[#FF7A00] text-white text-sm hover:bg-[#FF7A00]/90 transition-colors flex items-center gap-2 disabled:opacity-50"
+              className="px-6 py-3 rounded-xl font-medium bg-[#FF4500] text-gray-700 text-sm hover:bg-[#FF4500]/90 transition-colors flex items-center gap-2 disabled:opacity-50"
             >
               {isLoading ? (
                 <>

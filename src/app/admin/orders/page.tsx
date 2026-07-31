@@ -16,10 +16,10 @@ export default async function AdminOrders() {
   }
 
   await connectDB();
-  const orders = await Order.find().sort({ createdAt: -1 }).populate('userId', 'name email mobile');
+  const orders = await Order.find().sort({ createdAt: -1 }).populate('userId', 'name email mobile').lean();
 
   return (
-    <div className="min-h-screen pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 md:px-8 bg-[#0a0a0a]">
+    <div className="min-h-screen pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 md:px-8 bg-white">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 md:gap-8">
         
         {/* Sidebar Navigation */}
@@ -27,8 +27,8 @@ export default async function AdminOrders() {
 
         {/* Main Content */}
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">All Customer Orders</h1>
-          <Suspense fallback={<div className="text-white/50 text-sm py-8">Loading order lookup...</div>}>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">All Customer Orders</h1>
+          <Suspense fallback={<div className="text-gray-400 text-sm py-8">Loading order lookup...</div>}>
             <AdminOrdersTable initialOrders={JSON.parse(JSON.stringify(orders))} />
           </Suspense>
         </div>

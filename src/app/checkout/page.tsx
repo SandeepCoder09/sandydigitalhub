@@ -92,7 +92,7 @@ export default function CheckoutPage() {
           contact: '',
         },
         theme: {
-          color: '#FF7A00',
+          color: '#FF4500',
         },
       };
 
@@ -112,7 +112,7 @@ export default function CheckoutPage() {
       <div className="min-h-screen pt-32 pb-20 px-4 md:px-8 bg-[#0a0a0a] flex items-center justify-center">
         <div className="text-center text-white">
           <h2 className="text-2xl font-bold mb-4">Your Cart is Empty</h2>
-          <button onClick={() => router.push('/services')} className="text-[#FF7A00] underline hover:text-[#FF7A00]/80">Browse Services</button>
+          <button onClick={() => router.push('/services')} className="text-[#FF4500] underline hover:text-[#FF4500]/80">Browse Services</button>
         </div>
       </div>
     );
@@ -138,13 +138,16 @@ export default function CheckoutPage() {
                 <span>Subtotal</span>
                 <span>₹{getSubtotal().toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-white/60">
+              <div className="flex justify-between text-green-400 font-semibold text-sm">
                 <span>GST (18%)</span>
-                <span>₹{getTax().toFixed(2)}</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="line-through text-white/40 text-xs font-normal">₹{(getSubtotal() * 0.18).toFixed(2)}</span>
+                  <span>₹0.00</span>
+                </div>
               </div>
               <div className="flex justify-between text-white font-bold text-xl pt-2 border-t border-white/10">
                 <span>Total</span>
-                <span className="text-[#FF7A00]">₹{getTotal().toFixed(2)}</span>
+                <span className="text-[#FF4500]">₹{getTotal().toFixed(2)}</span>
               </div>
             </div>
 
@@ -158,7 +161,7 @@ export default function CheckoutPage() {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Enter any specific requirements, preferences, or notes for your requested service..."
-                  className="w-full bg-[#0a0a0a] text-white p-3.5 rounded-xl border border-white/10 focus:border-[#FF7A00] outline-none text-sm min-h-[90px] resize-y transition-colors"
+                  className="w-full bg-[#0a0a0a] text-white p-3.5 rounded-xl border border-white/10 focus:border-[#FF4500] outline-none text-sm min-h-[90px] resize-y transition-colors"
                 />
               </div>
 
@@ -181,7 +184,7 @@ export default function CheckoutPage() {
                     Choose File (PDF/Image)
                   </label>
                   {documentName ? (
-                    <span className="text-xs text-[#FF7A00] font-medium truncate max-w-xs">
+                    <span className="text-xs text-[#FF4500] font-medium truncate max-w-xs">
                       ✓ {documentName}
                     </span>
                   ) : (
@@ -203,20 +206,20 @@ export default function CheckoutPage() {
             <div
               onClick={() => setPaymentMethod('online')}
               className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-start gap-4 ${paymentMethod === 'online'
-                  ? 'border-[#FF7A00] bg-[#FF7A00]/10'
+                  ? 'border-[#FF4500] bg-[#FF4500]/10'
                   : 'border-white/10 bg-[#111111] hover:border-white/30'
                 }`}
             >
               <div className="mt-1">
                 {paymentMethod === 'online' ? (
-                  <CheckCircle2 className="text-[#FF7A00]" size={24} />
+                  <CheckCircle2 className="text-[#FF4500]" size={24} />
                 ) : (
                   <Circle className="text-white/40" size={24} />
                 )}
               </div>
               <div className="flex-1">
                 <h3 className={`font-bold text-lg mb-1 flex items-center gap-2 ${paymentMethod === 'online' ? 'text-white' : 'text-white/80'}`}>
-                  Pay Online <span className="text-xs bg-[#FF7A00] text-white px-2 py-0.5 rounded-full font-normal">Recommended</span>
+                  Pay Online <span className="text-xs bg-[#FF4500] text-white px-2 py-0.5 rounded-full font-normal">Recommended</span>
                 </h3>
                 <p className="text-white/60 text-sm mb-3">Secure payment via UPI, Credit/Debit Cards, NetBanking.</p>
                 {paymentMethod === 'online' && (
@@ -232,13 +235,13 @@ export default function CheckoutPage() {
             <div
               onClick={() => setPaymentMethod('pay_at_shop')}
               className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-start gap-4 ${paymentMethod === 'pay_at_shop'
-                  ? 'border-[#FF7A00] bg-[#FF7A00]/10'
+                  ? 'border-[#FF4500] bg-[#FF4500]/10'
                   : 'border-white/10 bg-[#111111] hover:border-white/30'
                 }`}
             >
               <div className="mt-1">
                 {paymentMethod === 'pay_at_shop' ? (
-                  <CheckCircle2 className="text-[#FF7A00]" size={24} />
+                  <CheckCircle2 className="text-[#FF4500]" size={24} />
                 ) : (
                   <Circle className="text-white/40" size={24} />
                 )}
@@ -251,7 +254,7 @@ export default function CheckoutPage() {
                 {paymentMethod === 'pay_at_shop' && (
                   <div className="bg-black/20 p-4 rounded-lg text-sm text-white/70 border border-white/5 flex flex-col gap-2">
                     <div className="flex items-center gap-2 font-bold text-white mb-1">
-                      <Store size={16} className="text-[#FF7A00]" />
+                      <Store size={16} className="text-[#FF4500]" />
                       Sandy Digital Hub
                     </div>
                     <p>Bairi, Khakhreru</p>
@@ -267,7 +270,7 @@ export default function CheckoutPage() {
           <button
             onClick={handlePayment}
             disabled={loading}
-            className="w-full bg-[#FF7A00] text-white py-4 rounded-xl font-bold hover:bg-[#FF7A00]/90 transition-colors disabled:opacity-50"
+            className="w-full bg-[#FF4500] text-white py-4 rounded-xl font-bold hover:bg-[#FF4500]/90 transition-colors disabled:opacity-50"
           >
             {loading ? 'Processing...' : (
               paymentMethod === 'online'

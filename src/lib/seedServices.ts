@@ -124,50 +124,19 @@ export const INITIAL_SERVICES: ServiceSeedData[] = [
   },
 ];
 
+let isSeeded = false;
+
 export async function ensureServicesSeeded() {
+  // Fast path: if already seeded during server runtime, skip DB check
+  if (isSeeded) return;
+
   try {
-    // 1. Remove duplicate services in database (keep latest document per title)
-    const allServices = await Service.find().sort({ createdAt: -1 });
-    const seenTitles = new Set<string>();
-    const duplicateIdsToDelete: string[] = [];
-
-    for (const service of allServices) {
-      const normalizedTitle = service.title.trim().toLowerCase();
-      if (seenTitles.has(normalizedTitle)) {
-        duplicateIdsToDelete.push(service._id.toString());
-      } else {
-        seenTitles.add(normalizedTitle);
-      }
-    }
-
-    if (duplicateIdsToDelete.length > 0) {
-      await Service.deleteMany({ _id: { $in: duplicateIdsToDelete } });
-      console.log(`Deduplicated: Deleted ${duplicateIdsToDelete.length} duplicate service records.`);
-    }
-
-    // 2. Ensure initial services exist and update images to accurate matching photos
     const count = await Service.countDocuments();
     if (count === 0) {
       await Service.insertMany(INITIAL_SERVICES);
       console.log(`Seeded ${INITIAL_SERVICES.length} initial services successfully.`);
-    } else {
-      for (const item of INITIAL_SERVICES) {
-        const escapedTitle = item.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const existingDoc = await Service.findOne({ 
-          title: { $regex: new RegExp(`^${escapedTitle}$`, 'i') } 
-        });
-
-        if (!existingDoc) {
-          await Service.create(item);
-        } else {
-          // Update image if it's currently using an unmatched photo or placeholder
-          if (existingDoc.image !== item.image && !existingDoc.image?.startsWith('/uploads/')) {
-            existingDoc.image = item.image;
-            await existingDoc.save();
-          }
-        }
-      }
     }
+    isSeeded = true;
   } catch (error) {
     console.error('Error seeding services:', error);
   }

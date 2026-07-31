@@ -77,7 +77,7 @@ export default function RefundPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">5. How to Request a Refund</h2>
             <ol className="list-decimal list-inside space-y-2">
-              <li>Email us at <span className="text-[#FF7A00]">info@sandydigitalhub.com</span> with your order ID and reason for refund</li>
+              <li>Email us at <span className="text-[#FF4500]">info@sandydigitalhub.com</span> with your order ID and reason for refund</li>
               <li>Our team will review your request within 2 business days</li>
               <li>If approved, the refund will be processed to your original payment method</li>
               <li>Refund processing takes 5-7 business days after approval</li>
@@ -96,7 +96,7 @@ export default function RefundPage() {
             <h2 className="text-xl font-semibold text-white mb-3">7. Disputes</h2>
             <p>
               If you are not satisfied with our refund decision, you may escalate the matter by writing
-              to us at <span className="text-[#FF7A00]">info@sandydigitalhub.com</span>. We aim to resolve
+              to us at <span className="text-[#FF4500]">info@sandydigitalhub.com</span>. We aim to resolve
               all disputes amicably within 15 business days.
             </p>
           </section>
@@ -105,7 +105,7 @@ export default function RefundPage() {
             <h2 className="text-xl font-semibold text-white mb-3">8. Contact</h2>
             <p>
               For any refund or cancellation queries, reach out to us at{" "}
-              <Link href="/contact" className="text-[#FF7A00] hover:underline">our contact page</Link>.
+              <Link href="/contact" className="text-[#FF4500] hover:underline">our contact page</Link>.
             </p>
           </section>
         </div>

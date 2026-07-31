@@ -77,11 +77,11 @@ export function AdminServicesManager({ initialServices }: Props) {
   return (
     <>
       <div className="flex flex-row justify-between items-center mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white">Manage Services</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Manage Services</h1>
         <div className="flex items-center gap-2">
           <button 
             onClick={fetchServices}
-            className="inline-flex items-center gap-1.5 bg-white/10 text-white px-3 py-2 rounded-xl text-xs font-semibold hover:bg-white/20 transition-colors"
+            className="inline-flex items-center gap-1.5 bg-gray-100 text-gray-700 px-3 py-2 rounded-xl text-xs font-semibold hover:bg-gray-200 transition-colors border border-gray-200"
             title="Refresh & sync services list"
           >
             <RefreshCw size={14} />
@@ -89,7 +89,7 @@ export function AdminServicesManager({ initialServices }: Props) {
           </button>
           <button 
             onClick={handleAdd}
-            className="inline-flex items-center gap-1.5 bg-[#FF7A00] text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold hover:bg-[#FF7A00]/90 transition-colors shadow-lg"
+            className="inline-flex items-center gap-1.5 bg-[#FF4500] text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold hover:bg-[#FF4500]/90 transition-colors shadow-md shadow-orange-200"
           >
             <Plus size={16} />
             <span>Add Service</span>
@@ -98,7 +98,7 @@ export function AdminServicesManager({ initialServices }: Props) {
       </div>
 
       {services.length === 0 ? (
-        <div className="bg-[#111111] p-8 rounded-2xl border border-white/10 text-center text-white/50">
+        <div className="bg-white p-8 rounded-2xl border border-gray-200 text-center text-gray-500 shadow-sm">
           No services found. Click "+ Add Service" to create one.
         </div>
       ) : (
@@ -106,30 +106,30 @@ export function AdminServicesManager({ initialServices }: Props) {
           {/* Mobile Service Cards View (< md) */}
           <div className="block md:hidden space-y-4">
             {services.map((service) => (
-              <div key={service._id.toString()} className="bg-[#111111] p-4 rounded-xl border border-white/10 space-y-3">
+              <div key={service._id.toString()} className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm space-y-3">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="font-bold text-white text-base">{service.title}</h3>
-                    <div className="flex items-center gap-1.5 text-xs text-white/50 mt-1">
-                      <Tag size={12} className="text-[#FF7A00]" />
+                    <h3 className="font-bold text-gray-900 text-base">{service.title}</h3>
+                    <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-1">
+                      <Tag size={12} className="text-[#FF4500]" />
                       <span>{service.category}</span>
                     </div>
                   </div>
                   <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                    service.status === 'ACTIVE' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'
+                    service.status === 'ACTIVE' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'
                   }`}>
                     {service.status}
                   </span>
                 </div>
 
-                <div className="flex justify-between items-center pt-2 border-t border-white/5">
-                  <div className="text-sm font-bold text-[#FF7A00]">
+                <div className="flex justify-between items-center pt-2 border-t border-gray-100">
+                  <div className="text-sm font-bold text-[#FF4500]">
                     ₹{service.price}
                   </div>
                   <div className="flex items-center gap-2">
                     <button 
                       onClick={() => handleEdit(service)}
-                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xs font-semibold hover:bg-blue-500/30 transition-colors"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 text-xs font-semibold hover:bg-blue-100 transition-colors"
                     >
                       <Edit size={12} />
                       Edit
@@ -137,7 +137,7 @@ export function AdminServicesManager({ initialServices }: Props) {
                     <button 
                       onClick={() => handleDeleteClick(service._id)}
                       disabled={isDeleting === service._id}
-                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-semibold hover:bg-red-500/30 transition-colors disabled:opacity-50"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 border border-red-200 text-xs font-semibold hover:bg-red-100 transition-colors disabled:opacity-50"
                     >
                       <Trash2 size={12} />
                       {isDeleting === service._id ? 'Deleting...' : 'Delete'}
@@ -149,10 +149,10 @@ export function AdminServicesManager({ initialServices }: Props) {
           </div>
 
           {/* Desktop Service Table View (>= md) */}
-          <div className="hidden md:block bg-[#111111] rounded-2xl border border-white/10 overflow-hidden">
+          <div className="hidden md:block bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-white/80">
-                <thead className="bg-white/5 border-b border-white/10 text-xs font-semibold uppercase text-white/50">
+              <table className="w-full text-left text-gray-800">
+                <thead className="bg-gray-50 border-b border-gray-200 text-xs font-semibold uppercase text-gray-500">
                   <tr>
                     <th className="p-4">Title</th>
                     <th className="p-4">Category</th>
@@ -161,15 +161,15 @@ export function AdminServicesManager({ initialServices }: Props) {
                     <th className="p-4">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5 text-sm">
+                <tbody className="divide-y divide-gray-100 text-sm bg-white">
                   {services.map((service) => (
-                    <tr key={service._id.toString()} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="p-4 font-medium text-white">{service.title}</td>
-                      <td className="p-4 text-white/70">{service.category}</td>
-                      <td className="p-4 font-bold text-[#FF7A00]">₹{service.price}</td>
+                    <tr key={service._id.toString()} className="hover:bg-gray-50 transition-colors">
+                      <td className="p-4 font-bold text-gray-900">{service.title}</td>
+                      <td className="p-4 text-gray-600">{service.category}</td>
+                      <td className="p-4 font-bold text-[#FF4500]">₹{service.price}</td>
                       <td className="p-4">
                         <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
-                          service.status === 'ACTIVE' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'
+                          service.status === 'ACTIVE' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'
                         }`}>
                           {service.status}
                         </span>
@@ -177,14 +177,14 @@ export function AdminServicesManager({ initialServices }: Props) {
                       <td className="p-4 flex gap-3">
                         <button 
                           onClick={() => handleEdit(service)}
-                          className="text-blue-400 hover:underline transition-colors font-medium"
+                          className="text-blue-600 hover:underline transition-colors font-semibold"
                         >
                           Edit
                         </button>
                         <button 
                           onClick={() => handleDeleteClick(service._id)}
                           disabled={isDeleting === service._id}
-                          className="text-red-400 hover:underline transition-colors disabled:opacity-50 font-medium"
+                          className="text-red-600 hover:underline transition-colors disabled:opacity-50 font-semibold"
                         >
                           {isDeleting === service._id ? 'Deleting...' : 'Delete'}
                         </button>

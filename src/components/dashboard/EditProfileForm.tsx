@@ -1,31 +1,30 @@
 'use client';
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Pencil, X, Check } from 'lucide-react';
+import { User, Phone, Check, Loader2 } from 'lucide-react';
 
 interface EditProfileFormProps {
   user: {
     name: string;
     email: string;
-    mobile: string;
+    mobile?: string;
   };
 }
 
 export function EditProfileForm({ user }: EditProfileFormProps) {
-  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [name, setName] = useState(user.name);
+  const [name, setName] = useState(user.name || '');
   const [mobile, setMobile] = useState(user.mobile || '');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  const handleSave = async () => {
-    setIsLoading(true);
-    setError('');
-    setSuccess('');
+  const router = useRouter();
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage(null);
 
     try {
       const res = await fetch('/api/user/profile', {
@@ -36,102 +35,95 @@ export function EditProfileForm({ user }: EditProfileFormProps) {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        setError(data.error || 'Failed to update profile');
-        setIsLoading(false);
-        return;
+      if (res.ok) {
+        setMessage({ type: 'success', text: 'Profile updated successfully!' });
+        setIsEditing(false);
+        router.refresh();
+      } else {
+        setMessage({ type: 'error', text: data.message || 'Failed to update profile' });
       }
-
-      setSuccess('Profile updated successfully!');
-      setIsEditing(false);
-      setIsLoading(false);
-      router.refresh();
     } catch (err: any) {
-      setError(err.message || 'Something went wrong');
-      setIsLoading(false);
+      setMessage({ type: 'error', text: err.message || 'An error occurred' });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleCancel = () => {
-    setName(user.name);
-    setMobile(user.mobile || '');
-    setError('');
-    setSuccess('');
-    setIsEditing(false);
-  };
-
-  if (!isEditing) {
-    return (
-      <>
-        <div className="text-white/80">
-          <p><span className="text-white/50">Email:</span> {user.email}</p>
-          <p><span className="text-white/50">Mobile:</span> {user.mobile || 'Not set'}</p>
-        </div>
-        {success && (
-          <p className="text-green-400 text-sm mt-2">{success}</p>
-        )}
-        <button
-          onClick={() => { setIsEditing(true); setSuccess(''); }}
-          className="text-[#FF7A00] text-left mt-4 hover:underline flex items-center gap-2 cursor-pointer"
-        >
-          <Pencil className="h-4 w-4" />
-          Edit Profile
-        </button>
-      </>
-    );
-  }
-
   return (
-    <div className="flex flex-col gap-3">
-      {error && (
-        <p className="text-red-400 text-sm bg-red-500/10 px-3 py-2 rounded-lg">{error}</p>
+    <div className="space-y-4">
+      {message && (
+        <div
+          className={`p-3 rounded-xl text-xs sm:text-sm font-medium ${
+            message.type === 'success'
+              ? 'bg-green-50 text-green-700 border border-green-200'
+              : 'bg-red-50 text-red-700 border border-red-200'
+          }`}
+        >
+          {message.text}
+        </div>
       )}
-      <div>
-        <label className="text-white/50 text-sm block mb-1">Name</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#FF7A00]/50"
-        />
-      </div>
-      <div>
-        <label className="text-white/50 text-sm block mb-1">Email</label>
-        <input
-          type="email"
-          value={user.email}
-          disabled
-          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white/40 text-sm cursor-not-allowed"
-        />
-      </div>
-      <div>
-        <label className="text-white/50 text-sm block mb-1">Mobile</label>
-        <input
-          type="tel"
-          value={mobile}
-          onChange={(e) => setMobile(e.target.value)}
-          placeholder="Enter mobile number"
-          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#FF7A00]/50"
-        />
-      </div>
-      <div className="flex gap-2 mt-2">
-        <button
-          onClick={handleSave}
-          disabled={isLoading}
-          className="flex items-center gap-1.5 bg-[#FF7A00] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#FF7A00]/80 disabled:opacity-50 cursor-pointer"
-        >
-          {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
-          Save
-        </button>
-        <button
-          onClick={handleCancel}
-          disabled={isLoading}
-          className="flex items-center gap-1.5 bg-white/10 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-white/20 cursor-pointer"
-        >
-          <X className="h-4 w-4" />
-          Cancel
-        </button>
-      </div>
+
+      {!isEditing ? (
+        <div className="text-gray-700 space-y-2">
+          <p><span className="text-gray-400">Email:</span> {user.email}</p>
+          <p><span className="text-gray-400">Mobile:</span> {user.mobile || 'Not set'}</p>
+          <button
+            onClick={() => setIsEditing(true)}
+            className="mt-3 px-4 py-2 rounded-xl bg-orange-100 text-[#FF4500] font-bold text-xs hover:bg-orange-200 transition-colors"
+          >
+            Edit Profile
+          </button>
+        </div>
+      ) : (
+        <form onSubmit={handleSave} className="space-y-4">
+          <div>
+            <label className="text-gray-500 text-xs font-semibold block mb-1">Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full bg-white border border-gray-300 rounded-xl px-3 py-2 text-gray-800 text-sm focus:outline-none focus:border-[#FF4500]"
+            />
+          </div>
+          <div>
+            <label className="text-gray-500 text-xs font-semibold block mb-1">Email</label>
+            <input
+              type="email"
+              value={user.email}
+              disabled
+              className="w-full bg-gray-100 border border-gray-200 rounded-xl px-3 py-2 text-gray-400 text-sm cursor-not-allowed"
+            />
+          </div>
+          <div>
+            <label className="text-gray-500 text-xs font-semibold block mb-1">Mobile</label>
+            <input
+              type="text"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
+              placeholder="e.g. +91 8756454282"
+              className="w-full bg-white border border-gray-300 rounded-xl px-3 py-2 text-gray-800 text-sm focus:outline-none focus:border-[#FF4500]"
+            />
+          </div>
+
+          <div className="flex gap-2 pt-2">
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex items-center gap-1.5 bg-[#FF4500] text-gray-800 px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#FF4500]/90 disabled:opacity-50 cursor-pointer shadow-md"
+            >
+              {loading ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
+              Save Changes
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsEditing(false)}
+              className="flex items-center gap-1.5 bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-200 cursor-pointer"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 }

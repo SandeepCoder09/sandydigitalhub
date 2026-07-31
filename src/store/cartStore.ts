@@ -58,11 +58,10 @@ export const useCartStore = create<CartState>()(
         return get().items.reduce((total, item) => total + item.price * item.quantity, 0);
       },
       getTax: () => {
-        const subtotal = get().getSubtotal();
-        return subtotal * 0.18; // 18% GST
+        return 0; // Cut 18% GST (Show GST 18%: ₹0.00)
       },
       getTotal: () => {
-        return get().getSubtotal() + get().getTax();
+        return get().getSubtotal();
       },
     }),
     {

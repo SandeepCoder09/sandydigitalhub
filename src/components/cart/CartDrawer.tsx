@@ -54,7 +54,7 @@ export function CartDrawer() {
           >
             <div className="p-6 border-b border-white/10 flex justify-between items-center bg-black/20">
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                <ShoppingCart className="text-[#FF7A00]" /> Your Cart
+                <ShoppingCart className="text-[#FF4500]" /> Your Cart
               </h2>
               <button onClick={() => setIsOpen(false)} className="text-white/60 hover:text-white cursor-pointer">
                 <X size={24} />
@@ -75,7 +75,7 @@ export function CartDrawer() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="text-white font-medium text-sm mb-1 truncate">{item.title}</h4>
-                      <p className="text-[#FF7A00] font-bold text-sm mb-2">₹{item.price}</p>
+                      <p className="text-[#FF4500] font-bold text-sm mb-2">₹{item.price}</p>
                       
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 bg-black/50 rounded-lg p-1">
@@ -108,18 +108,25 @@ export function CartDrawer() {
 
             {items.length > 0 && (
               <div className="p-6 border-t border-white/10 bg-black/20">
-                <div className="flex justify-between text-white/70 mb-2">
+                <div className="flex justify-between text-white/70 mb-1.5 text-sm">
                   <span>Subtotal</span>
                   <span>₹{getSubtotal().toFixed(2)}</span>
                 </div>
+                <div className="flex justify-between text-green-400 font-semibold mb-3 text-sm">
+                  <span>GST (18%)</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="line-through text-white/40 text-xs font-normal">₹{(getSubtotal() * 0.18).toFixed(2)}</span>
+                    <span>₹0.00</span>
+                  </div>
+                </div>
                 <div className="flex justify-between text-white font-bold text-xl mb-6">
-                  <span>Total (inc. GST)</span>
-                  <span className="text-[#FF7A00]">₹{getTotal().toFixed(2)}</span>
+                  <span>Total</span>
+                  <span className="text-[#FF4500]">₹{getTotal().toFixed(2)}</span>
                 </div>
                 <Link 
                   href="/checkout" 
                   onClick={() => setIsOpen(false)}
-                  className="w-full bg-[#FF7A00] text-white py-3 rounded-xl font-bold flex justify-center hover:bg-[#FF7A00]/90 transition-colors"
+                  className="w-full bg-[#FF4500] text-white py-3 rounded-xl font-bold flex justify-center hover:bg-[#FF4500]/90 transition-colors"
                 >
                   Proceed to Checkout
                 </Link>
@@ -135,11 +142,11 @@ export function CartDrawer() {
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="relative p-2 text-[#FF7A00] hover:text-[#FF7A00]/80 transition-colors cursor-pointer"
+        className="relative p-2 text-[#FF4500] hover:text-[#FF4500]/80 transition-colors cursor-pointer"
       >
         <ShoppingCart size={24} />
         {items.length > 0 && (
-          <span className="absolute top-0 right-0 bg-[#FF7A00] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
+          <span className="absolute top-0 right-0 bg-[#FF4500] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
             {items.length}
           </span>
         )}

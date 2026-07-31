@@ -140,10 +140,10 @@ export function AdminChatInbox() {
 
   /* ─── Sessions List Panel ─── */
   const SessionsPanel = () => (
-    <div className="flex flex-col h-full bg-[#161616]">
-      <div className="p-3.5 border-b border-white/10 flex justify-between items-center bg-[#1a1a1a]">
+    <div className="flex flex-col h-full bg-gray-50">
+      <div className="p-3.5 border-b border-gray-200 flex justify-between items-center bg-white">
         <div className="flex items-center gap-2 font-bold text-sm">
-          <MessageSquare size={16} className="text-[#FF7A00]" />
+          <MessageSquare size={16} className="text-[#FF4500]" />
           <span>Conversations</span>
           {alertCount > 0 && (
             <span className="px-1.5 py-0.5 rounded-full bg-red-500/20 text-red-400 text-[10px] font-bold animate-pulse">
@@ -151,13 +151,13 @@ export function AdminChatInbox() {
             </span>
           )}
         </div>
-        <button onClick={fetchSessions} className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors">
+        <button onClick={fetchSessions} className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-200 text-gray-600 hover:text-gray-900 transition-colors">
           <RefreshCw size={14} />
         </button>
       </div>
-      <div className="flex-1 overflow-y-auto divide-y divide-white/5">
+      <div className="flex-1 overflow-y-auto divide-y divide-gray-100">
         {sessions.length === 0 ? (
-          <div className="p-6 text-center text-xs text-white/40">No live chat sessions yet.</div>
+          <div className="p-6 text-center text-xs text-gray-400">No live chat sessions yet.</div>
         ) : (
           sessions.map((s) => {
             const isSelected = s._id === selectedSessionId;
@@ -167,15 +167,15 @@ export function AdminChatInbox() {
                 key={s._id}
                 onClick={() => selectSession(s._id)}
                 className={`w-full p-3.5 text-left transition-all flex items-start gap-3 ${
-                  isSelected ? 'bg-[#FF7A00]/15 border-l-4 border-[#FF7A00]' : 'hover:bg-white/5'
+                  isSelected ? 'bg-[#FF4500]/15 border-l-4 border-[#FF4500]' : 'hover:bg-gray-100'
                 }`}
               >
-                <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center font-bold text-xs uppercase text-white shrink-0">
+                <div className="w-9 h-9 rounded-full bg-orange-100 flex items-center justify-center font-bold text-xs uppercase text-orange-600 shrink-0">
                   {s.lastSender ? s.lastSender.slice(0, 2) : 'CU'}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-center mb-0.5">
-                    <span className="font-bold text-xs text-white truncate">{s.lastSender || 'Customer'}</span>
+                    <span className="font-bold text-xs text-gray-800 truncate">{s.lastSender || 'Customer'}</span>
                     {hasAlert && (
                       <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-red-500/20 text-red-400 border border-red-500/30 flex items-center gap-1 animate-pulse">
                         <AlertTriangle size={10} />
@@ -183,7 +183,7 @@ export function AdminChatInbox() {
                       </span>
                     )}
                   </div>
-                  <p className="text-[11px] text-white/60 truncate">{s.lastMessage}</p>
+                  <p className="text-[11px] text-gray-500 truncate">{s.lastMessage}</p>
                 </div>
               </button>
             );
@@ -195,20 +195,20 @@ export function AdminChatInbox() {
 
   /* ─── Chat Panel ─── */
   const ChatPanel = () => (
-    <div className="flex flex-col h-full bg-[#0d0d0d]">
+    <div className="flex flex-col h-full bg-gray-50">
       {selectedSessionId ? (
         <>
           {/* Header */}
-          <div className="p-3 border-b border-white/10 bg-[#161616] flex items-center gap-3 shrink-0">
+          <div className="p-3 border-b border-gray-200 bg-gray-50 flex items-center gap-3 shrink-0">
             {/* Back button on mobile */}
             <button
               onClick={() => setMobileView('sessions')}
-              className="md:hidden p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors shrink-0"
+              className="md:hidden p-1.5 rounded-lg bg-gray-50 hover:bg-gray-200 text-gray-600 hover:text-gray-900 transition-colors shrink-0"
             >
               <ArrowLeft size={16} />
             </button>
             <div className="flex-1 min-w-0">
-              <div className="text-xs font-bold text-white flex items-center gap-2">
+              <div className="text-xs font-bold text-gray-800 flex items-center gap-2">
                 <span className="truncate">Chatting with: {activeSessionData?.lastSender || 'Customer'}</span>
                 {activeSessionData?.needsAdmin && (
                   <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-red-500/20 text-red-400 border border-red-500/30 shrink-0">
@@ -216,13 +216,13 @@ export function AdminChatInbox() {
                   </span>
                 )}
               </div>
-              <div className="text-[9px] text-white/40 font-mono mt-0.5 truncate">Session: {selectedSessionId}</div>
+              <div className="text-[9px] text-gray-400 font-mono mt-0.5 truncate">Session: {selectedSessionId}</div>
             </div>
             <button
               onClick={handleEndSession}
               disabled={loading}
               title="End this chat session"
-              className="px-2.5 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/30 text-[10px] font-bold transition-all flex items-center gap-1 shrink-0 disabled:opacity-40"
+              className="px-2.5 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-gray-900 border border-red-500/30 text-[10px] font-bold transition-all flex items-center gap-1 shrink-0 disabled:opacity-40"
             >
               <LogOut size={12} />
               <span>End Session</span>
@@ -236,7 +236,7 @@ export function AdminChatInbox() {
               const isCustomer = m.senderRole === 'CUSTOMER';
               return (
                 <div key={m._id || idx} className={`flex flex-col ${isAdmin ? 'items-end' : 'items-start'}`}>
-                  <div className="text-[9px] text-white/40 mb-0.5 px-1">
+                  <div className="text-[9px] text-gray-400 mb-0.5 px-1">
                     {m.senderName} ({m.senderRole})
                   </div>
                   <div
@@ -244,8 +244,8 @@ export function AdminChatInbox() {
                       isAdmin
                         ? 'bg-purple-600 text-white rounded-br-none shadow-md font-medium'
                         : isCustomer
-                        ? 'bg-[#FF7A00]/90 text-white rounded-bl-none font-medium'
-                        : 'bg-white/10 text-white/80 rounded-bl-none'
+                        ? 'bg-[#FF4500]/90 text-white rounded-bl-none font-medium'
+                        : 'bg-white/10 text-gray-700 rounded-bl-none'
                     }`}
                   >
                     {m.message}
@@ -256,12 +256,12 @@ export function AdminChatInbox() {
           </div>
 
           {/* Canned Responses */}
-          <div className="px-2 py-1.5 bg-[#141414] border-t border-white/5 flex gap-1.5 overflow-x-auto no-scrollbar shrink-0">
+          <div className="px-2 py-1.5 bg-gray-100 border-t border-gray-100 flex gap-1.5 overflow-x-auto no-scrollbar shrink-0">
             {cannedReplies.map((chip, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSendReply(chip)}
-                className="px-2.5 py-1 rounded-full bg-white/5 hover:bg-purple-500/20 hover:text-purple-300 border border-white/10 text-[10px] font-semibold text-white/70 whitespace-nowrap transition-colors"
+                className="px-2.5 py-1 rounded-full bg-gray-50 hover:bg-purple-500/20 hover:text-purple-300 border border-gray-200 text-[10px] font-semibold text-gray-600 whitespace-nowrap transition-colors"
               >
                 ⚡ {chip}
               </button>
@@ -269,19 +269,19 @@ export function AdminChatInbox() {
           </div>
 
           {/* Reply Input */}
-          <div className="p-2.5 bg-[#161616] border-t border-white/10 flex items-center gap-2 shrink-0">
+          <div className="p-2.5 bg-gray-50 border-t border-gray-200 flex items-center gap-2 shrink-0">
             <input
               type="text"
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSendReply()}
               placeholder="Type reply..."
-              className="flex-1 bg-black/60 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder:text-white/40 outline-none focus:border-purple-500 transition-colors"
+              className="flex-1 bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-gray-700 placeholder:text-gray-400 outline-none focus:border-purple-500 transition-colors"
             />
             <button
               onClick={() => handleSendReply()}
               disabled={!replyText.trim() || loading}
-              className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shrink-0"
+              className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-gray-900 font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shrink-0"
             >
               <Send size={14} />
               <span>Reply</span>
@@ -289,8 +289,8 @@ export function AdminChatInbox() {
           </div>
         </>
       ) : (
-        <div className="flex-1 flex flex-col items-center justify-center text-white/40 text-xs">
-          <MessageSquare size={32} className="mb-2 text-white/20" />
+        <div className="flex-1 flex flex-col items-center justify-center text-gray-400 text-xs">
+          <MessageSquare size={32} className="mb-2 text-gray-300" />
           <span>Select a conversation to start chatting.</span>
         </div>
       )}
@@ -298,11 +298,11 @@ export function AdminChatInbox() {
   );
 
   return (
-    <div className="bg-[#111111] border border-white/10 rounded-2xl overflow-hidden shadow-2xl text-white" style={{ height: 'calc(100vh - 200px)', minHeight: '350px', maxHeight: '750px' }}>
+    <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-2xl text-gray-800" style={{ height: 'calc(100vh - 200px)', minHeight: '350px', maxHeight: '750px' }}>
 
       {/* Desktop: side-by-side layout */}
       <div className="hidden md:flex h-full">
-        <div className="w-80 border-r border-white/10 shrink-0">
+        <div className="w-80 border-r border-gray-200 shrink-0">
           <SessionsPanel />
         </div>
         <div className="flex-1 min-w-0">

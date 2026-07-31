@@ -66,7 +66,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2">Our Location</h3>
-                  <p className="text-muted-foreground">Bairi, Khakhreru, Fatehpur,<br />Uttar Pradesh, India</p>
+                  <p className="text-muted-foreground">Bairi, Khakhreru, Fatehpur,<br />Uttar Pradesh, India - 212656</p>
                 </div>
               </div>
 

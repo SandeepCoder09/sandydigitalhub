@@ -27,22 +27,22 @@ export function AdminAnalyticsChart({ totalRevenue, totalOrders, data }: AdminAn
   const maxRevenue = Math.max(...chartData.map((d) => d.revenue), 100);
 
   return (
-    <div className="bg-[#111111] p-5 sm:p-6 rounded-2xl border border-white/10 space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+    <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-200 shadow-sm space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-[#FF7A00] tracking-wider uppercase">
+          <div className="flex items-center gap-2 text-xs font-semibold text-[#FF4500] tracking-wider uppercase">
             <TrendingUp size={14} />
             <span>Sales & Revenue Analytics</span>
           </div>
-          <h3 className="text-lg sm:text-xl font-bold text-white mt-1">Performance Growth</h3>
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900 mt-1">Performance Growth</h3>
         </div>
         <div className="flex items-center gap-4 text-xs font-semibold">
-          <div className="flex items-center gap-1.5 text-white/70">
-            <span className="w-3 h-3 rounded-full bg-[#FF7A00]"></span>
+          <div className="flex items-center gap-1.5 text-gray-500">
+            <span className="w-3 h-3 rounded-full bg-[#FF4500]"></span>
             <span>Revenue (₹)</span>
           </div>
-          <div className="flex items-center gap-1.5 text-white/70">
-            <span className="w-3 h-3 rounded-full bg-white/20"></span>
+          <div className="flex items-center gap-1.5 text-gray-500">
+            <span className="w-3 h-3 rounded-full bg-gray-300"></span>
             <span>Orders</span>
           </div>
         </div>
@@ -57,20 +57,20 @@ export function AdminAnalyticsChart({ totalRevenue, totalOrders, data }: AdminAn
             return (
               <div key={idx} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group relative">
                 {/* Tooltip */}
-                <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity bg-black/90 text-white text-[11px] py-1 px-2 rounded border border-white/10 pointer-events-none whitespace-nowrap z-10 shadow-lg">
+                <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-gray-700 text-[11px] py-1 px-2 rounded pointer-events-none whitespace-nowrap z-10 shadow-lg">
                   ₹{item.revenue} ({item.orders} orders)
                 </div>
 
                 {/* Bar */}
-                <div className="w-full max-w-[36px] bg-white/5 rounded-t-lg overflow-hidden flex flex-col justify-end h-full">
+                <div className="w-full max-w-[36px] bg-gray-100 rounded-t-lg overflow-hidden flex flex-col justify-end h-full">
                   <div
                     style={{ height: `${heightPercent}%` }}
-                    className="w-full bg-gradient-to-t from-[#FF7A00]/80 to-[#FF7A00] rounded-t-lg group-hover:from-[#FF7A00] group-hover:to-orange-400 transition-all duration-500"
+                    className="w-full bg-gradient-to-t from-[#FF4500]/80 to-[#FF4500] rounded-t-lg group-hover:from-[#FF4500] group-hover:to-orange-400 transition-all duration-500"
                   />
                 </div>
 
                 {/* Label */}
-                <span className="text-[11px] font-semibold text-white/50 group-hover:text-white transition-colors">
+                <span className="text-[11px] font-semibold text-gray-400 group-hover:text-gray-700 transition-colors">
                   {item.month}
                 </span>
               </div>

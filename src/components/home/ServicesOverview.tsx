@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Code, Smartphone, FileText, Briefcase, Palette, Megaphone, Wrench, FileDigit } from "lucide-react";
+import { ArrowRight, Code, Smartphone, FileText, Briefcase, Palette, Megaphone, Wrench, FileDigit, ImageIcon } from "lucide-react";
 import Link from "next/link";
 
 const services = [
@@ -54,6 +54,12 @@ const services = [
     description: "Reliable IT support, software installations, and hardware troubleshooting.",
     icon: Wrench,
     link: "/services#support",
+  },
+  {
+    title: "Free Image Tools",
+    description: "Compress, resize, crop, convert, passport photo maker & more — all free, right in your browser.",
+    icon: ImageIcon,
+    link: "/image-tools",
   },
 ];
 

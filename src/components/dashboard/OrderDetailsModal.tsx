@@ -50,7 +50,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
           <title>Work Order - ${brandedId}</title>
           <style>
             body { font-family: system-ui, sans-serif; padding: 24px; color: #111; line-height: 1.5; }
-            h1 { font-size: 20px; margin-bottom: 4px; color: #000; border-bottom: 2px solid #FF7A00; padding-bottom: 8px; }
+            h1 { font-size: 20px; margin-bottom: 4px; color: #000; border-bottom: 2px solid #FF4500; padding-bottom: 8px; }
             .meta { margin-top: 16px; margin-bottom: 20px; font-size: 14px; }
             .meta p { margin: 4px 0; }
             table { width: 100%; border-collapse: collapse; margin-top: 16px; margin-bottom: 16px; font-size: 13px; }
@@ -122,21 +122,21 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm">
-        <div className="bg-[#111111] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto shadow-2xl text-white">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-sm">
+        <div className="bg-white border border-gray-200 rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto shadow-2xl text-gray-800">
 
           {/* Modal Header */}
-          <div className="sticky top-0 bg-[#111111]/95 backdrop-blur border-b border-white/10 p-4 sm:p-6 flex items-center justify-between z-10">
+          <div className="sticky top-0 bg-white/95 backdrop-blur border-b border-gray-200 p-4 sm:p-6 flex items-center justify-between z-10">
             <div>
-              <div className="text-[10px] sm:text-xs font-semibold text-[#FF7A00] tracking-wider uppercase mb-0.5 sm:mb-1">Service Request Details</div>
+              <div className="text-[10px] sm:text-xs font-semibold text-[#FF4500] tracking-wider uppercase mb-0.5 sm:mb-1">Service Request Details</div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base sm:text-xl md:text-2xl font-bold font-mono text-white">{brandedId}</h2>
+                <h2 className="text-base sm:text-xl md:text-2xl font-bold font-mono text-gray-800">{brandedId}</h2>
                 <CopyButton text={brandedId} />
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 sm:p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+              className="p-1.5 sm:p-2 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-colors"
               aria-label="Close modal"
             >
               <X size={18} className="sm:w-5 sm:h-5" />
@@ -160,7 +160,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
 
               <button
                 onClick={handlePrintWorkOrder}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 text-white border border-white/10 text-xs font-bold hover:bg-white/20 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 text-gray-800 border border-gray-200 text-xs font-bold hover:bg-gray-200 transition-colors"
               >
                 <Printer size={14} />
                 <span>Print Work Order</span>
@@ -178,8 +178,8 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
             </div>
 
             {/* Visual Order Progress Tracker */}
-            <div className="bg-white/5 p-4 sm:p-5 rounded-2xl border border-white/5 space-y-3 sm:space-y-4">
-              <h4 className="text-[11px] sm:text-xs font-semibold text-white/50 uppercase tracking-wider">Order Progress Status</h4>
+            <div className="bg-gray-50 p-4 sm:p-5 rounded-2xl border border-gray-100 space-y-3 sm:space-y-4">
+              <h4 className="text-[11px] sm:text-xs font-semibold text-gray-400 uppercase tracking-wider">Order Progress Status</h4>
               {isCancelled ? (
                 <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-xs sm:text-sm font-semibold flex items-center gap-2">
                   <X size={16} />
@@ -193,20 +193,20 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
                     const isCurrent = stepNum === currentStep && currentStep !== 4;
 
                     return (
-                      <div key={idx} className="flex flex-col items-center text-center space-y-1.5 bg-white/5 sm:bg-transparent p-2.5 sm:p-0 rounded-xl">
+                      <div key={idx} className="flex flex-col items-center text-center space-y-1.5 bg-gray-50 sm:bg-transparent p-2.5 sm:p-0 rounded-xl">
                         <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all ${isDone
                             ? 'bg-green-500 text-black shadow-lg shadow-green-500/20'
                             : isCurrent
-                              ? 'bg-[#FF7A00] text-white ring-4 ring-[#FF7A00]/20 animate-pulse'
-                              : 'bg-white/10 text-white/40'
+                              ? 'bg-[#FF4500] text-gray-800 ring-4 ring-[#FF4500]/20 animate-pulse'
+                              : 'bg-gray-100 text-gray-400'
                           }`}>
                           {isDone ? <CheckCircle2 size={16} /> : isCurrent ? <Loader2 size={15} className="animate-spin" /> : stepNum}
                         </div>
                         <div>
-                          <div className={`text-[11px] sm:text-xs font-bold ${isDone || isCurrent ? 'text-white' : 'text-white/40'}`}>
+                          <div className={`text-[11px] sm:text-xs font-bold ${isDone || isCurrent ? 'text-gray-800' : 'text-gray-400'}`}>
                             {step.label}
                           </div>
-                          <div className="text-[9px] sm:text-[10px] text-white/40">
+                          <div className="text-[9px] sm:text-[10px] text-gray-400">
                             {step.desc}
                           </div>
                         </div>
@@ -219,21 +219,21 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
 
             {/* Metadata Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              <div className="bg-white/5 p-3.5 sm:p-4 rounded-xl border border-white/5 space-y-1.5">
-                <div className="flex items-center gap-2 text-white/50 text-[10px] sm:text-xs font-semibold uppercase">
-                  <Calendar size={13} className="text-[#FF7A00]" />
+              <div className="bg-gray-50 p-3.5 sm:p-4 rounded-xl border border-gray-100 space-y-1.5">
+                <div className="flex items-center gap-2 text-gray-400 text-[10px] sm:text-xs font-semibold uppercase">
+                  <Calendar size={13} className="text-[#FF4500]" />
                   <span>Date & Time</span>
                 </div>
-                <div className="text-xs sm:text-sm font-medium text-white">{formattedDateTime}</div>
+                <div className="text-xs sm:text-sm font-medium text-gray-800">{formattedDateTime}</div>
               </div>
 
-              <div className="bg-white/5 p-3.5 sm:p-4 rounded-xl border border-white/5 space-y-1.5">
-                <div className="flex items-center gap-2 text-white/50 text-[10px] sm:text-xs font-semibold uppercase">
-                  <CreditCard size={13} className="text-[#FF7A00]" />
+              <div className="bg-gray-50 p-3.5 sm:p-4 rounded-xl border border-gray-100 space-y-1.5">
+                <div className="flex items-center gap-2 text-gray-400 text-[10px] sm:text-xs font-semibold uppercase">
+                  <CreditCard size={13} className="text-[#FF4500]" />
                   <span>Payment Method & Status</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs sm:text-sm">
-                  <span className="font-medium text-white">
+                  <span className="font-medium text-gray-800">
                     {activeOrder.paymentMethod === 'online' ? 'Pay Online' : 'Pay at Shop'}
                   </span>
                   <span className={`px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold ${activeOrder.paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400' :
@@ -247,20 +247,20 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
 
             {/* Optional Project Instructions/Notes */}
             {activeOrder.notes && (
-              <div className="bg-white/5 p-3.5 sm:p-4 rounded-xl border border-white/5 space-y-1.5">
-                <div className="flex items-center gap-2 text-white/50 text-[10px] sm:text-xs font-semibold uppercase">
-                  <FileText size={13} className="text-[#FF7A00]" />
+              <div className="bg-gray-50 p-3.5 sm:p-4 rounded-xl border border-gray-100 space-y-1.5">
+                <div className="flex items-center gap-2 text-gray-400 text-[10px] sm:text-xs font-semibold uppercase">
+                  <FileText size={13} className="text-[#FF4500]" />
                   <span>Customer Instructions & Notes</span>
                 </div>
-                <p className="text-xs sm:text-sm text-white/90 whitespace-pre-wrap">{activeOrder.notes}</p>
+                <p className="text-xs sm:text-sm text-gray-800 whitespace-pre-wrap">{activeOrder.notes}</p>
               </div>
             )}
 
             {/* Attached Document Download */}
             {activeOrder.documentUrl && (
-              <div className="bg-white/5 p-3.5 sm:p-4 rounded-xl border border-white/5 space-y-1.5">
-                <div className="flex items-center gap-2 text-white/50 text-[10px] sm:text-xs font-semibold uppercase">
-                  <Paperclip size={13} className="text-[#FF7A00]" />
+              <div className="bg-gray-50 p-3.5 sm:p-4 rounded-xl border border-gray-100 space-y-1.5">
+                <div className="flex items-center gap-2 text-gray-400 text-[10px] sm:text-xs font-semibold uppercase">
+                  <Paperclip size={13} className="text-[#FF4500]" />
                   <span>Attached Document</span>
                 </div>
                 <a
@@ -268,7 +268,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
                   download={activeOrder.documentName || 'attached-document'}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs sm:text-sm font-medium text-[#FF7A00] hover:underline inline-flex items-center gap-1.5"
+                  className="text-xs sm:text-sm font-medium text-[#FF4500] hover:underline inline-flex items-center gap-1.5"
                 >
                   📎 {activeOrder.documentName || 'Download Attached File'}
                 </a>
@@ -277,13 +277,13 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
 
             {/* Requested Services Item List */}
             <div>
-              <h4 className="text-xs sm:text-sm font-semibold text-white/70 uppercase tracking-wider mb-2.5 flex items-center gap-2">
-                <Tag size={13} className="text-[#FF7A00]" />
+              <h4 className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                <Tag size={13} className="text-[#FF4500]" />
                 Requested Services List
               </h4>
-              <div className="bg-white/5 rounded-xl border border-white/5 overflow-x-auto">
-                <table className="w-full text-left text-xs sm:text-sm text-white/80 min-w-[320px]">
-                  <thead className="bg-white/5 border-b border-white/5 text-[10px] sm:text-xs text-white/60 uppercase">
+              <div className="bg-gray-50 rounded-xl border border-gray-100 overflow-x-auto">
+                <table className="w-full text-left text-xs sm:text-sm text-gray-700 min-w-[320px]">
+                  <thead className="bg-gray-50 border-b border-gray-100 text-[10px] sm:text-xs text-gray-500 uppercase">
                     <tr>
                       <th className="px-3 py-2.5 sm:px-4 sm:py-3">Service Title</th>
                       <th className="px-2 py-2.5 sm:px-4 sm:py-3 text-center">Qty</th>
@@ -291,13 +291,13 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
                       <th className="px-3 py-2.5 sm:px-4 sm:py-3 text-right">Total</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5">
+                  <tbody className="divide-y divide-gray-100">
                     {activeOrder.services?.map((item: any, index: number) => (
                       <tr key={index}>
-                        <td className="px-3 py-2.5 sm:px-4 sm:py-3 font-medium text-white">{item.title}</td>
-                        <td className="px-2 py-2.5 sm:px-4 sm:py-3 text-center text-white/60">{item.quantity}</td>
-                        <td className="px-3 py-2.5 sm:px-4 sm:py-3 text-right text-white/60">₹{item.price}</td>
-                        <td className="px-3 py-2.5 sm:px-4 sm:py-3 text-right font-semibold text-white">
+                        <td className="px-3 py-2.5 sm:px-4 sm:py-3 font-medium text-gray-800">{item.title}</td>
+                        <td className="px-2 py-2.5 sm:px-4 sm:py-3 text-center text-gray-500">{item.quantity}</td>
+                        <td className="px-3 py-2.5 sm:px-4 sm:py-3 text-right text-gray-500">₹{item.price}</td>
+                        <td className="px-3 py-2.5 sm:px-4 sm:py-3 text-right font-semibold text-gray-800">
                           ₹{(item.price * item.quantity).toFixed(2)}
                         </td>
                       </tr>
@@ -308,24 +308,27 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
             </div>
 
             {/* Financial Breakdown */}
-            <div className="bg-white/5 p-3.5 sm:p-4 rounded-xl border border-white/5 space-y-1.5">
-              <div className="flex justify-between text-xs sm:text-sm text-white/60">
+            <div className="bg-gray-50 p-3.5 sm:p-4 rounded-xl border border-gray-100 space-y-1.5">
+              <div className="flex justify-between text-xs sm:text-sm text-gray-500">
                 <span>Subtotal</span>
                 <span>₹{activeOrder.subtotal?.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-xs sm:text-sm text-white/60">
+              <div className="flex justify-between text-xs sm:text-sm text-green-600 font-semibold">
                 <span>GST (18%)</span>
-                <span>₹{activeOrder.tax?.toFixed(2)}</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="line-through text-gray-400 text-xs font-normal">₹{((activeOrder.subtotal || activeOrder.total || 0) * 0.18).toFixed(2)}</span>
+                  <span>₹0.00</span>
+                </div>
               </div>
-              <div className="flex justify-between text-sm sm:text-base font-bold text-white pt-2 border-t border-white/10">
+              <div className="flex justify-between text-sm sm:text-base font-bold text-gray-800 pt-2 border-t border-gray-200">
                 <span>Total Amount</span>
-                <span className="text-[#FF7A00]">₹{activeOrder.total?.toFixed(2)}</span>
+                <span className="text-[#FF4500]">₹{activeOrder.total?.toFixed(2)}</span>
               </div>
             </div>
           </div>
 
           {/* Modal Footer */}
-          <div className="sticky bottom-0 bg-[#111111]/95 backdrop-blur border-t border-white/10 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <div className="sticky bottom-0 bg-white/95 backdrop-blur border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-3">
             <div className="w-full sm:w-auto">
               {activeOrder.paymentStatus === 'PAID' && user && (
                 <DownloadInvoiceButton order={JSON.parse(JSON.stringify(activeOrder))} user={JSON.parse(JSON.stringify(user))} />
@@ -333,7 +336,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
             </div>
             <button
               onClick={onClose}
-              className="w-full sm:w-auto px-6 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold transition-colors text-sm"
+              className="w-full sm:w-auto px-6 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold transition-colors text-sm"
             >
               Close
             </button>

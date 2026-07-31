@@ -48,7 +48,7 @@ export default function TermsPage() {
             <p>
               You may request cancellation of an order before the service work has commenced.
               Once work has started, cancellation requests will be reviewed on a case-by-case basis.
-              Please contact us at <span className="text-[#FF7A00]">info@sandydigitalhub.com</span> for
+              Please contact us at <span className="text-[#FF4500]">info@sandydigitalhub.com</span> for
               cancellation requests.
             </p>
           </section>
@@ -103,8 +103,8 @@ export default function TermsPage() {
             <h2 className="text-xl font-semibold text-white mb-3">10. Contact Us</h2>
             <p>
               If you have any questions about these Terms &amp; Conditions, please contact us at{" "}
-              <Link href="/contact" className="text-[#FF7A00] hover:underline">our contact page</Link> or
-              email us at <span className="text-[#FF7A00]">info@sandydigitalhub.com</span>.
+              <Link href="/contact" className="text-[#FF4500] hover:underline">our contact page</Link> or
+              email us at <span className="text-[#FF4500]">info@sandydigitalhub.com</span>.
             </p>
           </section>
         </div>

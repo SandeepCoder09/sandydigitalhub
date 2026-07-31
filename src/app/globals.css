@@ -34,6 +34,18 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Orangered palette override */
+  --color-orange-50: #fff5f0;
+  --color-orange-100: #ffe6d9;
+  --color-orange-200: #ffc4b3;
+  --color-orange-300: #ff9e80;
+  --color-orange-400: #ff704d;
+  --color-orange-500: #ff4500;
+  --color-orange-600: #e03e00;
+  --color-orange-700: #b83200;
+  --color-orange-800: #8f2700;
+  --color-orange-900: #661c00;
 }
 
 :root {
@@ -43,7 +55,7 @@
   --card-foreground: #111111;
   --popover: #ffffff;
   --popover-foreground: #111111;
-  --primary: #ff7a00;
+  --primary: #ff4500;
   --primary-foreground: #ffffff;
   --secondary: #111111;
   --secondary-foreground: #ffffff;
@@ -55,7 +67,7 @@
   --destructive-foreground: #f8fafc;
   --border: #e2e8f0;
   --input: #e2e8f0;
-  --ring: #ff7a00;
+  --ring: #ff4500;
   --radius: 0.5rem;
 }
 
@@ -66,7 +78,7 @@
   --card-foreground: #f8fafc;
   --popover: #020817;
   --popover-foreground: #f8fafc;
-  --primary: #ff7a00;
+  --primary: #ff4500;
   --primary-foreground: #ffffff;
   --secondary: #111111;
   --secondary-foreground: #ffffff;
@@ -78,7 +90,7 @@
   --destructive-foreground: #f8fafc;
   --border: #1e293b;
   --input: #1e293b;
-  --ring: #ff7a00;
+  --ring: #ff4500;
 }
 
 @layer base {
