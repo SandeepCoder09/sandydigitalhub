@@ -12,12 +12,12 @@ import { NavLogoutButton } from "@/components/layout/NavLogoutButton";
 
 export async function Navbar() {
   const session = await getServerSession(authOptions);
-  
+
   const routes = [
     { name: "Home", path: "/" },
     { name: "Services", path: "/services" },
     { name: "Image Tools", path: "/image-tools" },
-    { name: "Portfolio", path: "https://sandycoder.vercel.app/portfolio", target: "_blank"},
+    { name: "Portfolio", path: "https://sandycoder.vercel.app/portfolio", target: "_blank" },
     { name: "Pricing", path: "/pricing" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },

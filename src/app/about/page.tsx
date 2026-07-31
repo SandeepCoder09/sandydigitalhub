@@ -56,7 +56,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="relative aspect-square sm:aspect-video lg:aspect-square rounded-3xl overflow-hidden shadow-2xl border">
-            <Image 
+            <Image
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1000&q=80"
               alt="Team at work"
               fill
@@ -93,7 +93,7 @@ export default function AboutPage() {
               How we grew from a small idea into a complete digital solution center.
             </p>
           </div>
-          
+
           <div className="max-w-4xl mx-auto">
             {timeline.map((item, index) => (
               <div key={item.year} className="flex gap-6 md:gap-10 mb-10 last:mb-0 relative">
@@ -125,23 +125,23 @@ export default function AboutPage() {
               <MapPin className="w-6 h-6 text-primary shrink-0 mt-1" />
               <div>
                 <div className="font-semibold text-xl text-white mb-1">Sandy Digital Hub</div>
-                <div className="text-muted-foreground">Bairi, Khakhreru, Fatehpur,<br />Uttar Pradesh, India</div>
+                <div className="text-muted-foreground">Bairi, Khakhreru, Fatehpur,<br />Uttar Pradesh, India  - 212656</div>
               </div>
             </div>
           </div>
           <div className="w-full md:w-auto">
-             <div className="w-full md:w-80 aspect-square rounded-2xl border border-white/10 flex items-center justify-center overflow-hidden relative shadow-lg">
-                <Image 
-                  src="/about-map.png"
-                  alt="Location Map"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-700"
-                />
-             </div>
+            <div className="w-full md:w-80 aspect-square rounded-2xl border border-white/10 flex items-center justify-center overflow-hidden relative shadow-lg">
+              <Image
+                src="/about-map.png"
+                alt="Location Map"
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-700"
+              />
+            </div>
           </div>
         </div>
       </div>
-      
+
       <ContactCTA />
     </>
   );

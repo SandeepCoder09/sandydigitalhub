@@ -123,7 +123,7 @@ export default function ContactPage() {
                       <FormItem>
                         <FormLabel>Full Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="John Doe" {...field} />
+                          <Input placeholder="Rahul Sharma" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -198,10 +198,36 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Map */}
-        <div className="mt-24 rounded-3xl overflow-hidden border shadow-sm aspect-[21/9] bg-muted relative">
-          <div className="absolute inset-0 flex items-center justify-center bg-secondary/5">
-            <p className="text-lg text-muted-foreground font-medium">Interactive Google Map integration goes here</p>
+        {/* Interactive Google Map */}
+        <div className="mt-20 rounded-3xl overflow-hidden border border-gray-200 shadow-md bg-white relative">
+          <div className="p-4 sm:p-6 bg-gray-50 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h3 className="font-bold text-gray-900 text-lg sm:text-xl">Find Us On Google Maps</h3>
+              <p className="text-gray-500 text-xs sm:text-sm mt-0.5">
+                Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India - 212656
+              </p>
+            </div>
+            <a
+              href="https://maps.google.com/?q=Khakhreru,+Fatehpur,+Uttar+Pradesh+212656"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs sm:text-sm transition-colors shadow-md shadow-orange-200 w-fit"
+            >
+              <MapPin className="w-4 h-4" /> Open Directions in Google Maps
+            </a>
+          </div>
+          <div className="w-full h-[400px] sm:h-[450px]">
+            <iframe
+              src="https://maps.google.com/maps?q=Khakhreru,+Fatehpur,+Uttar+Pradesh+212656&t=&z=14&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Sandy Digital Hub Google Map Location"
+              className="w-full h-full"
+            />
           </div>
         </div>
       </div>

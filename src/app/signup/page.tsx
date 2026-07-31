@@ -80,15 +80,15 @@ export default function SignupPage() {
     <div className="min-h-screen flex flex-col md:flex-row bg-background">
       {/* Left Side - Image/Branding */}
       <div className="hidden md:flex md:w-1/2 lg:w-[55%] relative flex-col justify-between p-12 overflow-hidden bg-black">
-        <Image 
-          src="/auth-bg.png" 
-          alt="Digital Background" 
-          fill 
+        <Image
+          src="/auth-bg.png"
+          alt="Digital Background"
+          fill
           className="object-cover opacity-60"
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-        
+
         <div className="relative z-10">
           <Link href="/">
             <Image src="/logo-footer.png" alt="Sandy Digital Hub" width={200} height={60} className="w-auto h-16 object-contain" />
@@ -108,7 +108,7 @@ export default function SignupPage() {
       {/* Right Side - Form */}
       <div className="flex-1 flex items-center justify-center p-6 sm:p-12 md:p-16 relative">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
-        
+
         <div className="w-full max-w-md relative z-10">
           <div className="md:hidden flex justify-center mb-10">
             <Link href="/">
@@ -130,7 +130,7 @@ export default function SignupPage() {
                   {error}
                 </div>
               )}
-              
+
               <FormField
                 control={form.control}
                 name="name"
@@ -138,7 +138,7 @@ export default function SignupPage() {
                   <FormItem>
                     <FormLabel className="text-foreground/80">Full Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="John Doe" className="h-12 bg-white/5 border-white/10" {...field} />
+                      <Input placeholder="" className="h-12 bg-white/5 border-white/10" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -172,7 +172,7 @@ export default function SignupPage() {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="password"
@@ -181,11 +181,11 @@ export default function SignupPage() {
                     <FormLabel className="text-foreground/80">Password</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Input 
-                          placeholder="••••••••" 
-                          type={showPassword ? "text" : "password"} 
+                        <Input
+                          placeholder="••••••••"
+                          type={showPassword ? "text" : "password"}
                           className="pr-12 h-12 bg-white/5 border-white/10"
-                          {...field} 
+                          {...field}
                         />
                         <button
                           type="button"
@@ -200,7 +200,7 @@ export default function SignupPage() {
                   </FormItem>
                 )}
               />
-              
+
               <Button type="submit" className="w-full h-12 text-base mt-8 shadow-lg shadow-primary/25" disabled={isLoading}>
                 {isLoading ? (
                   <>
@@ -213,7 +213,7 @@ export default function SignupPage() {
               </Button>
             </form>
           </Form>
-          
+
           <div className="mt-8 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
             <Link href="/login" className="font-medium text-primary hover:text-primary/80 transition-colors">
