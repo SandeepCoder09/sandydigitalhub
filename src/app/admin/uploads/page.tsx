@@ -107,10 +107,10 @@ export default function AdminUploadsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredUploads.map((item) => {
                 const isImage = item.documentUrl?.startsWith('data:image/') || item.documentName?.match(/\.(jpg|jpeg|png|webp|gif)$/i);
-                const orderBrandedId = formatOrderId(item._id, item.createdAt);
+                const sourceLabel = item.source || 'Checkout Order';
                 const userName = item.user?.name || 'Rahul Sharma';
                 const userEmail = item.user?.email || 'rahulsharma@example.com';
-                const firstService = item.items?.[0]?.title || 'Digital Service Request';
+                const serviceName = item.serviceName || item.items?.[0]?.title || 'Digital Service Attachment';
 
                 return (
                   <div
@@ -152,9 +152,9 @@ export default function AdminUploadsPage() {
                         </a>
                       </div>
 
-                      {/* Status Tag */}
-                      <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-xl text-[10px] font-black uppercase text-gray-800 border border-gray-200 shadow-sm">
-                        {orderBrandedId}
+                      {/* Source Tag */}
+                      <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-xl text-[10px] font-extrabold uppercase text-[#FF4500] border border-orange-200 shadow-sm">
+                        {sourceLabel}
                       </div>
                     </div>
 
@@ -170,7 +170,7 @@ export default function AdminUploadsPage() {
                         <div className="bg-gray-50 p-3 rounded-2xl border border-gray-100 space-y-1 text-xs">
                           <div className="flex items-center gap-1.5 font-bold text-gray-800 truncate">
                             <ShoppingBag size={13} className="text-[#FF4500] shrink-0" />
-                            <span className="truncate">{firstService}</span>
+                            <span className="truncate">{serviceName}</span>
                           </div>
                           <div className="flex items-center gap-1.5 text-gray-500 text-[11px] pt-1">
                             <Calendar size={12} />
