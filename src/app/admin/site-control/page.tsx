@@ -12,6 +12,19 @@ const AVAILABLE_PAGES = [
   { path: '/pricing', label: 'Pricing Comparison Page', desc: 'Hide web app & design pricing plans' },
   { path: '/contact', label: 'Contact & Consultation Form', desc: 'Pause new contact message submissions' },
   { path: '/signup', label: 'User Registration & Signup', desc: 'Stop new user accounts from registering' },
+  { path: '/login', label: 'User Login & Auth', desc: 'Block users from logging into their accounts' },
+  { path: '/profile', label: 'User Profile & Settings', desc: 'Pause access to user account management' },
+  { path: '/requests', label: 'My Orders & Tracker', desc: 'Pause client order tracking' },
+  { path: '/about', label: 'About Us & Company Info', desc: 'Hide company overview page' },
+  { path: '/image-tools/passport-photo', label: 'Passport Photo Generator', desc: 'Block passport photo maker tool' },
+  { path: '/image-tools/convert', label: 'Image Format Converter', desc: 'Block PNG/JPG/WebP image converter' },
+  { path: '/image-tools/resize', label: 'Image Resizer Tool', desc: 'Block image dimension resizer' },
+  { path: '/image-tools/crop', label: 'Image Cropper Tool', desc: 'Block image crop tool' },
+  { path: '/image-tools/watermark', label: 'Watermark Tool', desc: 'Block image watermark tool' },
+  { path: '/image-tools/qr-generator', label: 'QR Code Generator', desc: 'Block QR code generator tool' },
+  { path: '/image-tools/image-to-pdf', label: 'Image to PDF Tool', desc: 'Block JPG to PDF converter' },
+  { path: '/tools/word-counter', label: 'Word & Character Counter', desc: 'Block word counter tool' },
+  { path: '/tools/password-generator', label: 'Password Generator', desc: 'Block strong password generator' },
 ];
 
 export default function AdminSiteControlPage() {
@@ -89,8 +102,10 @@ export default function AdminSiteControlPage() {
   const togglePageBlock = (path: string) => {
     if (blockedPages.includes(path)) {
       setBlockedPages(blockedPages.filter((p) => p !== path));
+      toast.info(`Unblocked ${path} route.`);
     } else {
       setBlockedPages([...blockedPages, path]);
+      toast.success(`Blocked ${path} route.`);
     }
   };
 
@@ -101,7 +116,7 @@ export default function AdminSiteControlPage() {
     if (!blockedPages.includes(clean)) {
       setBlockedPages([...blockedPages, clean]);
       setCustomPageInput('');
-      toast.info(`Added ${clean} to blocked pages list.`);
+      toast.success(`Added ${clean} to blocked pages list.`);
     }
   };
 
@@ -111,7 +126,7 @@ export default function AdminSiteControlPage() {
     if (!blockedEmails.includes(clean)) {
       setBlockedEmails([...blockedEmails, clean]);
       setEmailInput('');
-      toast.info(`Added ${clean} to blocked email list.`);
+      toast.success(`Added ${clean} to blocked email list.`);
     }
   };
 
@@ -121,7 +136,7 @@ export default function AdminSiteControlPage() {
     if (!blockedIps.includes(clean)) {
       setBlockedIps([...blockedIps, clean]);
       setIpInput('');
-      toast.info(`Added ${clean} to blocked IP list.`);
+      toast.success(`Added ${clean} to blocked IP list.`);
     }
   };
 
@@ -177,7 +192,12 @@ export default function AdminSiteControlPage() {
               </div>
 
               <button
-                onClick={() => setIsEmergencyLockdown(!isEmergencyLockdown)}
+                onClick={() => {
+                  const nextState = !isEmergencyLockdown;
+                  setIsEmergencyLockdown(nextState);
+                  if (nextState) toast.error('Emergency Lockdown Mode Activated!');
+                  else toast.success('Emergency Lockdown Mode Disabled.');
+                }}
                 className={`px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 transition-all shadow-md cursor-pointer shrink-0 ${
                   isEmergencyLockdown
                     ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
@@ -208,21 +228,21 @@ export default function AdminSiteControlPage() {
           <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-6">
             <div>
               <h2 className="text-xl font-black text-gray-900 flex items-center gap-2">
-                <EyeOff className="text-[#FF4500]" /> Page Access & Route Blocker
+                <EyeOff className="text-[#FF4500]" /> Page Access & Route Blocker ({AVAILABLE_PAGES.length} Pre-configured Routes)
               </h2>
               <p className="text-xs text-gray-500 font-medium mt-1">
                 Toggle ON/OFF to instantly block or unblock specific website pages from public users. Blocked pages display an admin pause screen.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {AVAILABLE_PAGES.map((page) => {
                 const isBlocked = blockedPages.includes(page.path);
                 return (
                   <div
                     key={page.path}
                     onClick={() => togglePageBlock(page.path)}
-                    className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-4 ${
+                    className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-3.5 ${
                       isBlocked
                         ? 'border-red-500 bg-red-50/60 shadow-sm'
                         : 'border-gray-200 bg-gray-50/50 hover:border-gray-300'
@@ -230,15 +250,15 @@ export default function AdminSiteControlPage() {
                   >
                     <div className="pt-0.5">
                       {isBlocked ? (
-                        <Ban className="text-red-600 shrink-0" size={20} />
+                        <Ban className="text-red-600 shrink-0" size={18} />
                       ) : (
-                        <Globe className="text-emerald-600 shrink-0" size={20} />
+                        <Globe className="text-emerald-600 shrink-0" size={18} />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2">
-                        <h4 className="font-bold text-sm text-gray-900 truncate">{page.label}</h4>
-                        <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full border ${
+                      <div className="flex items-center justify-between gap-1">
+                        <h4 className="font-bold text-xs text-gray-900 truncate">{page.label}</h4>
+                        <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full border ${
                           isBlocked
                             ? 'bg-red-100 text-red-800 border-red-300'
                             : 'bg-emerald-100 text-emerald-800 border-emerald-300'
@@ -246,8 +266,8 @@ export default function AdminSiteControlPage() {
                           {isBlocked ? 'BLOCKED' : 'ACTIVE'}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1 font-mono">{page.path}</p>
-                      <p className="text-[11px] text-gray-500 mt-1 leading-normal">{page.desc}</p>
+                      <p className="text-[11px] text-gray-500 mt-1 font-mono font-semibold">{page.path}</p>
+                      <p className="text-[10px] text-gray-500 mt-1 leading-snug line-clamp-2">{page.desc}</p>
                     </div>
                   </div>
                 );
@@ -257,14 +277,14 @@ export default function AdminSiteControlPage() {
             {/* Custom Route Blocker Input */}
             <div className="pt-4 border-t border-gray-100 space-y-3">
               <label className="block text-xs font-extrabold uppercase text-gray-700">
-                Block Custom URL Route (e.g. /tools/word-counter or /privacy)
+                Block Custom URL Route (e.g. /privacy or /terms)
               </label>
               <div className="flex gap-2">
                 <input
                   type="text"
                   value={customPageInput}
                   onChange={(e) => setCustomPageInput(e.target.value)}
-                  placeholder="/tools/word-counter"
+                  placeholder="/privacy"
                   className="flex-1 bg-gray-50 text-gray-900 p-3 rounded-xl border border-gray-200 outline-none text-sm font-semibold focus:border-[#FF4500]"
                 />
                 <button
@@ -320,7 +340,12 @@ export default function AdminSiteControlPage() {
               </div>
 
               <button
-                onClick={() => setAllowFileUploads(!allowFileUploads)}
+                onClick={() => {
+                  const nextState = !allowFileUploads;
+                  setAllowFileUploads(nextState);
+                  if (nextState) toast.success('File uploads enabled.');
+                  else toast.error('File uploads restricted.');
+                }}
                 className={`px-4 py-2 rounded-xl text-xs font-black uppercase transition-colors cursor-pointer border ${
                   allowFileUploads
                     ? 'bg-emerald-100 text-emerald-900 border-emerald-300'

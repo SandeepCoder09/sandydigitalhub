@@ -5,6 +5,7 @@ import { AdminSidebar } from '@/components/admin/AdminSidebar';
 import { ShieldAlert, ShieldCheck, AlertOctagon, Trash2, RefreshCw, Lock, AlertTriangle, Eye } from 'lucide-react';
 import { formatDateTime } from '@/lib/utils';
 import { toast } from '@/components/ui/Toast';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 
 export default function AdminSecurityLogsPage() {
   const [loading, setLoading] = useState(true);
@@ -12,6 +13,8 @@ export default function AdminSecurityLogsPage() {
   const [logs, setLogs] = useState<any[]>([]);
   const [criticalCount, setCriticalCount] = useState(0);
   const [totalThreats, setTotalThreats] = useState(0);
+  const [showClearModal, setShowClearModal] = useState(false);
+  const [clearing, setClearing] = useState(false);
 
   const fetchLogs = async (showToast = false) => {
     if (showToast) setRefreshing(true);
@@ -22,7 +25,7 @@ export default function AdminSecurityLogsPage() {
         setLogs(json.logs || []);
         setCriticalCount(json.criticalCount || 0);
         setTotalThreats(json.totalThreats || 0);
-        if (showToast) toast.success('Security logs refreshed!');
+        if (showToast) toast.success('Security audit logs updated!');
       } else {
         toast.error('Failed to load security logs.');
       }
@@ -39,19 +42,24 @@ export default function AdminSecurityLogsPage() {
     fetchLogs();
   }, []);
 
-  const handleClearLogs = async () => {
-    if (!confirm('Are you sure you want to clear all security audit logs?')) return;
+  const handleConfirmClearLogs = async () => {
+    setClearing(true);
     try {
       const res = await fetch('/api/admin/security-logs', { method: 'DELETE' });
       if (res.ok) {
-        toast.success('All security audit logs cleared.');
+        toast.success('All security audit logs cleared successfully!', 'Logs Purged');
         setLogs([]);
         setCriticalCount(0);
         setTotalThreats(0);
+      } else {
+        toast.error('Failed to clear logs.');
       }
     } catch (error) {
       console.error(error);
       toast.error('Error clearing logs.');
+    } finally {
+      setClearing(false);
+      setShowClearModal(false);
     }
   };
 
@@ -82,8 +90,8 @@ export default function AdminSecurityLogsPage() {
                 <span>Refresh</span>
               </button>
               <button
-                onClick={handleClearLogs}
-                className="px-4 py-2.5 rounded-2xl bg-red-100 text-red-800 font-extrabold text-xs flex items-center gap-1.5 border border-red-300 cursor-pointer"
+                onClick={() => setShowClearModal(true)}
+                className="px-4 py-2.5 rounded-2xl bg-red-100 text-red-800 font-extrabold text-xs flex items-center gap-1.5 border border-red-300 cursor-pointer hover:bg-red-200 transition-all"
               >
                 <Trash2 size={14} />
                 <span>Clear Audit Logs</span>
@@ -164,6 +172,18 @@ export default function AdminSecurityLogsPage() {
           </div>
         </main>
       </div>
+
+      {/* Custom Confirmation Modal */}
+      <ConfirmModal
+        isOpen={showClearModal}
+        onClose={() => setShowClearModal(false)}
+        onConfirm={handleConfirmClearLogs}
+        title="Clear Security Audit Logs?"
+        message="This action will permanently delete all recorded firewall threat events and security audit logs. This action cannot be undone."
+        confirmText="Yes, Purge All Logs"
+        cancelText="Cancel"
+        isLoading={clearing}
+      />
     </div>
   );
 }
