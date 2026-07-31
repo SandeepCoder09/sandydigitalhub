@@ -3,8 +3,8 @@
 
 import { useCartStore } from '@/store/cartStore';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { CheckCircle2, Circle, CreditCard, Store, ShieldCheck, Lock, Upload, FileText, ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { CheckCircle2, Circle, CreditCard, Store, ShieldCheck, Lock, Upload, FileText, ArrowRight, Ban } from 'lucide-react';
 import Script from 'next/script';
 import { toast } from '@/components/ui/Toast';
 
@@ -15,18 +15,45 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<'online' | 'pay_at_shop'>('online');
   const [documentUrl, setDocumentUrl] = useState<string>('');
   const [documentName, setDocumentName] = useState<string>('');
+  const [allowFileUploads, setAllowFileUploads] = useState<boolean>(true);
+
+  useEffect(() => {
+    const checkSiteControl = async () => {
+      try {
+        const res = await fetch('/api/site-control');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.settings && typeof data.settings.allowFileUploads === 'boolean') {
+            setAllowFileUploads(data.settings.allowFileUploads);
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    checkSiteControl();
+  }, []);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("File size must be under 5MB", "File Too Large");
+    if (!allowFileUploads) {
+      toast.error('File and photo uploads are currently disabled by Admin Firewall settings.', 'Upload Restricted');
+      e.target.value = '';
       return;
     }
-    setDocumentName(file.name);
+
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File size exceeds maximum limit of 5MB', 'File Too Large');
+      return;
+    }
+
     const reader = new FileReader();
     reader.onloadend = () => {
       setDocumentUrl(reader.result as string);
+      setDocumentName(file.name);
+      toast.success(`Attached ${file.name}`, 'Document Attached');
     };
     reader.readAsDataURL(file);
   };
@@ -202,30 +229,37 @@ export default function CheckoutPage() {
                     <Upload size={14} className="text-[#FF4500]" />
                     <span>Attach Document / Photo (Optional)</span>
                   </label>
-                  <div className="bg-gray-50 p-3.5 rounded-2xl border border-gray-200 flex flex-col sm:flex-row items-center gap-3">
-                    <input
-                      type="file"
-                      id="document-upload"
-                      accept="image/*,application/pdf"
-                      onChange={handleFileUpload}
-                      className="hidden"
-                    />
-                    <label
-                      htmlFor="document-upload"
-                      className="px-4 py-2.5 bg-white border border-gray-300 hover:bg-gray-100 text-gray-800 rounded-xl text-xs font-bold cursor-pointer transition-colors w-full sm:w-auto text-center shadow-sm shrink-0"
-                    >
-                      Choose File (PDF/Image)
-                    </label>
-                    {documentName ? (
-                      <span className="text-xs text-[#FF4500] font-bold truncate max-w-xs">
-                        ✓ {documentName}
-                      </span>
-                    ) : (
-                      <span className="text-xs text-gray-400 font-medium">
-                        No file attached (Max 5MB)
-                      </span>
-                    )}
-                  </div>
+                  {!allowFileUploads ? (
+                    <div className="bg-red-50 p-4 rounded-2xl border border-red-200 text-red-800 text-xs font-bold flex items-center gap-2">
+                      <Ban size={16} className="text-red-600 shrink-0" />
+                      <span>File and photo attachments are currently restricted by Admin Firewall settings.</span>
+                    </div>
+                  ) : (
+                    <div className="bg-gray-50 p-3.5 rounded-2xl border border-gray-200 flex flex-col sm:flex-row items-center gap-3">
+                      <input
+                        type="file"
+                        id="document-upload"
+                        accept="image/*,application/pdf"
+                        onChange={handleFileUpload}
+                        className="hidden"
+                      />
+                      <label
+                        htmlFor="document-upload"
+                        className="px-4 py-2.5 bg-white border border-gray-300 hover:bg-gray-100 text-gray-800 rounded-xl text-xs font-bold cursor-pointer transition-colors w-full sm:w-auto text-center shadow-sm shrink-0"
+                      >
+                        Choose File (PDF/Image)
+                      </label>
+                      {documentName ? (
+                        <span className="text-xs text-[#FF4500] font-bold truncate max-w-xs">
+                          ✓ {documentName}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-gray-400 font-medium">
+                          No file attached (Max 5MB)
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -6,6 +6,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
 import Razorpay from 'razorpay';
 
+import { SiteControl } from '@/models/SiteControl';
+
 export async function POST(req: Request) {
   try {
     const razorpay = new Razorpay({
@@ -28,6 +30,12 @@ export async function POST(req: Request) {
     }
 
     await connectDB();
+
+    // Check SiteControl allowFileUploads setting
+    const siteControl = await SiteControl.findOne().lean();
+    if (siteControl && siteControl.allowFileUploads === false && documentUrl) {
+      return NextResponse.json({ message: 'File and photo uploads are currently restricted by Admin Firewall settings.' }, { status: 403 });
+    }
 
     if (paymentMethod === 'pay_at_shop') {
       const order = await Order.create({
