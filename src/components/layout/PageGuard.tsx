@@ -5,9 +5,6 @@ import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { ShieldAlert, Lock, AlertTriangle, RefreshCw, Home, PhoneCall, Eye } from 'lucide-react';
 import Link from 'next/link';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
-import { LiveChatWidget } from '@/components/layout/LiveChatWidget';
 
 interface SiteSettings {
   isEmergencyLockdown: boolean;
@@ -16,7 +13,14 @@ interface SiteSettings {
   blockedPages: string[];
 }
 
-export function PageGuard({ children }: { children: ReactNode }) {
+interface PageGuardProps {
+  children: ReactNode;
+  navbar: ReactNode;
+  footer: ReactNode;
+  liveChat: ReactNode;
+}
+
+export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
@@ -51,12 +55,12 @@ export function PageGuard({ children }: { children: ReactNode }) {
 
   const renderNormalPageLayout = (content: ReactNode) => (
     <>
-      <Navbar />
+      {navbar}
       <main className="flex-1">
         {content}
       </main>
-      <Footer />
-      <LiveChatWidget />
+      {footer}
+      {liveChat}
     </>
   );
 
