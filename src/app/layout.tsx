@@ -8,6 +8,7 @@ import AuthProvider from "@/components/providers/AuthProvider";
 import { ToastProvider } from "@/components/ui/Toast";
 import { PageGuard } from "@/components/layout/PageGuard";
 import { VisitorTracker } from "@/components/layout/VisitorTracker";
+import { SuzuBusinessWidget } from "@/components/layout/SuzuBusinessWidget";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,6 +36,7 @@ export default function RootLayout({
         <AuthProvider>
           <ToastProvider>
             <VisitorTracker />
+            <SuzuBusinessWidget />
             <PageGuard navbar={<Navbar />} footer={<Footer />} liveChat={<LiveChatWidget />}>
               {children}
             </PageGuard>
