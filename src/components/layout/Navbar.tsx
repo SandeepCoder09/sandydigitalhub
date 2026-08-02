@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Sparkles, User, ShieldCheck, Home, Zap, Image as ImageIcon, Briefcase, Tag, Building, PhoneCall, Wrench } from "lucide-react";
+import { Menu, Sparkles, User, ShieldCheck, Home, Zap, Image as ImageIcon, Briefcase, Tag, Building, PhoneCall, Wrench, FileCheck, Calculator, PackageCheck } from "lucide-react";
 import Image from "next/image";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { NotificationBell } from "@/components/layout/NotificationBell";
@@ -13,13 +13,15 @@ import { NavLogoutButton } from "@/components/layout/NavLogoutButton";
 export async function Navbar() {
   const session = await getServerSession(authOptions);
 
-  const routes = [
+  const routes: { name: string; path: string; icon: any; target?: string }[] = [
     { name: "Home", path: "/", icon: Home },
     { name: "Services", path: "/services", icon: Zap },
+    { name: "Checklist", path: "/document-checklist", icon: FileCheck },
+    { name: "Calculator", path: "/calculator", icon: Calculator },
+    { name: "Track Order", path: "/track-order", icon: PackageCheck },
+    { name: "Portfolio", path: "/portfolio", icon: Briefcase },
     { name: "Tools", path: "/tools", icon: Wrench },
-    { name: "Portfolio", path: "https://sandycoder.vercel.app/portfolio", target: "_blank", icon: Briefcase },
     { name: "Pricing", path: "/pricing", icon: Tag },
-    { name: "About", path: "/about", icon: Building },
     { name: "Contact", path: "/contact", icon: PhoneCall },
   ];
 

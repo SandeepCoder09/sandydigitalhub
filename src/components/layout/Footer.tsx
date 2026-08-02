@@ -29,25 +29,23 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Services</h4>
-            <ul className="space-y-2">
-              <li><Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">Website Development</Link></li>
-              <li><Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">Mobile App Development</Link></li>
-              <li><Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">Digital Services & PAN Card</Link></li>
-              <li><Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">Digital Marketing & SEO</Link></li>
-              <li><Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">Graphic Design</Link></li>
-              <li><Link href="/tools" className="text-muted-foreground hover:text-primary transition-colors font-semibold">⚡ Free Tools Hub</Link></li>
+            <h4 className="text-lg font-semibold mb-4 text-white">Features & Tools</h4>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/document-checklist" className="text-muted-foreground hover:text-[#FF4500] transition-colors font-medium">📋 Document Checklist</Link></li>
+              <li><Link href="/calculator" className="text-muted-foreground hover:text-[#FF4500] transition-colors font-medium">🧮 Price Calculator</Link></li>
+              <li><Link href="/track-order" className="text-muted-foreground hover:text-[#FF4500] transition-colors font-medium">📦 Track Order Status</Link></li>
+              <li><Link href="/portfolio" className="text-muted-foreground hover:text-[#FF4500] transition-colors font-medium">💼 Portfolio & Projects</Link></li>
+              <li><Link href="/tools" className="text-muted-foreground hover:text-[#FF4500] transition-colors font-semibold">⚡ Free Web Tools Hub</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-lg font-semibold mb-4 text-white">Company</h4>
-            <ul className="space-y-2">
+            <ul className="space-y-2 text-sm">
               <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
-              <li><Link href="https://sandycoder.vercel.app/portfolio" className="text-muted-foreground hover:text-primary transition-colors" target="_blank">Portfolio</Link></li>
+              <li><Link href="/portfolio" className="text-muted-foreground hover:text-primary transition-colors">Portfolio Case Studies</Link></li>
               <li><Link href="/pricing" className="text-muted-foreground hover:text-primary transition-colors">Pricing</Link></li>
-              <li><Link href="https://sandycoder.vercel.app/blog" className="text-muted-foreground hover:text-primary transition-colors" target="_blank">Blog</Link></li>
-              <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
+              <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
