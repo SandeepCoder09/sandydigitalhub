@@ -3,7 +3,7 @@
 import { useState, useEffect, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { ShieldAlert, Lock, AlertTriangle, RefreshCw, Home, PhoneCall, Eye, Loader2 } from 'lucide-react';
+import { ShieldAlert, Lock, AlertTriangle, RefreshCw, Home, PhoneCall, Eye, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 
 interface SiteSettings {
@@ -71,13 +71,42 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
     </>
   );
 
-  // 1. Sleek loading state during initial status check (Prevents any content flash)
+  // 1. Premium Branded High-Trust Loading Screen (Prevents any unstyled content flash)
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center p-6">
-        <div className="flex flex-col items-center gap-3 text-center">
-          <Loader2 size={36} className="animate-spin text-[#FF4500]" />
-          <p className="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Checking System Security Status...</p>
+      <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black text-white flex items-center justify-center p-6 relative overflow-hidden">
+        {/* Ambient Backlight Glows */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF4500]/15 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div className="relative z-10 max-w-sm w-full bg-gray-900/80 border border-white/10 p-8 rounded-3xl text-center space-y-6 shadow-2xl backdrop-blur-xl">
+          {/* Logo & Animated Loader Ring */}
+          <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
+            <div className="absolute inset-0 rounded-full border-2 border-[#FF4500]/20 border-t-[#FF4500] animate-spin"></div>
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#FF4500] to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/30">
+              <ShieldCheck size={28} className="text-white" />
+            </div>
+          </div>
+
+          {/* Typography */}
+          <div className="space-y-1.5">
+            <div className="text-xs font-black uppercase text-[#FF4500] tracking-widest flex items-center justify-center gap-1.5">
+              <span>SANDY DIGITAL HUB</span>
+            </div>
+            <h2 className="text-xl font-black text-white tracking-tight">Verifying System Integrity</h2>
+            <p className="text-xs text-gray-400 font-medium">Securing connection & checking firewall protocols...</p>
+          </div>
+
+          {/* Progress Indicator Bar */}
+          <div className="space-y-2 pt-2">
+            <div className="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden border border-gray-700/50">
+              <div className="bg-gradient-to-r from-[#FF4500] via-orange-400 to-amber-400 h-full rounded-full w-2/3 animate-pulse"></div>
+            </div>
+            <div className="flex justify-between items-center text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+              <span>Security Check</span>
+              <span className="text-[#FF4500]">256-Bit SSL Encrypted</span>
+            </div>
+          </div>
         </div>
       </div>
     );
