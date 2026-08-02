@@ -7,6 +7,10 @@ import { toast } from '@/components/ui/Toast';
 
 const AVAILABLE_PAGES = [
   { path: '/checkout', label: 'Checkout & Payment Gateway', desc: 'Prevent users from placing new service orders or online payments' },
+  { path: '/document-checklist', label: 'Jan Seva Document Checklist', desc: 'Block access to government certificate eligibility & checklist' },
+  { path: '/calculator', label: 'Service & Project Price Calculator', desc: 'Block access to instant quotation quote builder' },
+  { path: '/track-order', label: 'Live Application & Order Tracker', desc: 'Block public order status tracking page' },
+  { path: '/portfolio', label: 'Client Portfolio Showcase', desc: 'Block case studies and past web projects showcase' },
   { path: '/tools', label: 'Digital Tools Hub', desc: 'Block access to all browser-based image and PDF tools' },
   { path: '/services', label: 'Services Catalog', desc: 'Restrict viewing of available Jan Seva & Cyber services' },
   { path: '/pricing', label: 'Pricing Comparison Page', desc: 'Hide web app & design pricing plans' },
