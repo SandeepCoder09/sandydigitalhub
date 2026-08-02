@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Sparkles, User, ShieldCheck, Home, Zap, Image as ImageIcon, Briefcase, Tag, Building, PhoneCall, Wrench, FileCheck, Calculator, PackageCheck } from "lucide-react";
+import { Menu, Sparkles, User, ShieldCheck, Home, Zap, Image as ImageIcon, Briefcase, Tag, Building, PhoneCall, Wrench, FileCheck, Calculator, PackageCheck, Star } from "lucide-react";
 import Image from "next/image";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { NotificationBell } from "@/components/layout/NotificationBell";
@@ -21,6 +21,8 @@ export async function Navbar() {
     { name: "Calculator", path: "/calculator", icon: Calculator },
     { name: "Track Order", path: "/track-order", icon: PackageCheck },
     { name: "Portfolio", path: "/portfolio", icon: Briefcase },
+    { name: "Reviews", path: "/reviews", icon: Star },
+    { name: "Resizer", path: "/tools/govt-photo-resizer", icon: ImageIcon },
     { name: "Tools", path: "/tools", icon: Wrench },
     { name: "Pricing", path: "/pricing", icon: Tag },
     { name: "Contact", path: "/contact", icon: PhoneCall },
