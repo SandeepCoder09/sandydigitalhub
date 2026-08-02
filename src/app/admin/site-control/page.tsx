@@ -11,6 +11,8 @@ const AVAILABLE_PAGES = [
   { path: '/calculator', label: 'Service & Project Price Calculator', desc: 'Block access to instant quotation quote builder' },
   { path: '/track-order', label: 'Live Application & Order Tracker', desc: 'Block public order status tracking page' },
   { path: '/portfolio', label: 'Client Portfolio Showcase', desc: 'Block case studies and past web projects showcase' },
+  { path: '/reviews', label: 'Customer Reviews & Ratings', desc: 'Block public reviews and testimonials page' },
+  { path: '/tools/govt-photo-resizer', label: 'Jan Seva Photo & Signature Resizer', desc: 'Block UP e-District photo resizer tool' },
   { path: '/tools', label: 'Digital Tools Hub', desc: 'Block access to all browser-based image and PDF tools' },
   { path: '/services', label: 'Services Catalog', desc: 'Restrict viewing of available Jan Seva & Cyber services' },
   { path: '/pricing', label: 'Pricing Comparison Page', desc: 'Hide web app & design pricing plans' },

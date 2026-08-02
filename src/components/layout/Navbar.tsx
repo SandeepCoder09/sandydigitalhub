@@ -8,6 +8,7 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 import { NotificationBell } from "@/components/layout/NotificationBell";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import { LanguageNavToggle } from "@/components/layout/LanguageNavToggle";
 import { NavLogoutButton } from "@/components/layout/NavLogoutButton";
 
 export async function Navbar() {
@@ -61,6 +62,7 @@ export async function Navbar() {
               );
             })}
             <div className="flex items-center space-x-3 ml-3">
+              <LanguageNavToggle />
               <NotificationBell />
               <CartDrawer />
               {session ? (

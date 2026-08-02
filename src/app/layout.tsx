@@ -10,6 +10,8 @@ import { PageGuard } from "@/components/layout/PageGuard";
 import { VisitorTracker } from "@/components/layout/VisitorTracker";
 import { SuzuBusinessWidget } from "@/components/layout/SuzuBusinessWidget";
 
+import { LanguageProvider } from "@/context/LanguageContext";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -34,13 +36,15 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} min-h-screen flex flex-col antialiased`}>
         <AuthProvider>
-          <ToastProvider>
-            <VisitorTracker />
-            <SuzuBusinessWidget />
-            <PageGuard navbar={<Navbar />} footer={<Footer />} liveChat={<LiveChatWidget />}>
-              {children}
-            </PageGuard>
-          </ToastProvider>
+          <LanguageProvider>
+            <ToastProvider>
+              <VisitorTracker />
+              <SuzuBusinessWidget />
+              <PageGuard navbar={<Navbar />} footer={<Footer />} liveChat={<LiveChatWidget />}>
+                {children}
+              </PageGuard>
+            </ToastProvider>
+          </LanguageProvider>
         </AuthProvider>
       </body>
     </html>

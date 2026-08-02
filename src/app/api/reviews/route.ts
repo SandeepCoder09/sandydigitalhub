@@ -1,32 +1,44 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-require-imports, @next/next/no-img-element, @next/next/no-sync-scripts, react/no-unescaped-entities */
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
-import { Order } from '@/models/Order';
-
-export const dynamic = 'force-dynamic';
+import { Review } from '@/models/Review';
 
 export async function GET() {
   try {
     await connectDB();
-    const ordersWithReviews = await Order.find({
-      rating: { $gte: 1 },
-      reviewText: { $exists: true, $ne: '' }
-    })
-      .sort({ updatedAt: -1 })
-      .limit(10)
-      .populate('userId', 'name role');
+    const reviews = await Review.find({ isApproved: true })
+      .sort({ createdAt: -1 })
+      .limit(30)
+      .lean();
 
-    const formattedReviews = ordersWithReviews.map((order: any) => ({
-      id: order._id.toString(),
-      name: order.userId?.name || 'Verified Customer',
-      role: 'Verified Client',
-      content: order.reviewText,
-      rating: order.rating || 5,
-      initials: order.userId?.name ? order.userId.name.slice(0, 2).toUpperCase() : 'VC',
-    }));
+    return NextResponse.json({ success: true, reviews });
+  } catch (err: any) {
+    console.error('Fetch reviews error:', err);
+    return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
+  }
+}
 
-    return NextResponse.json({ reviews: formattedReviews });
-  } catch (error) {
-    return NextResponse.json({ reviews: [] });
+export async function POST(req: Request) {
+  try {
+    const { name, phone, serviceCategory, rating, comment } = await req.json();
+
+    if (!name || !rating || !comment) {
+      return NextResponse.json({ error: 'Name, rating, and review comment are required' }, { status: 400 });
+    }
+
+    await connectDB();
+
+    const newReview = await Review.create({
+      name: name.trim(),
+      phone: phone ? phone.trim() : undefined,
+      serviceCategory: serviceCategory || 'Jan Seva / General',
+      rating: Number(rating),
+      comment: comment.trim(),
+      isApproved: true,
+    });
+
+    return NextResponse.json({ success: true, review: newReview }, { status: 201 });
+  } catch (err: any) {
+    console.error('Create review error:', err);
+    return NextResponse.json({ error: err.message || 'Internal Server Error' }, { status: 500 });
   }
 }
