@@ -117,6 +117,7 @@ export async function Navbar() {
 
           {/* Mobile Navigation (Sliding Top to Bottom) */}
           <div className="flex lg:hidden items-center gap-2">
+            <LanguageNavToggle />
             <NotificationBell />
             <CartDrawer />
             <Sheet>
