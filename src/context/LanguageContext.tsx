@@ -12,17 +12,17 @@ interface LanguageContextType {
 }
 
 const translations: Record<string, Record<Language, string>> = {
-  home: { en: 'Home', hi: 'होम' },
-  services: { en: 'Services', hi: 'सेवाएं' },
-  checklist: { en: 'Checklist', hi: 'चेकलिस्ट' },
-  calculator: { en: 'Calculator', hi: 'कैल्कुलेटर' },
-  trackOrder: { en: 'Track Order', hi: 'ऑर्डर ट्रैक करें' },
-  portfolio: { en: 'Portfolio', hi: 'पोर्टफोलियो' },
-  tools: { en: 'Tools', hi: 'टूल्स' },
-  pricing: { en: 'Pricing', hi: 'मूल्य निर्धारण' },
-  contact: { en: 'Contact', hi: 'संपर्क करें' },
-  reviews: { en: 'Reviews', hi: 'समीक्षाएं' },
-  resizer: { en: 'Govt Photo Resizer', hi: 'फोटो रिसाइजर' },
+  Home: { en: 'Home', hi: 'होम' },
+  Services: { en: 'Services', hi: 'सेवाएं' },
+  Checklist: { en: 'Checklist', hi: 'दस्तावेज़ चेकलिस्ट' },
+  Calculator: { en: 'Calculator', hi: 'प्राइस कैल्कुलेटर' },
+  'Track Order': { en: 'Track Order', hi: 'ऑर्डर ट्रैक करें' },
+  Portfolio: { en: 'Portfolio', hi: 'पोर्टफोलियो' },
+  Reviews: { en: 'Reviews', hi: 'समीक्षाएं' },
+  Resizer: { en: 'Govt Photo Resizer', hi: 'फोटो रिसाइजर' },
+  Tools: { en: 'Tools', hi: 'टूल्स' },
+  Pricing: { en: 'Pricing', hi: 'मूल्य निर्धारण' },
+  Contact: { en: 'Contact', hi: 'संपर्क करें' },
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -30,16 +30,57 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>('en');
 
+  // Trigger Google Translate engine for full page translation
+  const applyGoogleTranslate = (lang: Language) => {
+    if (typeof window === 'undefined') return;
+
+    const cookieValue = lang === 'hi' ? '/en/hi' : '/en/en';
+    document.cookie = `googtrans=${cookieValue}; path=/;`;
+    document.cookie = `googtrans=${cookieValue}; path=/; domain=${window.location.hostname};`;
+
+    // Trigger select element if Google Translate widget is mounted
+    const combo = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+    if (combo) {
+      combo.value = lang === 'hi' ? 'hi' : 'en';
+      combo.dispatchEvent(new Event('change'));
+    } else if (lang === 'hi') {
+      // Reload once to apply cookie translation if element is not initialized
+      window.location.reload();
+    }
+  };
+
   useEffect(() => {
+    // Inject Google Translate script silently in background
+    if (typeof window !== 'undefined' && !document.getElementById('google-translate-script')) {
+      const script = document.createElement('script');
+      script.id = 'google-translate-script';
+      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateInit';
+      script.async = true;
+      document.body.appendChild(script);
+
+      (window as any).googleTranslateInit = () => {
+        if ((window as any).google && (window as any).google.translate) {
+          new (window as any).google.translate.TranslateElement(
+            { pageLanguage: 'en', includedLanguages: 'hi,en', layout: 0 },
+            'google_translate_element'
+          );
+        }
+      };
+    }
+
     const saved = localStorage.getItem('sdh_lang') as Language;
     if (saved === 'en' || saved === 'hi') {
       setLanguageState(saved);
+      if (saved === 'hi') {
+        applyGoogleTranslate('hi');
+      }
     }
   }, []);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem('sdh_lang', lang);
+    applyGoogleTranslate(lang);
   };
 
   const toggleLanguage = () => {
@@ -55,6 +96,15 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, t }}>
+      {/* Hidden container for Google Translate engine */}
+      <div id="google_translate_element" className="hidden" style={{ display: 'none' }} />
+      <style jsx global>{`
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0px !important; }
+        .goog-tooltip { display: none !important; }
+        .goog-tooltip:hover { display: none !important; }
+        .goog-text-highlight { background-color: transparent !important; box-shadow: none !important; }
+      `}</style>
       {children}
     </LanguageContext.Provider>
   );
