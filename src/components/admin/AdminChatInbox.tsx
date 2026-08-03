@@ -13,9 +13,15 @@ export function AdminChatInbox() {
   const [mobileView, setMobileView] = useState<'sessions' | 'chat'>('sessions');
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
+  const isFetchingRef = useRef(false);
+
   useEffect(() => {
     fetchSessions();
-    const interval = setInterval(fetchSessions, 1500);
+    const interval = setInterval(() => {
+      if (!document.hidden && !isFetchingRef.current) {
+        fetchSessions();
+      }
+    }, 4000); // 4s smart polling
     return () => clearInterval(interval);
   }, []);
 
@@ -23,7 +29,11 @@ export function AdminChatInbox() {
     let interval: NodeJS.Timeout;
     if (selectedSessionId) {
       fetchSessionMessages(selectedSessionId);
-      interval = setInterval(() => fetchSessionMessages(selectedSessionId), 1500);
+      interval = setInterval(() => {
+        if (!document.hidden && !isFetchingRef.current) {
+          fetchSessionMessages(selectedSessionId);
+        }
+      }, 3500); // 3.5s smart polling
     }
     return () => clearInterval(interval);
   }, [selectedSessionId]);

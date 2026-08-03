@@ -29,7 +29,11 @@ export function LiveChatWidget() {
     let interval: NodeJS.Timeout;
     if (isOpen && sessionId) {
       fetchMessages();
-      interval = setInterval(fetchMessages, 1500); // 1.5s near instant live chat message sync
+      interval = setInterval(() => {
+        if (!document.hidden) {
+          fetchMessages();
+        }
+      }, 4000); // 4s smart background polling
     }
     return () => clearInterval(interval);
   }, [isOpen, sessionId]);

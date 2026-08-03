@@ -24,7 +24,7 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
   const pathname = usePathname();
   const { data: session } = useSession();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // Default to false for instant non-blocking page renders
   const [refreshing, setRefreshing] = useState(false);
   const [previewAsUser, setPreviewAsUser] = useState(false);
 
@@ -38,8 +38,10 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
         setSettings(data.settings);
         return data.settings;
       }
-    } catch (error) {
-      console.error('Error fetching site control in PageGuard:', error);
+    } catch (error: any) {
+      if (error?.name !== 'AbortError') {
+        console.warn('Site control fetch info:', error?.message || error);
+      }
     } finally {
       setLoading(false);
     }
