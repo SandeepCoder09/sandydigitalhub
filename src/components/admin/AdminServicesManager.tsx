@@ -78,12 +78,17 @@ export function AdminServicesManager({ initialServices }: Props) {
 
   return (
     <>
-      <div className="flex flex-row justify-between items-center mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Manage Services</h1>
-        <div className="flex items-center gap-2">
+      <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">Manage Services Catalog</h1>
+          <p className="text-xs text-gray-500 font-medium mt-0.5">
+            Create, edit prices, update status, and manage Jan Seva & Tech services ({services.length} services)
+          </p>
+        </div>
+        <div className="flex items-center gap-2.5">
           <button 
             onClick={fetchServices}
-            className="inline-flex items-center gap-1.5 bg-gray-100 text-gray-700 px-3 py-2 rounded-xl text-xs font-semibold hover:bg-gray-200 transition-colors border border-gray-200"
+            className="inline-flex items-center gap-1.5 bg-gray-100 text-gray-700 px-3.5 py-2 rounded-xl text-xs font-bold hover:bg-violet-50 hover:text-violet-700 transition-colors border border-gray-200 cursor-pointer"
             title="Refresh & sync services list"
           >
             <RefreshCw size={14} />
@@ -91,10 +96,10 @@ export function AdminServicesManager({ initialServices }: Props) {
           </button>
           <button 
             onClick={handleAdd}
-            className="inline-flex items-center gap-1.5 bg-[#FF4500] text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold hover:bg-[#FF4500]/90 transition-colors shadow-md shadow-orange-200"
+            className="inline-flex items-center gap-1.5 bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-xl text-xs font-extrabold transition-all shadow-md cursor-pointer"
           >
             <Plus size={16} />
-            <span>Add Service</span>
+            <span>Add New Service</span>
           </button>
         </div>
       </div>
@@ -113,7 +118,7 @@ export function AdminServicesManager({ initialServices }: Props) {
                   <div>
                     <h3 className="font-bold text-gray-900 text-base">{service.title}</h3>
                     <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-1">
-                      <Tag size={12} className="text-[#FF4500]" />
+                      <Tag size={12} className="text-[#2563EB]" />
                       <span>{service.category}</span>
                     </div>
                   </div>
@@ -125,7 +130,7 @@ export function AdminServicesManager({ initialServices }: Props) {
                 </div>
 
                 <div className="flex justify-between items-center pt-2 border-t border-gray-100">
-                  <div className="text-sm font-bold text-[#FF4500]">
+                  <div className="text-sm font-bold text-[#2563EB]">
                     ₹{service.price}
                   </div>
                   <div className="flex items-center gap-2">
@@ -151,10 +156,10 @@ export function AdminServicesManager({ initialServices }: Props) {
           </div>
 
           {/* Desktop Service Table View (>= md) */}
-          <div className="hidden md:block bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          <div className="hidden md:block bg-white rounded-3xl border border-gray-200 shadow-2xs overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-gray-800">
-                <thead className="bg-gray-50 border-b border-gray-200 text-xs font-semibold uppercase text-gray-500">
+                <thead className="bg-gray-50/80 border-b border-gray-200 text-[11px] font-extrabold uppercase tracking-wider text-gray-600">
                   <tr>
                     <th className="p-4">Title</th>
                     <th className="p-4">Category</th>
@@ -163,12 +168,12 @@ export function AdminServicesManager({ initialServices }: Props) {
                     <th className="p-4">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100 text-sm bg-white">
+                <tbody className="divide-y divide-gray-100 text-xs bg-white">
                   {services.map((service) => (
-                    <tr key={service._id.toString()} className="hover:bg-gray-50 transition-colors">
+                    <tr key={service._id.toString()} className="hover:bg-gray-50/80 transition-colors">
                       <td className="p-4 font-bold text-gray-900">{service.title}</td>
                       <td className="p-4 text-gray-600">{service.category}</td>
-                      <td className="p-4 font-bold text-[#FF4500]">₹{service.price}</td>
+                      <td className="p-4 font-black text-violet-700">₹{service.price}</td>
                       <td className="p-4">
                         <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
                           service.status === 'ACTIVE' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'

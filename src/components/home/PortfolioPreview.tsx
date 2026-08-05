@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
 
 const projects = [
   {
@@ -74,19 +75,18 @@ const projects = [
 ];
 
 export function PortfolioPreview() {
+  const { t } = useLanguage();
   return (
     <section className="py-24 bg-accent/30">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">Featured Projects</h2>
-            <p className="text-lg text-muted-foreground">
-              Take a look at some of our recent work. We take pride in delivering high-quality digital products.
-            </p>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">{t('portfolio.heading')}</h2>
+            <p className="text-lg text-muted-foreground">{t('portfolio.subtext')}</p>
           </div>
           <Link href="https://sandycoder.vercel.app/portfolio#projects" target="_blank" rel="noopener noreferrer" className="hidden md:block">
             <Button variant="outline" className="group">
-              View All Projects 
+              {t('portfolio.viewAll')}
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
@@ -124,7 +124,7 @@ export function PortfolioPreview() {
                 </div>
                 <Link href={project.url} target="_blank" rel="noopener noreferrer">
                   <Button variant="secondary" className="w-full group/btn">
-                    View Live Project
+                    {t('portfolio.viewLive')}
                     <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
@@ -136,7 +136,7 @@ export function PortfolioPreview() {
         <div className="mt-10 text-center md:hidden">
           <Link href="https://sandycoder.vercel.app/portfolio#projects" target="_blank" rel="noopener noreferrer">
             <Button variant="outline" className="group w-full sm:w-auto">
-              View All Projects 
+              {t('portfolio.viewAll')}
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>

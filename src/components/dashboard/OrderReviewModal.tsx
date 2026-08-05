@@ -52,7 +52,7 @@ export function OrderReviewModal({ order, isOpen, onClose, onSuccess }: OrderRev
       <div className="bg-white border border-gray-200 rounded-2xl w-full max-w-md p-6 space-y-5 shadow-2xl text-gray-800">
         <div className="flex justify-between items-center border-b border-gray-200 pb-3">
           <div>
-            <div className="text-xs text-[#FF4500] font-bold uppercase tracking-wider">Leave a Service Review</div>
+            <div className="text-xs text-[#2563EB] font-bold uppercase tracking-wider">Leave a Service Review</div>
             <div className="text-sm font-mono text-gray-600 font-semibold">{brandedId}</div>
           </div>
           <button onClick={onClose} className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-gray-600">
@@ -92,7 +92,7 @@ export function OrderReviewModal({ order, isOpen, onClose, onSuccess }: OrderRev
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
               placeholder="How was your experience with Sandy Digital Hub? Write your feedback..."
-              className="w-full bg-gray-50 text-gray-800 p-3 rounded-xl border border-gray-200 focus:border-[#FF4500] outline-none text-sm min-h-[100px] resize-y"
+              className="w-full bg-gray-50 text-gray-800 p-3 rounded-xl border border-gray-200 focus:border-[#2563EB] outline-none text-sm min-h-[100px] resize-y"
               required
             />
           </div>
@@ -108,7 +108,7 @@ export function OrderReviewModal({ order, isOpen, onClose, onSuccess }: OrderRev
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 py-2.5 rounded-xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-gray-800 text-xs font-bold transition-colors disabled:opacity-50"
+              className="flex-1 py-2.5 rounded-xl bg-[#2563EB] hover:bg-[#2563EB]/90 text-gray-800 text-xs font-bold transition-colors disabled:opacity-50"
             >
               {submitting ? 'Submitting...' : 'Submit Review'}
             </button>

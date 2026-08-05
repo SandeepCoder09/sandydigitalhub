@@ -87,13 +87,13 @@ function ToastCard({ toast: t, onClose }: { toast: ToastItem; onClose: () => voi
   const icons = {
     success: <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />,
     error: <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />,
-    info: <Sparkles className="w-5 h-5 text-[#FF4500] shrink-0" />,
+    info: <Sparkles className="w-5 h-5 text-[#2563EB] shrink-0" />,
   };
 
   const borderStyles = {
     success: 'border-emerald-200 bg-white text-gray-900',
     error: 'border-red-200 bg-white text-gray-900',
-    info: 'border-orange-200 bg-white text-gray-900',
+    info: 'border-blue-200 bg-white text-gray-900',
   };
 
   return (
@@ -122,7 +122,7 @@ function ToastCard({ toast: t, onClose }: { toast: ToastItem; onClose: () => voi
         animate={{ width: '0%' }}
         transition={{ duration: 4.5, ease: 'linear' }}
         className={`absolute bottom-0 left-0 h-1 ${
-          t.type === 'success' ? 'bg-emerald-500' : t.type === 'error' ? 'bg-red-500' : 'bg-[#FF4500]'
+          t.type === 'success' ? 'bg-emerald-500' : t.type === 'error' ? 'bg-red-500' : 'bg-[#2563EB]'
         }`}
       />
     </motion.div>

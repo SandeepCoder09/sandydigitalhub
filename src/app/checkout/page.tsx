@@ -123,7 +123,7 @@ export default function CheckoutPage() {
           contact: '',
         },
         theme: {
-          color: '#FF4500',
+          color: '#2563EB',
         },
       };
 
@@ -142,14 +142,14 @@ export default function CheckoutPage() {
     return (
       <div className="min-h-screen py-24 px-4 bg-gray-50 flex items-center justify-center">
         <div className="text-center bg-white p-8 rounded-3xl border border-gray-200 shadow-xl max-w-md w-full">
-          <div className="w-16 h-16 rounded-full bg-orange-50 text-[#FF4500] flex items-center justify-center mx-auto mb-4 font-bold">
+          <div className="w-16 h-16 rounded-full bg-blue-50 text-[#2563EB] flex items-center justify-center mx-auto mb-4 font-bold">
             🛒
           </div>
           <h2 className="text-2xl font-black text-gray-900 mb-2">Your Cart is Empty</h2>
           <p className="text-sm text-gray-500 mb-6">Select a digital service to proceed with checkout.</p>
           <button 
             onClick={() => router.push('/services')} 
-            className="w-full bg-[#FF4500] hover:bg-[#FF4500]/90 text-white py-3 rounded-2xl font-bold transition-all shadow-md shadow-orange-200"
+            className="w-full bg-[#2563EB] hover:bg-[#2563EB]/90 text-white py-3 rounded-2xl font-bold transition-all shadow-md shadow-blue-200"
           >
             Browse Digital Services
           </button>
@@ -186,7 +186,7 @@ export default function CheckoutPage() {
                       <span className="font-bold text-gray-900">{item.quantity}x</span>{' '}
                       <span className="font-semibold text-gray-800">{item.title}</span>
                     </div>
-                    <span className="font-black text-[#FF4500] shrink-0">₹{(item.price * item.quantity).toFixed(2)}</span>
+                    <span className="font-black text-[#2563EB] shrink-0">₹{(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                 ))}
               </div>
@@ -205,7 +205,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between text-gray-900 font-black text-xl pt-2 border-t border-gray-200">
                   <span>Total Payable</span>
-                  <span className="text-[#FF4500]">₹{getTotal().toFixed(2)}</span>
+                  <span className="text-[#2563EB]">₹{getTotal().toFixed(2)}</span>
                 </div>
               </div>
 
@@ -213,20 +213,20 @@ export default function CheckoutPage() {
               <div className="space-y-4 pt-2 border-t border-gray-100">
                 <div>
                   <label className="block text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-2 flex items-center gap-1.5">
-                    <FileText size={14} className="text-[#FF4500]" />
+                    <FileText size={14} className="text-[#2563EB]" />
                     <span>Project Notes / Instructions (Optional)</span>
                   </label>
                   <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="Enter any specific requirements, preferences, or notes for your service request..."
-                    className="w-full bg-gray-50 text-gray-900 p-3.5 rounded-2xl border border-gray-200 focus:border-[#FF4500] focus:bg-white outline-none text-sm min-h-[90px] resize-y transition-all placeholder:text-gray-400"
+                    className="w-full bg-gray-50 text-gray-900 p-3.5 rounded-2xl border border-gray-200 focus:border-[#2563EB] focus:bg-white outline-none text-sm min-h-[90px] resize-y transition-all placeholder:text-gray-400"
                   />
                 </div>
 
                 <div>
                   <label className="block text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-2 flex items-center gap-1.5">
-                    <Upload size={14} className="text-[#FF4500]" />
+                    <Upload size={14} className="text-[#2563EB]" />
                     <span>Attach Document / Photo (Optional)</span>
                   </label>
                   {!allowFileUploads ? (
@@ -250,7 +250,7 @@ export default function CheckoutPage() {
                         Choose File (PDF/Image)
                       </label>
                       {documentName ? (
-                        <span className="text-xs text-[#FF4500] font-bold truncate max-w-xs">
+                        <span className="text-xs text-[#2563EB] font-bold truncate max-w-xs">
                           ✓ {documentName}
                         </span>
                       ) : (
@@ -276,13 +276,13 @@ export default function CheckoutPage() {
                   onClick={() => setPaymentMethod('online')}
                   className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-4 ${
                     paymentMethod === 'online'
-                      ? 'border-[#FF4500] bg-orange-50/50 shadow-sm'
+                      ? 'border-[#2563EB] bg-blue-50/50 shadow-sm'
                       : 'border-gray-200 bg-white hover:border-gray-300'
                   }`}
                 >
                   <div className="mt-0.5">
                     {paymentMethod === 'online' ? (
-                      <CheckCircle2 className="text-[#FF4500]" size={22} />
+                      <CheckCircle2 className="text-[#2563EB]" size={22} />
                     ) : (
                       <Circle className="text-gray-300" size={22} />
                     )}
@@ -290,7 +290,7 @@ export default function CheckoutPage() {
                   <div className="flex-1">
                     <h3 className="font-bold text-gray-900 text-base mb-0.5 flex items-center gap-2">
                       Pay Online 
-                      <span className="text-[10px] bg-[#FF4500] text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider shadow-sm">
+                      <span className="text-[10px] bg-[#2563EB] text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider shadow-sm">
                         Recommended
                       </span>
                     </h3>
@@ -309,13 +309,13 @@ export default function CheckoutPage() {
                   onClick={() => setPaymentMethod('pay_at_shop')}
                   className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-4 ${
                     paymentMethod === 'pay_at_shop'
-                      ? 'border-[#FF4500] bg-orange-50/50 shadow-sm'
+                      ? 'border-[#2563EB] bg-blue-50/50 shadow-sm'
                       : 'border-gray-200 bg-white hover:border-gray-300'
                   }`}
                 >
                   <div className="mt-0.5">
                     {paymentMethod === 'pay_at_shop' ? (
-                      <CheckCircle2 className="text-[#FF4500]" size={22} />
+                      <CheckCircle2 className="text-[#2563EB]" size={22} />
                     ) : (
                       <Circle className="text-gray-300" size={22} />
                     )}
@@ -326,9 +326,9 @@ export default function CheckoutPage() {
                     </h3>
                     <p className="text-gray-500 text-xs mb-2.5">Pay in cash or UPI at Sandy Digital Hub when collecting your service.</p>
                     {paymentMethod === 'pay_at_shop' && (
-                      <div className="bg-white p-4 rounded-xl text-xs text-gray-700 border border-orange-200 space-y-1.5 shadow-sm">
+                      <div className="bg-white p-4 rounded-xl text-xs text-gray-700 border border-blue-200 space-y-1.5 shadow-sm">
                         <div className="flex items-center gap-1.5 font-bold text-gray-900 mb-1">
-                          <Store size={16} className="text-[#FF4500]" />
+                          <Store size={16} className="text-[#2563EB]" />
                           <span>Sandy Digital Hub Store Location</span>
                         </div>
                         <p className="font-semibold text-gray-800">Bairi, Khakhreru, Fatehpur</p>
@@ -343,7 +343,7 @@ export default function CheckoutPage() {
               <button
                 onClick={handlePayment}
                 disabled={loading}
-                className="w-full bg-[#FF4500] hover:bg-[#FF4500]/90 text-white py-4 rounded-2xl font-black text-base transition-all disabled:opacity-50 shadow-lg shadow-orange-500/20 active:scale-95 flex items-center justify-center gap-2"
+                className="w-full bg-[#2563EB] hover:bg-[#2563EB]/90 text-white py-4 rounded-2xl font-black text-base transition-all disabled:opacity-50 shadow-lg shadow-blue-500/20 active:scale-95 flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <span>Processing...</span>

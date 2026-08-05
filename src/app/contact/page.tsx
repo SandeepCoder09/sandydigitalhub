@@ -67,11 +67,11 @@ export default function ContactPage() {
     <div className="py-16 md:py-24 bg-white min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-[#FF4500] text-xs font-bold uppercase tracking-wider shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#2563EB] text-xs font-bold uppercase tracking-wider shadow-sm">
             <Sparkles size={14} /> Get Fast Support
           </div>
           <h1 className="text-4xl font-black tracking-tight sm:text-5xl text-gray-900">
-            Contact <span className="text-[#FF4500]">Sandy Digital Hub</span>
+            Contact <span className="text-[#2563EB]">Sandy Digital Hub</span>
           </h1>
           <p className="text-lg text-gray-600">
             Have a project in mind or need digital assistance? Reach out to us today for high-speed solutions.
@@ -81,11 +81,11 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-start">
           {/* Contact Info Card */}
           <div className="space-y-8">
-            <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-xl shadow-orange-500/5 hover:border-[#FF4500]/30 transition-all">
+            <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-xl shadow-blue-500/5 hover:border-[#2563EB]/30 transition-all">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h2>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="p-3.5 rounded-2xl bg-orange-100/80 text-[#FF4500] shrink-0 font-bold shadow-inner">
+                  <div className="p-3.5 rounded-2xl bg-blue-100/80 text-[#2563EB] shrink-0 font-bold shadow-inner">
                     <MapPin className="h-6 w-6" />
                   </div>
                   <div>
@@ -97,13 +97,13 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="p-3.5 rounded-2xl bg-orange-100/80 text-[#FF4500] shrink-0 font-bold shadow-inner">
+                  <div className="p-3.5 rounded-2xl bg-blue-100/80 text-[#2563EB] shrink-0 font-bold shadow-inner">
                     <Phone className="h-6 w-6" />
                   </div>
                   <div>
                     <h3 className="font-bold text-gray-900 text-base">Call / WhatsApp</h3>
                     <p className="text-sm text-gray-600 mt-1">
-                      <a href="https://wa.me/918756454282" target="_blank" rel="noreferrer" className="text-[#FF4500] font-bold hover:underline">
+                      <a href="https://wa.me/918756454282" target="_blank" rel="noreferrer" className="text-[#2563EB] font-bold hover:underline">
                         +91 87564 54282
                       </a>
                     </p>
@@ -111,13 +111,13 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="p-3.5 rounded-2xl bg-orange-100/80 text-[#FF4500] shrink-0 font-bold shadow-inner">
+                  <div className="p-3.5 rounded-2xl bg-blue-100/80 text-[#2563EB] shrink-0 font-bold shadow-inner">
                     <Mail className="h-6 w-6" />
                   </div>
                   <div>
                     <h3 className="font-bold text-gray-900 text-base">Email Us</h3>
                     <p className="text-sm text-gray-600 mt-1">
-                      <a href="mailto:support@sandydigitalhub.com" className="text-gray-800 hover:text-[#FF4500] transition-colors">
+                      <a href="mailto:support@sandydigitalhub.com" className="text-gray-800 hover:text-[#2563EB] transition-colors">
                         support@sandydigitalhub.com
                       </a>
                     </p>
@@ -125,7 +125,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="p-3.5 rounded-2xl bg-orange-100/80 text-[#FF4500] shrink-0 font-bold shadow-inner">
+                  <div className="p-3.5 rounded-2xl bg-blue-100/80 text-[#2563EB] shrink-0 font-bold shadow-inner">
                     <Clock className="h-6 w-6" />
                   </div>
                   <div>
@@ -157,7 +157,7 @@ export default function ContactPage() {
           </div>
 
           {/* Form */}
-          <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-xl shadow-orange-500/5">
+          <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-xl shadow-blue-500/5">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -169,7 +169,7 @@ export default function ContactPage() {
                       <FormItem>
                         <FormLabel className="font-bold text-gray-800">Full Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Rahul Sharma" className="h-12 border-gray-300 rounded-xl focus:border-[#FF4500]" {...field} />
+                          <Input placeholder="Rahul Sharma" className="h-12 border-gray-300 rounded-xl focus:border-[#2563EB]" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -182,7 +182,7 @@ export default function ContactPage() {
                       <FormItem>
                         <FormLabel className="font-bold text-gray-800">Phone Number</FormLabel>
                         <FormControl>
-                          <Input placeholder="+91 98765 43210" className="h-12 border-gray-300 rounded-xl focus:border-[#FF4500]" {...field} />
+                          <Input placeholder="+91 98765 43210" className="h-12 border-gray-300 rounded-xl focus:border-[#2563EB]" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -197,7 +197,7 @@ export default function ContactPage() {
                     <FormItem>
                       <FormLabel className="font-bold text-gray-800">Email Address</FormLabel>
                       <FormControl>
-                        <Input placeholder="rahulsharma@example.com" className="h-12 border-gray-300 rounded-xl focus:border-[#FF4500]" {...field} />
+                        <Input placeholder="rahulsharma@example.com" className="h-12 border-gray-300 rounded-xl focus:border-[#2563EB]" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -224,7 +224,7 @@ export default function ContactPage() {
                                 field.onChange(val);
                               }
                             }}
-                            className="w-full h-12 px-4 rounded-xl border border-gray-300 bg-white text-gray-900 font-medium text-sm focus:ring-2 focus:ring-[#FF4500] focus:border-[#FF4500] outline-none shadow-sm transition-all cursor-pointer"
+                            className="w-full h-12 px-4 rounded-xl border border-gray-300 bg-white text-gray-900 font-medium text-sm focus:ring-2 focus:ring-[#2563EB] focus:border-[#2563EB] outline-none shadow-sm transition-all cursor-pointer"
                           >
                             <option value="" disabled>-- Select Service Category --</option>
                             {serviceOptions.map((opt) => (
@@ -244,7 +244,7 @@ export default function ContactPage() {
                                 field.onChange(text);
                               }}
                               placeholder="Type your custom service or project requirement here..."
-                              className="h-12 border-gray-300 rounded-xl bg-white text-gray-900 shadow-sm focus:border-[#FF4500]"
+                              className="h-12 border-gray-300 rounded-xl bg-white text-gray-900 shadow-sm focus:border-[#2563EB]"
                             />
                           )}
                         </div>
@@ -263,7 +263,7 @@ export default function ContactPage() {
                       <FormControl>
                         <Textarea
                           placeholder="Tell us about your project or inquiry..."
-                          className="min-h-[120px] border-gray-300 rounded-xl focus:border-[#FF4500] resize-y"
+                          className="min-h-[120px] border-gray-300 rounded-xl focus:border-[#2563EB] resize-y"
                           {...field}
                         />
                       </FormControl>
@@ -274,7 +274,7 @@ export default function ContactPage() {
 
                 <Button 
                   type="submit" 
-                  className="w-full h-12 bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold text-base rounded-xl shadow-lg shadow-orange-500/20 transition-all hover:scale-[1.01]"
+                  className="w-full h-12 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white font-bold text-base rounded-xl shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.01]"
                 >
                   <Send className="w-4 h-4 mr-2" /> Send Message
                 </Button>
@@ -296,7 +296,7 @@ export default function ContactPage() {
               href="https://maps.google.com/?q=Khakhreru,+Fatehpur,+Uttar+Pradesh+212656"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold text-xs sm:text-sm transition-colors shadow-md shadow-orange-200 w-fit"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#2563EB] hover:bg-[#2563EB]/90 text-white font-bold text-xs sm:text-sm transition-colors shadow-md shadow-blue-200 w-fit"
             >
               <MapPin className="w-4 h-4" /> Open Directions in Google Maps
             </a>

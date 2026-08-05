@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { AdminSidebar } from '@/components/admin/AdminSidebar';
-import { ShieldAlert, ShieldCheck, AlertOctagon, Trash2, RefreshCw, Lock, AlertTriangle, Eye } from 'lucide-react';
+import { ShieldAlert, ShieldCheck, AlertOctagon, Trash2, RefreshCw, Lock, AlertTriangle } from 'lucide-react';
 import { formatDateTime } from '@/lib/utils';
 import { toast } from '@/components/ui/Toast';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
@@ -64,125 +63,122 @@ export default function AdminSecurityLogsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-8">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
-        <AdminSidebar />
+    <div className="space-y-6">
+      {/* Header Banner */}
+      <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight flex items-center gap-2">
+            <AlertOctagon className="text-violet-600" size={24} />
+            Security Audit Logs
+          </h1>
+          <p className="text-xs text-gray-500 font-medium mt-0.5">
+            Real-time automated security firewall logs & unauthorized access attempts ({logs.length} logged events)
+          </p>
+        </div>
 
-        <main className="flex-1 space-y-8">
-          {/* Header */}
-          <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-black text-gray-900 flex items-center gap-2.5">
-                <ShieldAlert className="text-[#FF4500]" /> Security Threat & Firewall Audit Logs
-              </h1>
-              <p className="text-sm text-gray-500 mt-1">
-                Real-time security events: blocked IP attempts, rate limits, failed logins, and suspicious payloads.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => fetchLogs(true)}
-                disabled={refreshing}
-                className="px-4 py-2.5 rounded-2xl bg-gray-900 text-white font-extrabold text-xs flex items-center gap-1.5 cursor-pointer"
-              >
-                <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
-                <span>Refresh</span>
-              </button>
-              <button
-                onClick={() => setShowClearModal(true)}
-                className="px-4 py-2.5 rounded-2xl bg-red-100 text-red-800 font-extrabold text-xs flex items-center gap-1.5 border border-red-300 cursor-pointer hover:bg-red-200 transition-all"
-              >
-                <Trash2 size={14} />
-                <span>Clear Audit Logs</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Metric Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
-              <div className="text-xs font-black uppercase text-gray-500 tracking-wider">Total Threat Hits</div>
-              <div className="text-3xl font-black text-gray-900 mt-2">{totalThreats}</div>
-            </div>
-            <div className="bg-white p-6 rounded-3xl border border-red-200 shadow-sm">
-              <div className="text-xs font-black uppercase text-red-600 tracking-wider">Critical Threat Alerts</div>
-              <div className="text-3xl font-black text-red-600 mt-2">{criticalCount}</div>
-            </div>
-            <div className="bg-white p-6 rounded-3xl border border-emerald-200 shadow-sm">
-              <div className="text-xs font-black uppercase text-emerald-700 tracking-wider">Active Firewall Status</div>
-              <div className="text-lg font-black text-emerald-800 mt-2 flex items-center gap-2">
-                <ShieldCheck size={20} className="text-emerald-600" /> Active Protection
-              </div>
-            </div>
-          </div>
-
-          {/* Security Log Table */}
-          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-5">
-            <h3 className="text-lg font-black text-gray-900 flex items-center gap-2">
-              <AlertOctagon size={18} className="text-[#FF4500]" /> Real-Time Security Audit Stream
-            </h3>
-
-            <div className="bg-white rounded-2xl border border-gray-200 overflow-x-auto shadow-2xs">
-              <table className="w-full text-left text-xs sm:text-sm text-gray-900">
-                <thead className="bg-gray-50 border-b border-gray-200 text-xs text-gray-700 font-extrabold uppercase">
-                  <tr>
-                    <th className="p-3.5">Severity</th>
-                    <th className="p-3.5">Event Type</th>
-                    <th className="p-3.5">IP Address</th>
-                    <th className="p-3.5">Path / Details</th>
-                    <th className="p-3.5">Timestamp</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100 text-xs">
-                  {loading ? (
-                    <tr>
-                      <td colSpan={5} className="p-8 text-center text-gray-400 font-bold">
-                        Loading security logs...
-                      </td>
-                    </tr>
-                  ) : !logs.length ? (
-                    <tr>
-                      <td colSpan={5} className="p-8 text-center text-gray-400 font-bold py-12">
-                        🛡️ Zero security threats detected. Your website firewall is operating normally.
-                      </td>
-                    </tr>
-                  ) : (
-                    logs.map((log: any) => (
-                      <tr key={log._id} className="hover:bg-gray-50 transition-colors">
-                        <td className="p-3.5">
-                          <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase border ${
-                            log.severity === 'CRITICAL' ? 'bg-red-100 text-red-900 border-red-300' :
-                            log.severity === 'HIGH' ? 'bg-orange-100 text-orange-900 border-orange-300' :
-                            'bg-yellow-100 text-yellow-900 border-yellow-300'
-                          }`}>
-                            {log.severity}
-                          </span>
-                        </td>
-                        <td className="p-3.5 font-bold text-gray-900">{log.eventType}</td>
-                        <td className="p-3.5 font-mono text-gray-600 font-medium">{log.ip}</td>
-                        <td className="p-3.5 font-mono text-xs text-gray-800">{log.path} - {log.details}</td>
-                        <td className="p-3.5 text-gray-500 font-medium whitespace-nowrap">{formatDateTime(log.createdAt)}</td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </main>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => fetchLogs(true)}
+            disabled={refreshing}
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gray-100 hover:bg-violet-50 text-gray-700 hover:text-violet-700 font-bold text-xs transition-colors cursor-pointer border border-gray-200"
+          >
+            <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
+            <span>Refresh</span>
+          </button>
+          <button
+            onClick={() => setShowClearModal(true)}
+            disabled={logs.length === 0}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-bold text-xs transition-colors cursor-pointer border border-red-200 disabled:opacity-50"
+          >
+            <Trash2 size={14} />
+            <span>Purge Audit Logs</span>
+          </button>
+        </div>
       </div>
 
-      {/* Custom Confirmation Modal */}
+      {/* Security Threat Indicators */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-white p-5 rounded-3xl border border-gray-200 shadow-2xs space-y-1">
+          <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Total System Logs</span>
+          <h3 className="text-2xl font-black text-gray-900">{logs.length}</h3>
+        </div>
+
+        <div className="bg-white p-5 rounded-3xl border border-gray-200 shadow-2xs space-y-1">
+          <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Blocked Threat Events</span>
+          <h3 className="text-2xl font-black text-amber-600">{totalThreats}</h3>
+        </div>
+
+        <div className="bg-white p-5 rounded-3xl border border-gray-200 shadow-2xs space-y-1">
+          <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Critical Alerts</span>
+          <h3 className="text-2xl font-black text-red-600">{criticalCount}</h3>
+        </div>
+      </div>
+
+      {/* Logs Table */}
+      <div className="bg-white rounded-3xl border border-gray-200 shadow-2xs overflow-hidden">
+        {loading ? (
+          <div className="p-12 text-center text-xs font-bold text-gray-400">Loading security logs...</div>
+        ) : logs.length === 0 ? (
+          <div className="p-12 text-center space-y-3">
+            <ShieldCheck size={40} className="mx-auto text-emerald-500" />
+            <h3 className="text-sm font-extrabold text-gray-900">Security Firewall Status Clean</h3>
+            <p className="text-xs text-gray-500">No security audit violations logged.</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-gray-700">
+              <thead className="bg-gray-50/80 border-b border-gray-200 text-[11px] text-gray-600 font-extrabold uppercase tracking-wider">
+                <tr>
+                  <th className="p-4">Severity</th>
+                  <th className="p-4">Security Event</th>
+                  <th className="p-4">IP Address</th>
+                  <th className="p-4">Target Endpoint</th>
+                  <th className="p-4">Timestamp</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 text-xs">
+                {logs.map((log) => {
+                  const isHigh = log.severity === 'CRITICAL' || log.severity === 'HIGH';
+                  return (
+                    <tr key={log._id || log.timestamp} className="hover:bg-gray-50/80 transition-colors">
+                      <td className="p-4">
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase ${
+                          isHigh
+                            ? 'bg-red-100 text-red-800 border border-red-200'
+                            : 'bg-amber-100 text-amber-800 border border-amber-200'
+                        }`}>
+                          {log.severity || 'INFO'}
+                        </span>
+                      </td>
+                      <td className="p-4 font-bold text-gray-900">
+                        {log.action || log.event || 'Security Log'}
+                      </td>
+                      <td className="p-4 font-mono font-bold text-violet-700">
+                        {log.ip || '127.0.0.1'}
+                      </td>
+                      <td className="p-4 font-mono text-gray-500 text-[11px]">
+                        {log.endpoint || log.path || '/api/admin'}
+                      </td>
+                      <td className="p-4 text-gray-500 font-medium">
+                        {formatDateTime(log.timestamp || log.createdAt)}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Confirmation Modal */}
       <ConfirmModal
         isOpen={showClearModal}
         onClose={() => setShowClearModal(false)}
         onConfirm={handleConfirmClearLogs}
-        title="Clear Security Audit Logs?"
-        message="This action will permanently delete all recorded firewall threat events and security audit logs. This action cannot be undone."
-        confirmText="Yes, Purge All Logs"
-        cancelText="Cancel"
-        isLoading={clearing}
+        title="Purge All Security Audit Logs?"
+        message="Are you sure you want to permanently delete all security audit log entries? This action cannot be undone."
+        confirmText={clearing ? 'Purging...' : 'Purge All Logs'}
       />
     </div>
   );

@@ -121,26 +121,26 @@ export default function WatermarkPage() {
               <input
                 type="text" value={text} onChange={(e) => setText(e.target.value)}
                 placeholder="Enter watermark text…"
-                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 text-sm focus:outline-none focus:border-orange-500"
+                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 text-sm focus:outline-none focus:border-blue-500"
               />
             </div>
             <div>
               <div className="flex justify-between mb-1">
                 <label className="text-gray-600 text-sm">Font Size</label>
-                <span className="text-orange-500 font-bold">{fontSize}px</span>
+                <span className="text-blue-500 font-bold">{fontSize}px</span>
               </div>
               <input type="range" min={12} max={200} step={2} value={fontSize}
                 onChange={(e) => setFontSize(Number(e.target.value))}
-                className="w-full accent-orange-500" />
+                className="w-full accent-blue-500" />
             </div>
             <div>
               <div className="flex justify-between mb-1">
                 <label className="text-gray-600 text-sm">Opacity</label>
-                <span className="text-orange-500 font-bold">{opacity}%</span>
+                <span className="text-blue-500 font-bold">{opacity}%</span>
               </div>
               <input type="range" min={5} max={100} step={5} value={opacity}
                 onChange={(e) => setOpacity(Number(e.target.value))}
-                className="w-full accent-orange-500" />
+                className="w-full accent-blue-500" />
             </div>
             <div>
               <label className="block text-gray-600 text-sm font-medium mb-2">Colour</label>
@@ -165,7 +165,7 @@ export default function WatermarkPage() {
               {POSITIONS.map((p) => (
                 <button key={p.value} onClick={() => setPosition(p.value)}
                   className={`py-2.5 rounded-xl text-xs font-semibold border transition-all
-                    ${position === p.value ? "border-orange-500 bg-orange-100 text-orange-400" : "border-gray-200 bg-gray-50 text-gray-400 hover:border-orange-300"}`}>
+                    ${position === p.value ? "border-blue-500 bg-blue-100 text-blue-400" : "border-gray-200 bg-gray-50 text-gray-400 hover:border-blue-300"}`}>
                   {p.label}
                 </button>
               ))}
@@ -183,7 +183,7 @@ export default function WatermarkPage() {
             </div>
             <div className="flex flex-wrap gap-4">
               <button onClick={applyWatermark} disabled={processing || !text.trim()}
-                className="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95">
+                className="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95">
                 {processing ? "Applying…" : "Apply Watermark"}
               </button>
               <DownloadButton dataUrl={resultSrc} filename={nameRef.current} label="Download" />

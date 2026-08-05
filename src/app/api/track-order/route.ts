@@ -14,17 +14,47 @@ export async function POST(req: Request) {
 
     await connectDB();
 
-    let query: any = {};
+    let orders: any[] = [];
 
     if (trackingId && trackingId.trim()) {
       const cleanId = trackingId.trim();
+      
       if (mongoose.Types.ObjectId.isValid(cleanId)) {
-        query._id = cleanId;
+        orders = await Order.find({ _id: cleanId })
+          .sort({ createdAt: -1 })
+          .populate('userId', 'name phone email')
+          .lean();
       } else {
-        query.$or = [
-          { razorpayOrderId: cleanId },
-          { razorpayPaymentId: cleanId },
-        ];
+        // Handle branded order IDs like SDH-20260803-37DBC7 or short hash 37DBC7
+        let shortCode = cleanId.trim();
+        if (shortCode.toUpperCase().startsWith('SDH-')) {
+          const parts = shortCode.split('-');
+          shortCode = parts[parts.length - 1]; // Extract XXXXXX
+        }
+
+        const allOrders = await Order.find()
+          .sort({ createdAt: -1 })
+          .populate('userId', 'name phone email')
+          .lean();
+
+        orders = allOrders.filter((o: any) => {
+          const rawId = o._id.toString();
+          const razorpayOrder = o.razorpayOrderId || '';
+          const razorpayPayment = o.razorpayPaymentId || '';
+          const shortHash6 = rawId.slice(-6).toUpperCase();
+          const shortHash4 = rawId.slice(-4).toUpperCase();
+          const cleanUpper = cleanId.toUpperCase();
+          const shortUpper = shortCode.toUpperCase();
+
+          return (
+            rawId.toUpperCase() === cleanUpper ||
+            razorpayOrder === cleanId ||
+            razorpayPayment === cleanId ||
+            shortHash4 === shortUpper ||
+            shortHash6 === shortUpper ||
+            cleanUpper.includes(shortHash4)
+          );
+        });
       }
     } else if (phone && phone.trim()) {
       const cleanPhone = phone.trim();
@@ -32,13 +62,11 @@ export async function POST(req: Request) {
       if (!matchedUser) {
         return NextResponse.json({ error: 'No orders found matching this phone number.' }, { status: 404 });
       }
-      query.userId = matchedUser._id;
+      orders = await Order.find({ userId: matchedUser._id })
+        .sort({ createdAt: -1 })
+        .populate('userId', 'name phone email')
+        .lean();
     }
-
-    const orders = await Order.find(query)
-      .sort({ createdAt: -1 })
-      .populate('userId', 'name phone email')
-      .lean();
 
     if (!orders || orders.length === 0) {
       return NextResponse.json({ error: 'No orders found with provided tracking details.' }, { status: 404 });

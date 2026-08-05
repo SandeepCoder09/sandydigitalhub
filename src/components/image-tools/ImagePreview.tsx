@@ -15,7 +15,7 @@ export function ImagePreview({ label, src, info, className = "" }: ImagePreviewP
       <div className="flex items-center justify-between">
         <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">{label}</span>
         {info && (
-          <span className="flex items-center gap-1.5 text-xs text-orange-500 font-medium">
+          <span className="flex items-center gap-1.5 text-xs text-blue-500 font-medium">
             <CheckCircle2 className="w-3.5 h-3.5" /> {info}
           </span>
         )}

@@ -132,11 +132,11 @@ export default function BgRemovePage() {
           <div>
             <div className="flex justify-between mb-2">
               <label className="text-gray-600 text-sm font-medium">Tolerance / Threshold</label>
-              <span className="text-orange-500 font-bold">{threshold}</span>
+              <span className="text-blue-500 font-bold">{threshold}</span>
             </div>
             <input type="range" min={5} max={120} step={1} value={threshold}
               onChange={(e) => setThreshold(Number(e.target.value))}
-              className="w-full accent-orange-500" />
+              className="w-full accent-blue-500" />
             <p className="text-gray-400 text-xs mt-1">Higher = removes more colours</p>
           </div>
           <div>
@@ -145,7 +145,7 @@ export default function BgRemovePage() {
               {OUTPUT_MODES.map((m) => (
                 <button key={m.value} onClick={() => setOutputMode(m.value)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all
-                    ${outputMode === m.value ? "border-orange-500 bg-orange-100 text-orange-400" : "border-gray-200 text-gray-400 hover:border-white/30"}`}>
+                    ${outputMode === m.value ? "border-blue-500 bg-blue-100 text-blue-400" : "border-gray-200 text-gray-400 hover:border-white/30"}`}>
                   {m.label}
                 </button>
               ))}
@@ -200,7 +200,7 @@ export default function BgRemovePage() {
               <button
                 onClick={removeBackground}
                 disabled={processing || !sampleColor}
-                className="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95"
+                className="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95"
               >
                 {processing ? "Processing…" : !sampleColor ? "Sample a colour first" : "Remove Background"}
               </button>

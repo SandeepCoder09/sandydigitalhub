@@ -116,8 +116,8 @@ export default function PrivacyPage() {
             <p>
               If you have questions about this Privacy Policy or wish to exercise your rights, please
               contact us at{" "}
-              <Link href="/contact" className="text-[#FF4500] hover:underline">our contact page</Link> or
-              email us at <span className="text-[#FF4500]">info@sandydigitalhub.com</span>.
+              <Link href="/contact" className="text-[#2563EB] hover:underline">our contact page</Link> or
+              email us at <span className="text-[#2563EB]">info@sandydigitalhub.com</span>.
             </p>
           </section>
         </div>

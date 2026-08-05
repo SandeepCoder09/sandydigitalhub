@@ -1,7 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
-import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminChatInbox } from "@/components/admin/AdminChatInbox";
 
 export default async function AdminChatPage() {
@@ -12,23 +11,17 @@ export default async function AdminChatPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 sm:pt-28 pb-4 sm:pb-6 px-4 sm:px-6 md:px-8 bg-white">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 md:gap-8">
-        {/* Sidebar Navigation */}
-        <AdminSidebar />
-
-        {/* Main Content */}
-        <div className="flex-1 min-w-0">
-          <div className="flex justify-between items-center mb-6 sm:mb-8">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Live Support Chat Inbox</h1>
-              <p className="text-xs text-gray-400 mt-1">Reply to real customer inquiries and live chat requests in real time.</p>
-            </div>
-          </div>
-
-          <AdminChatInbox />
+    <div className="space-y-6">
+      <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">Live Support Chat Inbox</h1>
+          <p className="text-xs text-gray-500 font-medium mt-0.5">
+            Reply to customer inquiries and live chat sessions in real-time
+          </p>
         </div>
       </div>
+
+      <AdminChatInbox />
     </div>
   );
 }

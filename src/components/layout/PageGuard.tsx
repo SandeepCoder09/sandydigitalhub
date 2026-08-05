@@ -78,21 +78,21 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black text-white flex items-center justify-center p-6 relative overflow-hidden">
         {/* Ambient Backlight Glows */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF4500]/15 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#2563EB]/15 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
         <div className="relative z-10 max-w-sm w-full bg-gray-900/80 border border-white/10 p-8 rounded-3xl text-center space-y-6 shadow-2xl backdrop-blur-xl">
           {/* Logo & Animated Loader Ring */}
           <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
-            <div className="absolute inset-0 rounded-full border-2 border-[#FF4500]/20 border-t-[#FF4500] animate-spin"></div>
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#FF4500] to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <div className="absolute inset-0 rounded-full border-2 border-[#2563EB]/20 border-t-[#2563EB] animate-spin"></div>
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#2563EB] to-amber-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
               <ShieldCheck size={28} className="text-white" />
             </div>
           </div>
 
           {/* Typography */}
           <div className="space-y-1.5">
-            <div className="text-xs font-black uppercase text-[#FF4500] tracking-widest flex items-center justify-center gap-1.5">
+            <div className="text-xs font-black uppercase text-[#2563EB] tracking-widest flex items-center justify-center gap-1.5">
               <span>SANDY DIGITAL HUB</span>
             </div>
             <h2 className="text-xl font-black text-white tracking-tight">Verifying System Integrity</h2>
@@ -102,11 +102,11 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
           {/* Progress Indicator Bar */}
           <div className="space-y-2 pt-2">
             <div className="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden border border-gray-700/50">
-              <div className="bg-gradient-to-r from-[#FF4500] via-orange-400 to-amber-400 h-full rounded-full w-2/3 animate-pulse"></div>
+              <div className="bg-gradient-to-r from-[#2563EB] via-blue-400 to-amber-400 h-full rounded-full w-2/3 animate-pulse"></div>
             </div>
             <div className="flex justify-between items-center text-[10px] text-gray-400 font-bold uppercase tracking-wider">
               <span>Security Check</span>
-              <span className="text-[#FF4500]">256-Bit SSL Encrypted</span>
+              <span className="text-[#2563EB]">256-Bit SSL Encrypted</span>
             </div>
           </div>
         </div>
@@ -174,14 +174,14 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
         {isAdmin && previewAsUser && (
           <button
             onClick={() => setPreviewAsUser(false)}
-            className="absolute top-4 right-4 px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-extrabold shadow-lg cursor-pointer z-[9999]"
+            className="absolute top-4 right-4 px-4 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-xs font-extrabold shadow-lg cursor-pointer z-[9999]"
           >
             Exit User Preview Mode
           </button>
         )}
 
-        <div className="max-w-xl w-full bg-gray-800/90 border border-orange-500/30 p-8 sm:p-10 rounded-3xl text-center space-y-6 shadow-2xl backdrop-blur-md">
-          <div className="w-20 h-20 rounded-3xl bg-orange-500/10 text-[#FF4500] border border-[#FF4500]/30 flex items-center justify-center mx-auto shadow-lg shadow-orange-500/10 animate-pulse">
+        <div className="max-w-xl w-full bg-gray-800/90 border border-blue-500/30 p-8 sm:p-10 rounded-3xl text-center space-y-6 shadow-2xl backdrop-blur-md">
+          <div className="w-20 h-20 rounded-3xl bg-blue-500/10 text-[#2563EB] border border-[#2563EB]/30 flex items-center justify-center mx-auto shadow-lg shadow-blue-500/10 animate-pulse">
             <ShieldAlert size={44} />
           </div>
 
@@ -204,7 +204,7 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
             <button
               onClick={handleRefreshStatus}
               disabled={refreshing}
-              className="px-6 py-3 rounded-2xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-extrabold text-sm inline-flex items-center gap-2 shadow-lg shadow-orange-500/20 transition-all cursor-pointer disabled:opacity-50"
+              className="px-6 py-3 rounded-2xl bg-[#2563EB] hover:bg-[#2563EB]/90 text-white font-extrabold text-sm inline-flex items-center gap-2 shadow-lg shadow-blue-500/20 transition-all cursor-pointer disabled:opacity-50"
             >
               <RefreshCw size={16} className={refreshing ? 'animate-spin' : ''} />
               <span>{refreshing ? 'Checking Status...' : 'Refresh Status'}</span>
@@ -222,14 +222,14 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
         {isAdmin && previewAsUser && (
           <button
             onClick={() => setPreviewAsUser(false)}
-            className="absolute top-4 right-4 px-4 py-2 rounded-xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white text-xs font-extrabold shadow-lg cursor-pointer z-[9999]"
+            className="absolute top-4 right-4 px-4 py-2 rounded-xl bg-[#2563EB] hover:bg-[#2563EB]/90 text-white text-xs font-extrabold shadow-lg cursor-pointer z-[9999]"
           >
             Exit User Preview Mode
           </button>
         )}
 
         <div className="max-w-lg w-full bg-white border border-gray-200 p-8 sm:p-10 rounded-3xl text-center space-y-6 shadow-xl">
-          <div className="w-16 h-16 rounded-3xl bg-orange-100 text-[#FF4500] border border-orange-200 flex items-center justify-center mx-auto shadow-md">
+          <div className="w-16 h-16 rounded-3xl bg-blue-100 text-[#2563EB] border border-blue-200 flex items-center justify-center mx-auto shadow-md">
             <Lock size={32} />
           </div>
 
@@ -246,7 +246,7 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Link
               href="/"
-              className="w-full sm:w-auto px-5 py-3 rounded-2xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-extrabold text-xs inline-flex items-center justify-center gap-2 shadow-md shadow-orange-200 transition-all"
+              className="w-full sm:w-auto px-5 py-3 rounded-2xl bg-[#2563EB] hover:bg-[#2563EB]/90 text-white font-extrabold text-xs inline-flex items-center justify-center gap-2 shadow-md shadow-blue-200 transition-all"
             >
               <Home size={15} /> Return to Home
             </Link>

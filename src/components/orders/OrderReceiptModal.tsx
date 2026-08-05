@@ -36,7 +36,7 @@ export function OrderReceiptModal({ order, onClose }: OrderReceiptModalProps) {
         {/* Modal Top Bar */}
         <div className="flex items-center justify-between px-6 py-4 bg-gray-900 text-white shrink-0">
           <div className="flex items-center gap-2 text-xs font-bold">
-            <FileText size={16} className="text-[#FF4500]" />
+            <FileText size={16} className="text-[#2563EB]" />
             <span>Official Application Token Receipt</span>
           </div>
           <div className="flex items-center gap-2">
@@ -62,7 +62,7 @@ export function OrderReceiptModal({ order, onClose }: OrderReceiptModalProps) {
               <div className="text-[10px] text-gray-500 font-medium">Fatehpur, UP · Phone: +91 8756454282</div>
             </div>
             <div className="text-right">
-              <span className="px-2.5 py-1 rounded-md bg-orange-100 text-[#FF4500] text-[10px] font-black uppercase">
+              <span className="px-2.5 py-1 rounded-md bg-blue-100 text-[#2563EB] text-[10px] font-black uppercase">
                 OFFICIAL TOKEN
               </span>
               <div className="text-[10px] text-gray-500 font-bold mt-1">
@@ -85,7 +85,7 @@ export function OrderReceiptModal({ order, onClose }: OrderReceiptModalProps) {
             </div>
             <div>
               <span className="text-[10px] text-gray-400 font-bold uppercase">Payment Status</span>
-              <div className={`font-extrabold mt-0.5 ${order.paymentStatus === 'PAID' ? 'text-emerald-600' : 'text-orange-600'}`}>
+              <div className={`font-extrabold mt-0.5 ${order.paymentStatus === 'PAID' ? 'text-emerald-600' : 'text-blue-600'}`}>
                 {order.paymentStatus} ({order.paymentMethod.toUpperCase()})
               </div>
             </div>
@@ -129,7 +129,7 @@ export function OrderReceiptModal({ order, onClose }: OrderReceiptModalProps) {
               </div>
               <div className="flex justify-between font-black text-sm text-gray-900 border-t pt-1 border-gray-300">
                 <span>Total Amount:</span>
-                <span className="text-[#FF4500]">₹{order.total}</span>
+                <span className="text-[#2563EB]">₹{order.total}</span>
               </div>
             </div>
           </div>

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { AdminSidebar } from '@/components/admin/AdminSidebar';
 import { ShieldAlert, ShieldCheck, Lock, Unlock, AlertTriangle, Save, RefreshCw, Plus, Trash2, Ban, UploadCloud, Globe, EyeOff } from 'lucide-react';
 import { toast } from '@/components/ui/Toast';
 
@@ -21,16 +20,7 @@ const AVAILABLE_PAGES = [
   { path: '/login', label: 'User Login & Auth', desc: 'Block users from logging into their accounts' },
   { path: '/profile', label: 'User Profile & Settings', desc: 'Pause access to user account management' },
   { path: '/requests', label: 'My Orders & Tracker', desc: 'Pause client order tracking' },
-  { path: '/about', label: 'About Us & Company Info', desc: 'Hide company overview page' },
-  { path: '/image-tools/passport-photo', label: 'Passport Photo Generator', desc: 'Block passport photo maker tool' },
-  { path: '/image-tools/convert', label: 'Image Format Converter', desc: 'Block PNG/JPG/WebP image converter' },
-  { path: '/image-tools/resize', label: 'Image Resizer Tool', desc: 'Block image dimension resizer' },
-  { path: '/image-tools/crop', label: 'Image Cropper Tool', desc: 'Block image crop tool' },
-  { path: '/image-tools/watermark', label: 'Watermark Tool', desc: 'Block image watermark tool' },
-  { path: '/image-tools/qr-generator', label: 'QR Code Generator', desc: 'Block QR code generator tool' },
-  { path: '/image-tools/image-to-pdf', label: 'Image to PDF Tool', desc: 'Block JPG to PDF converter' },
-  { path: '/tools/word-counter', label: 'Word & Character Counter', desc: 'Block word counter tool' },
-  { path: '/tools/password-generator', label: 'Password Generator', desc: 'Block strong password generator' },
+  { path: '/about', label: 'Company Info', desc: 'Hide company overview page' },
 ];
 
 export default function AdminSiteControlPage() {
@@ -44,7 +34,6 @@ export default function AdminSiteControlPage() {
   const [blockedEmails, setBlockedEmails] = useState<string[]>([]);
   const [blockedIps, setBlockedIps] = useState<string[]>([]);
 
-  const [customPageInput, setCustomPageInput] = useState('');
   const [emailInput, setEmailInput] = useState('');
   const [ipInput, setIpInput] = useState('');
 
@@ -61,12 +50,10 @@ export default function AdminSiteControlPage() {
         setBlockedPages(s.blockedPages || []);
         setBlockedEmails(s.blockedEmails || []);
         setBlockedIps(s.blockedIps || []);
-      } else {
-        toast.error('Failed to load site control settings.');
       }
     } catch (error) {
       console.error(error);
-      toast.error('Error connecting to server.');
+      toast.error('Failed to load site control settings.');
     } finally {
       setLoading(false);
     }
@@ -80,7 +67,7 @@ export default function AdminSiteControlPage() {
     setSaving(true);
     try {
       const res = await fetch('/api/admin/site-control', {
-        method: 'PUT',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           isEmergencyLockdown,
@@ -93,9 +80,9 @@ export default function AdminSiteControlPage() {
       });
 
       if (res.ok) {
-        toast.success('Site security & page control settings saved successfully!', 'Firewall Updated');
+        toast.success('Site & Firewall Control Settings saved successfully!');
       } else {
-        toast.error('Failed to update site settings.');
+        toast.error('Failed to update control settings.');
       }
     } catch (error) {
       console.error(error);
@@ -105,330 +92,250 @@ export default function AdminSiteControlPage() {
     }
   };
 
-  const togglePageBlock = (path: string) => {
+  const toggleBlockedPage = (path: string) => {
     if (blockedPages.includes(path)) {
       setBlockedPages(blockedPages.filter((p) => p !== path));
-      toast.info(`Unblocked ${path} route.`);
     } else {
       setBlockedPages([...blockedPages, path]);
-      toast.success(`Blocked ${path} route.`);
-    }
-  };
-
-  const addCustomPage = () => {
-    let clean = customPageInput.trim();
-    if (!clean) return;
-    if (!clean.startsWith('/')) clean = '/' + clean;
-    if (!blockedPages.includes(clean)) {
-      setBlockedPages([...blockedPages, clean]);
-      setCustomPageInput('');
-      toast.success(`Added ${clean} to blocked pages list.`);
     }
   };
 
   const addBlockedEmail = () => {
+    if (!emailInput.trim()) return;
     const clean = emailInput.trim().toLowerCase();
-    if (!clean) return;
     if (!blockedEmails.includes(clean)) {
       setBlockedEmails([...blockedEmails, clean]);
-      setEmailInput('');
-      toast.success(`Added ${clean} to blocked email list.`);
     }
+    setEmailInput('');
+  };
+
+  const removeBlockedEmail = (email: string) => {
+    setBlockedEmails(blockedEmails.filter((e) => e !== email));
   };
 
   const addBlockedIp = () => {
+    if (!ipInput.trim()) return;
     const clean = ipInput.trim();
-    if (!clean) return;
     if (!blockedIps.includes(clean)) {
       setBlockedIps([...blockedIps, clean]);
-      setIpInput('');
-      toast.success(`Added ${clean} to blocked IP list.`);
     }
+    setIpInput('');
+  };
+
+  const removeBlockedIp = (ip: string) => {
+    setBlockedIps(blockedIps.filter((i) => i !== ip));
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-8">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
-        <AdminSidebar />
+    <div className="space-y-6">
+      {/* Page Header */}
+      <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight flex items-center gap-2">
+            <ShieldAlert className="text-violet-600" size={24} />
+            Site & Firewall Control Center
+          </h1>
+          <p className="text-xs text-gray-500 font-medium mt-0.5">
+            Configure system lockdown, page access restrictions, file upload firewall, and IP blacklists
+          </p>
+        </div>
 
-        <main className="flex-1 space-y-8">
-          {/* Top Banner Header */}
-          <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-black text-gray-900 flex items-center gap-2.5">
-                <ShieldAlert className="text-[#FF4500]" /> Website Security & Page Control Center
-              </h1>
-              <p className="text-sm text-gray-500 mt-1">
-                Full site-wide controls: block specific pages, toggle emergency maintenance lockdown, and block scammers/spammers.
-              </p>
-            </div>
+        <button
+          onClick={handleSaveSettings}
+          disabled={saving || loading}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-extrabold text-xs shadow-md transition-all cursor-pointer shrink-0"
+        >
+          {saving ? <RefreshCw size={14} className="animate-spin" /> : <Save size={14} />}
+          <span>{saving ? 'Saving...' : 'Save Configuration'}</span>
+        </button>
+      </div>
 
-            <button
-              onClick={handleSaveSettings}
-              disabled={saving || loading}
-              className="px-6 py-3 rounded-2xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-extrabold text-sm flex items-center gap-2 shadow-lg shadow-orange-500/20 transition-all active:scale-95 disabled:opacity-50 cursor-pointer shrink-0"
-            >
-              <Save size={18} />
-              <span>{saving ? 'Saving Changes...' : 'Save All Control Settings'}</span>
-            </button>
-          </div>
-
-          {/* Section 1: Emergency Lockdown Switch */}
-          <div className={`p-6 sm:p-8 rounded-3xl border transition-all ${
+      {loading ? (
+        <div className="bg-white rounded-3xl border border-gray-200 p-12 text-center text-xs font-bold text-gray-400">
+          Loading system control parameters...
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {/* Section 1: Emergency System Lockdown */}
+          <div className={`p-6 rounded-3xl border transition-all ${
             isEmergencyLockdown
-              ? 'bg-red-50/90 border-red-300 shadow-xl shadow-red-500/10'
-              : 'bg-white border-gray-200 shadow-sm'
+              ? 'bg-red-50/70 border-red-300 shadow-md'
+              : 'bg-white border-gray-200 shadow-2xs'
           }`}>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-gray-200">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2 font-black text-lg text-gray-900">
-                  {isEmergencyLockdown ? (
-                    <span className="flex items-center gap-2 text-red-600">
-                      <ShieldAlert size={24} /> Emergency Site Lockdown IS ACTIVE
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-2 text-emerald-600">
-                      <ShieldCheck size={24} /> Site Normal & Secure
-                    </span>
-                  )}
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 ${
+                  isEmergencyLockdown ? 'bg-red-600 text-white animate-pulse' : 'bg-gray-100 text-gray-700'
+                }`}>
+                  {isEmergencyLockdown ? <Lock size={20} /> : <Unlock size={20} />}
                 </div>
-                <p className="text-xs text-gray-500 font-medium max-w-xl">
-                  1-Click Emergency Lockdown immediately blocks all public user pages and displays a high-security maintenance broadcast screen during DDoS attacks or cyber threats.
-                </p>
+                <div>
+                  <h3 className="text-base font-extrabold text-gray-900">Emergency System Maintenance Lockdown</h3>
+                  <p className="text-xs text-gray-500 font-medium mt-0.5">
+                    Instantly restrict customer access across the site and display a custom maintenance message. Admin panel remains accessible.
+                  </p>
+                </div>
               </div>
 
               <button
-                onClick={() => {
-                  const nextState = !isEmergencyLockdown;
-                  setIsEmergencyLockdown(nextState);
-                  if (nextState) toast.error('Emergency Lockdown Mode Activated!');
-                  else toast.success('Emergency Lockdown Mode Disabled.');
-                }}
-                className={`px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 transition-all shadow-md cursor-pointer shrink-0 ${
+                onClick={() => setIsEmergencyLockdown(!isEmergencyLockdown)}
+                className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer shrink-0 ${
                   isEmergencyLockdown
-                    ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                    : 'bg-red-600 hover:bg-red-700 text-white'
+                    ? 'bg-red-600 text-white shadow-md'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
                 }`}
               >
-                {isEmergencyLockdown ? <Unlock size={18} /> : <Lock size={18} />}
-                <span>{isEmergencyLockdown ? 'Disable Emergency Lockdown' : 'ACTIVATE SITE LOCKDOWN'}</span>
+                {isEmergencyLockdown ? 'Lockdown ACTIVE' : 'Enable Lockdown'}
               </button>
             </div>
 
-            {/* Broadcast Message Input */}
-            <div className="pt-5 space-y-2">
-              <label className="block text-xs font-extrabold uppercase text-gray-700 tracking-wider">
-                Broadcast Maintenance & Security Message
-              </label>
-              <input
-                type="text"
-                value={maintenanceMessage}
-                onChange={(e) => setMaintenanceMessage(e.target.value)}
-                placeholder="Sandy Digital Hub is currently undergoing scheduled maintenance..."
-                className="w-full bg-gray-50 text-gray-900 p-3.5 rounded-2xl border border-gray-200 focus:border-[#FF4500] focus:bg-white outline-none text-sm font-semibold transition-all"
-              />
+            {isEmergencyLockdown && (
+              <div className="mt-4 pt-4 border-t border-red-200 space-y-2">
+                <label className="text-xs font-bold text-red-900">Public Maintenance Banner Message:</label>
+                <input
+                  type="text"
+                  value={maintenanceMessage}
+                  onChange={(e) => setMaintenanceMessage(e.target.value)}
+                  placeholder="e.g. System is undergoing scheduled Jan Seva server maintenance. Please check back shortly."
+                  className="w-full bg-white border border-red-300 rounded-xl px-4 py-2.5 text-xs text-gray-900 font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Section 2: File Uploads Firewall */}
+          <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-2xs space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center shrink-0">
+                  <UploadCloud size={20} />
+                </div>
+                <div>
+                  <h3 className="text-base font-extrabold text-gray-900">Customer File Upload Firewall</h3>
+                  <p className="text-xs text-gray-500 font-medium">Control whether users can attach photos & documents during checkout</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setAllowFileUploads(!allowFileUploads)}
+                className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                  allowFileUploads
+                    ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                    : 'bg-red-100 text-red-800 border border-red-300'
+                }`}
+              >
+                {allowFileUploads ? 'Uploads ALLOWED' : 'Uploads RESTRICTED'}
+              </button>
             </div>
           </div>
 
-          {/* Section 2: Page Route Blocker (Block Any Page) */}
-          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-6">
+          {/* Section 3: Selective Page Access Control */}
+          <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-2xs space-y-4">
             <div>
-              <h2 className="text-xl font-black text-gray-900 flex items-center gap-2">
-                <EyeOff className="text-[#FF4500]" /> Page Access & Route Blocker ({AVAILABLE_PAGES.length} Pre-configured Routes)
-              </h2>
-              <p className="text-xs text-gray-500 font-medium mt-1">
-                Toggle ON/OFF to instantly block or unblock specific website pages from public users. Blocked pages display an admin pause screen.
-              </p>
+              <h3 className="text-base font-extrabold text-gray-900 flex items-center gap-2">
+                <EyeOff size={18} className="text-violet-600" />
+                Page Access Restrictions ({blockedPages.length} pages restricted)
+              </h3>
+              <p className="text-xs text-gray-500 font-medium">Toggle off specific pages to block public access temporarily</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {AVAILABLE_PAGES.map((page) => {
-                const isBlocked = blockedPages.includes(page.path);
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+              {AVAILABLE_PAGES.map((pg) => {
+                const isBlocked = blockedPages.includes(pg.path);
                 return (
                   <div
-                    key={page.path}
-                    onClick={() => togglePageBlock(page.path)}
-                    className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-3.5 ${
+                    key={pg.path}
+                    onClick={() => toggleBlockedPage(pg.path)}
+                    className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
                       isBlocked
-                        ? 'border-red-500 bg-red-50/60 shadow-sm'
-                        : 'border-gray-200 bg-gray-50/50 hover:border-gray-300'
+                        ? 'bg-red-50/60 border-red-200 text-red-900'
+                        : 'bg-gray-50/60 border-gray-200 hover:border-violet-300 text-gray-900'
                     }`}
                   >
-                    <div className="pt-0.5">
-                      {isBlocked ? (
-                        <Ban className="text-red-600 shrink-0" size={18} />
-                      ) : (
-                        <Globe className="text-emerald-600 shrink-0" size={18} />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-1">
-                        <h4 className="font-bold text-xs text-gray-900 truncate">{page.label}</h4>
-                        <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full border ${
-                          isBlocked
-                            ? 'bg-red-100 text-red-800 border-red-300'
-                            : 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                        }`}>
-                          {isBlocked ? 'BLOCKED' : 'ACTIVE'}
-                        </span>
+                    <div className="min-w-0">
+                      <div className="text-xs font-extrabold flex items-center gap-1.5">
+                        <span className="font-mono text-[11px] text-gray-500 font-bold">{pg.path}</span>
+                        <span>• {pg.label}</span>
                       </div>
-                      <p className="text-[11px] text-gray-500 mt-1 font-mono font-semibold">{page.path}</p>
-                      <p className="text-[10px] text-gray-500 mt-1 leading-snug line-clamp-2">{page.desc}</p>
+                      <p className="text-[11px] text-gray-500 font-medium truncate mt-0.5">{pg.desc}</p>
                     </div>
+
+                    <span className={`px-2.5 py-1 rounded-xl text-[10px] font-black uppercase shrink-0 ${
+                      isBlocked ? 'bg-red-600 text-white' : 'bg-emerald-100 text-emerald-800'
+                    }`}>
+                      {isBlocked ? 'RESTRICTED' : 'ACTIVE'}
+                    </span>
                   </div>
                 );
               })}
             </div>
+          </div>
 
-            {/* Custom Route Blocker Input */}
-            <div className="pt-4 border-t border-gray-100 space-y-3">
-              <label className="block text-xs font-extrabold uppercase text-gray-700">
-                Block Custom URL Route (e.g. /privacy or /terms)
-              </label>
+          {/* Section 4: Email & IP Blacklists */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Blocked Emails */}
+            <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-2xs space-y-4">
+              <h3 className="text-base font-extrabold text-gray-900 flex items-center gap-2">
+                <Ban size={18} className="text-red-500" />
+                Blacklisted Emails ({blockedEmails.length})
+              </h3>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  placeholder="Enter email to block..."
+                  className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-violet-600"
+                />
+                <button
+                  onClick={addBlockedEmail}
+                  className="px-4 py-2 rounded-xl bg-violet-600 text-white text-xs font-bold hover:bg-violet-700 cursor-pointer"
+                >
+                  Block
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto">
+                {blockedEmails.map((email) => (
+                  <span key={email} className="px-2.5 py-1 rounded-xl bg-red-50 text-red-700 border border-red-200 text-xs font-bold flex items-center gap-1.5">
+                    {email}
+                    <button onClick={() => removeBlockedEmail(email)} className="hover:text-red-900 cursor-pointer"><Trash2 size={12} /></button>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Blocked IPs */}
+            <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-2xs space-y-4">
+              <h3 className="text-base font-extrabold text-gray-900 flex items-center gap-2">
+                <Globe size={18} className="text-violet-600" />
+                Blacklisted IP Addresses ({blockedIps.length})
+              </h3>
               <div className="flex gap-2">
                 <input
                   type="text"
-                  value={customPageInput}
-                  onChange={(e) => setCustomPageInput(e.target.value)}
-                  placeholder="/privacy"
-                  className="flex-1 bg-gray-50 text-gray-900 p-3 rounded-xl border border-gray-200 outline-none text-sm font-semibold focus:border-[#FF4500]"
+                  value={ipInput}
+                  onChange={(e) => setIpInput(e.target.value)}
+                  placeholder="Enter IP address (e.g. 192.168.1.1)..."
+                  className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-violet-600"
                 />
                 <button
-                  onClick={addCustomPage}
-                  className="px-4 py-3 rounded-xl bg-gray-900 hover:bg-black text-white font-bold text-xs flex items-center gap-1.5 shrink-0 cursor-pointer"
+                  onClick={addBlockedIp}
+                  className="px-4 py-2 rounded-xl bg-violet-600 text-white text-xs font-bold hover:bg-violet-700 cursor-pointer"
                 >
-                  <Plus size={16} /> Add Route Block
+                  Block
                 </button>
               </div>
-
-              {/* Active Blocked Pages Chips */}
-              {blockedPages.length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {blockedPages.map((path) => (
-                    <span
-                      key={path}
-                      className="px-3 py-1.5 rounded-xl bg-red-100 border border-red-200 text-red-800 text-xs font-bold flex items-center gap-2"
-                    >
-                      <span className="font-mono">{path}</span>
-                      <button
-                        onClick={() => togglePageBlock(path)}
-                        className="text-red-500 hover:text-red-800 cursor-pointer"
-                      >
-                        <Trash2 size={13} />
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Section 3: Anti-Spam Firewall & File Upload Switch */}
-          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-6">
-            <div>
-              <h2 className="text-xl font-black text-gray-900 flex items-center gap-2">
-                <ShieldCheck className="text-[#FF4500]" /> Anti-Spam Firewall & User Upload Switch
-              </h2>
-              <p className="text-xs text-gray-500 font-medium mt-1">
-                Protect your forms and server bandwidth from malicious file attachments and spam email submissions.
-              </p>
-            </div>
-
-            {/* File Upload Global Switch */}
-            <div className="p-4 rounded-2xl border border-gray-200 bg-gray-50 flex items-center justify-between gap-4">
-              <div className="space-y-0.5">
-                <div className="font-bold text-sm text-gray-900 flex items-center gap-2">
-                  <UploadCloud size={18} className="text-[#FF4500]" /> User Document & Photo Uploads
-                </div>
-                <p className="text-xs text-gray-500 font-medium">
-                  Allow or restrict users from attaching PDF/Image files during checkout or contact forms.
-                </p>
-              </div>
-
-              <button
-                onClick={() => {
-                  const nextState = !allowFileUploads;
-                  setAllowFileUploads(nextState);
-                  if (nextState) toast.success('File uploads enabled.');
-                  else toast.error('File uploads restricted.');
-                }}
-                className={`px-4 py-2 rounded-xl text-xs font-black uppercase transition-colors cursor-pointer border ${
-                  allowFileUploads
-                    ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
-                    : 'bg-red-100 text-red-900 border-red-300'
-                }`}
-              >
-                {allowFileUploads ? 'ALLOW UPLOADS' : 'UPLOADS RESTRICTED'}
-              </button>
-            </div>
-
-            {/* Blocked Emails Input */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-              <div className="space-y-3">
-                <label className="block text-xs font-extrabold uppercase text-gray-700">
-                  Block Spammer Email Addresses
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="email"
-                    value={emailInput}
-                    onChange={(e) => setEmailInput(e.target.value)}
-                    placeholder="spammer@example.com"
-                    className="flex-1 bg-gray-50 text-gray-900 p-3 rounded-xl border border-gray-200 outline-none text-sm font-semibold focus:border-[#FF4500]"
-                  />
-                  <button
-                    onClick={addBlockedEmail}
-                    className="px-3.5 py-3 rounded-xl bg-gray-900 text-white font-bold text-xs shrink-0 cursor-pointer"
-                  >
-                    Block Email
-                  </button>
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {blockedEmails.map((email) => (
-                    <span key={email} className="px-2.5 py-1 rounded-lg bg-gray-100 border text-xs text-gray-800 font-semibold flex items-center gap-1.5">
-                      <span>{email}</span>
-                      <button onClick={() => setBlockedEmails(blockedEmails.filter((e) => e !== email))} className="text-red-500">
-                        <Trash2 size={12} />
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <label className="block text-xs font-extrabold uppercase text-gray-700">
-                  Block Malicious IP Addresses
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={ipInput}
-                    onChange={(e) => setIpInput(e.target.value)}
-                    placeholder="192.168.1.100"
-                    className="flex-1 bg-gray-50 text-gray-900 p-3 rounded-xl border border-gray-200 outline-none text-sm font-semibold focus:border-[#FF4500]"
-                  />
-                  <button
-                    onClick={addBlockedIp}
-                    className="px-3.5 py-3 rounded-xl bg-gray-900 text-white font-bold text-xs shrink-0 cursor-pointer"
-                  >
-                    Block IP
-                  </button>
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {blockedIps.map((ip) => (
-                    <span key={ip} className="px-2.5 py-1 rounded-lg bg-gray-100 border text-xs text-gray-800 font-mono font-semibold flex items-center gap-1.5">
-                      <span>{ip}</span>
-                      <button onClick={() => setBlockedIps(blockedIps.filter((i) => i !== ip))} className="text-red-500">
-                        <Trash2 size={12} />
-                      </button>
-                    </span>
-                  ))}
-                </div>
+              <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto">
+                {blockedIps.map((ip) => (
+                  <span key={ip} className="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-700 border border-slate-200 text-xs font-mono font-bold flex items-center gap-1.5">
+                    {ip}
+                    <button onClick={() => removeBlockedIp(ip)} className="hover:text-slate-900 cursor-pointer"><Trash2 size={12} /></button>
+                  </span>
+                ))}
               </div>
             </div>
           </div>
-        </main>
-      </div>
+        </div>
+      )}
     </div>
   );
 }

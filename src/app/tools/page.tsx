@@ -10,13 +10,22 @@ import {
 const allTools = [
   // Category: Image & Photo Tools
   { 
+    href: "/tools/govt-photo-resizer", 
+    icon: <ImageIcon className="w-7 h-7" />, 
+    title: "Govt Job Photo & Signature Resizer", 
+    description: "Resize photos & signatures for UPSC, SSC, IBPS, State Govt & Board exams to exact KB & pixel specs.", 
+    badge: "Official Govt", 
+    category: "image",
+    color: "from-blue-600 to-indigo-600" 
+  },
+  { 
     href: "/image-tools/compress", 
     icon: <Minimize2 className="w-7 h-7" />, 
     title: "Image Compressor", 
     description: "Reduce image file size from MB to KB without quality loss. Instant client-side compression.", 
     badge: "Most Popular", 
     category: "image",
-    color: "from-orange-500 to-orange-600" 
+    color: "from-blue-500 to-blue-600" 
   },
   { 
     href: "/image-tools/passport-photo", 
@@ -133,16 +142,16 @@ export default function ToolsHubPage() {
       {/* Hero Header */}
       <div className="bg-white border-b border-gray-200 pt-28 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[650px] h-[300px] bg-orange-50 rounded-full blur-3xl opacity-70" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[650px] h-[300px] bg-blue-50 rounded-full blur-3xl opacity-70" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-[#FF4500] text-xs font-bold uppercase tracking-wider shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#2563EB] text-xs font-bold uppercase tracking-wider shadow-sm">
             <Sparkles size={14} /> 100% Free · No Sign-Up · 100% Browser Private
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight">
-            Free Online <span className="text-[#FF4500]">Digital Tools</span> Hub
+            Free Online <span className="text-[#2563EB]">Digital Tools</span> Hub
           </h1>
 
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
@@ -157,7 +166,7 @@ export default function ToolsHubPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search tools (e.g. compress, passport, password, qr)..."
-              className="w-full bg-white border border-gray-300 rounded-2xl pl-11 pr-4 py-3.5 text-sm text-gray-900 shadow-lg focus:border-[#FF4500] focus:ring-2 focus:ring-[#FF4500]/20 outline-none transition-all"
+              className="w-full bg-white border border-gray-300 rounded-2xl pl-11 pr-4 py-3.5 text-sm text-gray-900 shadow-lg focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 outline-none transition-all"
             />
           </div>
         </div>
@@ -175,11 +184,11 @@ export default function ToolsHubPage() {
                 onClick={() => setActiveCategory(cat.id)}
                 className={`px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer ${
                   activeCategory === cat.id
-                    ? "bg-[#FF4500] text-white shadow-lg shadow-orange-500/20 scale-105"
+                    ? "bg-[#2563EB] text-white shadow-lg shadow-blue-500/20 scale-105"
                     : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 shadow-sm"
                 }`}
               >
-                <CatIcon size={16} className={activeCategory === cat.id ? "text-white" : "text-[#FF4500]"} />
+                <CatIcon size={16} className={activeCategory === cat.id ? "text-white" : "text-[#2563EB]"} />
                 <span>{cat.label}</span>
               </button>
             );

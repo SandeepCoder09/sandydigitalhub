@@ -62,12 +62,12 @@ export function DropZone({
         onDrop={onDrop}
         className={`relative flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed cursor-pointer transition-all duration-200 p-10 min-h-[220px]
           ${dragging
-            ? "border-orange-500 bg-orange-50 scale-[1.01]"
-            : "border-gray-300 bg-gray-50 hover:border-orange-400 hover:bg-orange-50/50"
+            ? "border-blue-500 bg-blue-50 scale-[1.01]"
+            : "border-gray-300 bg-gray-50 hover:border-blue-400 hover:bg-blue-50/50"
           }`}
       >
         <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-200
-          ${dragging ? "bg-orange-500 text-white" : "bg-orange-100 text-orange-500"}`}>
+          ${dragging ? "bg-blue-500 text-white" : "bg-blue-100 text-blue-500"}`}>
           {dragging ? <Upload className="w-8 h-8" /> : <ImageIcon className="w-8 h-8" />}
         </div>
         <div className="text-center">

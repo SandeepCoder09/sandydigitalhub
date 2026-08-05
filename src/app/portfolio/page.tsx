@@ -82,11 +82,11 @@ export default function PortfolioPage() {
       {/* Header Banner */}
       <section className="bg-gradient-to-br from-gray-900 via-black to-slate-900 text-white py-14 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
         <div className="max-w-5xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
             <Briefcase size={14} /> Our Client Work & Case Studies
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-            Client <span className="text-[#FF4500]">Portfolio & Projects</span>
+            Client <span className="text-[#2563EB]">Portfolio & Projects</span>
           </h1>
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-gray-300 font-medium">
             Explore web applications, e-commerce stores, and digital solutions engineered by Sandy Digital Hub.
@@ -100,7 +100,7 @@ export default function PortfolioPage() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   selectedCategory === cat
-                    ? 'bg-[#FF4500] text-white shadow-md'
+                    ? 'bg-[#2563EB] text-white shadow-md'
                     : 'bg-gray-800/80 border border-gray-700 text-gray-300 hover:text-white'
                 }`}
               >
@@ -122,7 +122,7 @@ export default function PortfolioPage() {
                   alt={project.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                 />
-                <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-slate-900/90 text-orange-400 text-[10px] font-bold uppercase tracking-wider backdrop-blur-md border border-gray-700">
+                <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-slate-900/90 text-blue-400 text-[10px] font-bold uppercase tracking-wider backdrop-blur-md border border-gray-700">
                   {project.category}
                 </span>
               </div>
@@ -130,7 +130,7 @@ export default function PortfolioPage() {
               <div className="p-6 space-y-4">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="text-lg font-extrabold text-gray-900 group-hover:text-[#FF4500] transition-colors">
+                    <h3 className="text-lg font-extrabold text-gray-900 group-hover:text-[#2563EB] transition-colors">
                       {project.title}
                     </h3>
                     <div className="flex items-center gap-1.5 text-xs text-amber-500 font-bold mt-0.5">

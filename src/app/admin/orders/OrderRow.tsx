@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { formatOrderId, formatDateTime } from '@/lib/utils';
 import { CopyButton } from '@/components/ui/CopyButton';
-import { FileText, Calendar, User, Tag, Paperclip, Printer, Eye } from 'lucide-react';
+import { FileText, Calendar, User, Tag, Paperclip, Printer, Eye, CheckCircle2, Clock, RefreshCw, XCircle, Store } from 'lucide-react';
 
 export default function OrderRow({ order, isMobile = false, onInspect }: { order: any; isMobile?: boolean; onInspect?: (order: any) => void }) {
   const [paymentStatus, setPaymentStatus] = useState(order.paymentStatus);
@@ -47,7 +47,7 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
           <title>Work Order - ${brandedId}</title>
           <style>
             body { font-family: system-ui, sans-serif; padding: 24px; color: #111; line-height: 1.5; }
-            h1 { font-size: 20px; margin-bottom: 4px; color: #000; border-bottom: 2px solid #FF4500; padding-bottom: 8px; }
+            h1 { font-size: 20px; margin-bottom: 4px; color: #000; border-bottom: 2px solid #7C3AED; padding-bottom: 8px; }
             .meta { margin-top: 16px; margin-bottom: 20px; font-size: 14px; }
             .meta p { margin: 4px 0; }
             table { width: 100%; border-collapse: collapse; margin-top: 16px; margin-bottom: 16px; font-size: 13px; }
@@ -118,106 +118,123 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
     }
   };
 
+  // Get status icon for Payment
+  const getPaymentIcon = (status: string) => {
+    if (status === 'PAID') return <CheckCircle2 size={13} className="text-emerald-600 shrink-0" />;
+    if (status === 'FAILED') return <XCircle size={13} className="text-red-600 shrink-0" />;
+    return <Clock size={13} className="text-amber-600 shrink-0" />;
+  };
+
+  // Get status icon for Order Status
+  const getOrderIcon = (status: string) => {
+    if (status === 'COMPLETED') return <CheckCircle2 size={13} className="text-emerald-600 shrink-0" />;
+    if (status === 'PROCESSING') return <RefreshCw size={13} className="text-violet-600 shrink-0 animate-spin-slow" />;
+    if (status === 'CANCELLED') return <XCircle size={13} className="text-red-600 shrink-0" />;
+    if (status === 'AWAITING_CUSTOMER_VISIT') return <Store size={13} className="text-blue-600 shrink-0" />;
+    return <Clock size={13} className="text-amber-600 shrink-0" />;
+  };
+
   if (isMobile) {
     return (
-      <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm space-y-3">
-        <div className="flex justify-between items-start border-b border-white/5 pb-2">
+      <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-2xs space-y-3">
+        <div className="flex justify-between items-start border-b border-gray-100 pb-2">
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-xs text-[#FF4500] font-mono font-bold">{brandedId}</span>
+              <span className="text-xs text-violet-700 font-mono font-black">{brandedId}</span>
               <CopyButton text={brandedId} />
             </div>
-            <div className="text-[11px] text-gray-400 flex items-center gap-1 mt-0.5">
+            <div className="text-[11px] text-gray-500 font-medium flex items-center gap-1 mt-0.5">
               <Calendar size={12} />
               <span>{dateTimeStr}</span>
             </div>
           </div>
           <div className="text-right">
-            <span className="text-xs text-gray-500">Total: </span>
-            <span className="text-sm font-bold text-[#FF4500]">₹{order.total}</span>
+            <span className="text-xs text-gray-500 font-medium">Total: </span>
+            <span className="text-sm font-black text-gray-900">₹{order.total}</span>
           </div>
         </div>
 
         <div className="space-y-1">
-          <div className="text-xs font-semibold text-gray-800 flex items-center gap-1.5">
-            <User size={13} className="text-[#FF4500]" />
+          <div className="text-xs font-bold text-gray-900 flex items-center gap-1.5">
+            <User size={13} className="text-violet-600" />
             <span>{order.userId?.name || 'Customer'}</span>
           </div>
-          <div className="text-xs text-gray-500 pl-5">{order.userId?.email} {order.userId?.mobile && `• ${order.userId.mobile}`}</div>
+          <div className="text-xs text-gray-500 font-medium pl-5">{order.userId?.email} {order.userId?.mobile && `• ${order.userId.mobile}`}</div>
         </div>
 
-        <div className="space-y-1 bg-gray-50 p-2.5 rounded-lg border border-gray-200">
-          <div className="text-[11px] text-gray-400 font-semibold uppercase flex items-center gap-1">
-            <Tag size={12} className="text-[#FF4500]" />
+        <div className="space-y-1 bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+          <div className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider flex items-center gap-1">
+            <Tag size={11} className="text-violet-600" />
             Services
           </div>
-          <div className="text-xs font-medium text-gray-800 line-clamp-2">{servicesText}</div>
+          <div className="text-xs font-bold text-gray-900 line-clamp-2">{servicesText}</div>
           {order.notes && (
-            <div className="mt-1 text-xs text-[#FF4500] flex items-center gap-1 font-medium">
+            <div className="mt-1 text-xs text-violet-700 flex items-center gap-1 font-semibold">
               <FileText size={12} />
               <span className="line-clamp-1">Note: {order.notes}</span>
             </div>
           )}
-          {order.documentUrl && (
-            <div className="mt-1 text-xs text-[#FF4500]">
-              <a href={order.documentUrl} download={order.documentName || 'attachment'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:underline">
-                <Paperclip size={12} />
-                <span>Doc: {order.documentName || 'Download File'}</span>
-              </a>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 pt-2 border-t border-gray-100">
+          <div>
+            <label className="block text-[10px] text-gray-400 uppercase font-extrabold mb-1">Payment Status</label>
+            <div className="relative flex items-center">
+              <div className="absolute left-2.5 pointer-events-none">
+                {getPaymentIcon(paymentStatus)}
+              </div>
+              <select 
+                disabled={loading}
+                className={`w-full pl-7 pr-2 py-1.5 text-xs font-black rounded-xl outline-none cursor-pointer border ${
+                  paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-900 border-emerald-300' : 'bg-amber-50 text-amber-900 border-amber-300'
+                }`}
+                value={paymentStatus}
+                onChange={(e) => handleUpdate('payment', e.target.value)}
+              >
+                <option value="PENDING">PENDING</option>
+                <option value="PAID">PAID</option>
+                <option value="FAILED">FAILED</option>
+              </select>
             </div>
-          )}
-        </div>
-
-        <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/5">
-          <div>
-            <label className="block text-[10px] text-gray-400 uppercase mb-1 font-semibold">Payment Status</label>
-            <select 
-              disabled={loading}
-              className={`w-full text-xs font-bold rounded px-2 py-1.5 outline-none cursor-pointer ${
-                paymentStatus === 'PAID' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 
-                paymentStatus === 'FAILED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
-              }`}
-              value={paymentStatus}
-              onChange={(e) => handleUpdate('payment', e.target.value)}
-            >
-              <option value="PENDING">PENDING</option>
-              <option value="PAID">PAID</option>
-              <option value="FAILED">FAILED</option>
-            </select>
           </div>
 
           <div>
-            <label className="block text-[10px] text-gray-400 uppercase mb-1 font-semibold">Order Status</label>
-            <select 
-              disabled={loading}
-              className="w-full bg-white border border-gray-300 rounded px-2 py-1.5 text-gray-700 outline-none focus:border-[#FF4500] text-xs font-semibold"
-              value={orderStatus}
-              onChange={(e) => handleUpdate('order', e.target.value)}
-            >
-              <option value="PENDING">PENDING</option>
-              <option value="AWAITING_CUSTOMER_VISIT">AWAITING VISIT</option>
-              <option value="PROCESSING">PROCESSING</option>
-              <option value="COMPLETED">COMPLETED</option>
-              <option value="CANCELLED">CANCELLED</option>
-            </select>
+            <label className="block text-[10px] text-gray-400 uppercase font-extrabold mb-1">Order Status</label>
+            <div className="relative flex items-center">
+              <div className="absolute left-2.5 pointer-events-none">
+                {getOrderIcon(orderStatus)}
+              </div>
+              <select 
+                disabled={loading}
+                className="w-full pl-7 pr-2 py-1.5 bg-white border border-gray-200 rounded-xl text-gray-900 outline-none text-xs font-bold"
+                value={orderStatus}
+                onChange={(e) => handleUpdate('order', e.target.value)}
+              >
+                <option value="PENDING">PENDING</option>
+                <option value="AWAITING_CUSTOMER_VISIT">AWAITING VISIT</option>
+                <option value="PROCESSING">PROCESSING</option>
+                <option value="COMPLETED">COMPLETED</option>
+                <option value="CANCELLED">CANCELLED</option>
+              </select>
+            </div>
           </div>
         </div>
 
-        <div className="pt-2 flex justify-between items-center border-t border-white/5">
+        <div className="pt-2 flex justify-between items-center gap-2 border-t border-gray-100">
           {onInspect && (
             <button
               onClick={() => onInspect(order)}
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#FF4500] text-white text-xs font-bold shadow hover:bg-[#FF4500]/90 transition-colors"
+              className="flex-1 py-2 rounded-xl bg-violet-600 text-white text-xs font-extrabold shadow-xs hover:bg-violet-700 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
             >
-              <Eye size={13} />
-              <span>Inspect & Track</span>
+              <Eye size={14} />
+              <span>Inspect Order</span>
             </button>
           )}
           <button
             onClick={handlePrintWorkOrder}
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-100 text-gray-600 text-xs font-semibold hover:bg-gray-200 transition-colors"
+            className="flex-1 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold transition-colors cursor-pointer border border-gray-200 flex items-center justify-center gap-1.5"
           >
-            <Printer size={12} />
+            <Printer size={14} />
             <span>Print Sheet</span>
           </button>
         </div>
@@ -226,82 +243,90 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
   }
 
   return (
-    <tr className="hover:bg-gray-50 transition-colors">
-      <td className="p-4 text-sm font-mono font-bold text-gray-900 whitespace-nowrap">
-        <div className="flex items-center gap-2">
+    <tr className="hover:bg-gray-50/80 transition-colors border-b border-gray-100">
+      {/* Branded Order ID */}
+      <td className="py-3 px-4 font-mono font-black text-violet-700 text-xs">
+        <div className="flex items-center gap-1.5">
           <span>{brandedId}</span>
           <CopyButton text={brandedId} />
         </div>
       </td>
-      <td className="p-4">
-        <div className="text-sm font-bold text-gray-900">{order.userId?.name || 'Customer'}</div>
-        <div className="text-xs text-gray-500 font-medium">{order.userId?.email}</div>
-        {order.userId?.mobile && <div className="text-xs text-[#FF4500] font-semibold">{order.userId?.mobile}</div>}
+
+      {/* Customer Info */}
+      <td className="py-3 px-4">
+        <div className="text-xs font-extrabold text-gray-900 truncate">{order.userId?.name || 'Customer'}</div>
+        <div className="text-[11px] text-gray-500 font-medium truncate">{order.userId?.email || 'N/A'}</div>
       </td>
-      <td className="p-4 max-w-[200px]">
-        <div className="text-sm font-bold text-gray-900 truncate">
+
+      {/* Requested Services */}
+      <td className="py-3 px-4">
+        <div className="text-xs font-bold text-gray-900 truncate max-w-[220px]" title={servicesText}>
           {servicesText}
         </div>
-        {order.notes && (
-          <div className="mt-1 text-xs text-[#FF4500] flex items-center gap-1 font-semibold" title={order.notes}>
-            <FileText size={12} />
-            <span className="truncate max-w-[180px]">Note: {order.notes}</span>
-          </div>
-        )}
         {order.documentUrl && (
-          <div className="mt-1 text-xs text-[#FF4500]">
-            <a href={order.documentUrl} download={order.documentName || 'attachment'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:underline font-bold">
-              <Paperclip size={12} />
-              <span className="truncate max-w-[180px]">{order.documentName || 'Attached File'}</span>
+          <div className="text-[11px] text-violet-600 mt-0.5">
+            <a href={order.documentUrl} download={order.documentName || 'attachment'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:underline font-bold truncate">
+              <Paperclip size={11} />
+              <span className="truncate max-w-[160px]">{order.documentName || 'File'}</span>
             </a>
           </div>
         )}
       </td>
-      <td className="p-4 text-sm font-black text-[#FF4500]">₹{order.total}</td>
-      <td className="p-4">
-        <div className="text-xs text-gray-700 font-bold mb-1">
-          {order.paymentMethod === 'online' ? (
-            <span className="flex items-center gap-1.5 text-blue-700 font-bold"><span className="w-2 h-2 rounded-full bg-blue-600"></span> Online</span>
-          ) : (
-            <span className="flex items-center gap-1.5 text-[#FF4500] font-bold"><span className="w-2 h-2 rounded-full bg-[#FF4500]"></span> Shop</span>
-          )}
+
+      {/* Total Amount */}
+      <td className="py-3 px-4 font-black text-gray-900 text-xs">
+        ₹{order.total}
+      </td>
+
+      {/* Payment Status Dropdown with SVG Icon */}
+      <td className="py-3 px-4">
+        <div className="relative flex items-center">
+          <div className="absolute left-2.5 pointer-events-none">
+            {getPaymentIcon(paymentStatus)}
+          </div>
+          <select 
+            disabled={loading}
+            className={`pl-7 pr-2 py-1 text-[11px] font-extrabold rounded-xl outline-none cursor-pointer border shadow-2xs transition-colors appearance-none ${
+              paymentStatus === 'PAID'
+                ? 'bg-emerald-50 text-emerald-900 border-emerald-300 hover:bg-emerald-100'
+                : paymentStatus === 'FAILED'
+                ? 'bg-red-50 text-red-900 border-red-300 hover:bg-red-100'
+                : 'bg-amber-50 text-amber-900 border-amber-300 hover:bg-amber-100'
+            }`}
+            value={paymentStatus}
+            onChange={(e) => handleUpdate('payment', e.target.value)}
+          >
+            <option value="PENDING" className="bg-white text-gray-900 font-bold">PENDING</option>
+            <option value="PAID" className="bg-white text-gray-900 font-bold">PAID</option>
+            <option value="FAILED" className="bg-white text-gray-900 font-bold">FAILED</option>
+          </select>
         </div>
-        <select 
-          disabled={loading}
-          className={`text-xs font-extrabold rounded-lg px-2.5 py-1 outline-none cursor-pointer border shadow-2xs ${
-            paymentStatus === 'PAID'
-              ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
-              : paymentStatus === 'FAILED'
-              ? 'bg-red-100 text-red-900 border-red-300'
-              : 'bg-amber-100 text-amber-900 border-amber-300'
-          }`}
-          value={paymentStatus}
-          onChange={(e) => handleUpdate('payment', e.target.value)}
-        >
-          <option value="PENDING" className="bg-white text-gray-900 font-bold">PENDING</option>
-          <option value="PAID" className="bg-white text-gray-900 font-bold">PAID</option>
-          <option value="FAILED" className="bg-white text-gray-900 font-bold">FAILED</option>
-        </select>
       </td>
-      <td className="p-4 text-sm">
-        <select 
-          disabled={loading}
-          className="bg-white border border-gray-300 rounded-lg p-1.5 text-gray-900 outline-none focus:border-[#FF4500] text-xs font-bold cursor-pointer shadow-2xs"
-          value={orderStatus}
-          onChange={(e) => handleUpdate('order', e.target.value)}
-        >
-          <option value="PENDING" className="bg-white text-gray-900 font-bold">PENDING</option>
-          <option value="AWAITING_CUSTOMER_VISIT" className="bg-white text-gray-900 font-bold">AWAITING VISIT</option>
-          <option value="PROCESSING" className="bg-white text-gray-900 font-bold">PROCESSING</option>
-          <option value="COMPLETED" className="bg-white text-gray-900 font-bold">COMPLETED</option>
-          <option value="CANCELLED" className="bg-white text-gray-900 font-bold">CANCELLED</option>
-        </select>
+
+      {/* Order Status Dropdown with SVG Icon */}
+      <td className="py-3 px-4">
+        <div className="relative flex items-center">
+          <div className="absolute left-2.5 pointer-events-none">
+            {getOrderIcon(orderStatus)}
+          </div>
+          <select 
+            disabled={loading}
+            className="pl-7 pr-2 py-1 bg-white border border-gray-200 hover:border-violet-300 rounded-xl text-gray-900 outline-none text-[11px] font-extrabold cursor-pointer shadow-2xs appearance-none transition-colors"
+            value={orderStatus}
+            onChange={(e) => handleUpdate('order', e.target.value)}
+          >
+            <option value="PENDING" className="bg-white text-gray-900 font-bold">PENDING</option>
+            <option value="AWAITING_CUSTOMER_VISIT" className="bg-white text-gray-900 font-bold">AWAITING VISIT</option>
+            <option value="PROCESSING" className="bg-white text-gray-900 font-bold">PROCESSING</option>
+            <option value="COMPLETED" className="bg-white text-gray-900 font-bold">COMPLETED</option>
+            <option value="CANCELLED" className="bg-white text-gray-900 font-bold">CANCELLED</option>
+          </select>
+        </div>
       </td>
-      <td className="p-4 text-xs font-semibold text-gray-600 whitespace-nowrap">
-        {dateTimeStr}
-      </td>
-      <td className="p-4 text-xs whitespace-nowrap text-center">
-        <div className="flex flex-col items-center gap-1.5 min-w-[100px]">
+
+      {/* Action Column: Icon Buttons with Tooltips */}
+      <td className="py-3 px-4 text-center">
+        <div className="flex items-center justify-center gap-1.5">
           {onInspect && (
             <button
               type="button"
@@ -310,19 +335,19 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
                 e.stopPropagation();
                 onInspect(order);
               }}
-              className="px-3 py-1.5 rounded-xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-extrabold text-xs inline-flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/20 transition-all hover:scale-105 cursor-pointer w-full"
-              title="Inspect & Track Order"
+              className="w-8 h-8 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-bold flex items-center justify-center shadow-xs transition-all hover:scale-105 cursor-pointer shrink-0"
+              title="Inspect & Track Order Details"
             >
-              <Eye size={13} />
-              <span>Inspect</span>
+              <Eye size={15} />
             </button>
           )}
+
           <button
             onClick={handlePrintWorkOrder}
-            className="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 transition-colors inline-flex items-center justify-center gap-1 border border-gray-200 w-full"
+            className="w-8 h-8 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200 font-bold flex items-center justify-center transition-all hover:scale-105 shrink-0 cursor-pointer"
+            title="Print Work Order Receipt"
           >
-            <Printer size={12} />
-            <span>Print Sheet</span>
+            <Printer size={15} />
           </button>
         </div>
       </td>

@@ -114,11 +114,11 @@ export default function ReviewsPage() {
       {/* Header Banner */}
       <section className="bg-gradient-to-br from-gray-900 via-black to-slate-900 text-white py-14 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
         <div className="max-w-5xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
             <Star size={14} fill="currentColor" /> Verified Customer Feedback
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-            Customer Reviews & <span className="text-[#FF4500]">Testimonials</span>
+            Customer Reviews & <span className="text-[#2563EB]">Testimonials</span>
           </h1>
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-gray-300 font-medium">
             See real reviews from clients who used our Jan Seva government services and custom website development.
@@ -139,7 +139,7 @@ export default function ReviewsPage() {
 
             <Button
               onClick={() => setShowModal(true)}
-              className="bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-2xl text-xs py-3 px-6 shadow-lg shadow-orange-950 flex items-center gap-2"
+              className="bg-[#2563EB] hover:bg-[#2563EB]/90 text-white font-bold rounded-2xl text-xs py-3 px-6 shadow-lg shadow-blue-950 flex items-center gap-2"
             >
               <MessageSquarePlus size={16} /> Leave Your Feedback
             </Button>
@@ -166,7 +166,7 @@ export default function ReviewsPage() {
                   )}
                 </div>
 
-                <Quote size={24} className="text-orange-200" />
+                <Quote size={24} className="text-blue-200" />
                 <p className="text-xs text-gray-700 font-medium leading-relaxed italic">
                   &ldquo;{r.comment}&rdquo;
                 </p>
@@ -177,7 +177,7 @@ export default function ReviewsPage() {
                   <div className="text-xs font-bold text-gray-900">{r.name}</div>
                   <div className="text-[10px] text-gray-500 font-medium">{r.serviceCategory}</div>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-orange-100 text-[#FF4500] font-black text-xs flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-blue-100 text-[#2563EB] font-black text-xs flex items-center justify-center">
                   {r.name.charAt(0)}
                 </div>
               </div>
@@ -192,7 +192,7 @@ export default function ReviewsPage() {
           <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5 border border-gray-100">
             <div className="flex items-center justify-between pb-3 border-b border-gray-100">
               <h3 className="text-base font-extrabold text-gray-900 flex items-center gap-2">
-                <MessageSquarePlus size={18} className="text-[#FF4500]" /> Leave Customer Review
+                <MessageSquarePlus size={18} className="text-[#2563EB]" /> Leave Customer Review
               </h3>
               <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600 font-bold">✕</button>
             </div>
@@ -212,7 +212,7 @@ export default function ReviewsPage() {
                   <input
                     type="text" required value={name} onChange={e => setName(e.target.value)}
                     placeholder="e.g. Ramesh Singh"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs font-medium focus:outline-none focus:border-[#FF4500]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs font-medium focus:outline-none focus:border-[#2563EB]"
                   />
                 </div>
 
@@ -221,7 +221,7 @@ export default function ReviewsPage() {
                     <label className="block text-xs font-bold text-gray-700 mb-1">Service Used</label>
                     <select
                       value={serviceCategory} onChange={e => setServiceCategory(e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-xs font-medium focus:outline-none focus:border-[#FF4500]"
+                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-xs font-medium focus:outline-none focus:border-[#2563EB]"
                     >
                       <option value="Jan Seva Certificates">Jan Seva Certificates</option>
                       <option value="PAN / Passport Service">PAN / Passport Service</option>
@@ -234,7 +234,7 @@ export default function ReviewsPage() {
                     <label className="block text-xs font-bold text-gray-700 mb-1">Star Rating</label>
                     <select
                       value={rating} onChange={e => setRating(Number(e.target.value))}
-                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-xs font-medium focus:outline-none focus:border-[#FF4500]"
+                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-xs font-medium focus:outline-none focus:border-[#2563EB]"
                     >
                       <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
                       <option value="4">⭐⭐⭐⭐ (4/5)</option>
@@ -248,13 +248,13 @@ export default function ReviewsPage() {
                   <textarea
                     required rows={3} value={comment} onChange={e => setComment(e.target.value)}
                     placeholder="Write a few lines about your experience with Sandy Digital Hub..."
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs font-medium focus:outline-none focus:border-[#FF4500]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs font-medium focus:outline-none focus:border-[#2563EB]"
                   />
                 </div>
 
                 <Button
                   type="submit" disabled={submitting}
-                  className="w-full bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-xl text-xs py-3 shadow-md flex items-center justify-center gap-2"
+                  className="w-full bg-[#2563EB] hover:bg-[#2563EB]/90 text-white font-bold rounded-xl text-xs py-3 shadow-md flex items-center justify-center gap-2"
                 >
                   {submitting ? <Loader2 size={16} className="animate-spin" /> : <><Send size={14} /> Submit Review</>}
                 </Button>

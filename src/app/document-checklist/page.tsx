@@ -181,11 +181,11 @@ export default function DocumentChecklistPage() {
       {/* Header Banner */}
       <section className="bg-gradient-to-br from-gray-900 via-black to-slate-900 text-white py-14 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
         <div className="max-w-6xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
             <FileCheck size={14} /> Jan Seva Document Assistant
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-            Government Document <span className="text-[#FF4500]">Checklist & Eligibility</span>
+            Government Document <span className="text-[#2563EB]">Checklist & Eligibility</span>
           </h1>
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-gray-300 font-medium">
             Select any government service below to check exact document requirements, eligibility criteria, official processing time, and verify your readiness instantly!
@@ -206,7 +206,7 @@ export default function DocumentChecklistPage() {
                   placeholder="Search certificate or service..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 text-xs font-medium focus:outline-none focus:border-[#FF4500]"
+                  className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 text-xs font-medium focus:outline-none focus:border-[#2563EB]"
                 />
               </div>
 
@@ -223,12 +223,12 @@ export default function DocumentChecklistPage() {
                       onClick={() => { setSelectedService(service); setCheckedDocs({}); }}
                       className={`w-full text-left p-3.5 rounded-xl transition-all cursor-pointer border flex items-center justify-between gap-3 ${
                         isSelected
-                          ? 'bg-orange-50 border-[#FF4500] text-gray-900 shadow-xs'
+                          ? 'bg-blue-50 border-[#2563EB] text-gray-900 shadow-xs'
                           : 'bg-white border-gray-100 hover:border-gray-200 text-gray-700'
                       }`}
                     >
                       <div>
-                        <div className={`text-xs font-bold ${isSelected ? 'text-[#FF4500]' : 'text-gray-900'}`}>
+                        <div className={`text-xs font-bold ${isSelected ? 'text-[#2563EB]' : 'text-gray-900'}`}>
                           {service.title}
                         </div>
                         <div className="text-[10px] text-gray-500 mt-0.5 flex items-center gap-2">
@@ -237,7 +237,7 @@ export default function DocumentChecklistPage() {
                           <span>💰 {service.fee}</span>
                         </div>
                       </div>
-                      <ChevronRight size={16} className={isSelected ? 'text-[#FF4500]' : 'text-gray-400'} />
+                      <ChevronRight size={16} className={isSelected ? 'text-[#2563EB]' : 'text-gray-400'} />
                     </button>
                   );
                 })}
@@ -245,11 +245,11 @@ export default function DocumentChecklistPage() {
             </div>
 
             {/* Quick Consultation Banner */}
-            <div className="bg-gradient-to-br from-orange-500 to-amber-600 text-white rounded-2xl p-5 shadow-lg space-y-3">
+            <div className="bg-gradient-to-br from-blue-500 to-amber-600 text-white rounded-2xl p-5 shadow-lg space-y-3">
               <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
                 <PhoneCall size={16} /> Need Personal Help?
               </div>
-              <p className="text-xs text-orange-100 font-medium leading-relaxed">
+              <p className="text-xs text-blue-100 font-medium leading-relaxed">
                 Unsure about your documents or need doorstep document pickup in Fatehpur? Call our team directly.
               </p>
               <a href="tel:+918756454282" className="block">
@@ -267,7 +267,7 @@ export default function DocumentChecklistPage() {
             <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-5">
               <div className="flex flex-wrap items-start justify-between gap-4 pb-4 border-b border-gray-100">
                 <div>
-                  <span className="px-3 py-1 rounded-full bg-orange-100 text-[#FF4500] text-[11px] font-bold uppercase tracking-wider">
+                  <span className="px-3 py-1 rounded-full bg-blue-100 text-[#2563EB] text-[11px] font-bold uppercase tracking-wider">
                     {selectedService.category}
                   </span>
                   <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-2">
@@ -284,10 +284,10 @@ export default function DocumentChecklistPage() {
                     variant="outline"
                     className="border-gray-300 text-gray-700 hover:bg-gray-50 rounded-xl text-xs font-bold flex items-center gap-1.5"
                   >
-                    <Share2 size={14} className="text-[#FF4500]" /> Share
+                    <Share2 size={14} className="text-[#2563EB]" /> Share
                   </Button>
                   <Link href={`/checkout?service=${selectedService.id}`}>
-                    <Button className="bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-md shadow-orange-200">
+                    <Button className="bg-[#2563EB] hover:bg-[#2563EB]/90 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-md shadow-blue-200">
                       Apply Online <ArrowRight size={14} />
                     </Button>
                   </Link>
@@ -331,7 +331,7 @@ export default function DocumentChecklistPage() {
               <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-gray-100">
                 <div>
                   <h3 className="text-base font-extrabold text-gray-900 flex items-center gap-2">
-                    <FileText size={18} className="text-[#FF4500]" /> Required Documents Checklist
+                    <FileText size={18} className="text-[#2563EB]" /> Required Documents Checklist
                   </h3>
                   <p className="text-xs text-gray-500 font-medium">
                     Check off the documents you currently have to verify your application readiness:
@@ -349,7 +349,7 @@ export default function DocumentChecklistPage() {
                   <div className={`w-10 h-10 rounded-full font-black text-xs flex items-center justify-center border-2 ${
                     readinessPercent === 100
                       ? 'bg-emerald-50 text-emerald-600 border-emerald-500'
-                      : 'bg-orange-50 text-[#FF4500] border-[#FF4500]'
+                      : 'bg-blue-50 text-[#2563EB] border-[#2563EB]'
                   }`}>
                     {readinessPercent}%
                   </div>
@@ -360,7 +360,7 @@ export default function DocumentChecklistPage() {
               <div className="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
                 <div
                   className={`h-full transition-all duration-500 ${
-                    readinessPercent === 100 ? 'bg-emerald-500' : 'bg-[#FF4500]'
+                    readinessPercent === 100 ? 'bg-emerald-500' : 'bg-[#2563EB]'
                   }`}
                   style={{ width: `${readinessPercent}%` }}
                 />
@@ -426,7 +426,7 @@ export default function DocumentChecklistPage() {
                 </div>
 
                 <Link href={`/checkout?service=${selectedService.id}`}>
-                  <Button className="bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-xl text-xs px-5 shadow-lg">
+                  <Button className="bg-[#2563EB] hover:bg-[#2563EB]/90 text-white font-bold rounded-xl text-xs px-5 shadow-lg">
                     Proceed to Application <ArrowRight size={14} />
                   </Button>
                 </Link>

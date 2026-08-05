@@ -102,12 +102,12 @@ export function SuzuWidget() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="relative group bg-gray-900 hover:bg-black text-white p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center border-2 border-orange-500/50 cursor-pointer"
+          className="relative group bg-gray-900 hover:bg-black text-white p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center border-2 border-blue-500/50 cursor-pointer"
           title="SUZU AI Admin Copilot"
         >
-          <span className="absolute -inset-1 rounded-full bg-[#FF4500] opacity-40 group-hover:opacity-75 animate-ping"></span>
+          <span className="absolute -inset-1 rounded-full bg-[#2563EB] opacity-40 group-hover:opacity-75 animate-ping"></span>
           <div className="relative z-10 flex items-center gap-2">
-            <Bot size={24} className="text-[#FF4500]" />
+            <Bot size={24} className="text-[#2563EB]" />
             <span className="text-xs font-black text-white hidden sm:inline-block pr-1">SUZU AI</span>
           </div>
           <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full z-20"></span>
@@ -120,14 +120,14 @@ export function SuzuWidget() {
           {/* Drawer Header */}
           <div className="bg-gray-900 text-white p-4 flex items-center justify-between border-b border-gray-800">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-orange-500/20 border border-[#FF4500]/40 flex items-center justify-center text-[#FF4500] relative">
+              <div className="w-10 h-10 rounded-2xl bg-blue-500/20 border border-[#2563EB]/40 flex items-center justify-center text-[#2563EB] relative">
                 <Bot size={22} />
                 <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border border-gray-900 rounded-full"></span>
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
                   <h3 className="font-black text-sm text-white">SUZU AI</h3>
-                  <span className="px-2 py-0.5 rounded-md bg-[#FF4500]/20 text-[#FF4500] text-[9px] font-black uppercase border border-[#FF4500]/30">
+                  <span className="px-2 py-0.5 rounded-md bg-[#2563EB]/20 text-[#2563EB] text-[9px] font-black uppercase border border-[#2563EB]/30">
                     Copilot
                   </span>
                 </div>
@@ -156,19 +156,19 @@ export function SuzuWidget() {
           <div className="bg-gray-50 px-3 py-2 border-b border-gray-100 flex items-center gap-1.5 overflow-x-auto text-[11px]">
             <button
               onClick={() => handleSend('Show today sales & order summary')}
-              className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-700 font-bold hover:border-orange-300 hover:text-[#FF4500] transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1"
+              className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-700 font-bold hover:border-blue-300 hover:text-[#2563EB] transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1"
             >
-              <ShoppingBag size={12} className="text-[#FF4500]" /> Sales
+              <ShoppingBag size={12} className="text-[#2563EB]" /> Sales
             </button>
             <button
               onClick={() => handleSend('Check security firewall status')}
-              className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-700 font-bold hover:border-orange-300 hover:text-[#FF4500] transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1"
+              className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-700 font-bold hover:border-blue-300 hover:text-[#2563EB] transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1"
             >
               <ShieldAlert size={12} className="text-red-500" /> Firewall
             </button>
             <button
               onClick={() => handleSend('What are top visited pages?')}
-              className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-700 font-bold hover:border-orange-300 hover:text-[#FF4500] transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1"
+              className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-700 font-bold hover:border-blue-300 hover:text-[#2563EB] transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1"
             >
               <BarChart3 size={12} className="text-emerald-500" /> Analytics
             </button>
@@ -184,7 +184,7 @@ export function SuzuWidget() {
                 <div
                   className={`max-w-[88%] p-3.5 rounded-2xl text-xs leading-relaxed space-y-2 ${
                     msg.sender === 'admin'
-                      ? 'bg-[#FF4500] text-white font-semibold rounded-br-none shadow-sm'
+                      ? 'bg-[#2563EB] text-white font-semibold rounded-br-none shadow-sm'
                       : 'bg-white border border-gray-200 text-gray-900 rounded-bl-none shadow-sm font-medium'
                   }`}
                 >
@@ -198,7 +198,7 @@ export function SuzuWidget() {
                         <button
                           key={idx}
                           onClick={() => handleSend(action)}
-                          className="text-left text-[11px] font-bold text-[#FF4500] bg-orange-50 hover:bg-orange-100 p-2 rounded-xl border border-orange-200 transition-colors cursor-pointer"
+                          className="text-left text-[11px] font-bold text-[#2563EB] bg-blue-50 hover:bg-blue-100 p-2 rounded-xl border border-blue-200 transition-colors cursor-pointer"
                         >
                           ⚡ {action}
                         </button>
@@ -212,7 +212,7 @@ export function SuzuWidget() {
 
             {loading && (
               <div className="flex items-center gap-2 text-gray-500 text-xs font-semibold bg-white p-3 rounded-2xl border border-gray-200 w-fit">
-                <Loader2 size={15} className="animate-spin text-[#FF4500]" />
+                <Loader2 size={15} className="animate-spin text-[#2563EB]" />
                 <span>SUZU is analyzing store data...</span>
               </div>
             )}
@@ -234,12 +234,12 @@ export function SuzuWidget() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask SUZU AI about sales, users, firewall..."
-                className="flex-1 bg-gray-50 text-gray-900 text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-gray-200 focus:border-[#FF4500] outline-none placeholder:text-gray-400"
+                className="flex-1 bg-gray-50 text-gray-900 text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-gray-200 focus:border-[#2563EB] outline-none placeholder:text-gray-400"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || loading}
-                className="p-2.5 rounded-xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white transition-all disabled:opacity-50 cursor-pointer shrink-0 shadow-sm"
+                className="p-2.5 rounded-xl bg-[#2563EB] hover:bg-[#2563EB]/90 text-white transition-all disabled:opacity-50 cursor-pointer shrink-0 shadow-sm"
               >
                 <Send size={15} />
               </button>

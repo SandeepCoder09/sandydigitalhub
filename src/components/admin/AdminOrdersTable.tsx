@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { formatOrderId } from '@/lib/utils';
 import OrderRow from '@/app/admin/orders/OrderRow';
 import { AdminOrderInspectorModal } from './AdminOrderInspectorModal';
-import { Search, ShoppingBag } from 'lucide-react';
+import { Search, ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface AdminOrdersTableProps {
   initialOrders: any[];
@@ -17,6 +17,10 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [inspectingOrder, setInspectingOrder] = useState<any>(null);
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(8);
+
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -25,6 +29,11 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
       setSearchQuery(searchFromUrl);
     }
   }, [searchParams]);
+
+  // Reset page to 1 when search or filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, statusFilter, pageSize]);
 
   const handleOrderUpdate = (updated: any) => {
     setOrders(prev => prev.map(o => o._id === updated._id ? updated : o));
@@ -58,19 +67,26 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
     return true;
   });
 
+  // Calculate pagination
+  const totalOrders = filteredOrders.length;
+  const totalPages = Math.max(1, Math.ceil(totalOrders / pageSize));
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = Math.min(startIndex + pageSize, totalOrders);
+  const paginatedOrders = filteredOrders.slice(startIndex, endIndex);
+
   return (
-    <>
+    <div className="space-y-6">
       {/* Search & Filter Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white p-4 rounded-3xl border border-gray-200 shadow-2xs">
         {/* Search Input */}
         <div className="relative flex-1 w-full max-w-md">
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#FF4500]" />
+          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-violet-600" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search Order ID (SDH-...), Customer Name, Email, Phone..."
-            className="w-full bg-white border border-gray-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-400 focus:border-[#FF4500] outline-none transition-colors shadow-sm"
+            className="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-2 text-xs font-semibold text-gray-900 placeholder:text-gray-400 focus:border-violet-600 focus:ring-2 focus:ring-violet-600/10 outline-none transition-colors"
           />
         </div>
 
@@ -87,9 +103,9 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
             <button
               key={tab.id}
               onClick={() => setStatusFilter(tab.id)}
-              className={`px-3 py-2 rounded-xl transition-all whitespace-nowrap ${
+              className={`px-3 py-1.5 rounded-xl transition-all whitespace-nowrap cursor-pointer ${
                 statusFilter === tab.id
-                  ? 'bg-[#FF4500] text-white shadow-md font-bold'
+                  ? 'bg-violet-600 text-white shadow-xs font-bold'
                   : 'bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200'
               }`}
             >
@@ -100,15 +116,15 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
       </div>
 
       {filteredOrders.length === 0 ? (
-        <div className="text-gray-400 text-center py-12 flex flex-col items-center gap-4 bg-white rounded-2xl border border-gray-200 shadow-sm">
-          <ShoppingBag size={32} className="text-gray-300" />
-          <p className="text-sm">No orders match your search criteria.</p>
+        <div className="text-gray-400 text-center py-12 flex flex-col items-center gap-3 bg-white rounded-3xl border border-gray-200 shadow-2xs">
+          <ShoppingBag size={36} className="text-gray-300" />
+          <p className="text-xs font-bold text-gray-500">No customer orders match your search criteria.</p>
         </div>
       ) : (
-        <>
-          {/* Mobile Cards View (< md) */}
-          <div className="block md:hidden space-y-4">
-            {filteredOrders.map((order: any) => (
+        <div className="space-y-4">
+          {/* Mobile & Tablet Responsive Cards View (< xl) */}
+          <div className="block xl:hidden space-y-4">
+            {paginatedOrders.map((order: any) => (
               <OrderRow 
                 key={order._id.toString()} 
                 order={order} 
@@ -118,24 +134,23 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
             ))}
           </div>
 
-          {/* Desktop Table View (>= md) */}
-          <div className="hidden md:block bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-gray-700">
-                <thead className="bg-gray-50 border-b border-gray-200 text-xs text-gray-700 font-extrabold uppercase">
+          {/* Large Screen Desktop Table View (>= xl) */}
+          <div className="hidden xl:block bg-white rounded-3xl border border-gray-200 shadow-2xs overflow-hidden">
+            <div className="w-full overflow-x-auto no-scrollbar">
+              <table className="w-full text-left text-gray-700 border-collapse">
+                <thead className="bg-gray-50/90 border-b border-gray-200 text-[11px] text-gray-600 font-extrabold uppercase tracking-wider">
                   <tr>
-                    <th className="p-4">Branded Order ID</th>
-                    <th className="p-4">Customer Info</th>
-                    <th className="p-4">Requested Services</th>
-                    <th className="p-4">Amount</th>
-                    <th className="p-4">Payment Status</th>
-                    <th className="p-4">Order Status</th>
-                    <th className="p-4">Date & Time</th>
-                    <th className="p-4 text-center">Actions</th>
+                    <th className="py-3.5 px-4">Order ID</th>
+                    <th className="py-3.5 px-4">Customer Info</th>
+                    <th className="py-3.5 px-4">Requested Service</th>
+                    <th className="py-3.5 px-4">Amount</th>
+                    <th className="py-3.5 px-4">Payment</th>
+                    <th className="py-3.5 px-4">Order Status</th>
+                    <th className="py-3.5 px-4 text-center">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {filteredOrders.map((order: any) => (
+                <tbody className="divide-y divide-gray-100 text-xs">
+                  {paginatedOrders.map((order: any) => (
                     <OrderRow 
                       key={order._id.toString()} 
                       order={order} 
@@ -146,7 +161,83 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
               </table>
             </div>
           </div>
-        </>
+
+          {/* Professional Admin Pagination Bar */}
+          <div className="bg-white p-4 rounded-3xl border border-gray-200 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+            <div className="flex items-center gap-3 text-gray-600 font-semibold">
+              <span>
+                Showing <span className="font-extrabold text-gray-900">{totalOrders > 0 ? startIndex + 1 : 0}</span> to{' '}
+                <span className="font-extrabold text-gray-900">{endIndex}</span> of{' '}
+                <span className="font-extrabold text-gray-900">{totalOrders}</span> Orders
+              </span>
+
+              {/* Rows Per Page Selector */}
+              <div className="flex items-center gap-1.5 ml-2">
+                <span className="text-gray-400">Rows:</span>
+                <select
+                  value={pageSize}
+                  onChange={(e) => setPageSize(Number(e.target.value))}
+                  className="bg-gray-100 border border-gray-200 rounded-lg px-2 py-1 text-xs font-extrabold text-gray-900 outline-none cursor-pointer"
+                >
+                  <option value={8}>8</option>
+                  <option value={12}>12</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Page Buttons: Previous, Page 1, Page 2 ..., Next */}
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 font-bold text-xs flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer shadow-2xs"
+              >
+                <ChevronLeft size={14} /> Previous
+              </button>
+
+              <div className="flex items-center gap-1">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
+                  // Display first, last, and pages around current page
+                  if (
+                    pageNum === 1 ||
+                    pageNum === totalPages ||
+                    (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+                  ) {
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => setCurrentPage(pageNum)}
+                        className={`w-8 h-8 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${
+                          currentPage === pageNum
+                            ? 'bg-violet-600 text-white shadow-xs'
+                            : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  } else if (
+                    pageNum === currentPage - 2 ||
+                    pageNum === currentPage + 2
+                  ) {
+                    return <span key={pageNum} className="text-gray-400 text-xs px-1">...</span>;
+                  }
+                  return null;
+                })}
+              </div>
+
+              <button
+                onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 font-bold text-xs flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer shadow-2xs"
+              >
+                Next <ChevronRight size={14} />
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Admin Order Inspector Modal */}
@@ -156,6 +247,6 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
         onClose={() => setInspectingOrder(null)}
         onOrderUpdate={handleOrderUpdate}
       />
-    </>
+    </div>
   );
 }

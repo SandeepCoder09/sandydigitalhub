@@ -34,7 +34,7 @@ export function DownloadButton({
       className={`group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-200
         ${isDisabled
           ? "bg-white/10 text-white/30 cursor-not-allowed"
-          : "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-400 hover:to-orange-500 shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 active:scale-95"
+          : "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-400 hover:to-blue-500 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 active:scale-95"
         } ${className}`}
     >
       <Download className={`w-4 h-4 transition-transform ${isDisabled ? "" : "group-hover:-translate-y-0.5"}`} />

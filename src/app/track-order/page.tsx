@@ -1,16 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import {
   Search, PackageCheck, Clock, CheckCircle2, AlertCircle, FileText,
-  PhoneCall, ShieldCheck, Download, ArrowRight, Loader2, Sparkles,
-  MapPin, ShoppingBag
+  Download, ArrowRight, Loader2, Sparkles, Copy, Check,
+  FileDigit, ImageIcon, Code, RefreshCw
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { formatOrderId } from '@/lib/utils';
 
 interface TrackedOrder {
-  orderId: string;
+  orderId?: string;
+  _id?: string;
   createdAt: string;
   services: { title: string; price: number; quantity: number }[];
   total: number;
@@ -19,42 +22,171 @@ interface TrackedOrder {
   orderStatus: string;
   documentUrl?: string;
   documentName?: string;
-  customerName: string;
+  customerName?: string;
 }
 
+const FEATURED_SERVICES = [
+  {
+    title: "PAN Card Application",
+    category: "Government Services",
+    icon: FileDigit,
+    desc: "Track new PAN card & correction application processing",
+    keywords: ["pan", "aadhaar", "gov", "card"],
+  },
+  {
+    title: "Govt Job Photo Resizer",
+    category: "Instant Online Tool",
+    icon: ImageIcon,
+    desc: "Check UPSC, SSC, IBPS photo & signature specifications",
+    keywords: ["photo", "passport", "print", "image"],
+  },
+  {
+    title: "Income & Caste Certificate",
+    category: "Jan Seva Kendra",
+    icon: FileText,
+    desc: "Trace UP Jan Seva E-District application status",
+    keywords: ["income", "caste", "certificate", "license", "dl", "epfo", "pf"],
+  },
+  {
+    title: "Website & App Development",
+    category: "Digital Project",
+    icon: Code,
+    desc: "Live design, development & deployment milestone tracking",
+    keywords: ["web", "app", "website", "resume", "design", "development"],
+  },
+];
+
 export default function TrackOrderPage() {
+  const { data: session } = useSession();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [searchInput, setSearchInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState<TrackedOrder[] | null>(null);
+  const [activeQuery, setActiveQuery] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [userOrders, setUserOrders] = useState<TrackedOrder[]>([]);
+  const [recentOrderChips, setRecentOrderChips] = useState<{ id: string; brandedId: string }[]>([]);
 
-  const handleTrack = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!searchInput.trim()) return;
+  // Fetch user's orders if logged in
+  useEffect(() => {
+    if (session?.user) {
+      fetchUserOrders();
+    }
+  }, [session]);
+
+  const fetchUserOrders = async () => {
+    try {
+      const res = await fetch('/api/orders');
+      const data = await res.json();
+      if (res.ok && data.orders && data.orders.length > 0) {
+        setUserOrders(data.orders);
+        const chips = data.orders.map((o: any) => ({
+          id: o._id,
+          brandedId: formatOrderId(o._id, o.createdAt),
+        }));
+        setRecentOrderChips(chips.slice(0, 5));
+      }
+    } catch (err) {
+      console.error('Failed to fetch user orders:', err);
+    }
+  };
+
+  const handleTrack = async (e?: React.FormEvent, customQuery?: string) => {
+    if (e) e.preventDefault();
+
+    const query = customQuery || searchInput.trim();
+    
+    if (!query) {
+      // If empty search input but user has recent orders, pick top order
+      if (recentOrderChips.length > 0) {
+        const topBrandedId = recentOrderChips[0].brandedId;
+        setSearchInput(topBrandedId);
+        return handleTrack(undefined, topBrandedId);
+      }
+
+      setErrorMsg('Please enter your Branded Order ID (SDH-...) or Phone Number above.');
+      inputRef.current?.focus();
+      return;
+    }
 
     setLoading(true);
     setErrorMsg('');
     setOrders(null);
+    setActiveQuery(query);
 
     try {
       const res = await fetch('/api/track-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ trackingId: searchInput.trim(), phone: searchInput.trim() }),
+        body: JSON.stringify({ trackingId: query, phone: query }),
       });
 
       const data = await res.json();
 
-      if (res.ok && data.orders) {
+      if (res.ok && data.orders && data.orders.length > 0) {
         setOrders(data.orders);
       } else {
-        setErrorMsg(data.error || 'No matching order found.');
+        setErrorMsg(data.error || 'No matching order found. Check your Order ID or Phone Number.');
       }
     } catch (err) {
       setErrorMsg('Could not fetch tracking data. Please try again or call +91 8756454282.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCardTrackClick = (service: typeof FEATURED_SERVICES[0]) => {
+    // 1. If user typed something in search box, use that
+    if (searchInput.trim()) {
+      handleTrack(undefined, searchInput.trim());
+      return;
+    }
+
+    // 2. Search in user's actual orders for a matching service title/keyword
+    if (userOrders.length > 0) {
+      const matchedOrder = userOrders.find((o) =>
+        o.services.some((s) =>
+          service.keywords.some((kw) => s.title.toLowerCase().includes(kw))
+        )
+      );
+
+      if (matchedOrder) {
+        const brandedId = formatOrderId(matchedOrder._id || matchedOrder.orderId || '', matchedOrder.createdAt);
+        setSearchInput(brandedId);
+        handleTrack(undefined, brandedId);
+        return;
+      }
+
+      // If no keyword match, use top recent order ID
+      const topOrder = userOrders[0];
+      const brandedId = formatOrderId(topOrder._id || topOrder.orderId || '', topOrder.createdAt);
+      setSearchInput(brandedId);
+      handleTrack(undefined, brandedId);
+      return;
+    }
+
+    // 3. If guest user with no orders, prompt and focus input field
+    inputRef.current?.focus();
+    setErrorMsg(`Please enter your Branded Order ID (SDH-...) or Phone Number above to track your ${service.title}.`);
+  };
+
+  const handleChipClick = (brandedId: string) => {
+    setSearchInput(brandedId);
+    handleTrack(undefined, brandedId);
+  };
+
+  const clearSearch = () => {
+    setSearchInput('');
+    setOrders(null);
+    setActiveQuery(null);
+    setErrorMsg('');
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(text);
+    setTimeout(() => setCopiedId(null), 2000);
   };
 
   const STATUS_STEPS = [
@@ -71,160 +203,278 @@ export default function TrackOrderPage() {
     return 0; // PENDING
   };
 
+  const renderOrderCard = (order: TrackedOrder) => {
+    const id = order.orderId || order._id || '';
+    const brandedId = formatOrderId(id, order.createdAt);
+    const currentStepIdx = getStepStatusIndex(order.orderStatus);
+
+    return (
+      <div key={id} className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-sm space-y-6 transition-all hover:shadow-md">
+        {/* Order Header */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-gray-100">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-xs font-black text-[#2563EB] bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-100 tracking-wider">
+                {brandedId}
+              </span>
+              <button
+                onClick={() => copyToClipboard(brandedId)}
+                className="text-gray-400 hover:text-[#2563EB] transition-colors p-1.5 rounded-md hover:bg-slate-100 cursor-pointer flex items-center gap-1 text-[11px] font-bold"
+                title="Copy Branded Order ID"
+              >
+                {copiedId === brandedId ? (
+                  <span className="text-emerald-600 flex items-center gap-1"><Check size={13} /> Copied!</span>
+                ) : (
+                  <span className="text-gray-500 flex items-center gap-1"><Copy size={13} /> Copy</span>
+                )}
+              </button>
+            </div>
+            <div className="text-base font-extrabold text-gray-900 mt-2">
+              {order.services.map((s) => s.title).join(', ')}
+            </div>
+            <div className="text-xs text-gray-500 font-medium mt-0.5 flex items-center gap-1.5">
+              <Clock size={13} className="text-gray-400" />
+              <span>Booked on {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+            </div>
+          </div>
+
+          <div className="text-right">
+            <span
+              className={`px-3 py-1 rounded-full text-xs font-black uppercase ${
+                order.orderStatus === 'COMPLETED'
+                  ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+                  : 'bg-blue-100 text-[#2563EB] border border-blue-200'
+              }`}
+            >
+              {order.orderStatus.replace(/_/g, ' ')}
+            </span>
+            <div className="text-base font-black text-gray-900 mt-1">₹{order.total}</div>
+          </div>
+        </div>
+
+        {/* Interactive Status Timeline */}
+        <div className="py-2">
+          <div className="text-xs font-bold text-gray-700 mb-5 flex items-center gap-2">
+            <span>Application Progress Status:</span>
+            <span className="text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">
+              Step {currentStepIdx + 1} of 4
+            </span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 relative">
+            {STATUS_STEPS.map((step, idx) => {
+              const isDone = idx <= currentStepIdx;
+              const isCurrent = idx === currentStepIdx;
+
+              return (
+                <div key={step.key} className="flex flex-col items-center text-center space-y-2">
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs transition-all ${
+                      isCurrent
+                        ? 'bg-[#2563EB] text-white ring-4 ring-blue-100 shadow-md scale-110'
+                        : isDone
+                        ? 'bg-emerald-500 text-white'
+                        : 'bg-gray-100 text-gray-400 border border-gray-200'
+                    }`}
+                  >
+                    {isDone ? <CheckCircle2 size={18} /> : idx + 1}
+                  </div>
+                  <div>
+                    <div className={`text-xs font-extrabold ${isDone ? 'text-gray-900' : 'text-gray-400'}`}>
+                      {step.label}
+                    </div>
+                    <p className="text-[10px] text-gray-400 font-medium leading-tight mt-0.5">
+                      {step.desc}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Customer Uploads / Download Ready Certificate */}
+        {order.documentUrl && (
+          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <FileText size={20} className="text-emerald-600 shrink-0" />
+              <div>
+                <div className="text-xs font-bold text-emerald-900">Certificate / Document Ready!</div>
+                <div className="text-[11px] text-emerald-700 font-medium">{order.documentName || 'Download Document'}</div>
+              </div>
+            </div>
+            <a href={order.documentUrl} target="_blank" rel="noreferrer">
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm">
+                <Download size={14} /> Download
+              </Button>
+            </a>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50/60 pb-16">
+    <div className="min-h-screen bg-gray-50/60 pb-20">
       {/* Header Banner */}
       <section className="bg-gradient-to-br from-gray-900 via-black to-slate-900 text-white py-14 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
         <div className="max-w-4xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-wider">
-            <PackageCheck size={14} /> Live Application & Project Tracker
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
+            <PackageCheck size={14} /> Live Application & Service Tracker
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-            Track Your <span className="text-[#FF4500]">Order Status</span>
+            Track Your <span className="text-[#2563EB]">Order Status</span>
           </h1>
           <p className="max-w-xl mx-auto text-sm sm:text-base text-gray-300 font-medium">
-            Enter your Order ID, Razorpay Payment ID, or registered Phone Number to trace the real-time status of your Jan Seva application or web project.
+            Enter your Branded Order ID (SDH-...), Payment ID, or registered Phone Number to check real-time processing updates.
           </p>
 
           {/* Search Bar Form */}
-          <form onSubmit={handleTrack} className="max-w-xl mx-auto mt-6 flex gap-2">
+          <form onSubmit={(e) => handleTrack(e)} className="max-w-2xl mx-auto mt-6 flex flex-col sm:flex-row gap-3 items-stretch">
             <div className="relative flex-1">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
               <input
+                ref={inputRef}
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="Enter Order ID or Phone Number (e.g. 64b8a... or 9876543210)"
-                className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white text-gray-900 placeholder-gray-400 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#FF4500]"
+                placeholder="Enter Order ID or Phone Number (e.g. SDH-2026... or 9876543210)"
+                className="w-full h-14 pl-12 pr-4 rounded-2xl bg-white text-gray-900 placeholder-gray-400 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#2563EB] shadow-lg border border-gray-200"
               />
             </div>
             <Button
               type="submit"
-              disabled={loading || !searchInput.trim()}
-              className="bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold rounded-2xl px-6 text-xs shadow-lg shadow-orange-950 flex items-center gap-2 shrink-0"
+              disabled={loading}
+              className="h-14 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-extrabold text-sm sm:text-base rounded-2xl px-8 shadow-xl shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer"
             >
-              {loading ? <Loader2 size={16} className="animate-spin" /> : 'Track Status'}
+              {loading ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                <>
+                  <Search size={18} />
+                  <span>Track Status</span>
+                </>
+              )}
             </Button>
           </form>
+
+          {/* Quick-select Order ID Chips for Logged-In User */}
+          {recentOrderChips.length > 0 && (
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs">
+              <span className="text-gray-400 font-medium">Your Recent Orders:</span>
+              {recentOrderChips.map((chip) => (
+                <button
+                  key={chip.id}
+                  onClick={() => handleChipClick(chip.brandedId)}
+                  className="font-mono bg-white/10 hover:bg-[#2563EB] text-white border border-white/20 px-2.5 py-1 rounded-lg transition-all cursor-pointer text-[11px] font-bold"
+                >
+                  {chip.brandedId}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 space-y-10">
         {/* Error Message */}
         {errorMsg && (
-          <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-2xl text-xs font-bold flex items-center justify-between gap-3">
+          <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-2xl text-xs font-bold flex items-center justify-between gap-3 shadow-xs animate-in fade-in duration-200">
             <div className="flex items-center gap-2">
-              <AlertCircle size={18} className="shrink-0" />
+              <AlertCircle size={18} className="shrink-0 text-red-500" />
               <span>{errorMsg}</span>
             </div>
-            <a href="tel:+918756454282" className="text-[#FF4500] underline font-extrabold shrink-0">
+            <a href="tel:+918756454282" className="text-[#2563EB] underline font-extrabold shrink-0">
               Call Support
             </a>
           </div>
         )}
 
-        {/* Search Results Display */}
+        {/* Display Clicked / Searched Requested Service Status Result Only */}
         {orders && orders.length > 0 && (
           <div className="space-y-6">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">
-              Found {orders.length} Matching Order(s)
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-bold uppercase tracking-wider text-gray-700 flex items-center gap-2">
+                <PackageCheck size={16} className="text-[#2563EB]" />
+                Track Result for: <span className="font-mono font-extrabold text-gray-900">{activeQuery}</span> ({orders.length})
+              </h2>
+              <button
+                onClick={clearSearch}
+                className="text-xs font-bold text-gray-500 hover:text-[#2563EB] flex items-center gap-1 cursor-pointer"
+              >
+                <RefreshCw size={12} /> Clear & Track Another
+              </button>
+            </div>
+            <div className="space-y-6">
+              {orders.map((order) => renderOrderCard(order))}
+            </div>
+          </div>
+        )}
 
-            {orders.map((order) => {
-              const currentStepIdx = getStepStatusIndex(order.orderStatus);
+        {/* Common Requested Services Cards for Manual 1-Click Track */}
+        <div className="space-y-4 border-t border-gray-200 pt-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-base font-extrabold text-gray-900 flex items-center gap-2">
+                <Sparkles size={18} className="text-[#2563EB]" />
+                Common Requested Services & Tracking Options
+              </h3>
+              <p className="text-xs text-gray-500 font-medium">
+                Click "Track Status" on any service below to view its live processing status
+              </p>
+            </div>
+            <Link href="/services" className="text-xs font-extrabold text-[#2563EB] hover:underline flex items-center gap-1">
+              View All Services <ArrowRight size={13} />
+            </Link>
+          </div>
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {FEATURED_SERVICES.map((srv) => {
+              const ServiceIcon = srv.icon;
               return (
-                <div key={order.orderId} className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-sm space-y-6">
-                  {/* Order Header */}
-                  <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-gray-100">
-                    <div>
-                      <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                        Order ID #{order.orderId}
-                      </div>
-                      <div className="text-sm font-extrabold text-gray-900 mt-0.5">
-                        {order.services.map(s => s.title).join(', ')}
-                      </div>
-                      <div className="text-xs text-gray-500 font-medium mt-0.5">
-                        Booked on {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                      </div>
+                <div
+                  key={srv.title}
+                  className="bg-white rounded-2xl p-5 border border-gray-200 shadow-2xs hover:shadow-md transition-all flex items-start gap-4 group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#2563EB] flex items-center justify-center shrink-0 group-hover:bg-[#2563EB] group-hover:text-white transition-colors">
+                    <ServiceIcon size={20} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 inline-block px-2 py-0.5 rounded-md mb-1">
+                      {srv.category}
                     </div>
-
-                    <div className="text-right">
-                      <span className={`px-3 py-1 rounded-full text-xs font-black uppercase ${
-                        order.orderStatus === 'COMPLETED' ? 'bg-emerald-100 text-emerald-700' : 'bg-orange-100 text-[#FF4500]'
-                      }`}>
-                        {order.orderStatus.replace(/_/g, ' ')}
-                      </span>
-                      <div className="text-sm font-black text-gray-900 mt-1">₹{order.total}</div>
+                    <h4 className="text-sm font-bold text-gray-900 truncate">{srv.title}</h4>
+                    <p className="text-xs text-gray-500 font-medium leading-relaxed mt-0.5 line-clamp-2">
+                      {srv.desc}
+                    </p>
+                    <div className="mt-3 flex items-center gap-2">
+                      <button
+                        onClick={() => handleCardTrackClick(srv)}
+                        className="text-xs font-extrabold text-[#2563EB] hover:text-[#1D4ED8] flex items-center gap-1 cursor-pointer"
+                      >
+                        Track Status <ArrowRight size={12} />
+                      </button>
+                      <span className="text-gray-300">•</span>
+                      <Link href="/services" className="text-xs font-bold text-gray-500 hover:text-gray-900">
+                        Apply Online
+                      </Link>
                     </div>
                   </div>
-
-                  {/* Interactive Status Timeline */}
-                  <div className="py-4">
-                    <div className="text-xs font-bold text-gray-700 mb-6">Application Progress Status:</div>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 relative">
-                      {STATUS_STEPS.map((step, idx) => {
-                        const isDone = idx <= currentStepIdx;
-                        const isCurrent = idx === currentStepIdx;
-
-                        return (
-                          <div key={step.key} className="flex flex-col items-center text-center space-y-2">
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs transition-all ${
-                              isCurrent
-                                ? 'bg-[#FF4500] text-white ring-4 ring-orange-100 shadow-md scale-110'
-                                : isDone
-                                ? 'bg-emerald-500 text-white'
-                                : 'bg-gray-100 text-gray-400 border border-gray-200'
-                            }`}>
-                              {isDone ? <CheckCircle2 size={18} /> : idx + 1}
-                            </div>
-                            <div>
-                              <div className={`text-xs font-extrabold ${isDone ? 'text-gray-900' : 'text-gray-400'}`}>
-                                {step.label}
-                              </div>
-                              <p className="text-[10px] text-gray-400 font-medium leading-tight mt-0.5">
-                                {step.desc}
-                              </p>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Customer Uploads / Download Ready Certificate */}
-                  {order.documentUrl && (
-                    <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-3">
-                        <FileText size={20} className="text-emerald-600 shrink-0" />
-                        <div>
-                          <div className="text-xs font-bold text-emerald-900">Certificate / Document Ready!</div>
-                          <div className="text-[11px] text-emerald-700 font-medium">{order.documentName || 'Download Document'}</div>
-                        </div>
-                      </div>
-                      <a href={order.documentUrl} target="_blank" rel="noreferrer">
-                        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center gap-1.5">
-                          <Download size={14} /> Download
-                        </Button>
-                      </a>
-                    </div>
-                  )}
                 </div>
               );
             })}
           </div>
-        )}
+        </div>
 
-        {/* Initial Empty State */}
-        {!orders && !errorMsg && (
-          <div className="bg-white rounded-3xl p-10 border border-gray-200 shadow-sm text-center space-y-4">
-            <div className="w-16 h-16 rounded-full bg-orange-50 text-[#FF4500] flex items-center justify-center mx-auto">
-              <PackageCheck size={28} />
+        {/* Initial Empty State when no search executed */}
+        {!orders && (
+          <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm text-center space-y-3">
+            <div className="w-14 h-14 rounded-full bg-blue-50 text-[#2563EB] flex items-center justify-center mx-auto">
+              <PackageCheck size={26} />
             </div>
             <div className="max-w-sm mx-auto space-y-1">
-              <h3 className="text-base font-extrabold text-gray-900">Search Your Application</h3>
+              <h3 className="text-sm font-extrabold text-gray-900">Track Any Application Instantly</h3>
               <p className="text-xs text-gray-500 font-medium leading-relaxed">
-                Enter your Order ID received during checkout or phone number to check live processing status.
+                Enter your Branded Order ID (e.g. SDH-20260805-8CC84C) or registered Phone Number, or click "Track Status" on any service above.
               </p>
             </div>
           </div>

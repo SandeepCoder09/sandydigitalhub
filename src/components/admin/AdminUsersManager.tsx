@@ -130,15 +130,15 @@ export function AdminUsersManager({ initialUsers }: Props) {
       </div>
 
       {/* Search Bar & Role Filter Tabs */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 rounded-3xl border border-gray-200 shadow-2xs">
         <div className="relative flex-1 w-full max-w-md">
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#FF4500]" />
+          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-violet-600" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search User Name, Mobile, Email..."
-            className="w-full bg-white border border-gray-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#FF4500] outline-none transition-colors shadow-sm"
+            className="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-2 text-xs font-semibold text-gray-900 placeholder:text-gray-400 focus:border-violet-600 focus:ring-2 focus:ring-violet-600/10 outline-none transition-colors"
           />
         </div>
 
@@ -151,9 +151,9 @@ export function AdminUsersManager({ initialUsers }: Props) {
             <button
               key={tab.id}
               onClick={() => setRoleFilter(tab.id)}
-              className={`px-3 py-2 rounded-xl transition-all whitespace-nowrap ${
+              className={`px-3 py-1.5 rounded-xl transition-all whitespace-nowrap cursor-pointer ${
                 roleFilter === tab.id
-                  ? "bg-[#FF4500] text-white shadow-md font-bold"
+                  ? "bg-violet-600 text-white shadow-xs font-bold"
                   : "bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200"
               }`}
             >
@@ -175,7 +175,7 @@ export function AdminUsersManager({ initialUsers }: Props) {
               <div key={user._id.toString()} className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm space-y-3">
                 <div className="flex justify-between items-start border-b border-gray-100 pb-2">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-full bg-orange-100 text-[#FF4500] flex items-center justify-center font-bold text-xs uppercase">
+                    <div className="w-8 h-8 rounded-full bg-blue-100 text-[#2563EB] flex items-center justify-center font-bold text-xs uppercase">
                       {user.name ? user.name.slice(0, 2) : "U"}
                     </div>
                     <div>
@@ -279,10 +279,10 @@ export function AdminUsersManager({ initialUsers }: Props) {
           </div>
 
           {/* Desktop User Table View (>= md) */}
-          <div className="hidden md:block bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          <div className="hidden md:block bg-white rounded-3xl border border-gray-200 shadow-2xs overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-gray-800">
-                <thead className="bg-gray-50 border-b border-gray-200 text-xs uppercase text-gray-500 font-semibold">
+                <thead className="bg-gray-50/80 border-b border-gray-200 text-[11px] uppercase tracking-wider text-gray-600 font-extrabold">
                   <tr>
                     <th className="p-4">Name</th>
                     <th className="p-4">Email</th>

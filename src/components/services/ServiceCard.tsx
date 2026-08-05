@@ -30,7 +30,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
     <>
       <motion.div 
         whileHover={{ y: -6 }}
-        className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-md hover:shadow-2xl hover:shadow-orange-500/10 flex flex-col h-full hover:border-[#FF4500] transition-all group"
+        className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-md hover:shadow-2xl hover:shadow-blue-500/10 flex flex-col h-full hover:border-[#2563EB] transition-all group"
       >
         <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
           <Image 
@@ -40,7 +40,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
             unoptimized
             className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase text-[#FF4500] border border-orange-100 shadow-sm">
+          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase text-[#2563EB] border border-blue-100 shadow-sm">
             {service.category}
           </div>
         </div>
@@ -48,14 +48,14 @@ export function ServiceCard({ service }: ServiceCardProps) {
         <div className="p-5 flex flex-col flex-grow">
           <div className="flex justify-between items-start mb-2 gap-2">
             <h3 className="text-lg font-bold text-gray-900 leading-snug">{service.title}</h3>
-            <span className="text-[#FF4500] font-black text-lg shrink-0">₹{service.price}</span>
+            <span className="text-[#2563EB] font-black text-lg shrink-0">₹{service.price}</span>
           </div>
           <p className="text-gray-600 text-xs sm:text-sm mb-6 line-clamp-2 flex-grow">{service.description}</p>
           
           <div className="flex gap-2.5 mt-auto pt-3 border-t border-gray-100">
             <button 
               onClick={handleAddToCart}
-              className="flex-1 bg-[#FF4500] hover:bg-[#FF4500]/90 text-white py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 shadow-md shadow-orange-200 active:scale-95"
+              className="flex-1 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 shadow-md shadow-blue-200 active:scale-95"
             >
               <ShoppingCart size={15} /> Add to Cart
             </button>
@@ -104,12 +104,12 @@ export function ServiceCard({ service }: ServiceCardProps) {
               <div className="p-6 overflow-y-auto">
                 <div className="flex justify-between items-start mb-3 gap-2">
                   <div>
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#FF4500] bg-orange-50 px-2.5 py-0.5 rounded-full border border-orange-100 inline-block mb-1">
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#2563EB] bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100 inline-block mb-1">
                       {service.category}
                     </span>
                     <h2 className="text-2xl font-bold text-gray-900">{service.title}</h2>
                   </div>
-                  <span className="text-2xl font-black text-[#FF4500]">₹{service.price}</span>
+                  <span className="text-2xl font-black text-[#2563EB]">₹{service.price}</span>
                 </div>
                 
                 <p className="text-gray-600 text-sm leading-relaxed mb-6">
@@ -136,7 +136,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                     handleAddToCart();
                     setShowDetails(false);
                   }}
-                  className="w-full bg-[#FF4500] hover:bg-[#FF4500]/90 text-white py-3.5 rounded-2xl font-bold text-base transition-all shadow-lg shadow-orange-500/20 active:scale-95 flex items-center justify-center gap-2"
+                  className="w-full bg-[#2563EB] hover:bg-[#2563EB]/90 text-white py-3.5 rounded-2xl font-bold text-base transition-all shadow-lg shadow-blue-500/20 active:scale-95 flex items-center justify-center gap-2"
                 >
                   <ShoppingCart size={18} /> Add to Cart - ₹{service.price}
                 </button>

@@ -89,10 +89,10 @@ export default function ConvertPage() {
                 onClick={() => setTargetFormat(f)}
                 className={`p-4 rounded-xl border text-left transition-all
                   ${targetFormat.mime === f.mime
-                    ? "border-orange-500 bg-orange-100"
-                    : "border-gray-200 bg-gray-50 hover:border-orange-300"}`}
+                    ? "border-blue-500 bg-blue-100"
+                    : "border-gray-200 bg-gray-50 hover:border-blue-300"}`}
               >
-                <p className={`font-bold text-sm ${targetFormat.mime === f.mime ? "text-orange-500" : "text-gray-700"}`}>{f.label}</p>
+                <p className={`font-bold text-sm ${targetFormat.mime === f.mime ? "text-blue-500" : "text-gray-700"}`}>{f.label}</p>
                 <p className="text-gray-400 text-xs mt-1">{f.desc}</p>
               </button>
             ))}
@@ -101,11 +101,11 @@ export default function ConvertPage() {
             <div>
               <div className="flex justify-between mb-1">
                 <label className="text-gray-600 text-sm">Quality</label>
-                <span className="text-orange-500 font-bold">{quality}%</span>
+                <span className="text-blue-500 font-bold">{quality}%</span>
               </div>
               <input type="range" min={10} max={100} step={5} value={quality}
                 onChange={(e) => setQuality(Number(e.target.value))}
-                className="w-full accent-orange-500" />
+                className="w-full accent-blue-500" />
             </div>
           )}
         </div>
@@ -136,7 +136,7 @@ export default function ConvertPage() {
             <div className="flex flex-wrap gap-4">
               <button
                 onClick={convert} disabled={processing}
-                className="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95"
+                className="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95"
               >
                 {processing ? "Converting…" : `Convert to ${targetFormat.label}`}
               </button>

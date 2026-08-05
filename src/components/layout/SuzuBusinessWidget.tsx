@@ -325,13 +325,13 @@ export function SuzuBusinessWidget() {
             boxShadow: '0 8px 32px rgba(255,122,0,0.25), 0 0 0 0 rgba(255,122,0,0.4)',
           }}
         >
-          <span className="absolute -inset-1 rounded-full bg-orange-500/20 group-hover:bg-orange-500/30 animate-ping opacity-60"></span>
-          <div className="relative z-10 w-8 h-8 rounded-full bg-orange-500/20 border border-orange-500/40 flex items-center justify-center">
-            <Sparkles size={16} className="text-orange-400" />
+          <span className="absolute -inset-1 rounded-full bg-blue-500/20 group-hover:bg-blue-500/30 animate-ping opacity-60"></span>
+          <div className="relative z-10 w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center">
+            <Sparkles size={16} className="text-blue-400" />
           </div>
           <div className="relative z-10">
             <div className="text-xs font-black text-white leading-none">SUZU AI</div>
-            <div className="text-[9px] font-semibold text-orange-400/80 leading-none mt-0.5">Talk or Chat</div>
+            <div className="text-[9px] font-semibold text-blue-400/80 leading-none mt-0.5">Talk or Chat</div>
           </div>
           <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full z-20"></span>
         </button>
@@ -366,7 +366,7 @@ export function SuzuBusinessWidget() {
               <div>
                 <div className="flex items-center gap-1.5">
                   <span className="font-black text-sm text-white">SUZU AI</span>
-                  <span className="px-1.5 py-0.5 rounded-md text-[9px] font-black uppercase text-orange-400 border"
+                  <span className="px-1.5 py-0.5 rounded-md text-[9px] font-black uppercase text-blue-400 border"
                     style={{ background: 'rgba(255,122,0,0.1)', borderColor: 'rgba(255,122,0,0.25)' }}
                   >
                     SDH
@@ -421,7 +421,7 @@ export function SuzuBusinessWidget() {
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex flex-col gap-1 ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
                     {msg.role === 'assistant' && (
-                      <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-orange-400">
+                      <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-blue-400">
                         <Sparkles size={8} /> SUZU AI
                       </div>
                     )}
@@ -446,7 +446,7 @@ export function SuzuBusinessWidget() {
 
                 {isChatLoading && (
                   <div className="flex items-center gap-2 text-xs font-medium" style={{ color: '#64748B' }}>
-                    <Loader2 size={13} className="animate-spin text-orange-400" />
+                    <Loader2 size={13} className="animate-spin text-blue-400" />
                     SUZU is thinking...
                   </div>
                 )}
@@ -631,7 +631,7 @@ export function SuzuBusinessWidget() {
             boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
           }}
         >
-          <Sparkles size={16} className="text-orange-400" />
+          <Sparkles size={16} className="text-blue-400" />
           <span className="text-xs font-black text-white">SUZU AI</span>
           <ChevronDown size={13} className="text-slate-400 rotate-180" />
           <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 border-2 border-gray-900 rounded-full"></span>

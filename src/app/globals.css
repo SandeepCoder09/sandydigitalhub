@@ -9,7 +9,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-heading);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
@@ -34,63 +34,91 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-
-  /* Orangered palette override */
-  --color-orange-50: #fff5f0;
-  --color-orange-100: #ffe6d9;
-  --color-orange-200: #ffc4b3;
-  --color-orange-300: #ff9e80;
-  --color-orange-400: #ff704d;
-  --color-orange-500: #ff4500;
-  --color-orange-600: #e03e00;
-  --color-orange-700: #b83200;
-  --color-orange-800: #8f2700;
-  --color-orange-900: #661c00;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #111111;
-  --card: #ffffff;
-  --card-foreground: #111111;
-  --popover: #ffffff;
-  --popover-foreground: #111111;
-  --primary: #ff4500;
-  --primary-foreground: #ffffff;
-  --secondary: #111111;
-  --secondary-foreground: #ffffff;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #f8fafc;
-  --accent-foreground: #0f172a;
-  --destructive: #ef4444;
-  --destructive-foreground: #f8fafc;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #ff4500;
-  --radius: 0.5rem;
+  /* ── Public Website Brand Colors ─────────────────────────────── */
+  --brand-primary:   #2563EB;   /* Royal Blue   */
+  --brand-hover:     #1D4ED8;   /* Darker Blue  */
+  --brand-cyan:      #06B6D4;   /* Cyan accent  */
+  --brand-success:   #22C55E;
+  --brand-warning:   #F59E0B;
+  --brand-error:     #EF4444;
+
+  /* ── ADMIN PANEL SYSTEM DESIGN TOKENS (Graphite + Violet) ───── */
+  --admin-primary:        #7C3AED; /* Violet Brand */
+  --admin-primary-hover:  #6D28D9;
+  --admin-primary-active: #5B21B6;
+  --admin-primary-soft:   #F5F3FF;
+  --admin-primary-border: #DDD6FE;
+
+  --admin-sidebar:         #111318; /* Dark Graphite */
+  --admin-sidebar-surface: #181B21;
+  --admin-sidebar-border:  #2B3038;
+  --admin-sidebar-text:    #F8FAFC;
+  --admin-sidebar-muted:   #A7AFBC;
+
+  --admin-bg:                #F6F7F9;
+  --admin-surface:           #FFFFFF;
+  --admin-surface-secondary: #F9FAFB;
+  --admin-border:            #E5E7EB;
+
+  --admin-text:           #171A21;
+  --admin-text-secondary: #4B5563;
+  --admin-text-muted:     #6B7280;
+
+  --admin-success:        #059669; /* Emerald */
+  --admin-success-soft:   #ECFDF5;
+  --admin-warning:        #D97706; /* Amber */
+  --admin-warning-soft:   #FFFBEB;
+  --admin-danger:         #DC2626; /* Red */
+  --admin-danger-soft:    #FEF2F2;
+  --admin-info:           #2563EB;
+  --admin-info-soft:      #EFF6FF;
+
+  /* ── Shadcn/Tailwind CSS Variables ───────────── */
+  --background:          #F8FAFC;
+  --foreground:          #0F172A;
+  --card:                #FFFFFF;
+  --card-foreground:     #0F172A;
+  --popover:             #FFFFFF;
+  --popover-foreground:  #0F172A;
+  --primary:             #2563EB;
+  --primary-foreground:  #FFFFFF;
+  --secondary:           #0F172A;
+  --secondary-foreground:#CBD5E1;
+  --muted:               #F1F5F9;
+  --muted-foreground:    #475569;
+  --accent:              #EFF6FF;
+  --accent-foreground:   #1E3A8A;
+  --destructive:         #EF4444;
+  --destructive-foreground: #F8FAFC;
+  --border:              #E2E8F0;
+  --input:               #E2E8F0;
+  --ring:                #2563EB;
+  --radius:              0.75rem;  /* 12px base radius */
 }
 
 .dark {
-  --background: #020817;
-  --foreground: #f8fafc;
-  --card: #020817;
-  --card-foreground: #f8fafc;
-  --popover: #020817;
-  --popover-foreground: #f8fafc;
-  --primary: #ff4500;
-  --primary-foreground: #ffffff;
-  --secondary: #111111;
-  --secondary-foreground: #ffffff;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --accent: #1e293b;
-  --accent-foreground: #f8fafc;
-  --destructive: #7f1d1d;
-  --destructive-foreground: #f8fafc;
-  --border: #1e293b;
-  --input: #1e293b;
-  --ring: #ff4500;
+  --background:          #020817;
+  --foreground:          #F8FAFC;
+  --card:                #0F172A;
+  --card-foreground:     #F8FAFC;
+  --popover:             #0F172A;
+  --popover-foreground:  #F8FAFC;
+  --primary:             #3B82F6;
+  --primary-foreground:  #FFFFFF;
+  --secondary:           #1E293B;
+  --secondary-foreground:#CBD5E1;
+  --muted:               #1E293B;
+  --muted-foreground:    #94A3B8;
+  --accent:              #1E3A8A;
+  --accent-foreground:   #BFDBFE;
+  --destructive:         #7F1D1D;
+  --destructive-foreground: #F8FAFC;
+  --border:              #1E293B;
+  --input:               #1E293B;
+  --ring:                #3B82F6;
 }
 
 @layer base {
@@ -102,5 +130,38 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+  }
+
+  /* ── Premium Scrollbar ───────────────────────── */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F1F5F9;
+    border-radius: 100px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2563EB;
+    border-radius: 100px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1D4ED8;
+  }
+
+  /* ── Global Link Transitions ─────────────────── */
+  a {
+    transition: color 0.2s ease;
+  }
+
+  /* ── Focus Rings ─────────────────────────────── */
+  :focus-visible {
+    outline: 2px solid #2563EB;
+    outline-offset: 2px;
   }
 }
+
+/* ── Utility: Hide scrollbar while keeping scroll ── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

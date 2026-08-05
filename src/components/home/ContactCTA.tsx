@@ -5,8 +5,11 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, PhoneCall } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function ContactCTA() {
+  const { t } = useLanguage();
+
   return (
     <section className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-secondary" />
@@ -23,23 +26,23 @@ export function ContactCTA() {
           className="max-w-4xl mx-auto text-center"
         >
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-            Ready to Transform Your Business Digitally?
+            {t('cta.heading')}
           </h2>
           <p className="text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-            Get in touch with us today for a free consultation. Let's discuss your ideas and bring them to life with cutting-edge technology.
+            {t('cta.subtext')}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact">
               <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg group bg-primary hover:bg-primary/90 text-primary-foreground">
-                Start a Project
+                {t('cta.btn.project')}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
             <Link href="tel:+918756454282">
               <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 px-8 text-lg bg-transparent border-white/20 text-white hover:bg-white/10 hover:text-white">
                 <PhoneCall className="mr-2 h-5 w-5" />
-                Call Us Now
+                {t('cta.btn.call')}
               </Button>
             </Link>
           </div>

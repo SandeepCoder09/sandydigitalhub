@@ -20,14 +20,14 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
   if (!orders || orders.length === 0) {
     return (
       <div className="text-gray-400 text-center py-12 flex flex-col items-center gap-4">
-        <div className="p-4 rounded-full bg-orange-50 text-[#FF4500]">
+        <div className="p-4 rounded-full bg-blue-50 text-[#2563EB]">
           <ShoppingBag size={32} />
         </div>
         <div>
           <h3 className="text-lg font-bold text-gray-900 mb-1">No Requested Services Yet</h3>
           <p className="text-sm text-gray-500">You haven&apos;t placed any service requests or orders yet.</p>
         </div>
-        <Link href="/services" className="bg-[#FF4500] text-gray-800 px-6 py-2.5 rounded-xl font-bold hover:bg-[#FF4500]/90 transition-colors mt-2 shadow-md shadow-orange-200">
+        <Link href="/services" className="bg-[#2563EB] text-gray-800 px-6 py-2.5 rounded-xl font-bold hover:bg-[#2563EB]/90 transition-colors mt-2 shadow-md shadow-blue-200">
           Browse Services
         </Link>
       </div>
@@ -77,7 +77,7 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search Order ID (e.g. SDH-20260711) or service name..."
-            className="w-full bg-white border border-gray-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#FF4500] outline-none transition-colors shadow-sm"
+            className="w-full bg-white border border-gray-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#2563EB] outline-none transition-colors shadow-sm"
           />
         </div>
 
@@ -94,7 +94,7 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
               onClick={() => setStatusFilter(tab.id)}
               className={`px-3 py-2 rounded-xl transition-all ${
                 statusFilter === tab.id
-                  ? 'bg-[#FF4500] text-gray-800 shadow-md font-bold'
+                  ? 'bg-[#2563EB] text-gray-800 shadow-md font-bold'
                   : 'bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200'
               }`}
             >
@@ -121,7 +121,7 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
                   <div className="flex justify-between items-start border-b border-gray-100 pb-2">
                     <div>
                       <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-mono font-bold text-[#FF4500]">{brandedId}</span>
+                        <span className="text-xs font-mono font-bold text-[#2563EB]">{brandedId}</span>
                         <CopyButton text={brandedId} />
                       </div>
                       <div className="text-[11px] text-gray-400 flex items-center gap-1 mt-0.5">
@@ -134,7 +134,7 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
 
                   <div className="space-y-1">
                     <div className="text-xs text-gray-400 font-semibold uppercase flex items-center gap-1">
-                      <Tag size={12} className="text-[#FF4500]" />
+                      <Tag size={12} className="text-[#2563EB]" />
                       Services
                     </div>
                     <div className="text-sm font-medium text-gray-800 line-clamp-2">
@@ -145,11 +145,11 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
                   <div className="pt-2 border-t border-gray-100 flex justify-between items-center">
                     <div>
                       <span className="text-xs text-gray-500 mr-1.5">Total:</span>
-                      <span className="text-sm font-bold text-[#FF4500]">₹{order.total}</span>
+                      <span className="text-sm font-bold text-[#2563EB]">₹{order.total}</span>
                     </div>
                     <button
                       onClick={() => setSelectedOrder(order)}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#FF4500] text-white text-xs font-bold shadow-md hover:bg-[#FF4500]/90 transition-all"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#2563EB] text-white text-xs font-bold shadow-md hover:bg-[#2563EB]/90 transition-all"
                     >
                       <Eye size={13} />
                       View Details
@@ -194,7 +194,7 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
                           {servicesText}
                         </div>
                       </td>
-                      <td className="px-6 py-4 font-bold text-[#FF4500] whitespace-nowrap">
+                      <td className="px-6 py-4 font-bold text-[#2563EB] whitespace-nowrap">
                         ₹{order.total}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -203,7 +203,7 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
                       <td className="px-6 py-4 text-right whitespace-nowrap">
                         <button
                           onClick={() => setSelectedOrder(order)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-[#FF4500] text-gray-700 hover:text-gray-800 text-xs font-semibold transition-all group shadow-sm"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-[#2563EB] text-gray-700 hover:text-gray-800 text-xs font-semibold transition-all group shadow-sm"
                         >
                           <Eye size={14} />
                           Details

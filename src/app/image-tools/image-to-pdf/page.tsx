@@ -146,7 +146,7 @@ export default function ImageToPdfPage() {
                 setPageSize(e.target.value as any);
                 setPdfUrl(null);
               }}
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 text-sm focus:outline-none focus:border-orange-500"
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 text-sm focus:outline-none focus:border-blue-500"
             >
               <option value="a4">A4 (Standard Document)</option>
               <option value="letter">US Letter</option>
@@ -163,7 +163,7 @@ export default function ImageToPdfPage() {
                 setOrientation(e.target.value as any);
                 setPdfUrl(null);
               }}
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 text-sm focus:outline-none focus:border-orange-500 disabled:opacity-50"
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 text-sm focus:outline-none focus:border-blue-500 disabled:opacity-50"
             >
               <option value="p">Portrait (Vertical)</option>
               <option value="l">Landscape (Horizontal)</option>
@@ -181,7 +181,7 @@ export default function ImageToPdfPage() {
                 setMargin(Number(e.target.value));
                 setPdfUrl(null);
               }}
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 text-sm focus:outline-none focus:border-orange-500"
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 text-sm focus:outline-none focus:border-blue-500"
             />
           </div>
         </div>
@@ -205,7 +205,7 @@ export default function ImageToPdfPage() {
                   key={item.id}
                   className="rounded-xl border border-gray-200 bg-white p-3 shadow-sm flex items-center gap-3 relative group"
                 >
-                  <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs font-bold flex items-center justify-center shrink-0">
+                  <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 text-xs font-bold flex items-center justify-center shrink-0">
                     {idx + 1}
                   </span>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -256,7 +256,7 @@ export default function ImageToPdfPage() {
               <button
                 onClick={generatePdf}
                 disabled={isGenerating}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95 shadow-md shadow-orange-200"
+                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95 shadow-md shadow-blue-200"
               >
                 <FileText className="w-4 h-4" />
                 {isGenerating ? "Generating PDF…" : "Convert to PDF"}

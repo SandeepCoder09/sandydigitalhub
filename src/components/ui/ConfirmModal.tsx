@@ -30,7 +30,7 @@ export function ConfirmModal({
       <div className="bg-white border border-gray-200 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden transform transition-all p-6 space-y-6">
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-orange-100 text-[#FF4500] rounded-2xl">
+            <div className="p-3 bg-blue-100 text-[#2563EB] rounded-2xl">
               <AlertTriangle size={24} />
             </div>
             <div>
@@ -62,7 +62,7 @@ export function ConfirmModal({
           <button
             onClick={onConfirm}
             disabled={isLoading}
-            className="px-5 py-2.5 rounded-2xl font-extrabold bg-[#FF4500] hover:bg-[#FF4500]/90 text-white transition-all text-sm disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-orange-500/20 cursor-pointer"
+            className="px-5 py-2.5 rounded-2xl font-extrabold bg-[#2563EB] hover:bg-[#2563EB]/90 text-white transition-all text-sm disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-blue-500/20 cursor-pointer"
           >
             {isLoading ? 'Processing...' : confirmText}
           </button>

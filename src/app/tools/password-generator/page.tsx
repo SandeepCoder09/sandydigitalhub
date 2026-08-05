@@ -66,7 +66,7 @@ export default function PasswordGeneratorPage() {
       <ToolHero
         title="Strong Password & Token Generator"
         description="Generate cryptographically secure passwords and API keys. 100% client-side with zero logging."
-        icon={<Lock className="w-8 h-8 text-[#FF4500]" />}
+        icon={<Lock className="w-8 h-8 text-[#2563EB]" />}
       />
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 space-y-8">
@@ -79,14 +79,14 @@ export default function PasswordGeneratorPage() {
             <div className="flex items-center gap-2 shrink-0">
               <button
                 onClick={generatePassword}
-                className="p-2.5 rounded-xl bg-orange-100 text-[#FF4500] hover:bg-orange-200 transition-colors"
+                className="p-2.5 rounded-xl bg-blue-100 text-[#2563EB] hover:bg-blue-200 transition-colors"
                 title="Regenerate"
               >
                 <RefreshCw size={18} />
               </button>
               <button
                 onClick={handleCopy}
-                className="px-4 py-2.5 rounded-xl bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-all shadow-md shadow-orange-200"
+                className="px-4 py-2.5 rounded-xl bg-[#2563EB] hover:bg-[#2563EB]/90 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-all shadow-md shadow-blue-200"
               >
                 {copied ? <Check size={16} /> : <Copy size={16} />}
                 <span>{copied ? 'Copied!' : 'Copy'}</span>
@@ -111,7 +111,7 @@ export default function PasswordGeneratorPage() {
             <div>
               <div className="flex justify-between items-center mb-2">
                 <label className="text-sm font-bold text-gray-900">Password Length: {length}</label>
-                <span className="text-xs font-extrabold text-[#FF4500] bg-orange-50 px-2 py-0.5 rounded-md border border-orange-100">
+                <span className="text-xs font-extrabold text-[#2563EB] bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100">
                   {length} chars
                 </span>
               </div>
@@ -121,7 +121,7 @@ export default function PasswordGeneratorPage() {
                 max="64"
                 value={length}
                 onChange={(e) => setLength(Number(e.target.value))}
-                className="w-full accent-[#FF4500] cursor-pointer"
+                className="w-full accent-[#2563EB] cursor-pointer"
               />
             </div>
 
@@ -132,7 +132,7 @@ export default function PasswordGeneratorPage() {
                   type="checkbox"
                   checked={includeUppercase}
                   onChange={(e) => setIncludeUppercase(e.target.checked)}
-                  className="w-4 h-4 accent-[#FF4500] rounded"
+                  className="w-4 h-4 accent-[#2563EB] rounded"
                 />
                 <span>Uppercase (A-Z)</span>
               </label>
@@ -142,7 +142,7 @@ export default function PasswordGeneratorPage() {
                   type="checkbox"
                   checked={includeLowercase}
                   onChange={(e) => setIncludeLowercase(e.target.checked)}
-                  className="w-4 h-4 accent-[#FF4500] rounded"
+                  className="w-4 h-4 accent-[#2563EB] rounded"
                 />
                 <span>Lowercase (a-z)</span>
               </label>
@@ -152,7 +152,7 @@ export default function PasswordGeneratorPage() {
                   type="checkbox"
                   checked={includeNumbers}
                   onChange={(e) => setIncludeNumbers(e.target.checked)}
-                  className="w-4 h-4 accent-[#FF4500] rounded"
+                  className="w-4 h-4 accent-[#2563EB] rounded"
                 />
                 <span>Numbers (0-9)</span>
               </label>
@@ -162,7 +162,7 @@ export default function PasswordGeneratorPage() {
                   type="checkbox"
                   checked={includeSymbols}
                   onChange={(e) => setIncludeSymbols(e.target.checked)}
-                  className="w-4 h-4 accent-[#FF4500] rounded"
+                  className="w-4 h-4 accent-[#2563EB] rounded"
                 />
                 <span>Symbols (!@#$%)</span>
               </label>
@@ -170,7 +170,7 @@ export default function PasswordGeneratorPage() {
 
             <button
               onClick={generatePassword}
-              className="w-full bg-[#FF4500] hover:bg-[#FF4500]/90 text-white font-black py-3.5 rounded-2xl transition-all shadow-lg shadow-orange-500/20 active:scale-95 flex items-center justify-center gap-2 text-base"
+              className="w-full bg-[#2563EB] hover:bg-[#2563EB]/90 text-white font-black py-3.5 rounded-2xl transition-all shadow-lg shadow-blue-500/20 active:scale-95 flex items-center justify-center gap-2 text-base"
             >
               <RefreshCw size={18} /> Generate New Password
             </button>

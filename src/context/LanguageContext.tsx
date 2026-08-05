@@ -1,8 +1,9 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { translations, Lang } from '@/data/translations';
 
-type Language = 'en' | 'hi';
+type Language = Lang;
 
 interface LanguageContextType {
   language: Language;
@@ -10,33 +11,6 @@ interface LanguageContextType {
   toggleLanguage: () => void;
   t: (key: string, defaultEn?: string) => string;
 }
-
-const translations: Record<string, Record<Language, string>> = {
-  // Nav routes
-  Home: { en: 'Home', hi: 'होम' },
-  Services: { en: 'Services', hi: 'सेवाएं' },
-  Checklist: { en: 'Checklist', hi: 'दस्तावेज़ चेकलिस्ट' },
-  Calculator: { en: 'Calculator', hi: 'प्राइस कैल्कुलेटर' },
-  'Track Order': { en: 'Track Order', hi: 'ऑर्डर ट्रैक करें' },
-  Portfolio: { en: 'Portfolio', hi: 'पोर्टफोलियो' },
-  Reviews: { en: 'Reviews', hi: 'ग्राहक समीक्षाएं' },
-  Resizer: { en: 'Govt Photo Resizer', hi: 'फोटो रिसाइजर' },
-  Tools: { en: 'Tools', hi: 'डिजिटल टूल्स' },
-  Pricing: { en: 'Pricing', hi: 'मूल्य निर्धारण' },
-  Contact: { en: 'Contact', hi: 'संपर्क करें' },
-
-  // General UI
-  Login: { en: 'Login', hi: 'लॉग इन' },
-  'Get Started': { en: 'Get Started', hi: 'शुरू करें' },
-  'My Account': { en: 'My Account', hi: 'मेरा खाता' },
-  'My Requests': { en: 'My Requests', hi: 'अनुरोध देखें' },
-  Admin: { en: 'Admin', hi: 'एडमिन' },
-  Logout: { en: 'Logout', hi: 'लॉग आउट' },
-  'Apply Online': { en: 'Apply Online', hi: 'ऑनलाइन आवेदन करें' },
-  'Proceed to Checkout': { en: 'Proceed to Checkout', hi: 'चेकआउट पर जाएं' },
-  'Track Status': { en: 'Track Status', hi: 'स्थिति ट्रैक करें' },
-  Search: { en: 'Search', hi: 'खोजें' },
-};
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
@@ -65,9 +39,15 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setLanguage(language === 'en' ? 'hi' : 'en');
   };
 
+  /**
+   * t() — looks up `key` in the master translations dictionary.
+   * Falls back to `defaultEn` or the raw key if not found.
+   * Supports {year} placeholder for dynamic values.
+   */
   const t = (key: string, defaultEn?: string): string => {
-    if (translations[key] && translations[key][language]) {
-      return translations[key][language];
+    const entry = (translations as Record<string, Record<Language, string>>)[key];
+    if (entry && entry[language]) {
+      return entry[language];
     }
     return defaultEn || key;
   };

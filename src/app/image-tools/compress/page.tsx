@@ -92,12 +92,12 @@ export default function CompressPage() {
             <div>
               <div className="flex justify-between mb-2">
                 <label className="text-gray-600 text-sm font-medium">Quality</label>
-                <span className="text-orange-500 font-bold">{quality}%</span>
+                <span className="text-blue-500 font-bold">{quality}%</span>
               </div>
               <input
                 type="range" min={10} max={100} step={5} value={quality}
                 onChange={(e) => setQuality(Number(e.target.value))}
-                className="w-full accent-orange-500 cursor-pointer"
+                className="w-full accent-blue-500 cursor-pointer"
               />
               <div className="flex justify-between text-xs text-gray-400 mt-1">
                 <span>Smaller file</span><span>Better quality</span>
@@ -107,12 +107,12 @@ export default function CompressPage() {
             <div>
               <div className="flex justify-between mb-2">
                 <label className="text-gray-600 text-sm font-medium">Max Dimension</label>
-                <span className="text-orange-500 font-bold">{maxDimension}px</span>
+                <span className="text-blue-500 font-bold">{maxDimension}px</span>
               </div>
               <input
                 type="range" min={320} max={4096} step={128} value={maxDimension}
                 onChange={(e) => setMaxDimension(Number(e.target.value))}
-                className="w-full accent-orange-500 cursor-pointer"
+                className="w-full accent-blue-500 cursor-pointer"
               />
               <div className="flex justify-between text-xs text-gray-400 mt-1">
                 <span>Smaller</span><span>Full resolution</span>
@@ -162,7 +162,7 @@ export default function CompressPage() {
               <button
                 onClick={compress}
                 disabled={processing}
-                className="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95"
+                className="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95"
               >
                 {processing ? "Compressing…" : "Compress Image"}
               </button>

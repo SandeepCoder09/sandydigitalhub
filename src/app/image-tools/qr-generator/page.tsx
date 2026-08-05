@@ -93,7 +93,7 @@ export default function QrGeneratorPage() {
               onClick={() => setQrType(tab.id as QRType)}
               className={`px-4 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
                 qrType === tab.id
-                  ? "border-orange-500 bg-orange-500 text-white shadow-md"
+                  ? "border-blue-500 bg-blue-500 text-white shadow-md"
                   : "border-gray-200 bg-white text-gray-600 hover:bg-gray-100"
               }`}
             >
@@ -115,7 +115,7 @@ export default function QrGeneratorPage() {
                   value={urlInput}
                   onChange={(e) => setUrlInput(e.target.value)}
                   placeholder="e.g. https://sandydigitalhub.com"
-                  className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-orange-500"
+                  className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-blue-500"
                 />
               </div>
             )}
@@ -129,7 +129,7 @@ export default function QrGeneratorPage() {
                     value={upiVpa}
                     onChange={(e) => setUpiVpa(e.target.value)}
                     placeholder="e.g. 8756454282@upi"
-                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-orange-500"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-blue-500"
                   />
                 </div>
                 <div>
@@ -139,7 +139,7 @@ export default function QrGeneratorPage() {
                     value={upiName}
                     onChange={(e) => setUpiName(e.target.value)}
                     placeholder="e.g. Sandy Digital Hub"
-                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-orange-500"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-blue-500"
                   />
                 </div>
                 <div>
@@ -149,7 +149,7 @@ export default function QrGeneratorPage() {
                     value={upiAmount}
                     onChange={(e) => setUpiAmount(e.target.value)}
                     placeholder="Leave empty for customer choice"
-                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-orange-500"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -164,7 +164,7 @@ export default function QrGeneratorPage() {
                     value={wifiSsid}
                     onChange={(e) => setWifiSsid(e.target.value)}
                     placeholder="WiFi Network Name"
-                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-orange-500"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-blue-500"
                   />
                 </div>
                 <div>
@@ -174,7 +174,7 @@ export default function QrGeneratorPage() {
                     value={wifiPass}
                     onChange={(e) => setWifiPass(e.target.value)}
                     placeholder="Password"
-                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-orange-500"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -188,7 +188,7 @@ export default function QrGeneratorPage() {
                   value={plainText}
                   onChange={(e) => setPlainText(e.target.value)}
                   placeholder="Type any message, address or note..."
-                  className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-orange-500 resize-y"
+                  className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-800 text-sm focus:outline-none focus:border-blue-500 resize-y"
                 />
               </div>
             )}
@@ -250,7 +250,7 @@ export default function QrGeneratorPage() {
                   download="qrcode.png"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-400 text-white font-semibold transition-all active:scale-95 shadow-md shadow-orange-200 text-sm"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-semibold transition-all active:scale-95 shadow-md shadow-blue-200 text-sm"
                 >
                   <Download className="w-4 h-4" /> Download QR Code Image
                 </a>

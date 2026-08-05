@@ -50,7 +50,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
           <title>Work Order - ${brandedId}</title>
           <style>
             body { font-family: system-ui, sans-serif; padding: 24px; color: #111; line-height: 1.5; }
-            h1 { font-size: 20px; margin-bottom: 4px; color: #000; border-bottom: 2px solid #FF4500; padding-bottom: 8px; }
+            h1 { font-size: 20px; margin-bottom: 4px; color: #000; border-bottom: 2px solid #2563EB; padding-bottom: 8px; }
             .meta { margin-top: 16px; margin-bottom: 20px; font-size: 14px; }
             .meta p { margin: 4px 0; }
             table { width: 100%; border-collapse: collapse; margin-top: 16px; margin-bottom: 16px; font-size: 13px; }
@@ -128,7 +128,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
           {/* Modal Header */}
           <div className="sticky top-0 bg-white/95 backdrop-blur border-b border-gray-200 p-4 sm:p-6 flex items-center justify-between z-10">
             <div>
-              <div className="text-[10px] sm:text-xs font-semibold text-[#FF4500] tracking-wider uppercase mb-0.5 sm:mb-1">Service Request Details</div>
+              <div className="text-[10px] sm:text-xs font-semibold text-[#2563EB] tracking-wider uppercase mb-0.5 sm:mb-1">Service Request Details</div>
               <div className="flex items-center gap-2">
                 <h2 className="text-base sm:text-xl md:text-2xl font-bold font-mono text-gray-800">{brandedId}</h2>
                 <CopyButton text={brandedId} />
@@ -197,7 +197,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
                         <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all ${isDone
                             ? 'bg-green-500 text-black shadow-lg shadow-green-500/20'
                             : isCurrent
-                              ? 'bg-[#FF4500] text-gray-800 ring-4 ring-[#FF4500]/20 animate-pulse'
+                              ? 'bg-[#2563EB] text-gray-800 ring-4 ring-[#2563EB]/20 animate-pulse'
                               : 'bg-gray-100 text-gray-400'
                           }`}>
                           {isDone ? <CheckCircle2 size={16} /> : isCurrent ? <Loader2 size={15} className="animate-spin" /> : stepNum}
@@ -221,7 +221,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="bg-gray-50 p-3.5 sm:p-4 rounded-xl border border-gray-100 space-y-1.5">
                 <div className="flex items-center gap-2 text-gray-400 text-[10px] sm:text-xs font-semibold uppercase">
-                  <Calendar size={13} className="text-[#FF4500]" />
+                  <Calendar size={13} className="text-[#2563EB]" />
                   <span>Date & Time</span>
                 </div>
                 <div className="text-xs sm:text-sm font-medium text-gray-800">{formattedDateTime}</div>
@@ -229,7 +229,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
 
               <div className="bg-gray-50 p-3.5 sm:p-4 rounded-xl border border-gray-100 space-y-1.5">
                 <div className="flex items-center gap-2 text-gray-400 text-[10px] sm:text-xs font-semibold uppercase">
-                  <CreditCard size={13} className="text-[#FF4500]" />
+                  <CreditCard size={13} className="text-[#2563EB]" />
                   <span>Payment Method & Status</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs sm:text-sm">
@@ -249,7 +249,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
             {activeOrder.notes && (
               <div className="bg-gray-50 p-3.5 sm:p-4 rounded-xl border border-gray-100 space-y-1.5">
                 <div className="flex items-center gap-2 text-gray-400 text-[10px] sm:text-xs font-semibold uppercase">
-                  <FileText size={13} className="text-[#FF4500]" />
+                  <FileText size={13} className="text-[#2563EB]" />
                   <span>Customer Instructions & Notes</span>
                 </div>
                 <p className="text-xs sm:text-sm text-gray-800 whitespace-pre-wrap">{activeOrder.notes}</p>
@@ -260,7 +260,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
             {activeOrder.documentUrl && (
               <div className="bg-gray-50 p-3.5 sm:p-4 rounded-xl border border-gray-100 space-y-1.5">
                 <div className="flex items-center gap-2 text-gray-400 text-[10px] sm:text-xs font-semibold uppercase">
-                  <Paperclip size={13} className="text-[#FF4500]" />
+                  <Paperclip size={13} className="text-[#2563EB]" />
                   <span>Attached Document</span>
                 </div>
                 <a
@@ -268,7 +268,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
                   download={activeOrder.documentName || 'attached-document'}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs sm:text-sm font-medium text-[#FF4500] hover:underline inline-flex items-center gap-1.5"
+                  className="text-xs sm:text-sm font-medium text-[#2563EB] hover:underline inline-flex items-center gap-1.5"
                 >
                   📎 {activeOrder.documentName || 'Download Attached File'}
                 </a>
@@ -278,7 +278,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
             {/* Requested Services Item List */}
             <div>
               <h4 className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wider mb-2.5 flex items-center gap-2">
-                <Tag size={13} className="text-[#FF4500]" />
+                <Tag size={13} className="text-[#2563EB]" />
                 Requested Services List
               </h4>
               <div className="bg-gray-50 rounded-xl border border-gray-100 overflow-x-auto">
@@ -322,7 +322,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
               </div>
               <div className="flex justify-between text-sm sm:text-base font-bold text-gray-800 pt-2 border-t border-gray-200">
                 <span>Total Amount</span>
-                <span className="text-[#FF4500]">₹{activeOrder.total?.toFixed(2)}</span>
+                <span className="text-[#2563EB]">₹{activeOrder.total?.toFixed(2)}</span>
               </div>
             </div>
           </div>

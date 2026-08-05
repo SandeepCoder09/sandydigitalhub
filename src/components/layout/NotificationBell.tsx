@@ -95,7 +95,7 @@ export function NotificationBell() {
       >
         <Bell size={18} className="text-foreground" />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#FF4500] text-white text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-background animate-pulse">
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#2563EB] text-white text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-background animate-pulse">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
@@ -113,13 +113,13 @@ export function NotificationBell() {
             {/* Header */}
             <div className="p-4 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Bell size={16} className="text-[#FF4500]" />
+                <Bell size={16} className="text-[#2563EB]" />
                 <span className="font-bold text-sm">
                   {isAdmin ? 'Admin Live Support Notifications' : 'Order Status Updates'}
                 </span>
               </div>
               {unreadCount > 0 && (
-                <span className="text-[10px] font-bold bg-[#FF4500]/20 text-[#FF4500] px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-bold bg-[#2563EB]/20 text-[#2563EB] px-2 py-0.5 rounded-full">
                   {unreadCount} {isAdmin ? 'Alerts' : 'Active'}
                 </span>
               )}
@@ -153,18 +153,18 @@ export function NotificationBell() {
                           <Clock size={15} className="animate-spin" />
                         </div>
                       ) : (
-                        <div className="p-1.5 rounded-lg bg-orange-500/20 text-orange-400">
+                        <div className="p-1.5 rounded-lg bg-blue-500/20 text-blue-400">
                           <AlertCircle size={15} />
                         </div>
                       )}
                     </div>
                     <div className="flex-1 space-y-1">
                       <div className="flex justify-between items-center text-xs">
-                        <span className="font-mono font-bold text-[#FF4500]">{n.brandedId}</span>
+                        <span className="font-mono font-bold text-[#2563EB]">{n.brandedId}</span>
                         <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
                           n.status === 'LIVE_AGENT_REQUEST' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
                           n.status === 'COMPLETED' ? 'bg-green-500/20 text-green-400' :
-                          n.status === 'PROCESSING' ? 'bg-blue-500/20 text-blue-400' : 'bg-orange-500/20 text-orange-400'
+                          n.status === 'PROCESSING' ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-500/20 text-blue-400'
                         }`}>
                           {n.status === 'LIVE_AGENT_REQUEST' ? 'AGENT NEEDED' : n.status === 'AWAITING_CUSTOMER_VISIT' ? 'AWAITING VISIT' : n.status}
                         </span>
@@ -181,7 +181,7 @@ export function NotificationBell() {
               <Link
                 href={isAdmin ? '/admin/chat' : '/requests'}
                 onClick={() => setIsOpen(false)}
-                className="text-xs text-[#FF4500] font-bold hover:underline inline-flex items-center gap-1"
+                className="text-xs text-[#2563EB] font-bold hover:underline inline-flex items-center gap-1"
               >
                 <span>{isAdmin ? 'Open Live Support Chat Inbox' : 'View All My Requests'}</span>
                 <ArrowRight size={13} />

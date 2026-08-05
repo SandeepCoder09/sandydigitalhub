@@ -28,7 +28,7 @@ export default async function AccountPage() {
           <div className="col-span-1 md:col-span-2">
             <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col gap-5 sm:gap-6">
               <div className="flex items-center gap-3 border-b border-gray-200 pb-4">
-                <div className="p-2.5 rounded-xl bg-orange-100 text-[#FF4500]">
+                <div className="p-2.5 rounded-xl bg-blue-100 text-[#2563EB]">
                   <UserIcon size={22} className="sm:w-6 sm:h-6" />
                 </div>
                 <div>
@@ -48,7 +48,7 @@ export default async function AccountPage() {
           <div className="col-span-1 flex flex-col gap-6">
             <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between h-full">
               <div>
-                <div className="p-2.5 rounded-xl bg-orange-100 text-[#FF4500] w-fit mb-3 sm:mb-4">
+                <div className="p-2.5 rounded-xl bg-blue-100 text-[#2563EB] w-fit mb-3 sm:mb-4">
                   <ShoppingBag size={22} className="sm:w-6 sm:h-6" />
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1.5 sm:mb-2">My Requested Services</h3>
@@ -56,7 +56,7 @@ export default async function AccountPage() {
                   Track the status of your orders, service requests, and download invoices.
                 </p>
               </div>
-              <Link href="/requests?from=account" className="inline-flex items-center justify-center gap-2 bg-[#FF4500] text-white px-4 py-3 rounded-xl font-bold text-sm hover:bg-[#FF4500]/90 transition-colors w-full shadow-md shadow-orange-200">
+              <Link href="/requests?from=account" className="inline-flex items-center justify-center gap-2 bg-[#2563EB] text-white px-4 py-3 rounded-xl font-bold text-sm hover:bg-[#2563EB]/90 transition-colors w-full shadow-md shadow-blue-200">
                 View Requests
                 <ArrowRight size={18} />
               </Link>

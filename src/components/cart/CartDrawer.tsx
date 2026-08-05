@@ -53,7 +53,7 @@ export function CartDrawer() {
           >
             <div className="p-5 border-b border-gray-200 flex justify-between items-center bg-gray-50/80">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-xl bg-orange-100 text-[#FF4500]">
+                <div className="p-2 rounded-xl bg-blue-100 text-[#2563EB]">
                   <ShoppingCart size={20} />
                 </div>
                 <div>
@@ -72,7 +72,7 @@ export function CartDrawer() {
             <div className="flex-1 overflow-y-auto p-5 space-y-3.5 bg-gray-50/30">
               {items.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-gray-400 py-12 text-center">
-                  <div className="w-16 h-16 rounded-full bg-orange-50 text-[#FF4500] flex items-center justify-center mb-3">
+                  <div className="w-16 h-16 rounded-full bg-blue-50 text-[#2563EB] flex items-center justify-center mb-3">
                     <ShoppingCart size={32} />
                   </div>
                   <h3 className="font-bold text-gray-800 text-base mb-1">Your cart is empty</h3>
@@ -80,13 +80,13 @@ export function CartDrawer() {
                 </div>
               ) : (
                 items.map(item => (
-                  <div key={item.serviceId} className="flex gap-3.5 bg-white p-3.5 rounded-2xl border border-gray-200 shadow-sm items-center hover:border-orange-200 transition-colors">
+                  <div key={item.serviceId} className="flex gap-3.5 bg-white p-3.5 rounded-2xl border border-gray-200 shadow-sm items-center hover:border-blue-200 transition-colors">
                     <div className="w-16 h-16 bg-gray-100 rounded-xl overflow-hidden shrink-0 relative border border-gray-100">
                       <Image src={item.image} alt={item.title} fill className="object-cover" unoptimized />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="text-gray-900 font-bold text-sm mb-0.5 truncate">{item.title}</h4>
-                      <p className="text-[#FF4500] font-black text-sm mb-2">₹{item.price}</p>
+                      <p className="text-[#2563EB] font-black text-sm mb-2">₹{item.price}</p>
                       
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-lg p-1">
@@ -134,14 +134,14 @@ export function CartDrawer() {
                   </div>
                   <div className="flex justify-between text-gray-900 font-black text-xl pt-2 border-t border-gray-100">
                     <span>Total</span>
-                    <span className="text-[#FF4500]">₹{getTotal().toFixed(2)}</span>
+                    <span className="text-[#2563EB]">₹{getTotal().toFixed(2)}</span>
                   </div>
                 </div>
 
                 <Link 
                   href="/checkout" 
                   onClick={() => setIsOpen(false)}
-                  className="w-full bg-[#FF4500] hover:bg-[#FF4500]/90 text-white py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 transition-all hover:scale-[1.01] active:scale-95"
+                  className="w-full bg-[#2563EB] hover:bg-[#2563EB]/90 text-white py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.01] active:scale-95"
                 >
                   Proceed to Checkout <ArrowRight size={18} />
                 </Link>
@@ -162,11 +162,11 @@ export function CartDrawer() {
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="relative p-2 text-[#FF4500] hover:text-[#FF4500]/80 transition-colors cursor-pointer"
+        className="relative p-2 text-[#2563EB] hover:text-[#2563EB]/80 transition-colors cursor-pointer"
       >
         <ShoppingCart size={24} />
         {items.length > 0 && (
-          <span className="absolute top-0 right-0 bg-[#FF4500] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-md">
+          <span className="absolute top-0 right-0 bg-[#2563EB] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-md">
             {items.length}
           </span>
         )}
