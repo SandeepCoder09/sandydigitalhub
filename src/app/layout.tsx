@@ -3,7 +3,6 @@ import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { LiveChatWidget } from "@/components/layout/LiveChatWidget";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { ToastProvider } from "@/components/ui/Toast";
 import { PageGuard } from "@/components/layout/PageGuard";
@@ -49,8 +48,7 @@ export default function RootLayout({
             <SidebarProvider>
               <ToastProvider>
                 <VisitorTracker />
-                <SuzuBusinessWidget />
-                <PageGuard navbar={<Navbar />} footer={<Footer />} liveChat={<LiveChatWidget />}>
+                <PageGuard navbar={<Navbar />} footer={<Footer />} liveChat={<SuzuBusinessWidget />}>
                   {children}
                 </PageGuard>
               </ToastProvider>

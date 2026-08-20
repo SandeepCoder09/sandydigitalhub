@@ -312,6 +312,10 @@ export function SuzuBusinessWidget() {
     speaking: '#8B5CF6',
   }[voiceState];
 
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <div className="fixed bottom-24 right-5 sm:bottom-6 sm:right-6 z-[99990]">
       {/* Floating SUZU Business Button */}
