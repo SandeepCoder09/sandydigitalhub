@@ -13,9 +13,14 @@ export default async function AdminServices() {
     redirect("/login");
   }
 
-  await connectDB();
-  await ensureServicesSeeded();
-  const services = await Service.find().sort({ createdAt: -1 }).lean();
+  let services: any[] = [];
+  try {
+    await connectDB();
+    await ensureServicesSeeded();
+    services = await Service.find().sort({ createdAt: -1 }).lean();
+  } catch (err) {
+    console.error('Failed to load services:', err);
+  }
 
   return (
     <div className="space-y-6">

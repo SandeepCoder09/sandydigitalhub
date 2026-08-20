@@ -13,11 +13,20 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function ServicesPage() {
-  await connectDB();
-  await ensureServicesSeeded();
-  const services = await Service.find({ status: 'ACTIVE' }).sort({ category: 1, title: 1 }).lean();
+  let serializedServices: any[] = [];
 
-  const serializedServices = JSON.parse(JSON.stringify(services));
+  try {
+    await connectDB();
+    await ensureServicesSeeded();
+    const services = await Service.find({ status: 'ACTIVE' }).sort({ category: 1, title: 1 }).lean();
+    serializedServices = JSON.parse(JSON.stringify(services));
+  } catch (err) {
+    console.error('Failed to load services from DB, falling back to static services:', err);
+    serializedServices = INITIAL_SERVICES.map((s, idx) => ({
+      _id: `seed-${idx}`,
+      ...s,
+    }));
+  }
 
   return (
     <div className="min-h-screen pt-6 sm:pt-10 pb-20 px-4 sm:px-6 lg:px-8 bg-slate-50/50">

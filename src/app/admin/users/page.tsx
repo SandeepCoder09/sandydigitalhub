@@ -12,8 +12,13 @@ export default async function AdminUsers() {
     redirect("/login");
   }
 
-  await connectDB();
-  const users = await User.find().select('-password').sort({ createdAt: -1 }).lean();
+  let users: any[] = [];
+  try {
+    await connectDB();
+    users = await User.find().select('-password').sort({ createdAt: -1 }).lean();
+  } catch (err) {
+    console.error('Failed to load users:', err);
+  }
 
   return (
     <div className="space-y-6">

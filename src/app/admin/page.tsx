@@ -20,31 +20,44 @@ export default async function AdminDashboard() {
     redirect("/login");
   }
 
-  await connectDB();
+  let totalOrders = 0;
+  let totalUsers = 0;
+  let totalServices = 0;
+  let revenue = 0;
+  let todayRevenue = 0;
+  let recentOrders: any[] = [];
+  let recentUsers: any[] = [];
+  let recentSecurityLogs: any[] = [];
 
-  const totalOrders = await Order.countDocuments();
-  const totalUsers = await User.countDocuments({ role: 'CUSTOMER' });
-  const totalServices = await Service.countDocuments();
-  
-  const revenueResult = await Order.aggregate([
-    { $match: { paymentStatus: 'PAID' } },
-    { $group: { _id: null, totalRevenue: { $sum: '$total' } } }
-  ]);
-  const revenue = revenueResult[0]?.totalRevenue || 0;
+  try {
+    await connectDB();
 
-  // Calculate Today's Revenue
-  const startOfDay = new Date();
-  startOfDay.setHours(0, 0, 0, 0);
+    totalOrders = await Order.countDocuments();
+    totalUsers = await User.countDocuments({ role: 'CUSTOMER' });
+    totalServices = await Service.countDocuments();
+    
+    const revenueResult = await Order.aggregate([
+      { $match: { paymentStatus: 'PAID' } },
+      { $group: { _id: null, totalRevenue: { $sum: '$total' } } }
+    ]);
+    revenue = revenueResult[0]?.totalRevenue || 0;
 
-  const todayRevenueResult = await Order.aggregate([
-    { $match: { paymentStatus: 'PAID', createdAt: { $gte: startOfDay } } },
-    { $group: { _id: null, todayRevenue: { $sum: '$total' } } }
-  ]);
-  const todayRevenue = todayRevenueResult[0]?.todayRevenue || 0;
+    // Calculate Today's Revenue
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
 
-  const recentOrders = await Order.find().sort({ createdAt: -1 }).limit(6).populate('userId', 'name email mobile');
-  const recentUsers = await User.find({ role: 'CUSTOMER' }).sort({ createdAt: -1 }).limit(3).lean();
-  const recentSecurityLogs = await SecurityLog.find().sort({ createdAt: -1 }).limit(3).lean();
+    const todayRevenueResult = await Order.aggregate([
+      { $match: { paymentStatus: 'PAID', createdAt: { $gte: startOfDay } } },
+      { $group: { _id: null, todayRevenue: { $sum: '$total' } } }
+    ]);
+    todayRevenue = todayRevenueResult[0]?.todayRevenue || 0;
+
+    recentOrders = await Order.find().sort({ createdAt: -1 }).limit(6).populate('userId', 'name email mobile');
+    recentUsers = await User.find({ role: 'CUSTOMER' }).sort({ createdAt: -1 }).limit(3).lean();
+    recentSecurityLogs = await SecurityLog.find().sort({ createdAt: -1 }).limit(3).lean();
+  } catch (dbErr) {
+    console.error('Failed to load admin stats from DB:', dbErr);
+  }
 
   // Real database activity feed
   const activityFeed: Array<{ icon: any; color: string; text: string; time: string }> = [];

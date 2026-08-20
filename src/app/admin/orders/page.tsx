@@ -13,8 +13,13 @@ export default async function AdminOrders() {
     redirect("/login");
   }
 
-  await connectDB();
-  const orders = await Order.find().sort({ createdAt: -1 }).populate('userId', 'name email mobile').lean();
+  let orders: any[] = [];
+  try {
+    await connectDB();
+    orders = await Order.find().sort({ createdAt: -1 }).populate('userId', 'name email mobile').lean();
+  } catch (err) {
+    console.error('Failed to load orders:', err);
+  }
 
   return (
     <div className="space-y-6">
