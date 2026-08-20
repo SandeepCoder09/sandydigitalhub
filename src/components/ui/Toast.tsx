@@ -13,19 +13,23 @@ interface ToastItem {
   message: string;
 }
 
+type ToastFunctions = {
+  success: (message: string, title?: string) => void;
+  error: (message: string, title?: string) => void;
+  info: (message: string, title?: string) => void;
+  showToast: (message: string, type?: ToastType, title?: string) => void;
+  toast: ToastFunctions;
+};
+
 interface ToastContextType {
-  toast: {
-    success: (message: string, title?: string) => void;
-    error: (message: string, title?: string) => void;
-    info: (message: string, title?: string) => void;
-  };
+  toast: ToastFunctions;
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
-let globalToastHandler: ToastContextType['toast'] | null = null;
+let globalToastHandler: ToastFunctions | null = null;
 
-export const toast = {
+const toastBase = {
   success: (message: string, title?: string) => {
     if (globalToastHandler) globalToastHandler.success(message, title);
     else console.log('[Success Toast]', message);
@@ -38,7 +42,18 @@ export const toast = {
     if (globalToastHandler) globalToastHandler.info(message, title);
     else console.log('[Info Toast]', message);
   },
+  showToast: (message: string, type: ToastType = 'info', title?: string) => {
+    if (globalToastHandler) globalToastHandler.showToast(message, type, title);
+    else if (type === 'error') console.error('[Error Toast]', message);
+    else console.log(`[${type} Toast]`, message);
+  },
 };
+
+export const toast: ToastFunctions = {
+  ...toastBase,
+  toast: null as any,
+};
+toast.toast = toast;
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
@@ -52,11 +67,17 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   };
 
-  const toastMethods = {
+  const toastMethods: ToastFunctions = {
     success: (message: string, title?: string) => addToast('success', message, title || 'Success'),
     error: (message: string, title?: string) => addToast('error', message, title || 'Notice'),
     info: (message: string, title?: string) => addToast('info', message, title || 'Information'),
+    showToast: (message: string, type: ToastType = 'info', title?: string) => {
+      const defaultTitle = type === 'success' ? 'Success' : type === 'error' ? 'Notice' : 'Information';
+      addToast(type, message, title || defaultTitle);
+    },
+    toast: null as any,
   };
+  toastMethods.toast = toastMethods;
 
   useEffect(() => {
     globalToastHandler = toastMethods;

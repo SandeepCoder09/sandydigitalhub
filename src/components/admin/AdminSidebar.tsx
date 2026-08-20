@@ -20,7 +20,8 @@ import {
   Menu,
   X,
   ShieldCheck,
-  ChevronRight
+  ChevronRight,
+  Building2
 } from "lucide-react";
 
 interface NavItem {
@@ -83,6 +84,7 @@ export function AdminSidebar() {
     {
       title: "OPERATIONS",
       items: [
+        { href: '/admin/partners', label: 'Partner Centers', icon: Building2 },
         { href: '/admin/orders', label: 'Manage Orders', icon: ShoppingBag },
         { href: '/admin/uploads', label: 'User Uploads', icon: FolderCheck },
         { href: '/admin/services', label: 'Manage Services', icon: Wrench },
