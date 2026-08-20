@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { ShieldAlert, Lock, AlertTriangle, RefreshCw, Home, PhoneCall, Eye, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { useSidebar } from '@/context/SidebarContext';
+import { BrandSwitcherBanner } from '@/components/layout/BrandSwitcherBanner';
 
 interface SiteSettings {
   isEmergencyLockdown: boolean;
@@ -82,6 +83,7 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
       <div className="min-h-screen flex flex-col bg-white pb-20 lg:pb-0">
         {navbar}
         <div className={`flex-1 flex flex-col ${isCollapsed ? 'lg:pl-20' : 'lg:pl-72'} min-w-0 transition-all duration-300 ease-in-out`}>
+          <BrandSwitcherBanner />
           <main className="flex-1">
             {content}
           </main>

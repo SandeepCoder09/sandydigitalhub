@@ -8,8 +8,6 @@ import { LanguageNavToggle } from "@/components/layout/LanguageNavToggle";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 
-import { BrandSwitcherBanner } from "@/components/layout/BrandSwitcherBanner";
-
 export async function Navbar() {
   let session = null;
   try {
@@ -20,9 +18,6 @@ export async function Navbar() {
 
   return (
     <>
-      {/* Top Brand Switcher Ecosystem Banner */}
-      <BrandSwitcherBanner />
-
       {/* ─────────────────────────────────────────────────────────────
           1. DESKTOP PERMANENT LEFT SIDEBAR (lg+)
       ───────────────────────────────────────────────────────────── */}
