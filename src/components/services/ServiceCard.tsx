@@ -1,12 +1,12 @@
 'use client';
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-require-imports, @next/next/no-img-element, @next/next/no-sync-scripts, react/no-unescaped-entities */
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useCartStore } from '@/store/cartStore';
 import { IService } from '@/models/Service';
-import { X, CheckCircle2, ShoppingCart, Info } from 'lucide-react';
+import { X, CheckCircle2, ShoppingCart, Info, Check, Sparkles, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 interface ServiceCardProps {
   service: IService;
@@ -15,6 +15,7 @@ interface ServiceCardProps {
 export function ServiceCard({ service }: ServiceCardProps) {
   const addItem = useCartStore((state) => state.addItem);
   const [showDetails, setShowDetails] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
 
   const handleAddToCart = () => {
     addItem({
@@ -24,122 +25,174 @@ export function ServiceCard({ service }: ServiceCardProps) {
       quantity: 1,
       image: service.image,
     });
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 1800);
   };
 
   return (
     <>
-      <motion.div 
-        whileHover={{ y: -6 }}
-        className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-md hover:shadow-2xl hover:shadow-blue-500/10 flex flex-col h-full hover:border-[#2563EB] transition-all group"
+      <motion.div
+        whileHover={{ y: -4 }}
+        transition={{ duration: 0.2 }}
+        className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-purple-500/10 flex flex-col h-full hover:border-purple-300 transition-all group select-none"
       >
-        <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
-          <Image 
-            src={service.image} 
-            alt={service.title} 
+        {/* ── Image & Category Pill ── */}
+        <div className="relative h-44 sm:h-48 w-full bg-slate-100 overflow-hidden shrink-0">
+          <Image
+            src={service.image}
+            alt={service.title}
             fill
             unoptimized
             className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase text-[#2563EB] border border-blue-100 shadow-sm">
+          {/* Subtle Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 pointer-events-none" />
+
+          {/* Category Badge */}
+          <div className="absolute top-3 left-3 max-w-[85%] bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider text-[#7C3AED] border border-purple-100 shadow-xs truncate">
             {service.category}
           </div>
         </div>
 
-        <div className="p-5 flex flex-col flex-grow">
-          <div className="flex justify-between items-start mb-2 gap-2">
-            <h3 className="text-lg font-bold text-gray-900 leading-snug">{service.title}</h3>
-            <span className="text-[#2563EB] font-black text-lg shrink-0">₹{service.price}</span>
+        {/* ── Card Content ── */}
+        <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between gap-3">
+          <div className="space-y-2">
+            {/* Title & Price Row */}
+            <div className="flex justify-between items-start gap-2">
+              <h3 className="text-sm sm:text-base font-extrabold text-slate-900 leading-snug line-clamp-2 min-h-[2.5rem] group-hover:text-[#7C3AED] transition-colors">
+                {service.title}
+              </h3>
+              <span className="text-[#7C3AED] font-black text-base sm:text-lg shrink-0 bg-purple-50 px-2 py-0.5 rounded-xl border border-purple-200/80">
+                ₹{service.price}
+              </span>
+            </div>
+
+            {/* Description */}
+            <p className="text-slate-500 text-xs leading-relaxed line-clamp-2 min-h-[2.2rem]">
+              {service.description}
+            </p>
           </div>
-          <p className="text-gray-600 text-xs sm:text-sm mb-6 line-clamp-2 flex-grow">{service.description}</p>
-          
-          <div className="flex gap-2.5 mt-auto pt-3 border-t border-gray-100">
-            <button 
+
+          {/* ── Action Buttons ── */}
+          <div className="pt-3 border-t border-slate-100 flex items-center gap-2">
+            <button
               onClick={handleAddToCart}
-              className="flex-1 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 shadow-md shadow-blue-200 active:scale-95"
+              className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm active:scale-95 ${
+                isAdded
+                  ? 'bg-emerald-600 text-white shadow-emerald-200'
+                  : 'bg-[#7C3AED] hover:bg-[#6D28D9] text-white shadow-purple-200 hover:shadow-md'
+              }`}
             >
-              <ShoppingCart size={15} /> Add to Cart
+              {isAdded ? (
+                <>
+                  <Check size={15} className="stroke-[3]" /> Added!
+                </>
+              ) : (
+                <>
+                  <ShoppingCart size={15} /> Add to Cart
+                </>
+              )}
             </button>
-            <button 
+
+            <button
               onClick={() => setShowDetails(true)}
-              className="px-3.5 bg-gray-100 hover:bg-gray-200 text-gray-800 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-1"
+              className="px-3 py-2.5 bg-slate-100 hover:bg-purple-50 text-slate-700 hover:text-[#7C3AED] border border-slate-200 hover:border-purple-200 rounded-xl font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-1 cursor-pointer shrink-0"
+              title="View Service Details"
             >
-              <Info size={15} /> Details
+              <Info size={15} />
+              <span className="hidden xs:inline">Details</span>
             </button>
           </div>
         </div>
       </motion.div>
 
+      {/* ── Service Detail Modal ── */}
       <AnimatePresence>
         {showDetails && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-            <motion.div 
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowDetails(false)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
             />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-lg bg-white border border-gray-200 rounded-3xl shadow-2xl overflow-hidden z-10 flex flex-col max-h-[90vh]"
+              className="relative w-full max-w-lg bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden z-10 flex flex-col max-h-[90vh] my-auto"
             >
-              <div className="relative h-60 w-full bg-gray-100">
-                <Image 
-                  src={service.image} 
-                  alt={service.title} 
+              <div className="relative h-56 sm:h-64 w-full bg-slate-100 shrink-0">
+                <Image
+                  src={service.image}
+                  alt={service.title}
                   fill
                   unoptimized
                   className="object-cover"
                 />
-                <button 
+                <button
                   onClick={() => setShowDetails(false)}
-                  className="absolute top-4 right-4 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-md backdrop-blur transition-colors"
+                  className="absolute top-4 right-4 bg-white/90 hover:bg-white text-slate-800 p-2 rounded-full shadow-md backdrop-blur transition-all hover:scale-105 cursor-pointer"
+                  aria-label="Close details modal"
                 >
                   <X size={18} />
                 </button>
-              </div>
-              
-              <div className="p-6 overflow-y-auto">
-                <div className="flex justify-between items-start mb-3 gap-2">
-                  <div>
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#2563EB] bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100 inline-block mb-1">
-                      {service.category}
-                    </span>
-                    <h2 className="text-2xl font-bold text-gray-900">{service.title}</h2>
-                  </div>
-                  <span className="text-2xl font-black text-[#2563EB]">₹{service.price}</span>
+                <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-xl text-xs font-black uppercase text-[#7C3AED] border border-purple-100 shadow-sm">
+                  {service.category}
                 </div>
-                
-                <p className="text-gray-600 text-sm leading-relaxed mb-6">
+              </div>
+
+              <div className="p-6 overflow-y-auto space-y-5">
+                <div className="flex justify-between items-start gap-3">
+                  <div>
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
+                      {service.title}
+                    </h2>
+                  </div>
+                  <span className="text-2xl font-black text-[#7C3AED] bg-purple-50 px-3 py-1 rounded-2xl border border-purple-200 shrink-0">
+                    ₹{service.price}
+                  </span>
+                </div>
+
+                <p className="text-slate-600 text-sm leading-relaxed">
                   {service.description}
                 </p>
-                
-                <div className="space-y-2.5 mb-6 bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                  <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-gray-800">
-                    <CheckCircle2 size={16} className="text-green-600" />
+
+                <div className="space-y-2.5 bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
+                  <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-slate-800">
+                    <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
                     <span>Official Verified Digital Service</span>
                   </div>
-                  <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-gray-800">
-                    <CheckCircle2 size={16} className="text-green-600" />
-                    <span>Express Turnaround & Instant Download</span>
+                  <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-slate-800">
+                    <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                    <span>Fast Processing & Instant Delivery</span>
                   </div>
-                  <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-gray-800">
-                    <CheckCircle2 size={16} className="text-green-600" />
-                    <span>Dedicated Support on WhatsApp & Call</span>
+                  <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-slate-800">
+                    <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                    <span>Doorstep Support / Jan Seva Assistance</span>
                   </div>
                 </div>
 
-                <button 
-                  onClick={() => {
-                    handleAddToCart();
-                    setShowDetails(false);
-                  }}
-                  className="w-full bg-[#2563EB] hover:bg-[#2563EB]/90 text-white py-3.5 rounded-2xl font-bold text-base transition-all shadow-lg shadow-blue-500/20 active:scale-95 flex items-center justify-center gap-2"
-                >
-                  <ShoppingCart size={18} /> Add to Cart - ₹{service.price}
-                </button>
+                <div className="flex items-center gap-3 pt-2">
+                  <button
+                    onClick={() => {
+                      handleAddToCart();
+                      setShowDetails(false);
+                    }}
+                    className="flex-1 bg-[#7C3AED] hover:bg-[#6D28D9] text-white py-3.5 rounded-2xl font-extrabold text-sm sm:text-base transition-all shadow-lg shadow-purple-500/25 active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <ShoppingCart size={18} /> Add to Cart - ₹{service.price}
+                  </button>
+                  <Link href={`/checkout?service=${service._id}`} className="shrink-0">
+                    <button
+                      onClick={() => setShowDetails(false)}
+                      className="px-4 py-3.5 bg-purple-50 hover:bg-purple-100 text-[#7C3AED] border border-purple-200 rounded-2xl font-extrabold text-sm transition-all flex items-center gap-1.5 cursor-pointer"
+                    >
+                      Instant Apply <ArrowRight size={15} />
+                    </button>
+                  </Link>
+                </div>
               </div>
             </motion.div>
           </div>

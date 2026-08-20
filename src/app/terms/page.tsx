@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen pt-28 pb-20 px-4 md:px-8 bg-[#0a0a0a]">
+    <div className="min-h-screen pt-10 sm:pt-14 pb-20 px-4 md:px-8 bg-[#0a0a0a]">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-white mb-2">Terms &amp; Conditions</h1>
         <p className="text-white/50 mb-10 text-sm">Last updated: July 15, 2026</p>
@@ -48,7 +48,7 @@ export default function TermsPage() {
             <p>
               You may request cancellation of an order before the service work has commenced.
               Once work has started, cancellation requests will be reviewed on a case-by-case basis.
-              Please contact us at <span className="text-[#2563EB]">info@sandydigitalhub.com</span> for
+              Please contact us at <span className="text-[#7C3AED]">info@sandydigitalhub.com</span> for
               cancellation requests.
             </p>
           </section>
@@ -103,8 +103,8 @@ export default function TermsPage() {
             <h2 className="text-xl font-semibold text-white mb-3">10. Contact Us</h2>
             <p>
               If you have any questions about these Terms &amp; Conditions, please contact us at{" "}
-              <Link href="/contact" className="text-[#2563EB] hover:underline">our contact page</Link> or
-              email us at <span className="text-[#2563EB]">info@sandydigitalhub.com</span>.
+              <Link href="/contact" className="text-[#7C3AED] hover:underline">our contact page</Link> or
+              email us at <span className="text-[#7C3AED]">info@sandydigitalhub.com</span>.
             </p>
           </section>
         </div>

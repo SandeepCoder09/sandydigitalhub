@@ -11,6 +11,7 @@ import { VisitorTracker } from "@/components/layout/VisitorTracker";
 import { SuzuBusinessWidget } from "@/components/layout/SuzuBusinessWidget";
 
 import { LanguageProvider } from "@/context/LanguageContext";
+import { SidebarProvider } from "@/context/SidebarContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-heading" });
@@ -19,6 +20,13 @@ export const metadata: Metadata = {
   title: "Sandy Digital Hub | Your One-Stop Digital Solution Center",
   description: "Sandy Digital Hub provides premium Website Development, Mobile Apps, UI/UX Design, and Digital Services in Fatehpur and beyond.",
   keywords: "Sandy Digital Hub, Website Development in Fatehpur, App Development in Fatehpur, Digital Services Near Me, Online Services Fatehpur, SEO, Web Design",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     title: "Sandy Digital Hub | Your One-Stop Digital Solution Center",
     description: "Premium Website Development, Mobile Apps, and Digital Services.",
@@ -38,13 +46,15 @@ export default function RootLayout({
       <body className={`${inter.variable} ${manrope.variable} font-sans min-h-screen flex flex-col antialiased`}>
         <AuthProvider>
           <LanguageProvider>
-            <ToastProvider>
-              <VisitorTracker />
-              <SuzuBusinessWidget />
-              <PageGuard navbar={<Navbar />} footer={<Footer />} liveChat={<LiveChatWidget />}>
-                {children}
-              </PageGuard>
-            </ToastProvider>
+            <SidebarProvider>
+              <ToastProvider>
+                <VisitorTracker />
+                <SuzuBusinessWidget />
+                <PageGuard navbar={<Navbar />} footer={<Footer />} liveChat={<LiveChatWidget />}>
+                  {children}
+                </PageGuard>
+              </ToastProvider>
+            </SidebarProvider>
           </LanguageProvider>
         </AuthProvider>
       </body>

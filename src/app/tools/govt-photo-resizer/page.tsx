@@ -149,15 +149,19 @@ export default function GovtPhotoResizerPage() {
   return (
     <div className="min-h-screen bg-gray-50/60 pb-16">
       {/* Header Banner */}
-      <section className="bg-gradient-to-br from-gray-900 via-black to-slate-900 text-white py-14 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
-        <div className="max-w-5xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
+      <section className="bg-white border-b border-slate-200/80 pt-10 sm:pt-14 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden shadow-xs">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[320px] bg-purple-50 rounded-full blur-3xl opacity-80" />
+        </div>
+
+        <div className="max-w-5xl mx-auto text-center space-y-4 relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-xs font-bold uppercase tracking-wider shadow-2xs">
             <Zap size={14} /> Official Govt Specification Resizer
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-            Jan Seva Photo & <span className="text-[#2563EB]">Signature Resizer</span>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900">
+            Jan Seva Photo & <span className="text-[#7C3AED]">Signature Resizer</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-gray-300 font-medium">
+          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
             Automatically crop and compress passport photos & signatures to exact UP e-District, PAN Card, & Passport portal dimensions and KB limits!
           </p>
         </div>
@@ -170,7 +174,7 @@ export default function GovtPhotoResizerPage() {
           <div className="lg:col-span-5 space-y-4">
             <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm space-y-4">
               <h2 className="text-sm font-extrabold text-gray-900 uppercase tracking-wider flex items-center gap-2">
-                <ShieldCheck size={18} className="text-[#2563EB]" /> Select Govt Portal Specification
+                <ShieldCheck size={18} className="text-[#7C3AED]" /> Select Govt Portal Specification
               </h2>
               <div className="space-y-2.5">
                 {PRESETS.map((preset) => {
@@ -181,12 +185,12 @@ export default function GovtPhotoResizerPage() {
                       onClick={() => setSelectedPreset(preset)}
                       className={`w-full text-left p-4 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
                         isSelected
-                          ? 'bg-blue-50 border-[#2563EB] ring-1 ring-[#2563EB]'
+                          ? 'bg-purple-50 border-[#7C3AED] ring-1 ring-[#7C3AED]'
                           : 'bg-white border-gray-200 hover:border-gray-300'
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span className={`text-xs font-bold ${isSelected ? 'text-[#2563EB]' : 'text-gray-900'}`}>
+                        <span className={`text-xs font-bold ${isSelected ? 'text-[#7C3AED]' : 'text-gray-900'}`}>
                           {preset.name}
                         </span>
                         <span className="px-2 py-0.5 rounded-md bg-gray-100 text-gray-700 text-[10px] font-black">
@@ -222,9 +226,9 @@ export default function GovtPhotoResizerPage() {
               {!imageSrc ? (
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="border-2 border-dashed border-gray-300 hover:border-[#2563EB] rounded-2xl p-10 text-center transition-all cursor-pointer bg-gray-50/50 hover:bg-blue-50/30 space-y-3"
+                  className="border-2 border-dashed border-gray-300 hover:border-[#7C3AED] rounded-2xl p-10 text-center transition-all cursor-pointer bg-gray-50/50 hover:bg-purple-50/30 space-y-3"
                 >
-                  <div className="w-14 h-14 rounded-full bg-blue-100 text-[#2563EB] flex items-center justify-center mx-auto">
+                  <div className="w-14 h-14 rounded-full bg-purple-100 text-[#7C3AED] flex items-center justify-center mx-auto">
                     <Upload size={24} />
                   </div>
                   <div>
@@ -233,7 +237,7 @@ export default function GovtPhotoResizerPage() {
                       Supports JPG, PNG, WebP (camera photos from mobile supported)
                     </p>
                   </div>
-                  <Button className="bg-[#2563EB] hover:bg-[#2563EB]/90 text-white font-bold rounded-xl text-xs px-5">
+                  <Button className="bg-[#7C3AED] hover:bg-[#7C3AED]/90 text-white font-bold rounded-xl text-xs px-5">
                     Browse File
                   </Button>
                 </div>
@@ -243,7 +247,7 @@ export default function GovtPhotoResizerPage() {
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-6 p-6 rounded-2xl bg-gray-50 border border-gray-200">
                     <div className="text-center space-y-2">
                       <div className="text-xs font-bold text-gray-500">Resized Result Preview</div>
-                      <div className="inline-block border-2 border-[#2563EB] rounded-lg overflow-hidden bg-white shadow-md p-1">
+                      <div className="inline-block border-2 border-[#7C3AED] rounded-lg overflow-hidden bg-white shadow-md p-1">
                         {resizedDataUrl && (
                           <img
                             src={resizedDataUrl}

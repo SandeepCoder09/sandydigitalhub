@@ -38,9 +38,9 @@
 
 :root {
   /* ── Public Website Brand Colors ─────────────────────────────── */
-  --brand-primary:   #2563EB;   /* Royal Blue   */
-  --brand-hover:     #1D4ED8;   /* Darker Blue  */
-  --brand-cyan:      #06B6D4;   /* Cyan accent  */
+  --brand-primary:   #7C3AED;   /* Vivid Violet / Purple */
+  --brand-hover:     #6D28D9;   /* Deep Violet */
+  --brand-cyan:      #8B5CF6;   /* Soft Violet accent */
   --brand-success:   #22C55E;
   --brand-warning:   #F59E0B;
   --brand-error:     #EF4444;
@@ -73,8 +73,8 @@
   --admin-warning-soft:   #FFFBEB;
   --admin-danger:         #DC2626; /* Red */
   --admin-danger-soft:    #FEF2F2;
-  --admin-info:           #2563EB;
-  --admin-info-soft:      #EFF6FF;
+  --admin-info:           #7C3AED;
+  --admin-info-soft:      #F5F3FF;
 
   /* ── Shadcn/Tailwind CSS Variables ───────────── */
   --background:          #F8FAFC;
@@ -83,19 +83,19 @@
   --card-foreground:     #0F172A;
   --popover:             #FFFFFF;
   --popover-foreground:  #0F172A;
-  --primary:             #2563EB;
+  --primary:             #7C3AED;
   --primary-foreground:  #FFFFFF;
   --secondary:           #0F172A;
   --secondary-foreground:#CBD5E1;
   --muted:               #F1F5F9;
   --muted-foreground:    #475569;
-  --accent:              #EFF6FF;
-  --accent-foreground:   #1E3A8A;
+  --accent:              #F5F3FF;
+  --accent-foreground:   #6D28D9;
   --destructive:         #EF4444;
   --destructive-foreground: #F8FAFC;
   --border:              #E2E8F0;
   --input:               #E2E8F0;
-  --ring:                #2563EB;
+  --ring:                #7C3AED;
   --radius:              0.75rem;  /* 12px base radius */
 }
 
@@ -106,19 +106,19 @@
   --card-foreground:     #F8FAFC;
   --popover:             #0F172A;
   --popover-foreground:  #F8FAFC;
-  --primary:             #3B82F6;
+  --primary:             #8B5CF6;
   --primary-foreground:  #FFFFFF;
   --secondary:           #1E293B;
   --secondary-foreground:#CBD5E1;
   --muted:               #1E293B;
   --muted-foreground:    #94A3B8;
-  --accent:              #1E3A8A;
-  --accent-foreground:   #BFDBFE;
+  --accent:              #2E1065;
+  --accent-foreground:   #DDD6FE;
   --destructive:         #7F1D1D;
   --destructive-foreground: #F8FAFC;
   --border:              #1E293B;
   --input:               #1E293B;
-  --ring:                #3B82F6;
+  --ring:                #8B5CF6;
 }
 
 @layer base {
@@ -143,11 +143,11 @@
     border-radius: 100px;
   }
   ::-webkit-scrollbar-thumb {
-    background: #2563EB;
+    background: #7C3AED;
     border-radius: 100px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #1D4ED8;
+    background: #6D28D9;
   }
 
   /* ── Global Link Transitions ─────────────────── */
@@ -157,7 +157,7 @@
 
   /* ── Focus Rings ─────────────────────────────── */
   :focus-visible {
-    outline: 2px solid #2563EB;
+    outline: 2px solid #7C3AED;
     outline-offset: 2px;
   }
 }

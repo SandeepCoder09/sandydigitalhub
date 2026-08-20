@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen pt-28 pb-20 px-4 md:px-8 bg-[#0a0a0a]">
+    <div className="min-h-screen pt-10 sm:pt-14 pb-20 px-4 md:px-8 bg-[#0a0a0a]">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-white mb-2">Privacy Policy</h1>
         <p className="text-white/50 mb-10 text-sm">Last updated: July 15, 2026</p>
@@ -116,8 +116,8 @@ export default function PrivacyPage() {
             <p>
               If you have questions about this Privacy Policy or wish to exercise your rights, please
               contact us at{" "}
-              <Link href="/contact" className="text-[#2563EB] hover:underline">our contact page</Link> or
-              email us at <span className="text-[#2563EB]">info@sandydigitalhub.com</span>.
+              <Link href="/contact" className="text-[#7C3AED] hover:underline">our contact page</Link> or
+              email us at <span className="text-[#7C3AED]">info@sandydigitalhub.com</span>.
             </p>
           </section>
         </div>

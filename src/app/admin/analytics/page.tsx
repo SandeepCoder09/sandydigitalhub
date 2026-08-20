@@ -112,10 +112,10 @@ export default function AdminAnalyticsPage() {
 
             <div className="bg-white p-5 rounded-3xl border border-gray-200 shadow-2xs space-y-2">
               <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
-                <Eye size={14} className="text-blue-600" /> Today's Page Views
+                <Eye size={14} className="text-purple-600" /> Today's Page Views
               </span>
               <h3 className="text-2xl font-black text-gray-900">{data.totalPageViewsToday || 0}</h3>
-              <p className="text-[11px] font-semibold text-blue-600">Views in last 24h</p>
+              <p className="text-[11px] font-semibold text-purple-600">Views in last 24h</p>
             </div>
 
             <div className="bg-white p-5 rounded-3xl border border-gray-200 shadow-2xs space-y-2">

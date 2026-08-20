@@ -153,7 +153,7 @@ export function AdminChatInbox() {
     <div className="flex flex-col h-full bg-gray-50">
       <div className="p-3.5 border-b border-gray-200 flex justify-between items-center bg-white">
         <div className="flex items-center gap-2 font-bold text-sm">
-          <MessageSquare size={16} className="text-[#2563EB]" />
+          <MessageSquare size={16} className="text-[#7C3AED]" />
           <span>Conversations</span>
           {alertCount > 0 && (
             <span className="px-1.5 py-0.5 rounded-full bg-red-500/20 text-red-400 text-[10px] font-bold animate-pulse">
@@ -177,10 +177,10 @@ export function AdminChatInbox() {
                 key={s._id}
                 onClick={() => selectSession(s._id)}
                 className={`w-full p-3.5 text-left transition-all flex items-start gap-3 ${
-                  isSelected ? 'bg-[#2563EB]/15 border-l-4 border-[#2563EB]' : 'hover:bg-gray-100'
+                  isSelected ? 'bg-[#7C3AED]/15 border-l-4 border-[#7C3AED]' : 'hover:bg-gray-100'
                 }`}
               >
-                <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center font-bold text-xs uppercase text-blue-600 shrink-0">
+                <div className="w-9 h-9 rounded-full bg-purple-100 flex items-center justify-center font-bold text-xs uppercase text-purple-600 shrink-0">
                   {s.lastSender ? s.lastSender.slice(0, 2) : 'CU'}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -254,7 +254,7 @@ export function AdminChatInbox() {
                       isAdmin
                         ? 'bg-purple-600 text-white rounded-br-none shadow-md font-medium'
                         : isCustomer
-                        ? 'bg-[#2563EB]/90 text-white rounded-bl-none font-medium'
+                        ? 'bg-[#7C3AED]/90 text-white rounded-bl-none font-medium'
                         : 'bg-white/10 text-gray-700 rounded-bl-none'
                     }`}
                   >

@@ -62,7 +62,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || 'sandy_digital_hub_super_secret_jwt_key_2026_999888',
   pages: {
     signIn: '/login',
   },

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="50%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#4C1D95"/>
+    </linearGradient>
+    <linearGradient id="sparkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#EDE9FE"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Squircle with Border -->
+  <rect x="24" y="24" width="464" height="464" rx="128" fill="url(#bgGrad)"/>
+  <rect x="24" y="24" width="464" height="464" rx="128" fill="none" stroke="#C4B5FD" stroke-width="12" stroke-opacity="0.6"/>
+
+  <!-- Modern SDH Monogram Geometry -->
+  <path d="M345 160 C345 130 315 115 270 115 L210 115 C160 115 130 142 130 185 C130 228 170 250 225 260 L285 270 C340 280 375 302 375 345 C375 390 330 415 270 415 L195 415 C145 415 115 388 115 355" 
+        fill="none" stroke="url(#sparkGrad)" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Digital Connectivity Circuit Node Dots -->
+  <circle cx="380" cy="160" r="16" fill="#F59E0B"/>
+  <circle cx="420" cy="195" r="12" fill="#F59E0B" opacity="0.9"/>
+  <circle cx="390" cy="235" r="9" fill="#F59E0B" opacity="0.75"/>
+
+  <circle cx="95" cy="355" r="14" fill="#38BDF8"/>
+  <circle cx="78" cy="318" r="10" fill="#38BDF8" opacity="0.85"/>
+  
+  <!-- Central Sparkle Accent -->
+  <path d="M395 105 L402 124 L420 130 L402 136 L395 155 L388 136 L370 130 L388 124 Z" fill="#F59E0B"/>
+</svg>

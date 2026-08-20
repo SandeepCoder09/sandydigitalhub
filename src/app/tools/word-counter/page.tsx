@@ -51,14 +51,14 @@ export default function WordCounterPage() {
       <ToolHero
         title="Word & Character Counter"
         description="Analyze text length, word count, sentence count, reading duration, and keyword density in real-time."
-        icon={<FileText className="w-8 h-8 text-[#2563EB]" />}
+        icon={<FileText className="w-8 h-8 text-[#7C3AED]" />}
       />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 space-y-8">
         {/* Quick Stats Banner */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm text-center">
-            <div className="text-3xl font-black text-[#2563EB]">{words}</div>
+            <div className="text-3xl font-black text-[#7C3AED]">{words}</div>
             <div className="text-xs font-extrabold uppercase text-gray-500 mt-1 flex items-center justify-center gap-1">
               <AlignLeft size={14} /> Words
             </div>
@@ -85,7 +85,7 @@ export default function WordCounterPage() {
         <div className="bg-white rounded-3xl border border-gray-200 shadow-xl overflow-hidden p-6 space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-gray-900 text-base flex items-center gap-2">
-              <FileText size={18} className="text-[#2563EB]" /> Enter or Paste Your Text
+              <FileText size={18} className="text-[#7C3AED]" /> Enter or Paste Your Text
             </h3>
             <div className="flex gap-2">
               <button
@@ -110,7 +110,7 @@ export default function WordCounterPage() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Type or paste your document, blog post, or essay content here..."
-            className="w-full min-h-[250px] p-4 rounded-2xl border border-gray-200 focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 outline-none text-sm text-gray-900 leading-relaxed resize-y transition-all placeholder:text-gray-400"
+            className="w-full min-h-[250px] p-4 rounded-2xl border border-gray-200 focus:border-[#7C3AED] focus:ring-2 focus:ring-[#7C3AED]/20 outline-none text-sm text-gray-900 leading-relaxed resize-y transition-all placeholder:text-gray-400"
           />
 
           {/* Deep Breakdown Details */}
@@ -126,14 +126,14 @@ export default function WordCounterPage() {
               </div>
               <div className="flex justify-between py-1">
                 <span>Estimated Speaking Time:</span>
-                <span className="font-bold text-[#2563EB]">{speakingTime} min</span>
+                <span className="font-bold text-[#7C3AED]">{speakingTime} min</span>
               </div>
             </div>
 
             {/* Keyword Density */}
             <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 space-y-2">
               <h4 className="text-xs font-extrabold uppercase text-gray-500 flex items-center gap-1">
-                <BarChart3 size={14} className="text-[#2563EB]" /> Keyword Density
+                <BarChart3 size={14} className="text-[#7C3AED]" /> Keyword Density
               </h4>
               {keywordFreq.length === 0 ? (
                 <p className="text-xs text-gray-400">Type words to see frequency analytics...</p>
@@ -142,7 +142,7 @@ export default function WordCounterPage() {
                   {keywordFreq.map(([word, count]) => (
                     <span key={word} className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-xs font-bold text-gray-800 shadow-sm flex items-center gap-1.5">
                       <span>{word}</span>
-                      <span className="px-1.5 py-0.5 rounded-full bg-blue-100 text-[#2563EB] text-[10px] font-black">{count}</span>
+                      <span className="px-1.5 py-0.5 rounded-full bg-purple-100 text-[#7C3AED] text-[10px] font-black">{count}</span>
                     </span>
                   ))}
                 </div>

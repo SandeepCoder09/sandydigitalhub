@@ -7,7 +7,7 @@ export function DownloadInvoiceButton({ order, user }: { order: any; user: any }
   return (
     <button 
       onClick={() => generateInvoice(order, user)}
-      className="text-[#2563EB] hover:underline cursor-pointer"
+      className="text-[#7C3AED] hover:underline cursor-pointer"
     >
       Download Invoice
     </button>

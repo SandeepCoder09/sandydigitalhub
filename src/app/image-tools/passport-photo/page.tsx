@@ -129,7 +129,7 @@ export default function PassportPhotoPage() {
             <select
               value={size}
               onChange={(e) => setSize(e.target.value as keyof typeof SIZES)}
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 text-sm focus:outline-none focus:border-blue-500"
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 text-sm focus:outline-none focus:border-purple-500"
             >
               {Object.keys(SIZES).map((s) => <option key={s} value={s} className="bg-white">{s}</option>)}
             </select>
@@ -142,7 +142,7 @@ export default function PassportPhotoPage() {
             <select
               value={layout}
               onChange={(e) => setLayout(e.target.value as keyof typeof LAYOUTS)}
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 text-sm focus:outline-none focus:border-blue-500"
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 text-sm focus:outline-none focus:border-purple-500"
             >
               {Object.keys(LAYOUTS).map((l) => <option key={l} value={l} className="bg-white">{l}</option>)}
             </select>
@@ -156,7 +156,7 @@ export default function PassportPhotoPage() {
                   onClick={() => setBg(b.value)}
                   title={b.label}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all
-                    ${bg === b.value ? "border-blue-500 text-blue-600" : "border-gray-200 text-gray-400 hover:border-white/30"}`}
+                    ${bg === b.value ? "border-purple-500 text-purple-600" : "border-gray-200 text-gray-400 hover:border-white/30"}`}
                   style={b.value !== "keep" ? { backgroundColor: `${b.value}20` } : {}}
                 >
                   {b.label}
@@ -204,7 +204,7 @@ export default function PassportPhotoPage() {
               <button
                 onClick={generate}
                 disabled={processing}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95"
+                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-purple-500 hover:bg-blue-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95"
               >
                 <Printer className="w-4 h-4" />
                 {processing ? "Generating…" : "Generate Photos"}

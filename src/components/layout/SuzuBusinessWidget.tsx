@@ -325,8 +325,8 @@ export function SuzuBusinessWidget() {
             boxShadow: '0 8px 32px rgba(255,122,0,0.25), 0 0 0 0 rgba(255,122,0,0.4)',
           }}
         >
-          <span className="absolute -inset-1 rounded-full bg-blue-500/20 group-hover:bg-blue-500/30 animate-ping opacity-60"></span>
-          <div className="relative z-10 w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center">
+          <span className="absolute -inset-1 rounded-full bg-purple-500/20 group-hover:bg-purple-500/30 animate-ping opacity-60"></span>
+          <div className="relative z-10 w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
             <Sparkles size={16} className="text-blue-400" />
           </div>
           <div className="relative z-10">

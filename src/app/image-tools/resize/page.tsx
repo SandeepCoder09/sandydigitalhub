@@ -102,7 +102,7 @@ export default function ResizePage() {
             {(["pixels", "percentage"] as const).map((m) => (
               <button key={m} onClick={() => setMode(m)}
                 className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all
-                  ${mode === m ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
+                  ${mode === m ? "bg-purple-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
                 {m.charAt(0).toUpperCase() + m.slice(1)}
               </button>
             ))}
@@ -114,7 +114,7 @@ export default function ResizePage() {
               <div className="flex flex-wrap gap-2 mb-5">
                 {PRESETS.map((p) => (
                   <button key={p.label} onClick={() => applyPreset(p.w, p.h)}
-                    className="px-3 py-1.5 rounded-lg bg-white text-gray-500 text-xs hover:bg-blue-100 hover:text-blue-400 border border-gray-200 hover:border-blue-500/30 transition-all">
+                    className="px-3 py-1.5 rounded-lg bg-white text-gray-500 text-xs hover:bg-purple-100 hover:text-blue-400 border border-gray-200 hover:border-purple-500/30 transition-all">
                     {p.label}
                   </button>
                 ))}
@@ -124,15 +124,15 @@ export default function ResizePage() {
                 <div>
                   <label className="block text-gray-500 text-xs mb-1">Width (px)</label>
                   <input type="number" value={width} onChange={(e) => onWidthChange(Number(e.target.value))}
-                    className="w-32 bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-700 text-sm focus:outline-none focus:border-blue-500" />
+                    className="w-32 bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-700 text-sm focus:outline-none focus:border-purple-500" />
                 </div>
-                <button onClick={() => setLocked(!locked)} className="mt-5 p-2 rounded-lg bg-white hover:bg-blue-100 text-gray-400 hover:text-blue-400 transition-all border border-gray-200">
+                <button onClick={() => setLocked(!locked)} className="mt-5 p-2 rounded-lg bg-white hover:bg-purple-100 text-gray-400 hover:text-blue-400 transition-all border border-gray-200">
                   {locked ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
                 </button>
                 <div>
                   <label className="block text-gray-500 text-xs mb-1">Height (px)</label>
                   <input type="number" value={height} onChange={(e) => onHeightChange(Number(e.target.value))}
-                    className="w-32 bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-700 text-sm focus:outline-none focus:border-blue-500" />
+                    className="w-32 bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-700 text-sm focus:outline-none focus:border-purple-500" />
                 </div>
               </div>
               {origW > 0 && <p className="text-gray-400 text-xs mt-2">Original: {origW}×{origH}px</p>}
@@ -141,7 +141,7 @@ export default function ResizePage() {
             <div>
               <div className="flex justify-between mb-2">
                 <label className="text-gray-600 text-sm">Scale</label>
-                <span className="text-blue-500 font-bold">{percentage}%</span>
+                <span className="text-purple-500 font-bold">{percentage}%</span>
               </div>
               <input type="range" min={5} max={400} step={5} value={percentage}
                 onChange={(e) => setPercentage(Number(e.target.value))}
@@ -167,7 +167,7 @@ export default function ResizePage() {
             </div>
             <div className="flex flex-wrap gap-4">
               <button onClick={resize} disabled={processing}
-                className="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95">
+                className="px-6 py-3 rounded-xl bg-purple-500 hover:bg-blue-400 disabled:opacity-50 text-white font-semibold transition-all active:scale-95">
                 {processing ? "Resizing…" : "Resize Image"}
               </button>
               <DownloadButton dataUrl={resizedSrc} filename={nameRef.current} label="Download" />

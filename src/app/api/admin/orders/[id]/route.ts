@@ -13,13 +13,19 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     }
 
     const { id } = await params;
-    const { paymentStatus, orderStatus } = await req.json();
+    const body = await req.json();
     
     await connectDB();
 
+    const updateData: any = {};
+    if (body.paymentStatus) updateData.paymentStatus = body.paymentStatus;
+    if (body.orderStatus) updateData.orderStatus = body.orderStatus;
+    if (body.documentUrl !== undefined) updateData.documentUrl = body.documentUrl;
+    if (body.documentName !== undefined) updateData.documentName = body.documentName;
+
     const order = await Order.findByIdAndUpdate(
       id, 
-      { paymentStatus, orderStatus }, 
+      updateData, 
       { new: true }
     );
     

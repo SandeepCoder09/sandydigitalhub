@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-require-imports, @next/next/no-img-element, @next/next/no-sync-scripts, react/no-unescaped-entities */
 import { connectDB } from "@/lib/db";
 import { Service } from "@/models/Service";
-import { ServiceCard } from "@/components/services/ServiceCard";
+import { ServicesCatalogClient } from "@/components/services/ServicesCatalogClient";
 import { ensureServicesSeeded } from "@/lib/seedServices";
 import type { Metadata } from "next";
+import { Sparkles, ShieldCheck, Zap } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Service Catalog | Sandy Digital Hub",
-  description: "Browse our complete catalog of digital services.",
+  description: "Browse our complete catalog of digital services, Jan Seva applications, and tax services.",
 };
 
 export const dynamic = "force-dynamic";
@@ -17,43 +17,39 @@ export default async function ServicesPage() {
   await ensureServicesSeeded();
   const services = await Service.find({ status: 'ACTIVE' }).sort({ category: 1, title: 1 }).lean();
 
-  // Group services by category
-  const categories = services.reduce((acc: any, service: any) => {
-    if (!acc[service.category]) {
-      acc[service.category] = [];
-    }
-    acc[service.category].push(service);
-    return acc;
-  }, {});
+  const serializedServices = JSON.parse(JSON.stringify(services));
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4 md:px-8 bg-gray-50">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Service Catalog</h1>
-          <p className="text-xl text-gray-500 max-w-2xl mx-auto">
-            Choose from our wide range of premium digital services. Add to cart and checkout securely.
+    <div className="min-h-screen pt-6 sm:pt-10 pb-20 px-4 sm:px-6 lg:px-8 bg-slate-50/50">
+      <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10">
+        {/* ── Page Hero Header ── */}
+        <div className="text-center space-y-4 max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-100/80 border border-purple-200 text-[#7C3AED] text-xs font-black uppercase tracking-wider shadow-2xs">
+            <Zap size={14} className="fill-[#7C3AED]" /> Official Service Portal
+          </div>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
+            Digital Services <span className="text-[#7C3AED]">Catalog</span>
+          </h1>
+          <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
+            Choose from our complete range of certified online applications, Jan Seva Kendra services, GST/ITR filing, and document processing.
           </p>
+
+          {/* Quick Feature Badges */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-1 text-xs font-bold text-slate-600">
+            <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-slate-200/80 shadow-2xs">
+              ⚡ Fast 24-48h Processing
+            </span>
+            <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-slate-200/80 shadow-2xs">
+              🔒 100% Secure & Verified
+            </span>
+            <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-slate-200/80 shadow-2xs">
+              📍 Doorstep / Shop Delivery
+            </span>
+          </div>
         </div>
 
-        {Object.keys(categories).length === 0 ? (
-          <div className="text-center py-20 text-gray-400">
-            No services currently active.
-          </div>
-        ) : (
-          <div className="space-y-16">
-            {Object.entries(categories).map(([category, items]: [string, any]) => (
-              <div key={category}>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 pb-2 border-b border-gray-200">{category}</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {items.map((service: any) => (
-                    <ServiceCard key={service._id.toString()} service={JSON.parse(JSON.stringify(service))} />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        {/* ── Interactive Catalog Client (Search, Filters, Responsive Grid) ── */}
+        <ServicesCatalogClient initialServices={serializedServices} />
       </div>
     </div>
   );

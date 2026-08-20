@@ -118,7 +118,7 @@ export function AdminServicesManager({ initialServices }: Props) {
                   <div>
                     <h3 className="font-bold text-gray-900 text-base">{service.title}</h3>
                     <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-1">
-                      <Tag size={12} className="text-[#2563EB]" />
+                      <Tag size={12} className="text-[#7C3AED]" />
                       <span>{service.category}</span>
                     </div>
                   </div>
@@ -130,13 +130,13 @@ export function AdminServicesManager({ initialServices }: Props) {
                 </div>
 
                 <div className="flex justify-between items-center pt-2 border-t border-gray-100">
-                  <div className="text-sm font-bold text-[#2563EB]">
+                  <div className="text-sm font-bold text-[#7C3AED]">
                     ₹{service.price}
                   </div>
                   <div className="flex items-center gap-2">
                     <button 
                       onClick={() => handleEdit(service)}
-                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 text-xs font-semibold hover:bg-blue-100 transition-colors"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-purple-50 text-purple-600 border border-purple-200 text-xs font-semibold hover:bg-purple-100 transition-colors"
                     >
                       <Edit size={12} />
                       Edit
@@ -184,7 +184,7 @@ export function AdminServicesManager({ initialServices }: Props) {
                       <td className="p-4 flex gap-3">
                         <button 
                           onClick={() => handleEdit(service)}
-                          className="text-blue-600 hover:underline transition-colors font-semibold"
+                          className="text-purple-600 hover:underline transition-colors font-semibold"
                         >
                           Edit
                         </button>

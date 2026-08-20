@@ -7,6 +7,7 @@ import { connectDB } from "@/lib/db";
 import { Order } from "@/models/Order";
 import { User } from "@/models/User";
 import { Service } from "@/models/Service";
+import { SecurityLog } from "@/models/SecurityLog";
 import { AdminAnalyticsChart } from "@/components/admin/AdminAnalyticsChart";
 import { AdminQuickTrackerBar } from "@/components/admin/AdminQuickTrackerBar";
 import { formatOrderId, formatDateTime } from "@/lib/utils";
@@ -31,7 +32,7 @@ export default async function AdminDashboard() {
   ]);
   const revenue = revenueResult[0]?.totalRevenue || 0;
 
-  // Calculate Today's & Month's Revenue approximation
+  // Calculate Today's Revenue
   const startOfDay = new Date();
   startOfDay.setHours(0, 0, 0, 0);
 
@@ -39,18 +40,42 @@ export default async function AdminDashboard() {
     { $match: { paymentStatus: 'PAID', createdAt: { $gte: startOfDay } } },
     { $group: { _id: null, todayRevenue: { $sum: '$total' } } }
   ]);
-  const todayRevenue = todayRevenueResult[0]?.todayRevenue || 1250;
+  const todayRevenue = todayRevenueResult[0]?.todayRevenue || 0;
 
-  const recentOrders = await Order.find().sort({ createdAt: -1 }).limit(6).populate('userId', 'name email');
+  const recentOrders = await Order.find().sort({ createdAt: -1 }).limit(6).populate('userId', 'name email mobile');
+  const recentUsers = await User.find({ role: 'CUSTOMER' }).sort({ createdAt: -1 }).limit(3).lean();
+  const recentSecurityLogs = await SecurityLog.find().sort({ createdAt: -1 }).limit(3).lean();
 
-  // Real-time Recent Activity Log Feed
-  const activityFeed = [
-    { type: 'ORDER', icon: ShoppingBag, color: 'text-violet-600 bg-violet-50', text: 'New service order placed by Rahul Sharma', time: '10m ago' },
-    { type: 'PAYMENT', icon: CheckCircle2, color: 'text-emerald-600 bg-emerald-50', text: 'UPI Payment ₹450 confirmed for SDH-20260805-8CC8', time: '25m ago' },
-    { type: 'USER', icon: Users, color: 'text-blue-600 bg-blue-50', text: 'New customer account registered (Priya Verma)', time: '1h ago' },
-    { type: 'SERVICE', icon: Wrench, color: 'text-amber-600 bg-amber-50', text: 'Updated service price for UP Income Certificate', time: '2h ago' },
-    { type: 'SECURITY', icon: ShieldCheck, color: 'text-purple-600 bg-purple-50', text: 'Super Admin login session authenticated', time: '3h ago' },
-  ];
+  // Real database activity feed
+  const activityFeed: Array<{ icon: any; color: string; text: string; time: string }> = [];
+
+  recentOrders.slice(0, 3).forEach((o: any) => {
+    const brandedId = formatOrderId(o._id, o.createdAt);
+    activityFeed.push({
+      icon: o.paymentStatus === 'PAID' ? CheckCircle2 : ShoppingBag,
+      color: o.paymentStatus === 'PAID' ? 'text-emerald-600 bg-emerald-50' : 'text-violet-600 bg-violet-50',
+      text: `Order ${brandedId} (${o.services?.[0]?.title || 'Service'}) · ₹${o.total}`,
+      time: formatDateTime(o.createdAt),
+    });
+  });
+
+  recentUsers.forEach((u: any) => {
+    activityFeed.push({
+      icon: Users,
+      color: 'text-purple-600 bg-purple-50',
+      text: `New customer: ${u.name} (${u.email})`,
+      time: formatDateTime(u.createdAt),
+    });
+  });
+
+  recentSecurityLogs.forEach((l: any) => {
+    activityFeed.push({
+      icon: ShieldCheck,
+      color: 'text-amber-600 bg-amber-50',
+      text: `${l.action || l.event || 'Security log'} (${l.ip || 'system'})`,
+      time: formatDateTime(l.createdAt || l.timestamp),
+    });
+  });
 
   return (
     <div className="space-y-8">
@@ -108,7 +133,7 @@ export default async function AdminDashboard() {
         <div className="bg-white p-5 rounded-3xl border border-gray-200 shadow-2xs space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Orders</span>
-            <div className="w-9 h-9 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+            <div className="w-9 h-9 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
               <ShoppingBag size={18} />
             </div>
           </div>
@@ -175,20 +200,26 @@ export default async function AdminDashboard() {
           </div>
 
           <div className="space-y-3 flex-1 overflow-y-auto">
-            {activityFeed.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <div key={idx} className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-gray-50 transition-colors">
-                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>
-                    <Icon size={16} />
+            {activityFeed.length === 0 ? (
+              <div className="py-8 text-center text-xs font-semibold text-gray-400">
+                No recent activity recorded in database yet.
+              </div>
+            ) : (
+              activityFeed.map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <div key={idx} className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-gray-50 transition-colors">
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>
+                      <Icon size={16} />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-gray-900 leading-snug">{item.text}</p>
+                      <span className="text-[10px] font-semibold text-gray-400">{item.time}</span>
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-xs font-bold text-gray-900 leading-snug">{item.text}</p>
-                    <span className="text-[10px] font-semibold text-gray-400">{item.time}</span>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
 
           <Link

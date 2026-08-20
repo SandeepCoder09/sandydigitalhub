@@ -51,7 +51,7 @@ function MoreDropdown() {
     <div ref={ref} className="relative shrink-0">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 whitespace-nowrap text-slate-700 hover:text-[#2563EB] transition-colors font-semibold cursor-pointer px-2 py-1 rounded-lg hover:bg-slate-100"
+        className="flex items-center gap-1 whitespace-nowrap text-slate-700 hover:text-[#7C3AED] transition-colors font-semibold cursor-pointer px-2 py-1 rounded-lg hover:bg-slate-100"
       >
         <span>{t('More', 'More')}</span>
         <ChevronDown size={13} className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
@@ -66,9 +66,9 @@ function MoreDropdown() {
                 key={route.path}
                 href={route.path}
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:text-[#2563EB] hover:bg-blue-50 transition-colors font-semibold"
+                className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50 transition-colors font-semibold"
               >
-                <RouteIcon size={15} className="text-[#2563EB] shrink-0" />
+                <RouteIcon size={15} className="text-[#7C3AED] shrink-0" />
                 {t(route.key)}
               </Link>
             );
@@ -89,15 +89,15 @@ export function TranslatedNav({ mode }: { mode: 'desktop' | 'mobile' }) {
         {primaryRoutes.map((route) => {
           const RouteIcon = route.icon;
 
-          // ⚡ Highlighted: Services (Blue Pill)
+          // ⚡ Highlighted: Services (Purple Pill)
           if (route.highlight === 'blue') {
             return (
               <Link
                 key={route.path}
                 href={route.path}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#2563EB] border border-blue-200/80 hover:bg-blue-100 hover:border-[#2563EB] font-bold transition-all hover:scale-105 shadow-2xs shrink-0"
+                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-[#7C3AED] border border-purple-200/80 hover:bg-purple-100 hover:border-[#7C3AED] font-bold transition-all hover:scale-105 shadow-2xs shrink-0"
               >
-                <Zap size={14} className="text-[#2563EB] fill-[#2563EB]/20 shrink-0 animate-pulse" />
+                <Zap size={14} className="text-[#7C3AED] fill-[#7C3AED]/20 shrink-0 animate-pulse" />
                 <span>{t(route.key)}</span>
               </Link>
             );
@@ -109,11 +109,11 @@ export function TranslatedNav({ mode }: { mode: 'desktop' | 'mobile' }) {
               <Link
                 key={route.path}
                 href={route.path}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200/80 hover:bg-indigo-100 hover:border-indigo-300 font-bold transition-all hover:scale-105 shadow-2xs shrink-0"
+                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-[#7C3AED] border border-purple-200/80 hover:bg-purple-100 hover:border-purple-300 font-bold transition-all hover:scale-105 shadow-2xs shrink-0"
               >
-                <Sparkles size={14} className="text-indigo-600 shrink-0" />
+                <Sparkles size={14} className="text-[#7C3AED] shrink-0" />
                 <span>{t(route.key)}</span>
-                <span className="text-[9px] font-black uppercase px-1.5 py-0.2 bg-indigo-600 text-white rounded-md tracking-wider">
+                <span className="text-[9px] font-black uppercase px-1.5 py-0.2 bg-[#7C3AED] text-white rounded-md tracking-wider">
                   Free
                 </span>
               </Link>
@@ -143,9 +143,9 @@ export function TranslatedNav({ mode }: { mode: 'desktop' | 'mobile' }) {
             <Link
               key={route.path}
               href={route.path}
-              className="flex items-center gap-1 whitespace-nowrap transition-colors hover:text-[#2563EB] shrink-0 font-semibold text-slate-700"
+              className="flex items-center gap-1 whitespace-nowrap transition-colors hover:text-[#7C3AED] shrink-0 font-semibold text-slate-700"
             >
-              <RouteIcon size={13} className="text-[#2563EB] shrink-0" />
+              <RouteIcon size={13} className="text-[#7C3AED] shrink-0" />
               <span>{t(route.key)}</span>
             </Link>
           );
@@ -161,13 +161,13 @@ export function TranslatedNav({ mode }: { mode: 'desktop' | 'mobile' }) {
       {allRoutes.map((route) => {
         const RouteIcon = route.icon;
 
-        let badgeStyle = "text-slate-800 bg-slate-50 hover:bg-blue-50 border-slate-100";
+        let badgeStyle = "text-slate-800 bg-slate-50 hover:bg-purple-50 border-slate-100";
         if (route.highlight === 'blue') {
-          badgeStyle = "text-[#2563EB] bg-blue-50/80 border-blue-200 font-extrabold";
+          badgeStyle = "text-[#7C3AED] bg-purple-50/80 border-purple-200 font-extrabold";
         } else if (route.highlight === 'green') {
           badgeStyle = "text-emerald-700 bg-emerald-50/80 border-emerald-200 font-extrabold";
         } else if (route.highlight === 'indigo') {
-          badgeStyle = "text-indigo-700 bg-indigo-50/80 border-indigo-200 font-extrabold";
+          badgeStyle = "text-[#7C3AED] bg-purple-50/80 border-purple-200 font-extrabold";
         }
 
         return (
@@ -182,11 +182,11 @@ export function TranslatedNav({ mode }: { mode: 'desktop' | 'mobile' }) {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
             ) : (
-              <RouteIcon size={16} className={route.highlight === 'indigo' ? "text-indigo-600" : route.highlight === 'blue' ? "text-[#2563EB]" : "text-[#2563EB]"} />
+              <RouteIcon size={16} className={route.highlight === 'indigo' ? "text-[#7C3AED]" : route.highlight === 'blue' ? "text-[#7C3AED]" : "text-[#7C3AED]"} />
             )}
             <span>{t(route.key)}</span>
             {route.highlight === 'indigo' && (
-              <span className="ml-auto text-[9px] font-black uppercase px-1.5 py-0.5 bg-indigo-600 text-white rounded-md">
+              <span className="ml-auto text-[9px] font-black uppercase px-1.5 py-0.5 bg-[#7C3AED] text-white rounded-md">
                 Free
               </span>
             )}

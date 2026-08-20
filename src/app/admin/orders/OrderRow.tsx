@@ -130,7 +130,7 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
     if (status === 'COMPLETED') return <CheckCircle2 size={13} className="text-emerald-600 shrink-0" />;
     if (status === 'PROCESSING') return <RefreshCw size={13} className="text-violet-600 shrink-0 animate-spin-slow" />;
     if (status === 'CANCELLED') return <XCircle size={13} className="text-red-600 shrink-0" />;
-    if (status === 'AWAITING_CUSTOMER_VISIT') return <Store size={13} className="text-blue-600 shrink-0" />;
+    if (status === 'AWAITING_CUSTOMER_VISIT') return <Store size={13} className="text-purple-600 shrink-0" />;
     return <Clock size={13} className="text-amber-600 shrink-0" />;
   };
 

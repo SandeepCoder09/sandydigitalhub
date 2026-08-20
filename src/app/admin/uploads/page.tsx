@@ -35,11 +35,11 @@ export default function AdminUploadsPage() {
   }, []);
 
   const filteredUploads = uploads.filter((item) => {
-    const userName = item.user?.name || 'Rahul Sharma';
-    const userEmail = item.user?.email || 'rahulsharma@example.com';
+    const userName = item.user?.name || 'Customer';
+    const userEmail = item.user?.email || '';
     const fileName = item.documentName || '';
     const orderId = formatOrderId(item._id, item.createdAt);
-    const serviceTitles = item.items?.map((i: any) => i.title).join(' ') || '';
+    const serviceTitles = item.serviceName || '';
 
     const query = searchQuery.toLowerCase();
     return (
@@ -76,14 +76,23 @@ export default function AdminUploadsPage() {
       {/* Search & Filter Toolbar */}
       <div className="bg-white p-4 rounded-3xl border border-gray-200 shadow-2xs">
         <div className="relative max-w-md">
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-violet-600" />
+          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-violet-600 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by Order ID, Customer name, Email, or File name..."
-            className="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-2 text-xs font-semibold text-gray-900 placeholder:text-gray-400 focus:border-violet-600 focus:ring-2 focus:ring-violet-600/10 outline-none transition-colors"
+            className="w-full bg-white border-2 border-slate-200 hover:border-violet-200 focus:border-violet-600 rounded-xl pl-10 pr-9 py-2 text-xs font-semibold text-gray-900 placeholder:text-gray-400 focus:ring-4 focus:ring-violet-600/10 outline-none transition-all shadow-2xs"
           />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400 hover:text-white bg-slate-200 hover:bg-violet-600 rounded-full w-4.5 h-4.5 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+              aria-label="Clear search"
+            >
+              ✕
+            </button>
+          )}
         </div>
       </div>
 

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 160" width="620" height="160">
+  <defs>
+    <linearGradient id="iconGradLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="50%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#4C1D95"/>
+    </linearGradient>
+    <linearGradient id="purpleTextGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <linearGradient id="sparkGradLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#EDE9FE"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left Icon Emblem -->
+  <g transform="translate(15, 15)">
+    <rect x="0" y="0" width="130" height="130" rx="36" fill="url(#iconGradLight)"/>
+    <rect x="0" y="0" width="130" height="130" rx="36" fill="none" stroke="#C4B5FD" stroke-width="4" stroke-opacity="0.7"/>
+    
+    <!-- Stylized "S" Monogram inside icon -->
+    <path d="M90 42 C90 35 82 30 70 30 L55 30 C42 30 34 37 34 47 C34 57 44 63 58 65 L72 68 C86 71 95 76 95 87 C95 99 84 105 70 105 L52 105 C38 105 30 98 30 89" 
+          fill="none" stroke="url(#sparkGradLight)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Digital Connectivity Dots -->
+    <circle cx="102" cy="42" r="4.8" fill="#F59E0B"/>
+    <circle cx="113" cy="53" r="3.6" fill="#F59E0B" opacity="0.9"/>
+    <circle cx="105" cy="63" r="2.8" fill="#F59E0B" opacity="0.75"/>
+
+    <circle cx="21" cy="89" r="4.2" fill="#38BDF8"/>
+    <circle cx="16" cy="78" r="3.2" fill="#38BDF8" opacity="0.85"/>
+    
+    <!-- Sparkle -->
+    <path d="M106 24 L108 30 L114 32 L108 34 L106 40 L104 34 L98 32 L104 30 Z" fill="#F59E0B"/>
+  </g>
+
+  <!-- Typography -->
+  <g transform="translate(165, 0)">
+    <!-- Primary Brand Word "SANDY" -->
+    <text x="0" y="82" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="62" font-weight="900" fill="#0F172A" letter-spacing="-1.5">SANDY</text>
+    
+    <!-- Secondary Brand Text "DIGITAL HUB" -->
+    <text x="2" y="124" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="800" fill="url(#purpleTextGrad)" letter-spacing="4.5">DIGITAL HUB</text>
+    
+    <!-- Tech Accent Dots -->
+    <circle cx="365" cy="116" r="3.5" fill="#7C3AED"/>
+    <circle cx="378" cy="116" r="3.5" fill="#F59E0B"/>
+  </g>
+</svg>

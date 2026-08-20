@@ -80,15 +80,19 @@ export default function PortfolioPage() {
   return (
     <div className="min-h-screen bg-gray-50/60 pb-16">
       {/* Header Banner */}
-      <section className="bg-gradient-to-br from-gray-900 via-black to-slate-900 text-white py-14 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
-        <div className="max-w-5xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
+      <section className="bg-white border-b border-slate-200/80 pt-10 sm:pt-14 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden shadow-xs">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[320px] bg-purple-50 rounded-full blur-3xl opacity-80" />
+        </div>
+
+        <div className="max-w-5xl mx-auto text-center space-y-4 relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-xs font-bold uppercase tracking-wider shadow-2xs">
             <Briefcase size={14} /> Our Client Work & Case Studies
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-            Client <span className="text-[#2563EB]">Portfolio & Projects</span>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900">
+            Client <span className="text-[#7C3AED]">Portfolio & Projects</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-gray-300 font-medium">
+          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
             Explore web applications, e-commerce stores, and digital solutions engineered by Sandy Digital Hub.
           </p>
 
@@ -100,8 +104,8 @@ export default function PortfolioPage() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   selectedCategory === cat
-                    ? 'bg-[#2563EB] text-white shadow-md'
-                    : 'bg-gray-800/80 border border-gray-700 text-gray-300 hover:text-white'
+                    ? 'bg-[#7C3AED] text-white shadow-md'
+                    : 'bg-slate-100/90 border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-200/80'
                 }`}
               >
                 {cat}
@@ -130,7 +134,7 @@ export default function PortfolioPage() {
               <div className="p-6 space-y-4">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="text-lg font-extrabold text-gray-900 group-hover:text-[#2563EB] transition-colors">
+                    <h3 className="text-lg font-extrabold text-gray-900 group-hover:text-[#7C3AED] transition-colors">
                       {project.title}
                     </h3>
                     <div className="flex items-center gap-1.5 text-xs text-amber-500 font-bold mt-0.5">

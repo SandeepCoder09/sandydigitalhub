@@ -11,9 +11,9 @@ export function HeroSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/40 via-white to-white pt-16 pb-24 lg:pt-28 lg:pb-36">
+    <section className="relative overflow-hidden bg-gradient-to-b from-purple-50/40 via-white to-white pt-8 pb-16 lg:pt-14 lg:pb-24">
       {/* Ambient Glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[#2563EB]/12 to-[#06B6D4]/8 blur-[130px] rounded-full pointer-events-none -z-0" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[#7C3AED]/15 to-[#A855F7]/10 blur-[130px] rounded-full pointer-events-none -z-0" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-12 items-center">
@@ -24,14 +24,14 @@ export function HeroSection() {
             className="text-center lg:text-left"
           >
             {/* Trust Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-blue-200 shadow-md shadow-blue-500/5 text-[#2563EB] text-xs font-extrabold uppercase tracking-wider mb-6 hover:scale-105 transition-transform cursor-pointer">
-              <Sparkles size={14} className="animate-spin text-[#2563EB]" />
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-purple-200 shadow-md shadow-purple-500/5 text-[#7C3AED] text-xs font-extrabold uppercase tracking-wider mb-6 hover:scale-105 transition-transform cursor-pointer">
+              <Sparkles size={14} className="text-[#7C3AED]" />
               <span>{t('hero.badge')}</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 leading-[1.15] mb-6">
               {t('hero.heading1')} <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-[#2563EB] via-[#1D4ED8] to-[#06B6D4] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#7C3AED] via-[#6D28D9] to-[#A855F7] bg-clip-text text-transparent">
                 {t('hero.brand')}
               </span>
             </h1>
@@ -43,15 +43,15 @@ export function HeroSection() {
             {/* Action CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
               <Link href="/services">
-                <Button size="lg" className="w-full sm:w-auto text-base font-extrabold h-14 px-8 bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-2xl shadow-xl shadow-blue-500/20 hover:shadow-blue-500/35 transition-all hover:scale-105 group">
+                <Button size="lg" className="w-full sm:w-auto text-base font-extrabold h-14 px-8 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-2xl shadow-xl shadow-purple-500/20 hover:shadow-purple-500/35 transition-all hover:scale-105 group">
                   <Zap className="mr-2 h-5 w-5 fill-white" /> {t('hero.cta.primary')}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
 
               <Link href="/image-tools">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto text-base font-bold h-14 px-7 border-2 border-blue-200 text-gray-800 hover:text-[#2563EB] hover:border-[#2563EB] hover:bg-blue-50 rounded-2xl transition-all hover:scale-105">
-                  <ImageIcon className="mr-2 h-5 w-5 text-[#2563EB]" /> {t('hero.cta.secondary')}
+                <Button variant="outline" size="lg" className="w-full sm:w-auto text-base font-bold h-14 px-7 border-2 border-purple-200 text-gray-800 hover:text-[#7C3AED] hover:border-[#7C3AED] hover:bg-purple-50 rounded-2xl transition-all hover:scale-105">
+                  <ImageIcon className="mr-2 h-5 w-5 text-[#7C3AED]" /> {t('hero.cta.secondary')}
                 </Button>
               </Link>
             </div>
@@ -84,9 +84,9 @@ export function HeroSection() {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute -top-6 -left-6 z-20 bg-white p-4 rounded-2xl border border-blue-100 shadow-2xl flex items-center gap-3"
+              className="absolute -top-6 -left-6 z-20 bg-white p-4 rounded-2xl border border-purple-100 shadow-2xl flex items-center gap-3"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#2563EB] text-white flex items-center justify-center font-bold shadow-md shadow-blue-300">
+              <div className="w-10 h-10 rounded-xl bg-[#7C3AED] text-white flex items-center justify-center font-bold shadow-md shadow-purple-300">
                 <Zap size={20} className="fill-white" />
               </div>
               <div>
@@ -111,8 +111,8 @@ export function HeroSection() {
             </motion.div>
 
             {/* Main Showcase Image */}
-            <div className="relative rounded-3xl bg-white p-3 ring-1 ring-blue-100/80 shadow-2xl shadow-blue-500/8 overflow-hidden transform hover:scale-[1.02] transition-transform duration-500">
-              <div className="rounded-2xl overflow-hidden aspect-[4/3] relative flex items-center justify-center border border-blue-50 bg-gradient-to-br from-blue-50 to-cyan-50">
+            <div className="relative rounded-3xl bg-white p-3 ring-1 ring-purple-100/80 shadow-2xl shadow-purple-500/8 overflow-hidden transform hover:scale-[1.02] transition-transform duration-500">
+              <div className="rounded-2xl overflow-hidden aspect-[4/3] relative flex items-center justify-center border border-purple-50 bg-gradient-to-br from-purple-50 to-indigo-50">
                 <Image
                   src="/hero-dashboard.png"
                   alt="Sandy Digital Hub Services Showcase"

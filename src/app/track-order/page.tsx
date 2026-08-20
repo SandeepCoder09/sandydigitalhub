@@ -214,12 +214,12 @@ export default function TrackOrderPage() {
         <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-gray-100">
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-xs font-black text-[#2563EB] bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-100 tracking-wider">
+              <span className="font-mono text-xs font-black text-[#7C3AED] bg-purple-50 px-2.5 py-1 rounded-lg border border-purple-100 tracking-wider">
                 {brandedId}
               </span>
               <button
                 onClick={() => copyToClipboard(brandedId)}
-                className="text-gray-400 hover:text-[#2563EB] transition-colors p-1.5 rounded-md hover:bg-slate-100 cursor-pointer flex items-center gap-1 text-[11px] font-bold"
+                className="text-gray-400 hover:text-[#7C3AED] transition-colors p-1.5 rounded-md hover:bg-slate-100 cursor-pointer flex items-center gap-1 text-[11px] font-bold"
                 title="Copy Branded Order ID"
               >
                 {copiedId === brandedId ? (
@@ -243,7 +243,7 @@ export default function TrackOrderPage() {
               className={`px-3 py-1 rounded-full text-xs font-black uppercase ${
                 order.orderStatus === 'COMPLETED'
                   ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
-                  : 'bg-blue-100 text-[#2563EB] border border-blue-200'
+                  : 'bg-purple-100 text-[#7C3AED] border border-purple-200'
               }`}
             >
               {order.orderStatus.replace(/_/g, ' ')}
@@ -256,7 +256,7 @@ export default function TrackOrderPage() {
         <div className="py-2">
           <div className="text-xs font-bold text-gray-700 mb-5 flex items-center gap-2">
             <span>Application Progress Status:</span>
-            <span className="text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">
+            <span className="text-[11px] font-semibold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md">
               Step {currentStepIdx + 1} of 4
             </span>
           </div>
@@ -270,7 +270,7 @@ export default function TrackOrderPage() {
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs transition-all ${
                       isCurrent
-                        ? 'bg-[#2563EB] text-white ring-4 ring-blue-100 shadow-md scale-110'
+                        ? 'bg-[#7C3AED] text-white ring-4 ring-purple-100 shadow-md scale-110'
                         : isDone
                         ? 'bg-emerald-500 text-white'
                         : 'bg-gray-100 text-gray-400 border border-gray-200'
@@ -316,35 +316,49 @@ export default function TrackOrderPage() {
   return (
     <div className="min-h-screen bg-gray-50/60 pb-20">
       {/* Header Banner */}
-      <section className="bg-gradient-to-br from-gray-900 via-black to-slate-900 text-white py-14 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
-        <div className="max-w-4xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
+      <section className="bg-white border-b border-slate-200/80 pt-10 sm:pt-14 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden shadow-xs">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[320px] bg-purple-50 rounded-full blur-3xl opacity-80" />
+        </div>
+
+        <div className="max-w-4xl mx-auto text-center space-y-4 relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-xs font-bold uppercase tracking-wider shadow-2xs">
             <PackageCheck size={14} /> Live Application & Service Tracker
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-            Track Your <span className="text-[#2563EB]">Order Status</span>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900">
+            Track Your <span className="text-[#7C3AED]">Order Status</span>
           </h1>
-          <p className="max-w-xl mx-auto text-sm sm:text-base text-gray-300 font-medium">
+          <p className="max-w-xl mx-auto text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
             Enter your Branded Order ID (SDH-...), Payment ID, or registered Phone Number to check real-time processing updates.
           </p>
 
           {/* Search Bar Form */}
           <form onSubmit={(e) => handleTrack(e)} className="max-w-2xl mx-auto mt-6 flex flex-col sm:flex-row gap-3 items-stretch">
             <div className="relative flex-1">
-              <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#7C3AED] pointer-events-none" />
               <input
                 ref={inputRef}
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Enter Order ID or Phone Number (e.g. SDH-2026... or 9876543210)"
-                className="w-full h-14 pl-12 pr-4 rounded-2xl bg-white text-gray-900 placeholder-gray-400 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#2563EB] shadow-lg border border-gray-200"
+                className="w-full h-14 pl-12 pr-11 rounded-2xl bg-white text-slate-900 placeholder:text-slate-400 text-sm sm:text-base font-semibold focus:outline-none border-2 border-slate-200 hover:border-purple-200 focus:border-[#7C3AED] focus:ring-4 focus:ring-purple-500/15 shadow-lg shadow-purple-900/5 transition-all"
               />
+              {searchInput && (
+                <button
+                  type="button"
+                  onClick={() => setSearchInput('')}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-slate-400 hover:text-white bg-slate-200 hover:bg-[#7C3AED] rounded-full w-5 h-5 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
+              )}
             </div>
             <Button
               type="submit"
               disabled={loading}
-              className="h-14 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-extrabold text-sm sm:text-base rounded-2xl px-8 shadow-xl shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer"
+              className="h-14 bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-extrabold text-sm sm:text-base rounded-2xl px-8 shadow-xl shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer"
             >
               {loading ? (
                 <Loader2 size={18} className="animate-spin" />
@@ -360,12 +374,12 @@ export default function TrackOrderPage() {
           {/* Quick-select Order ID Chips for Logged-In User */}
           {recentOrderChips.length > 0 && (
             <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs">
-              <span className="text-gray-400 font-medium">Your Recent Orders:</span>
+              <span className="text-slate-600 font-bold">Your Recent Orders:</span>
               {recentOrderChips.map((chip) => (
                 <button
                   key={chip.id}
                   onClick={() => handleChipClick(chip.brandedId)}
-                  className="font-mono bg-white/10 hover:bg-[#2563EB] text-white border border-white/20 px-2.5 py-1 rounded-lg transition-all cursor-pointer text-[11px] font-bold"
+                  className="font-mono bg-purple-50 hover:bg-[#7C3AED] text-[#7C3AED] hover:text-white border border-purple-200 hover:border-[#7C3AED] px-3 py-1 rounded-xl transition-all cursor-pointer text-[11px] font-extrabold shadow-2xs hover:shadow-sm active:scale-95"
                 >
                   {chip.brandedId}
                 </button>
@@ -383,7 +397,7 @@ export default function TrackOrderPage() {
               <AlertCircle size={18} className="shrink-0 text-red-500" />
               <span>{errorMsg}</span>
             </div>
-            <a href="tel:+918756454282" className="text-[#2563EB] underline font-extrabold shrink-0">
+            <a href="tel:+918756454282" className="text-[#7C3AED] underline font-extrabold shrink-0">
               Call Support
             </a>
           </div>
@@ -394,12 +408,12 @@ export default function TrackOrderPage() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-bold uppercase tracking-wider text-gray-700 flex items-center gap-2">
-                <PackageCheck size={16} className="text-[#2563EB]" />
+                <PackageCheck size={16} className="text-[#7C3AED]" />
                 Track Result for: <span className="font-mono font-extrabold text-gray-900">{activeQuery}</span> ({orders.length})
               </h2>
               <button
                 onClick={clearSearch}
-                className="text-xs font-bold text-gray-500 hover:text-[#2563EB] flex items-center gap-1 cursor-pointer"
+                className="text-xs font-bold text-gray-500 hover:text-[#7C3AED] flex items-center gap-1 cursor-pointer"
               >
                 <RefreshCw size={12} /> Clear & Track Another
               </button>
@@ -415,14 +429,14 @@ export default function TrackOrderPage() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-base font-extrabold text-gray-900 flex items-center gap-2">
-                <Sparkles size={18} className="text-[#2563EB]" />
+                <Sparkles size={18} className="text-[#7C3AED]" />
                 Common Requested Services & Tracking Options
               </h3>
               <p className="text-xs text-gray-500 font-medium">
                 Click "Track Status" on any service below to view its live processing status
               </p>
             </div>
-            <Link href="/services" className="text-xs font-extrabold text-[#2563EB] hover:underline flex items-center gap-1">
+            <Link href="/services" className="text-xs font-extrabold text-[#7C3AED] hover:underline flex items-center gap-1">
               View All Services <ArrowRight size={13} />
             </Link>
           </div>
@@ -435,11 +449,11 @@ export default function TrackOrderPage() {
                   key={srv.title}
                   className="bg-white rounded-2xl p-5 border border-gray-200 shadow-2xs hover:shadow-md transition-all flex items-start gap-4 group"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#2563EB] flex items-center justify-center shrink-0 group-hover:bg-[#2563EB] group-hover:text-white transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-purple-50 text-[#7C3AED] flex items-center justify-center shrink-0 group-hover:bg-[#7C3AED] group-hover:text-white transition-colors">
                     <ServiceIcon size={20} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 inline-block px-2 py-0.5 rounded-md mb-1">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-purple-600 bg-purple-50 inline-block px-2 py-0.5 rounded-md mb-1">
                       {srv.category}
                     </div>
                     <h4 className="text-sm font-bold text-gray-900 truncate">{srv.title}</h4>
@@ -449,7 +463,7 @@ export default function TrackOrderPage() {
                     <div className="mt-3 flex items-center gap-2">
                       <button
                         onClick={() => handleCardTrackClick(srv)}
-                        className="text-xs font-extrabold text-[#2563EB] hover:text-[#1D4ED8] flex items-center gap-1 cursor-pointer"
+                        className="text-xs font-extrabold text-[#7C3AED] hover:text-[#6D28D9] flex items-center gap-1 cursor-pointer"
                       >
                         Track Status <ArrowRight size={12} />
                       </button>
@@ -468,7 +482,7 @@ export default function TrackOrderPage() {
         {/* Initial Empty State when no search executed */}
         {!orders && (
           <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm text-center space-y-3">
-            <div className="w-14 h-14 rounded-full bg-blue-50 text-[#2563EB] flex items-center justify-center mx-auto">
+            <div className="w-14 h-14 rounded-full bg-purple-50 text-[#7C3AED] flex items-center justify-center mx-auto">
               <PackageCheck size={26} />
             </div>
             <div className="max-w-sm mx-auto space-y-1">

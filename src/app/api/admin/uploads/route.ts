@@ -26,7 +26,7 @@ export async function GET() {
     const formattedOrderUploads = ordersWithFiles.map((order: any) => ({
       _id: order._id,
       source: 'Checkout Order',
-      user: order.userId || { name: 'Rahul Sharma', email: 'rahulsharma@example.com' },
+      user: order.userId || { name: 'Guest User', email: 'guest@sandydigitalhub.com' },
       documentUrl: order.documentUrl,
       documentName: order.documentName || 'checkout_attached_document',
       serviceName: order.services?.[0]?.title || 'Order Attached File',
@@ -48,7 +48,7 @@ export async function GET() {
     const formattedChatUploads = chatMediaMessages.map((msg: any) => ({
       _id: msg._id,
       source: 'Support Chat',
-      user: msg.userId || { name: msg.senderName || 'Rahul Sharma', email: 'rahulsharma@example.com' },
+      user: msg.userId || { name: msg.senderName || 'Chat Visitor', email: 'visitor@sandydigitalhub.com' },
       documentUrl: msg.message,
       documentName: 'chat_uploaded_image',
       serviceName: 'Live Support Chat Attachment',

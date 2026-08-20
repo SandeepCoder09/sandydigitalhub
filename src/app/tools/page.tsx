@@ -16,7 +16,7 @@ const allTools = [
     description: "Resize photos & signatures for UPSC, SSC, IBPS, State Govt & Board exams to exact KB & pixel specs.", 
     badge: "Official Govt", 
     category: "image",
-    color: "from-blue-600 to-indigo-600" 
+    color: "from-purple-600 to-indigo-600" 
   },
   { 
     href: "/image-tools/compress", 
@@ -25,7 +25,7 @@ const allTools = [
     description: "Reduce image file size from MB to KB without quality loss. Instant client-side compression.", 
     badge: "Most Popular", 
     category: "image",
-    color: "from-blue-500 to-blue-600" 
+    color: "from-purple-500 to-indigo-600" 
   },
   { 
     href: "/image-tools/passport-photo", 
@@ -34,7 +34,7 @@ const allTools = [
     description: "Generate standard passport-size photos (35×45mm). Get a printable sheet of 8 photos instantly.", 
     badge: "Print Ready", 
     category: "image",
-    color: "from-blue-500 to-blue-600" 
+    color: "from-purple-600 to-purple-800" 
   },
   { 
     href: "/image-tools/background-remove", 
@@ -140,18 +140,18 @@ export default function ToolsHubPage() {
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
       {/* Hero Header */}
-      <div className="bg-white border-b border-gray-200 pt-28 pb-16 relative overflow-hidden">
+      <div className="bg-white border-b border-gray-200 pt-10 sm:pt-14 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[650px] h-[300px] bg-blue-50 rounded-full blur-3xl opacity-70" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[650px] h-[300px] bg-purple-50 rounded-full blur-3xl opacity-70" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#2563EB] text-xs font-bold uppercase tracking-wider shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-xs font-bold uppercase tracking-wider shadow-sm">
             <Sparkles size={14} /> 100% Free · No Sign-Up · 100% Browser Private
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight">
-            Free Online <span className="text-[#2563EB]">Digital Tools</span> Hub
+            Free Online <span className="text-[#7C3AED]">Digital Tools</span> Hub
           </h1>
 
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
@@ -159,15 +159,28 @@ export default function ToolsHubPage() {
           </p>
 
           {/* Search Bar */}
-          <div className="max-w-md mx-auto pt-4 relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search tools (e.g. compress, passport, password, qr)..."
-              className="w-full bg-white border border-gray-300 rounded-2xl pl-11 pr-4 py-3.5 text-sm text-gray-900 shadow-lg focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 outline-none transition-all"
-            />
+          <div className="max-w-xl sm:max-w-2xl mx-auto pt-4">
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
+                <Search className="text-[#7C3AED]" size={20} />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search free tools (e.g. photo resizer, passport, compress, qr, password)..."
+                className="w-full bg-white border-2 border-slate-200 hover:border-purple-200 focus:border-[#7C3AED] rounded-2xl pl-12 pr-12 py-3.5 sm:py-4 text-sm sm:text-base font-semibold text-slate-900 placeholder:text-slate-400 shadow-lg shadow-purple-900/5 focus:ring-4 focus:ring-purple-500/15 outline-none transition-all"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-slate-400 hover:text-white bg-slate-200 hover:bg-[#7C3AED] rounded-full w-6 h-6 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -184,11 +197,11 @@ export default function ToolsHubPage() {
                 onClick={() => setActiveCategory(cat.id)}
                 className={`px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer ${
                   activeCategory === cat.id
-                    ? "bg-[#2563EB] text-white shadow-lg shadow-blue-500/20 scale-105"
+                    ? "bg-[#7C3AED] text-white shadow-lg shadow-purple-500/20 scale-105"
                     : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 shadow-sm"
                 }`}
               >
-                <CatIcon size={16} className={activeCategory === cat.id ? "text-white" : "text-[#2563EB]"} />
+                <CatIcon size={16} className={activeCategory === cat.id ? "text-white" : "text-[#7C3AED]"} />
                 <span>{cat.label}</span>
               </button>
             );

@@ -59,11 +59,11 @@ export default function PricingPage() {
     <div className="py-16 md:py-24 bg-white min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#2563EB] text-xs font-bold uppercase tracking-wider shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-xs font-bold uppercase tracking-wider shadow-sm">
             <Sparkles size={14} /> Affordable Rates
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl text-gray-900">
-            Simple, Transparent <span className="text-[#2563EB]">Pricing</span>
+            Simple, Transparent <span className="text-[#7C3AED]">Pricing</span>
           </h1>
           <p className="text-xl text-gray-600">
             No hidden fees. Choose the best plan that fits your business requirements.
@@ -76,13 +76,13 @@ export default function PricingPage() {
               key={plan.name} 
               className={`flex flex-col relative bg-white transition-all rounded-3xl overflow-visible ${
                 plan.popular 
-                  ? 'border-2 border-[#2563EB] shadow-2xl shadow-blue-500/10 md:-translate-y-2 z-10' 
+                  ? 'border-2 border-[#7C3AED] shadow-2xl shadow-purple-500/10 md:-translate-y-2 z-10' 
                   : 'border border-gray-200 shadow-md hover:border-gray-300'
               }`}
             >
               {plan.popular && (
                 <div className="absolute -top-3.5 left-1/2 transform -translate-x-1/2 z-30">
-                  <span className="bg-[#2563EB] text-white text-xs font-extrabold uppercase tracking-wider py-1.5 px-4 rounded-full shadow-lg shadow-blue-500/30 whitespace-nowrap">
+                  <span className="bg-[#7C3AED] text-white text-xs font-extrabold uppercase tracking-wider py-1.5 px-4 rounded-full shadow-lg shadow-purple-500/30 whitespace-nowrap">
                     🔥 Most Popular
                   </span>
                 </div>
@@ -100,7 +100,7 @@ export default function PricingPage() {
                   {plan.features.map((feature) => (
                     <li key={feature.name} className="flex items-center gap-3 text-sm">
                       {feature.included ? (
-                        <Check className="h-5 w-5 text-[#2563EB] shrink-0" />
+                        <Check className="h-5 w-5 text-[#7C3AED] shrink-0" />
                       ) : (
                         <X className="h-5 w-5 text-gray-300 shrink-0" />
                       )}
@@ -116,7 +116,7 @@ export default function PricingPage() {
                   <Button 
                     className={`w-full h-12 font-bold rounded-2xl text-base transition-all ${
                       plan.popular 
-                        ? 'bg-[#2563EB] hover:bg-[#2563EB]/90 text-white shadow-lg shadow-blue-500/20' 
+                        ? 'bg-[#7C3AED] hover:bg-[#7C3AED]/90 text-white shadow-lg shadow-purple-500/20' 
                         : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
                     }`}
                   >
@@ -134,7 +134,7 @@ export default function PricingPage() {
             We also provide enterprise-grade Mobile App Development (Android/iOS) and custom software solutions. Get in touch with us for a custom quote tailored to your exact requirements.
           </p>
           <Link href="/contact">
-            <Button size="lg" className="bg-[#2563EB] hover:bg-[#2563EB]/90 text-white font-bold h-12 px-8 rounded-2xl shadow-lg shadow-blue-500/20">
+            <Button size="lg" className="bg-[#7C3AED] hover:bg-[#7C3AED]/90 text-white font-bold h-12 px-8 rounded-2xl shadow-lg shadow-purple-500/20">
               Request Custom Quote
             </Button>
           </Link>

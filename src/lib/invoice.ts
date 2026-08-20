@@ -7,7 +7,7 @@ export const generateInvoice = (order: any, user: any) => {
 
   // Header
   doc.setFontSize(22);
-  doc.setTextColor(37, 99, 235); // #2563EB Royal Blue
+  doc.setTextColor(124, 58, 237); // #7C3AED Vivid Violet
   doc.text('Sandy Digital Hub', 14, 20);
   
   doc.setFontSize(10);
@@ -47,7 +47,7 @@ export const generateInvoice = (order: any, user: any) => {
     body: tableRows,
     startY: 80,
     theme: 'striped',
-    headStyles: { fillColor: [37, 99, 235] }, // #2563EB Royal Blue
+    headStyles: { fillColor: [124, 58, 237] }, // #7C3AED Vivid Violet
     margin: { top: 10 },
   });
 

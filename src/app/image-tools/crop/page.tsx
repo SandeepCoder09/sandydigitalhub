@@ -179,8 +179,8 @@ export default function CropPage() {
               onClick={() => setAspectRatio(p.ratio)}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-all
                 ${aspectRatio === p.ratio
-                  ? "border-blue-500 bg-blue-100 text-blue-400"
-                  : "border-gray-200 bg-white text-gray-400 hover:border-blue-300"}`}>
+                  ? "border-purple-500 bg-purple-100 text-blue-400"
+                  : "border-gray-200 bg-white text-gray-400 hover:border-purple-300"}`}>
               {p.label}
             </button>
           ))}
@@ -216,7 +216,7 @@ export default function CropPage() {
 
             <div className="flex flex-wrap gap-4">
               <button onClick={cropImage}
-                className="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-semibold transition-all active:scale-95">
+                className="px-6 py-3 rounded-xl bg-purple-500 hover:bg-blue-400 text-white font-semibold transition-all active:scale-95">
                 Crop Image
               </button>
               <DownloadButton dataUrl={croppedSrc} filename={nameRef.current} label="Download Cropped" />
