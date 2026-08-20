@@ -1,7 +1,7 @@
 import { connectDB } from "@/lib/db";
 import { Service } from "@/models/Service";
 import { ServicesCatalogClient } from "@/components/services/ServicesCatalogClient";
-import { ensureServicesSeeded } from "@/lib/seedServices";
+import { ensureServicesSeeded, INITIAL_SERVICES } from "@/lib/seedServices";
 import type { Metadata } from "next";
 import { Sparkles, ShieldCheck, Zap } from "lucide-react";
 
