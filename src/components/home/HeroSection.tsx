@@ -26,49 +26,53 @@ export function HeroSection() {
             {/* Trust Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-purple-200 shadow-md shadow-purple-500/5 text-[#7C3AED] text-xs font-extrabold uppercase tracking-wider mb-6 hover:scale-105 transition-transform cursor-pointer">
               <Sparkles size={14} className="text-[#7C3AED]" />
-              <span>{t('hero.badge')}</span>
+              <span>SARA DIGITAL HUB · SERVICE PORTAL</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 leading-[1.15] mb-6">
-              {t('hero.heading1')} <br className="hidden sm:inline" />
+              Your Trusted <br className="hidden sm:inline" />
               <span className="bg-gradient-to-r from-[#7C3AED] via-[#6D28D9] to-[#A855F7] bg-clip-text text-transparent">
-                {t('hero.brand')}
+                Digital Service Center
               </span>
             </h1>
 
-            <p className="text-lg sm:text-xl text-[#475569] max-w-2xl mx-auto lg:mx-0 mb-8 leading-relaxed">
-              {t('hero.subtext')}
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 mb-8 leading-relaxed font-medium">
+              From online applications and document assistance to professional digital services, get fast, secure and transparent support from one convenient place.
             </p>
 
             {/* Action CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
               <Link href="/services">
-                <Button size="lg" className="w-full sm:w-auto text-base font-extrabold h-14 px-8 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-2xl shadow-xl shadow-purple-500/20 hover:shadow-purple-500/35 transition-all hover:scale-105 group">
-                  <Zap className="mr-2 h-5 w-5 fill-white" /> {t('hero.cta.primary')}
+                <Button size="lg" className="w-full sm:w-auto text-sm sm:text-base font-extrabold h-13 px-8 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-2xl shadow-xl shadow-purple-500/20 hover:shadow-purple-500/35 transition-all hover:scale-105 group">
+                  <Zap className="mr-2 h-5 w-5 fill-white" /> Get Digital Service
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
 
-              <Link href="/image-tools">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto text-base font-bold h-14 px-7 border-2 border-purple-200 text-gray-800 hover:text-[#7C3AED] hover:border-[#7C3AED] hover:bg-purple-50 rounded-2xl transition-all hover:scale-105">
-                  <ImageIcon className="mr-2 h-5 w-5 text-[#7C3AED]" /> {t('hero.cta.secondary')}
+              <Link href="/track-order">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto text-sm sm:text-base font-bold h-13 px-7 border-2 border-purple-200 text-gray-800 hover:text-[#7C3AED] hover:border-[#7C3AED] hover:bg-purple-50 rounded-2xl transition-all hover:scale-105">
+                  Track My Request
                 </Button>
               </Link>
             </div>
 
             {/* Micro Guarantees */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs sm:text-sm font-bold text-gray-700 pt-4 border-t border-gray-100">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 text-xs font-bold text-gray-700 pt-4 border-t border-gray-100">
               <div className="flex items-center gap-1.5">
-                <CheckCircle2 size={16} className="text-green-500" />
-                <span>{t('hero.guarantee1')}</span>
+                <CheckCircle2 size={15} className="text-emerald-500" />
+                <span>Secure Assistance</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <CheckCircle2 size={16} className="text-green-500" />
-                <span>{t('hero.guarantee2')}</span>
+                <CheckCircle2 size={15} className="text-emerald-500" />
+                <span>Transparent Charges</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <CheckCircle2 size={16} className="text-green-500" />
-                <span>{t('hero.guarantee3')}</span>
+                <CheckCircle2 size={15} className="text-emerald-500" />
+                <span>Fast Support</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 size={15} className="text-emerald-500" />
+                <span>WhatsApp Help</span>
               </div>
             </div>
           </motion.div>

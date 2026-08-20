@@ -42,20 +42,36 @@ interface NavItem {
   };
 }
 
-const mainNavItems: NavItem[] = [
-  { key: 'Home', label: 'Home', path: '/', icon: Home },
-  { key: 'Services', label: 'Services', path: '/services', icon: Zap, badge: { text: 'FAST', variant: 'purple' } },
-  { key: 'Track Order', label: 'Track Order', path: '/track-order', icon: PackageCheck, badge: { text: 'LIVE', variant: 'green' } },
+const hubMainNavItems: NavItem[] = [
+  { key: 'Home', label: 'Hub Home', path: '/', icon: Home },
+  { key: 'Services', label: 'Services Catalog', path: '/services', icon: Zap, badge: { text: 'FAST', variant: 'purple' } },
+  { key: 'Track Order', label: 'Track Request', path: '/track-order', icon: PackageCheck, badge: { text: 'LIVE', variant: 'green' } },
   { key: 'Tools', label: 'Free Digital Tools', path: '/tools', icon: Wrench, badge: { text: 'FREE', variant: 'purple' } },
   { key: 'Checklist', label: 'Doc Checklist', path: '/document-checklist', icon: FileCheck },
   { key: 'Calculator', label: 'Price Calculator', path: '/calculator', icon: Calculator },
 ];
 
-const secondaryNavItems: NavItem[] = [
-  { key: 'Portfolio', label: 'Portfolio', path: '/portfolio', icon: Briefcase },
-  { key: 'Reviews', label: 'Reviews', path: '/reviews', icon: Star, badge: { text: '4.9★', variant: 'amber' } },
-  { key: 'Pricing', label: 'Pricing Plans', path: '/pricing', icon: Tag },
+const hubSecondaryNavItems: NavItem[] = [
+  { key: 'Studio', label: 'Sandy Digital Studio', path: '/studio', icon: Briefcase, badge: { text: 'TECH', variant: 'purple' } },
+  { key: 'Portfolio', label: 'Work Portfolio', path: '/portfolio', icon: Layers },
+  { key: 'Reviews', label: 'Verified Reviews', path: '/reviews', icon: Star },
   { key: 'Contact', label: 'Contact & Support', path: '/contact', icon: PhoneCall },
+];
+
+const studioMainNavItems: NavItem[] = [
+  { key: 'Studio Home', label: 'Studio Overview', path: '/studio', icon: Briefcase },
+  { key: 'Studio Services', label: 'Tech & App Services', path: '/studio#services', icon: Zap, badge: { text: 'STUDIO', variant: 'purple' } },
+  { key: 'Portfolio', label: 'Featured Portfolio', path: '/portfolio', icon: Layers },
+  { key: 'Process', label: 'How We Build', path: '/studio#process', icon: Compass },
+  { key: 'Pricing', label: 'Studio Packages', path: '/pricing', icon: Tag },
+  { key: 'Start Project', label: 'Start a Project', path: '/studio#quote', icon: FileCheck, badge: { text: 'QUOTE', variant: 'green' } },
+];
+
+const studioSecondaryNavItems: NavItem[] = [
+  { key: 'Sara Hub', label: '← Sara Digital Hub', path: '/', icon: Home },
+  { key: 'Free Tools', label: 'Free Utilities', path: '/tools', icon: Wrench },
+  { key: 'Track Request', label: 'Track Order', path: '/track-order', icon: PackageCheck },
+  { key: 'Contact', label: 'Talk to Studio Team', path: '/contact', icon: PhoneCall },
 ];
 
 interface AppSidebarProps {
@@ -210,32 +226,44 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
           2. CENTER SCROLLABLE NAVIGATION (Bordered Items)
       ───────────────────────────────────────────────────────────── */}
       <div className="flex-1 overflow-y-auto p-3.5 space-y-5 custom-scrollbar">
-        {/* Main Services Group */}
+        {/* Brand Active Indicator */}
+        {!isCollapsed && (
+          <div className="p-2.5 rounded-2xl bg-gradient-to-r from-purple-50 to-indigo-50/50 border border-purple-200/80 shadow-2xs text-left">
+            <div className="text-[10px] font-black uppercase tracking-wider text-[#7C3AED]">
+              {pathname?.startsWith('/studio') ? 'SANDY DIGITAL STUDIO' : 'SARA DIGITAL HUB'}
+            </div>
+            <div className="text-[11px] font-medium text-slate-600 truncate mt-0.5">
+              {pathname?.startsWith('/studio') ? 'Web, App & Tech Solutions' : 'Citizen & Document Services'}
+            </div>
+          </div>
+        )}
+
+        {/* Primary Navigation Group */}
         <div>
           {!isCollapsed && (
             <div className="flex items-center justify-between px-2.5 py-1 mb-2 rounded-xl bg-slate-100/80 border border-slate-200/70">
               <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
                 <Layers size={12} className="text-[#7C3AED]" />
-                Main Services
+                {pathname?.startsWith('/studio') ? 'Studio Services' : 'Hub Services'}
               </span>
             </div>
           )}
-          {renderNavList(mainNavItems)}
+          {renderNavList(pathname?.startsWith('/studio') ? studioMainNavItems : hubMainNavItems)}
         </div>
 
-        {/* Secondary / Explore Group */}
+        {/* Secondary / Ecosystem Switch Group */}
         <div>
           {!isCollapsed ? (
             <div className="flex items-center justify-between px-2.5 py-1 mb-2 rounded-xl bg-slate-100/80 border border-slate-200/70">
               <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
                 <Compass size={12} className="text-[#7C3AED]" />
-                Explore & More
+                {pathname?.startsWith('/studio') ? 'Citizen Portal' : 'Technology Studio'}
               </span>
             </div>
           ) : (
             <div className="w-8 h-px bg-slate-200 mx-auto my-2" />
           )}
-          {renderNavList(secondaryNavItems)}
+          {renderNavList(pathname?.startsWith('/studio') ? studioSecondaryNavItems : hubSecondaryNavItems)}
         </div>
       </div>
 

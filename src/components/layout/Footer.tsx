@@ -1,163 +1,172 @@
 'use client';
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-require-imports, @next/next/no-img-element, @next/next/no-sync-scripts, react/no-unescaped-entities */
+
 import Link from "next/link";
 import Image from "next/image";
 import {
   Mail, Phone, MapPin, FileCheck, Calculator, PackageCheck, Briefcase, Sparkles,
-  Users, FolderGit2, BadgePercent, Headphones, FileText, ShieldCheck, RotateCcw
+  Layers, Code2, ShieldCheck, FileText, RotateCcw, ArrowRight, ShieldAlert
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Footer() {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#0F172A] text-[#CBD5E1]">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-4 lg:pt-12 lg:pb-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-          {/* Brand */}
-          <div>
-            <Link href="/" className="inline-block mb-4 transition-transform hover:scale-105">
-              <Image src="/logo-footer.png" alt="Sandy Digital Hub" width={220} height={60} className="h-12 w-auto object-contain" />
+    <footer className="bg-slate-950 text-slate-300 border-t border-slate-800">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10 pb-10 border-b border-slate-800">
+          
+          {/* Column 1: Ecosystem Brand Info */}
+          <div className="lg:col-span-2 space-y-4">
+            <Link href="/" className="inline-block transition-transform hover:scale-105">
+              <Image
+                src="/logo-footer.png"
+                alt="Sandy Digital Hub"
+                width={220}
+                height={60}
+                className="h-11 w-auto object-contain"
+              />
             </Link>
-            <p className="text-[#94A3B8] mb-6 text-sm leading-relaxed">
-              {t('footer.tagline')}
+            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm font-medium">
+              One unified digital ecosystem featuring <strong>Sara Digital Hub</strong> for trusted citizen & document services, and <strong>Sandy Digital Studio</strong> for modern software & website engineering.
             </p>
-            <div className="flex space-x-3">
-              {/* Facebook */}
-              <Link href="#" aria-label="Facebook" className="w-9 h-9 rounded-full bg-[#2E1065] flex items-center justify-center text-[#DDD6FE] hover:bg-[#7C3AED] hover:text-white transition-all duration-200 hover:scale-110">
-                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" /></svg>
+            
+            {/* Dual Brand Quick Links */}
+            <div className="pt-2 flex flex-wrap gap-2">
+              <Link href="/" className="px-3 py-1.5 rounded-xl bg-purple-950/80 border border-purple-800/80 text-purple-300 text-xs font-bold hover:bg-purple-900 transition-colors">
+                Sara Digital Hub (Citizen Services)
               </Link>
-              {/* X (formerly Twitter) */}
-              <Link href="#" aria-label="X (formerly Twitter)" className="w-9 h-9 rounded-full bg-[#2E1065] flex items-center justify-center text-[#DDD6FE] hover:bg-[#8B5CF6] hover:text-white transition-all duration-200 hover:scale-110">
-                <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </Link>
-              {/* Instagram */}
-              <Link href="#" aria-label="Instagram" className="w-9 h-9 rounded-full bg-[#2E1065] flex items-center justify-center text-[#DDD6FE] hover:bg-[#7C3AED] hover:text-white transition-all duration-200 hover:scale-110">
-                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd" /></svg>
+              <Link href="/studio" className="px-3 py-1.5 rounded-xl bg-indigo-950/80 border border-indigo-800/80 text-indigo-300 text-xs font-bold hover:bg-indigo-900 transition-colors">
+                Sandy Digital Studio (Tech & Apps)
               </Link>
             </div>
           </div>
 
-          {/* Features & Tools */}
-          <div>
-            <h4 className="text-base font-semibold mb-4 text-white">{t('footer.features')}</h4>
-            <ul className="space-y-2.5 text-sm">
+          {/* Column 2: Sara Digital Hub Services */}
+          <div className="space-y-3 text-left">
+            <h4 className="text-xs font-black uppercase tracking-wider text-purple-400">
+              Sara Digital Hub
+            </h4>
+            <ul className="space-y-2 text-xs font-medium text-slate-400">
               <li>
-                <Link href="/document-checklist" className="text-[#94A3B8] hover:text-[#A855F7] transition-colors font-medium flex items-center gap-2 group">
-                  <FileCheck size={16} className="text-[#A855F7] group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('footer.checklist')}</span>
+                <Link href="/services" className="hover:text-white transition-colors">
+                  Online Applications & Forms
                 </Link>
               </li>
               <li>
-                <Link href="/calculator" className="text-[#94A3B8] hover:text-[#A855F7] transition-colors font-medium flex items-center gap-2 group">
-                  <Calculator size={16} className="text-[#A855F7] group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('footer.calculator')}</span>
+                <Link href="/services" className="hover:text-white transition-colors">
+                  PAN Card Facilitation
                 </Link>
               </li>
               <li>
-                <Link href="/track-order" className="text-[#94A3B8] hover:text-[#A855F7] transition-colors font-medium flex items-center gap-2 group">
-                  <PackageCheck size={16} className="text-[#A855F7] group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('footer.trackorder')}</span>
+                <Link href="/track-order" className="hover:text-white transition-colors">
+                  Track Service Request
                 </Link>
               </li>
               <li>
-                <Link href="/portfolio" className="text-[#94A3B8] hover:text-[#A855F7] transition-colors font-medium flex items-center gap-2 group">
-                  <Briefcase size={16} className="text-[#A855F7] group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('footer.portfolio')}</span>
+                <Link href="/document-checklist" className="hover:text-white transition-colors">
+                  Document Checklists
                 </Link>
               </li>
               <li>
-                <Link href="/tools" className="text-[#94A3B8] hover:text-[#A855F7] transition-colors font-semibold flex items-center gap-2 group">
-                  <Sparkles size={16} className="text-[#A855F7] group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('footer.tools')}</span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="text-base font-semibold mb-4 text-white">{t('footer.company')}</h4>
-            <ul className="space-y-2.5 text-sm">
-              <li>
-                <Link href="/about" className="text-[#94A3B8] hover:text-[#A855F7] transition-colors font-medium flex items-center gap-2 group">
-                  <Users size={16} className="text-[#A855F7] group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('footer.about')}</span>
+                <Link href="/tools" className="hover:text-white transition-colors">
+                  Free Digital Utility Tools
                 </Link>
               </li>
               <li>
-                <Link href="/portfolio" className="text-[#94A3B8] hover:text-[#A855F7] transition-colors font-medium flex items-center gap-2 group">
-                  <FolderGit2 size={16} className="text-[#A855F7] group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('footer.portfoliolink')}</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/pricing" className="text-[#94A3B8] hover:text-[#A855F7] transition-colors font-medium flex items-center gap-2 group">
-                  <BadgePercent size={16} className="text-[#A855F7] group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('footer.pricing')}</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-[#94A3B8] hover:text-[#A855F7] transition-colors font-medium flex items-center gap-2 group">
-                  <Headphones size={16} className="text-[#A855F7] group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('footer.contactus')}</span>
+                <Link href="/calculator" className="hover:text-white transition-colors">
+                  Service Price Calculator
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Legal */}
-          <div>
-            <h4 className="text-base font-semibold mb-4 text-white">{t('footer.legal')}</h4>
-            <ul className="space-y-2.5 text-sm">
+          {/* Column 3: Sandy Digital Studio */}
+          <div className="space-y-3 text-left">
+            <h4 className="text-xs font-black uppercase tracking-wider text-indigo-400">
+              Sandy Digital Studio
+            </h4>
+            <ul className="space-y-2 text-xs font-medium text-slate-400">
               <li>
-                <Link href="/terms" className="text-[#94A3B8] hover:text-[#A855F7] transition-colors font-medium flex items-center gap-2 group">
-                  <FileText size={16} className="text-[#A855F7] group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('footer.terms')}</span>
+                <Link href="/studio#services" className="hover:text-white transition-colors">
+                  Custom Website Development
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-[#94A3B8] hover:text-[#A855F7] transition-colors font-medium flex items-center gap-2 group">
-                  <ShieldCheck size={16} className="text-[#A855F7] group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('footer.privacy')}</span>
+                <Link href="/studio#services" className="hover:text-white transition-colors">
+                  Fullstack Web Applications
                 </Link>
               </li>
               <li>
-                <Link href="/refund" className="text-[#94A3B8] hover:text-[#A855F7] transition-colors font-medium flex items-center gap-2 group">
-                  <RotateCcw size={16} className="text-[#A855F7] group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('footer.refund')}</span>
+                <Link href="/studio#services" className="hover:text-white transition-colors">
+                  Mobile App Development
+                </Link>
+              </li>
+              <li>
+                <Link href="/portfolio" className="hover:text-white transition-colors">
+                  Featured Work & Portfolio
+                </Link>
+              </li>
+              <li>
+                <Link href="/pricing" className="hover:text-white transition-colors">
+                  Development Packages
+                </Link>
+              </li>
+              <li>
+                <Link href="/studio#quote" className="hover:text-white transition-colors">
+                  Start a Project Enquiry
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact */}
-          <div>
-            <h4 className="text-base font-semibold mb-4 text-white">{t('footer.contact')}</h4>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-start">
-                <MapPin className="h-5 w-5 text-[#7C3AED] mr-3 shrink-0 mt-0.5" />
-                <span className="text-[#94A3B8]">Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India - 212656</span>
+          {/* Column 4: Contact & Center Info */}
+          <div className="space-y-3 text-left">
+            <h4 className="text-xs font-black uppercase tracking-wider text-slate-300">
+              Contact & Center
+            </h4>
+            <ul className="space-y-2.5 text-xs text-slate-400 font-medium">
+              <li className="flex items-start gap-2">
+                <MapPin size={15} className="text-purple-400 shrink-0 mt-0.5" />
+                <span>Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India - 212656</span>
               </li>
-              <li className="flex items-center">
-                <Phone className="h-5 w-5 text-[#7C3AED] mr-3 shrink-0" />
-                <span className="text-[#94A3B8]">+91 8756454282</span>
+              <li className="flex items-center gap-2">
+                <Phone size={15} className="text-purple-400 shrink-0" />
+                <span>+91 8756454282</span>
               </li>
-              <li className="flex items-center">
-                <Mail className="h-5 w-5 text-[#7C3AED] mr-3 shrink-0" />
-                <span className="text-[#94A3B8]">info@sandydigitalhub.com</span>
+              <li className="flex items-center gap-2">
+                <Mail size={15} className="text-purple-400 shrink-0" />
+                <span>info@sandydigitalhub.com</span>
               </li>
             </ul>
+
+            <div className="pt-2">
+              <Link href="/contact" className="text-xs font-bold text-purple-400 hover:text-purple-300 inline-flex items-center gap-1">
+                <span>Support Center & Help</span>
+                <ArrowRight size={13} />
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-white/10 mt-8 pt-4 pb-2 flex justify-center items-center text-xs sm:text-sm text-[#94A3B8] text-center">
-          <p>© {year} Sandy Digital Hub. {language === 'hi' ? 'सर्वाधिकार सुरक्षित।' : 'All rights reserved.'}</p>
+        {/* Legal Disclaimer Strip */}
+        <div className="py-6 border-b border-slate-800/80 text-[11px] text-slate-500 leading-relaxed space-y-2 text-center md:text-left">
+          <p>
+            <strong>Service Disclaimer:</strong> SARA DIGITAL HUB is an independent digital facilitation and cyber assistance service center. We assist customers with filling online forms, application document processing, photo resizing, and navigation on public portals. SARA DIGITAL HUB is not affiliated with, authorized by, or representing any government department or authority. Final decisions on government approvals, certifications, and timelines remain subject to the respective official department.
+          </p>
+        </div>
+
+        {/* Bottom Bar: Copyright & Legal Policies */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <p>© {year} Sandy Digital Hub Ecosystem. All rights reserved.</p>
+          <div className="flex items-center gap-4 text-xs font-semibold text-slate-400">
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <span>·</span>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <span>·</span>
+            <Link href="/refund" className="hover:text-white transition-colors">Refund Policy</Link>
+          </div>
         </div>
       </div>
     </footer>

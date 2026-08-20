@@ -78,32 +78,32 @@ export function MobileNavDrawer({ session, controlledOpen, onClose, hideTrigger 
 
   const menuSections = [
     {
-      title: 'MAIN SERVICES',
+      title: 'SARA DIGITAL HUB (CITIZEN SERVICES)',
       items: [
-        { label: 'Home', path: '/', icon: Home },
-        { label: 'Services Catalog', path: '/services', icon: Zap, badge: 'FAST', color: 'text-[#7C3AED] bg-purple-50 border-purple-200' },
-        { label: 'Live Track Order', path: '/track-order', icon: PackageCheck, badge: 'LIVE', color: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
-        { label: 'Jan Seva Document Checklist', path: '/document-checklist', icon: FileCheck },
-        { label: 'Service & Project Calculator', path: '/calculator', icon: Calculator },
+        { label: 'Hub Home', path: '/', icon: Home },
+        { label: 'Citizen Services Catalog', path: '/services', icon: Zap, badge: 'SERVICES', color: 'text-[#7C3AED] bg-purple-50 border-purple-200' },
+        { label: 'Live Track Request', path: '/track-order', icon: PackageCheck, badge: 'LIVE', color: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
+        { label: 'Document Checklist', path: '/document-checklist', icon: FileCheck },
+        { label: 'Price & Service Calculator', path: '/calculator', icon: Calculator },
+        { label: 'Free Digital Tools Hub', path: '/tools', icon: Wrench, badge: 'FREE', color: 'text-[#7C3AED] bg-purple-50 border-purple-200' },
       ]
     },
     {
-      title: 'DIGITAL TOOLS HUB',
+      title: 'SANDY DIGITAL STUDIO (TECH & SOFTWARE)',
       items: [
-        { label: 'Govt Photo & Signature Resizer', path: '/tools/govt-photo-resizer', icon: Wrench, badge: 'FREE', color: 'text-[#7C3AED] bg-purple-50 border-purple-200' },
-        { label: 'Passport Photo Generator', path: '/image-tools/passport-photo', icon: ImageIcon },
-        { label: 'Format Converter (PNG/JPG/WebP)', path: '/image-tools/convert', icon: Sparkles },
-        { label: 'Word & Character Counter', path: '/tools/word-counter', icon: FileText },
-        { label: 'Strong Password Generator', path: '/tools/password-generator', icon: Lock },
+        { label: 'Sandy Digital Studio', path: '/studio', icon: Briefcase, badge: 'STUDIO', color: 'text-indigo-700 bg-indigo-50 border-indigo-200' },
+        { label: 'Custom Websites & Web Apps', path: '/studio#services', icon: Sparkles },
+        { label: 'Client Work & Portfolio', path: '/portfolio', icon: FileText },
+        { label: 'Development Packages', path: '/pricing', icon: Tag },
+        { label: 'Start Project Enquiry', path: '/studio#quote', icon: Lock },
       ]
     },
     {
-      title: 'COMPANY & PORTFOLIO',
+      title: 'SUPPORT & LEGAL TRANSPARENCY',
       items: [
-        { label: 'Client Portfolio Showcase', path: '/portfolio', icon: Briefcase },
-        { label: 'Customer Reviews & Ratings', path: '/reviews', icon: Star },
-        { label: 'Web & Design Pricing Plans', path: '/pricing', icon: Tag },
-        { label: 'Contact & Consultation', path: '/contact', icon: PhoneCall },
+        { label: 'Customer Reviews', path: '/reviews', icon: Star },
+        { label: 'Contact & Help Desk', path: '/contact', icon: PhoneCall },
+        { label: 'Terms & Service Policies', path: '/terms', icon: ShieldCheck },
       ]
     }
   ];

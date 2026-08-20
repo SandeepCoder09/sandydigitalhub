@@ -3,86 +3,88 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Code, Smartphone, FileText, Briefcase, Palette, Megaphone, Wrench, FileDigit, ImageIcon } from "lucide-react";
+import { ArrowRight, FileText, CreditCard, GraduationCap, Briefcase, Camera, Printer, Award, FileSpreadsheet, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
 
 const container = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  show: { opacity: 1, transition: { staggerChildren: 0.08 } }
 };
 
 const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4 } }
+  hidden: { opacity: 0, y: 15 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35 } }
 };
 
 export function ServicesOverview() {
-  const { t } = useLanguage();
-
-  const services = [
+  const citizenServices = [
     {
-      titleKey: 'service.web.title',
-      descKey:  'service.web.desc',
-      icon: Code,
-      link: "/services#web-development",
-    },
-    {
-      titleKey: 'service.app.title',
-      descKey:  'service.app.desc',
-      icon: Smartphone,
-      link: "/services#mobile-apps",
-    },
-    {
-      titleKey: 'service.pan.title',
-      descKey:  'service.pan.desc',
-      icon: FileDigit,
-      link: "/services#digital-services",
-    },
-    {
-      titleKey: 'service.form.title',
-      descKey:  'service.form.desc',
+      title: "Online Applications",
+      desc: "Get fast assistance completing state & national government application forms.",
       icon: FileText,
-      link: "/services#digital-services",
+      link: "/services",
+      badge: "Popular",
     },
     {
-      titleKey: 'service.resume.title',
-      descKey:  'service.resume.desc',
+      title: "PAN Services",
+      desc: "New PAN Card registration, minor to major conversion, and duplicate correction.",
+      icon: CreditCard,
+      link: "/services",
+      badge: "Essential",
+    },
+    {
+      title: "Exam & Admission Forms",
+      desc: "Professional assistance completing university, board, and competitive exam forms.",
+      icon: GraduationCap,
+      link: "/services",
+    },
+    {
+      title: "Resume & CV Services",
+      desc: "Create clean, ATS-friendly resumes and job bio-data for employment opportunities.",
       icon: Briefcase,
-      link: "/services#digital-services",
+      link: "/services",
     },
     {
-      titleKey: 'service.design.title',
-      descKey:  'service.design.desc',
-      icon: Palette,
-      link: "/services#design",
+      title: "Passport Photos",
+      desc: "Create properly sized digital passport photographs tailored to portal dimensions.",
+      icon: Camera,
+      link: "/tools/govt-photo-resizer",
     },
     {
-      titleKey: 'service.marketing.title',
-      descKey:  'service.marketing.desc',
-      icon: Megaphone,
-      link: "/services#marketing",
+      title: "Document Services",
+      desc: "High-resolution scanning, certified printing, and digital document preparation.",
+      icon: Printer,
+      link: "/services",
     },
     {
-      titleKey: 'service.support.title',
-      descKey:  'service.support.desc',
-      icon: Wrench,
-      link: "/services#support",
+      title: "Scholarship Forms",
+      desc: "Assistance with UP Scholarship, National Scholarship Portal (NSP), and fee waivers.",
+      icon: Award,
+      link: "/services",
     },
     {
-      titleKey: 'service.image.title',
-      descKey:  'service.image.desc',
-      icon: ImageIcon,
-      link: "/image-tools",
+      title: "Free Image & PDF Tools",
+      desc: "Resize, compress, convert and format your images and PDFs directly in your browser.",
+      icon: FileSpreadsheet,
+      link: "/tools",
+      badge: "Free",
     },
   ];
 
   return (
-    <section className="py-24 bg-accent/50">
+    <section className="py-16 sm:py-20 bg-slate-50/50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">{t('services.heading')}</h2>
-          <p className="text-lg text-muted-foreground">{t('services.subtext')}</p>
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-100 border border-purple-200 text-[#7C3AED] text-xs font-black uppercase tracking-wider">
+            <Sparkles size={13} />
+            <span>Popular Citizen Facilitation Services</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">
+            Digital Services Made <span className="text-[#7C3AED]">Simple & Accessible</span>
+          </h2>
+          <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
+            Transparent pricing, clear document checklists, and verified facilitation support for everyday citizen needs.
+          </p>
         </div>
 
         <motion.div
@@ -90,30 +92,48 @@ export function ServicesOverview() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6"
         >
-          {services.map((service, index) => (
-            <motion.div key={index} variants={item}>
-              <Card className="h-full hover:shadow-xl transition-all duration-300 group overflow-hidden bg-card/80 backdrop-blur-sm border-white/20 dark:border-white/10">
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                    <service.icon className="w-6 h-6" />
-                  </div>
-                  <CardTitle className="text-xl">{t(service.titleKey)}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex flex-col flex-grow justify-between">
-                  <CardDescription className="text-base mb-6">
-                    {t(service.descKey)}
-                  </CardDescription>
-                  <Link href={service.link}>
-                    <Button variant="link" className="px-0 text-primary group-hover:gap-2 transition-all">
-                      {t('services.learnMore')} <ArrowRight className="w-4 h-4 ml-1" />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+          {citizenServices.map((service, index) => {
+            const Icon = service.icon;
+            return (
+              <motion.div key={index} variants={item}>
+                <Card className="h-full hover:shadow-xl transition-all duration-300 group overflow-hidden bg-white border border-slate-200 hover:border-purple-300 rounded-3xl p-2 flex flex-col justify-between hover:-translate-y-1">
+                  <CardHeader className="p-4 pb-2">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="w-11 h-11 rounded-2xl bg-purple-50 text-[#7C3AED] border border-purple-100 flex items-center justify-center group-hover:scale-110 group-hover:bg-[#7C3AED] group-hover:text-white transition-all duration-300">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      {service.badge && (
+                        <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-100 text-[#7C3AED] border border-purple-200">
+                          {service.badge}
+                        </span>
+                      )}
+                    </div>
+                    <CardTitle className="text-base sm:text-lg font-black text-slate-900 group-hover:text-[#7C3AED] transition-colors">
+                      {service.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-4 pt-0 flex flex-col flex-grow justify-between space-y-4">
+                    <CardDescription className="text-xs text-slate-600 font-medium leading-relaxed">
+                      {service.desc}
+                    </CardDescription>
+                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                      <Link href={service.link} className="text-xs font-black text-[#7C3AED] hover:underline inline-flex items-center gap-1">
+                        <span>Learn More</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      </Link>
+                      <Link href="/services">
+                        <Button size="sm" variant="ghost" className="h-7 px-2.5 text-[11px] font-bold rounded-xl text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50">
+                          Start Service
+                        </Button>
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>
