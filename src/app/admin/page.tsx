@@ -91,11 +91,11 @@ export default async function AdminDashboard() {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-8">
       {/* Dashboard Top Overview Banner */}
-      <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-2xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-gray-200 shadow-2xs flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">
+          <h1 className="text-lg sm:text-2xl font-black text-gray-900 tracking-tight">
             Dashboard Overview
           </h1>
           <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">
@@ -104,18 +104,18 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Page Toolbar: Refresh | Export | Add New */}
-        <div className="flex items-center gap-2.5 flex-wrap shrink-0">
+        <div className="flex items-center gap-2 flex-wrap shrink-0">
           <Link
             href="/admin/orders"
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-extrabold text-xs transition-colors border border-gray-200"
+            className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-lg sm:rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-extrabold text-xs transition-colors border border-gray-200"
           >
-            <Download size={14} /> Export CSV
+            <Download size={13} /> Export CSV
           </Link>
           <Link
             href="/admin/services"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-extrabold text-xs shadow-md transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-extrabold text-xs shadow-xs sm:shadow-md transition-all cursor-pointer"
           >
-            <Plus size={14} /> Add Service
+            <Plus size={13} /> Add Service
           </Link>
         </div>
       </div>
@@ -124,18 +124,18 @@ export default async function AdminDashboard() {
       <AdminQuickTrackerBar />
 
       {/* KPI Metrics Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
         {/* Total Revenue Card */}
-        <div className="bg-white p-5 rounded-3xl border border-gray-200 shadow-2xs space-y-3">
+        <div className="bg-white p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-200 shadow-2xs space-y-2 sm:space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Revenue</span>
-            <div className="w-9 h-9 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center shrink-0">
-              <DollarSign size={18} />
+            <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-wider">Revenue</span>
+            <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center shrink-0">
+              <DollarSign size={15} className="sm:w-[18px] sm:h-[18px]" />
             </div>
           </div>
           <div>
-            <h2 className="text-2xl sm:text-3xl font-black text-gray-900">₹{revenue.toLocaleString('en-IN')}</h2>
-            <div className="flex items-center gap-1 mt-1 text-[11px] font-extrabold text-emerald-600">
+            <h2 className="text-xl sm:text-3xl font-black text-gray-900">₹{revenue.toLocaleString('en-IN')}</h2>
+            <div className="flex items-center gap-1 mt-0.5 sm:mt-1 text-[10px] sm:text-[11px] font-extrabold text-emerald-600">
               <span>↑ 12.4%</span>
               <span className="text-gray-400 font-medium">vs last month</span>
             </div>
@@ -143,91 +143,91 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Total Orders Card */}
-        <div className="bg-white p-5 rounded-3xl border border-gray-200 shadow-2xs space-y-3">
+        <div className="bg-white p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-200 shadow-2xs space-y-2 sm:space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Orders</span>
-            <div className="w-9 h-9 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
-              <ShoppingBag size={18} />
+            <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-wider">Orders</span>
+            <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+              <ShoppingBag size={15} className="sm:w-[18px] sm:h-[18px]" />
             </div>
           </div>
           <div>
-            <h2 className="text-2xl sm:text-3xl font-black text-gray-900">{totalOrders}</h2>
-            <div className="flex items-center gap-1 mt-1 text-[11px] font-extrabold text-emerald-600">
+            <h2 className="text-xl sm:text-3xl font-black text-gray-900">{totalOrders}</h2>
+            <div className="flex items-center gap-1 mt-0.5 sm:mt-1 text-[10px] sm:text-[11px] font-extrabold text-emerald-600">
               <span>↑ 8.1%</span>
-              <span className="text-gray-400 font-medium">fulfillment rate 98%</span>
+              <span className="text-gray-400 font-medium">98% rate</span>
             </div>
           </div>
         </div>
 
         {/* Total Customers Card */}
-        <div className="bg-white p-5 rounded-3xl border border-gray-200 shadow-2xs space-y-3">
+        <div className="bg-white p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-200 shadow-2xs space-y-2 sm:space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Registered Users</span>
-            <div className="w-9 h-9 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-              <Users size={18} />
+            <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-wider">Users</span>
+            <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+              <Users size={15} className="sm:w-[18px] sm:h-[18px]" />
             </div>
           </div>
           <div>
-            <h2 className="text-2xl sm:text-3xl font-black text-gray-900">{totalUsers}</h2>
-            <div className="flex items-center gap-1 mt-1 text-[11px] font-extrabold text-emerald-600">
+            <h2 className="text-xl sm:text-3xl font-black text-gray-900">{totalUsers}</h2>
+            <div className="flex items-center gap-1 mt-0.5 sm:mt-1 text-[10px] sm:text-[11px] font-extrabold text-emerald-600">
               <span>↑ 5.2%</span>
-              <span className="text-gray-400 font-medium">active clients</span>
+              <span className="text-gray-400 font-medium">clients</span>
             </div>
           </div>
         </div>
 
         {/* Active Services Card */}
-        <div className="bg-white p-5 rounded-3xl border border-gray-200 shadow-2xs space-y-3">
+        <div className="bg-white p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-200 shadow-2xs space-y-2 sm:space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Active Services</span>
-            <div className="w-9 h-9 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
-              <Wrench size={18} />
+            <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-wider">Services</span>
+            <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+              <Wrench size={15} className="sm:w-[18px] sm:h-[18px]" />
             </div>
           </div>
           <div>
-            <h2 className="text-2xl sm:text-3xl font-black text-gray-900">{totalServices}</h2>
-            <div className="flex items-center gap-1 mt-1 text-[11px] font-bold text-violet-600">
-              <span>Jan Seva & Cyber</span>
+            <h2 className="text-xl sm:text-3xl font-black text-gray-900">{totalServices}</h2>
+            <div className="flex items-center gap-1 mt-0.5 sm:mt-1 text-[10px] sm:text-[11px] font-bold text-violet-600">
+              <span>Active</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Grid: Chart & Activity Feed */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Left: Interactive Sales Chart (2 cols) */}
-        <div className="lg:col-span-2 bg-white p-6 rounded-3xl border border-gray-200 shadow-2xs">
+        <div className="lg:col-span-2 bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-gray-200 shadow-2xs">
           <AdminAnalyticsChart totalRevenue={revenue} totalOrders={totalOrders} />
         </div>
 
         {/* Right: Real-time System Activity Feed (1 col) */}
-        <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-2xs flex flex-col justify-between space-y-4">
-          <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-            <h2 className="text-base font-black text-gray-900 flex items-center gap-2">
-              <Sparkles size={18} className="text-violet-600" />
+        <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-gray-200 shadow-2xs flex flex-col justify-between space-y-3 sm:space-y-4">
+          <div className="flex items-center justify-between border-b border-gray-100 pb-2.5 sm:pb-3">
+            <h2 className="text-sm sm:text-base font-black text-gray-900 flex items-center gap-1.5 sm:gap-2">
+              <Sparkles size={16} className="text-violet-600" />
               Live Activity Feed
             </h2>
-            <span className="text-[11px] font-bold text-violet-600 bg-violet-50 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] sm:text-[11px] font-bold text-violet-600 bg-violet-50 px-2 py-0.5 rounded-full">
               Real-time
             </span>
           </div>
 
-          <div className="space-y-3 flex-1 overflow-y-auto">
+          <div className="space-y-2.5 sm:space-y-3 flex-1 overflow-y-auto">
             {activityFeed.length === 0 ? (
-              <div className="py-8 text-center text-xs font-semibold text-gray-400">
+              <div className="py-6 text-center text-xs font-semibold text-gray-400">
                 No recent activity recorded in database yet.
               </div>
             ) : (
               activityFeed.map((item, idx) => {
                 const Icon = item.icon;
                 return (
-                  <div key={idx} className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-gray-50 transition-colors">
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>
-                      <Icon size={16} />
+                  <div key={idx} className="flex items-start gap-2.5 sm:gap-3 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl hover:bg-gray-50 transition-colors">
+                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>
+                      <Icon size={14} className="sm:w-4 sm:h-4" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-bold text-gray-900 leading-snug">{item.text}</p>
-                      <span className="text-[10px] font-semibold text-gray-400">{item.time}</span>
+                      <p className="text-[11px] sm:text-xs font-bold text-gray-900 leading-snug">{item.text}</p>
+                      <span className="text-[9px] sm:text-[10px] font-semibold text-gray-400">{item.time}</span>
                     </div>
                   </div>
                 );
@@ -237,7 +237,7 @@ export default async function AdminDashboard() {
 
           <Link
             href="/admin/security-logs"
-            className="w-full py-2.5 text-center text-xs font-bold text-violet-700 bg-violet-50 hover:bg-violet-100 rounded-xl transition-colors block"
+            className="w-full py-2 sm:py-2.5 text-center text-xs font-bold text-violet-700 bg-violet-50 hover:bg-violet-100 rounded-lg sm:rounded-xl transition-colors block"
           >
             View Security Audit Logs →
           </Link>
@@ -245,18 +245,18 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Recent Orders Table */}
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-2xs overflow-hidden">
-        <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+      <div className="bg-white rounded-2xl sm:rounded-3xl border border-gray-200 shadow-2xs overflow-hidden">
+        <div className="p-4 sm:p-6 border-b border-gray-100 flex items-center justify-between">
           <div>
-            <h2 className="text-base font-black text-gray-900">Recent Customer Service Orders</h2>
-            <p className="text-xs text-gray-500 font-medium mt-0.5">Latest service bookings requiring fulfillment</p>
+            <h2 className="text-sm sm:text-base font-black text-gray-900">Recent Customer Service Orders</h2>
+            <p className="text-[11px] sm:text-xs text-gray-500 font-medium mt-0.5">Latest service bookings requiring fulfillment</p>
           </div>
           <Link
             href="/admin/orders"
             className="flex items-center gap-1 text-xs font-extrabold text-violet-600 hover:text-violet-800 transition-colors"
           >
-            <span>View All Orders ({totalOrders})</span>
-            <ArrowUpRight size={14} />
+            <span>View All ({totalOrders})</span>
+            <ArrowUpRight size={13} />
           </Link>
         </div>
 

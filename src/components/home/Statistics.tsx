@@ -28,9 +28,9 @@ const valuePillars = [
 
 export function Statistics() {
   return (
-    <section className="py-16 bg-slate-900 text-white relative overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <section className="py-8 sm:py-16 bg-slate-900 text-white relative overflow-hidden">
+      <div className="container mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
           {valuePillars.map((pillar, index) => {
             const Icon = pillar.icon;
             return (
@@ -39,15 +39,15 @@ export function Statistics() {
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.4 }}
-                className="p-6 rounded-3xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between space-y-3"
+                transition={{ delay: index * 0.08, duration: 0.35 }}
+                className="p-3.5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between space-y-2 sm:space-y-3"
               >
-                <div className="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/30 text-purple-400 flex items-center justify-center">
-                  <Icon size={20} />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-purple-500/20 border border-purple-500/30 text-purple-400 flex items-center justify-center">
+                  <Icon size={16} className="sm:w-5 sm:h-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-extrabold text-white">{pillar.title}</h4>
-                  <p className="text-xs text-slate-400 font-medium mt-1 leading-relaxed">{pillar.desc}</p>
+                  <h4 className="text-xs sm:text-sm font-extrabold text-white leading-snug">{pillar.title}</h4>
+                  <p className="text-[10px] sm:text-xs text-slate-400 font-medium mt-1 leading-snug sm:leading-relaxed">{pillar.desc}</p>
                 </div>
               </motion.div>
             );

@@ -9,6 +9,7 @@ import {
   Home,
   Zap,
   PackageCheck,
+  ShoppingBag,
   Wrench,
   FileCheck,
   Calculator,
@@ -45,6 +46,7 @@ interface NavItem {
 const hubMainNavItems: NavItem[] = [
   { key: 'Home', label: 'Hub Home', path: '/', icon: Home },
   { key: 'Services', label: 'Services Catalog', path: '/services', icon: Zap, badge: { text: 'FAST', variant: 'purple' } },
+  { key: 'My Requests', label: 'My Requests', path: '/requests', icon: ShoppingBag, badge: { text: 'ORDERS', variant: 'purple' } },
   { key: 'Track Order', label: 'Track Request', path: '/track-order', icon: PackageCheck, badge: { text: 'LIVE', variant: 'green' } },
   { key: 'Tools', label: 'Free Digital Tools', path: '/tools', icon: Wrench, badge: { text: 'FREE', variant: 'purple' } },
   { key: 'Checklist', label: 'Doc Checklist', path: '/document-checklist', icon: FileCheck },

@@ -6,6 +6,7 @@ import { Partner } from '@/models/Partner';
 import { User } from '@/models/User';
 import { Order } from '@/models/Order';
 import { PartnerAuditLog } from '@/models/PartnerAuditLog';
+import { notifyPartnerApproved, notifyPartnerSuspended } from '@/lib/notificationTriggers';
 
 // GET /api/admin/partners/[id]
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -110,6 +111,19 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         targetId: partner._id.toString(),
         details: { from: previousStatus, to: partner.status, reason: partner.statusReason },
       });
+
+      // Find the partner admin user to notify them
+      const partnerAdminUser = await User.findOne({ partnerId: partner.partnerId, role: 'PARTNER_ADMIN' }).select('_id').lean();
+      const partnerAdminUserId = partnerAdminUser?._id?.toString();
+
+      if (partnerAdminUserId) {
+        if (partner.status === 'ACTIVE' && previousStatus !== 'ACTIVE') {
+          // Partner was just approved/reactivated
+          await notifyPartnerApproved(partner.name, partnerAdminUserId).catch(console.error);
+        } else if (partner.status === 'SUSPENDED') {
+          await notifyPartnerSuspended(partner.name, partnerAdminUserId, partner.statusReason).catch(console.error);
+        }
+      }
     }
 
     return NextResponse.json({ success: true, partner });

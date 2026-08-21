@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
-import { User, ShieldCheck, LogOut, ChevronUp, ChevronDown, FileText } from 'lucide-react';
+import { User, ShieldCheck, LogOut, ChevronUp, ChevronDown, ShoppingBag } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
 
@@ -135,6 +135,15 @@ export function UserNavMenu({ user, placement = 'auto', fullWidth = false }: Use
             )}
 
             <Link
+              href="/requests"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50 rounded-xl transition-colors"
+            >
+              <ShoppingBag size={15} className="text-[#7C3AED]" />
+              <span>{t('My Requested Services', 'My Requested Services')}</span>
+            </Link>
+
+            <Link
               href="/account"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50 rounded-xl transition-colors"
@@ -142,17 +151,6 @@ export function UserNavMenu({ user, placement = 'auto', fullWidth = false }: Use
               <User size={15} className="text-[#7C3AED]" />
               <span>{t('My Account', 'My Account')}</span>
             </Link>
-
-            {!isAdmin && (
-              <Link
-                href="/requests"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50 rounded-xl transition-colors"
-              >
-                <FileText size={15} className="text-[#7C3AED]" />
-                <span>{t('My Requests', 'My Requests')}</span>
-              </Link>
-            )}
           </div>
 
           {/* Logout Option */}

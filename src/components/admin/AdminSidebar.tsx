@@ -21,7 +21,9 @@ import {
   X,
   ShieldCheck,
   ChevronRight,
-  Building2
+  Building2,
+  Megaphone,
+  Bell
 } from "lucide-react";
 
 interface NavItem {
@@ -100,6 +102,8 @@ export function AdminSidebar() {
     {
       title: "SYSTEM & CONTROL",
       items: [
+        { href: '/admin/announcements', label: 'Announcements', icon: Megaphone },
+        { href: '/admin/notifications', label: 'Notification Center', icon: Bell },
         { href: '/admin/site-control', label: 'Site & Page Control', icon: ShieldAlert },
         { href: '/admin/security-logs', label: 'Security Audit Logs', icon: AlertOctagon },
         { href: '/account', label: 'My Admin Account', icon: User },

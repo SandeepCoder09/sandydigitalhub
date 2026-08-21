@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { formatOrderId, formatDateTime } from '@/lib/utils';
 import { OrderDetailsModal } from './OrderDetailsModal';
+import { OrderTrackingModal } from './OrderTrackingModal';
 import { CopyButton } from '@/components/ui/CopyButton';
-import { Eye, ShoppingBag, Search, Calendar, Tag } from 'lucide-react';
+import { Eye, ShoppingBag, Search, Calendar, Tag, PackageSearch } from 'lucide-react';
 import Link from 'next/link';
 
 interface RequestsTableProps {
@@ -14,6 +15,7 @@ interface RequestsTableProps {
 
 export function RequestsTable({ orders, user }: RequestsTableProps) {
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [trackingOrder, setTrackingOrder] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
@@ -27,7 +29,7 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
           <h3 className="text-lg font-bold text-gray-900 mb-1">No Requested Services Yet</h3>
           <p className="text-sm text-gray-500">You haven&apos;t placed any service requests or orders yet.</p>
         </div>
-        <Link href="/services" className="bg-[#7C3AED] text-gray-800 px-6 py-2.5 rounded-xl font-bold hover:bg-[#7C3AED]/90 transition-colors mt-2 shadow-md shadow-purple-200">
+        <Link href="/services" className="bg-[#7C3AED] text-white px-6 py-2.5 rounded-xl font-bold hover:bg-[#6D28D9] transition-colors mt-2 shadow-md shadow-purple-200">
           Browse Services
         </Link>
       </div>
@@ -151,18 +153,27 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t border-gray-100 flex justify-between items-center">
+                  <div className="pt-2 border-t border-gray-100 flex flex-wrap justify-between items-center gap-2">
                     <div>
                       <span className="text-xs text-gray-500 mr-1.5">Total:</span>
                       <span className="text-sm font-bold text-[#7C3AED]">₹{order.total}</span>
                     </div>
-                    <button
-                      onClick={() => setSelectedOrder(order)}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#7C3AED] text-white text-xs font-bold shadow-md hover:bg-[#7C3AED]/90 transition-all"
-                    >
-                      <Eye size={13} />
-                      View Details
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setTrackingOrder(order)}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 text-[#7C3AED] border border-purple-200 text-xs font-bold transition-all shadow-2xs cursor-pointer"
+                      >
+                        <PackageSearch size={13} />
+                        <span>Track</span>
+                      </button>
+                      <button
+                        onClick={() => setSelectedOrder(order)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#7C3AED] text-white text-xs font-bold shadow-md hover:bg-[#6D28D9] transition-all cursor-pointer"
+                      >
+                        <Eye size={13} />
+                        Details
+                      </button>
+                    </div>
                   </div>
                 </div>
               );
@@ -210,13 +221,22 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
                         {getStatusBadge(order.orderStatus, order.paymentStatus)}
                       </td>
                       <td className="px-6 py-4 text-right whitespace-nowrap">
-                        <button
-                          onClick={() => setSelectedOrder(order)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-[#7C3AED] text-gray-700 hover:text-gray-800 text-xs font-semibold transition-all group shadow-sm"
-                        >
-                          <Eye size={14} />
-                          Details
-                        </button>
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => setTrackingOrder(order)}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-[#7C3AED] text-[#7C3AED] hover:text-white border border-purple-200 hover:border-[#7C3AED] text-xs font-bold transition-all shadow-2xs group cursor-pointer"
+                          >
+                            <PackageSearch size={13} className="text-[#7C3AED] group-hover:text-white transition-colors" />
+                            <span>Track Order</span>
+                          </button>
+                          <button
+                            onClick={() => setSelectedOrder(order)}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold transition-all shadow-2xs cursor-pointer"
+                          >
+                            <Eye size={14} />
+                            <span>Details</span>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -234,6 +254,15 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
           user={user}
           isOpen={!!selectedOrder}
           onClose={() => setSelectedOrder(null)}
+        />
+      )}
+
+      {/* In-Page Live Order Tracking Modal */}
+      {trackingOrder && (
+        <OrderTrackingModal
+          order={trackingOrder}
+          isOpen={!!trackingOrder}
+          onClose={() => setTrackingOrder(null)}
         />
       )}
     </div>

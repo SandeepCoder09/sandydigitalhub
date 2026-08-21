@@ -4,8 +4,9 @@ import { useState } from "react";
 import { formatOrderId, formatDateTime } from "@/lib/utils";
 import { DownloadInvoiceButton } from "./DownloadInvoiceButton";
 import { OrderReviewModal } from "./OrderReviewModal";
+import { OrderTrackingModal } from "./OrderTrackingModal";
 import { CopyButton } from "@/components/ui/CopyButton";
-import { X, Calendar, CreditCard, Tag, FileText, CheckCircle2, Loader2, MessageSquare, Printer, Paperclip, Star } from "lucide-react";
+import { X, Calendar, CreditCard, Tag, FileText, CheckCircle2, Loader2, MessageSquare, Printer, Paperclip, Star, PackageSearch } from "lucide-react";
 
 interface OrderDetailsModalProps {
   order: any;
@@ -17,6 +18,7 @@ interface OrderDetailsModalProps {
 export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetailsModalProps) {
   const [currentOrder, setCurrentOrder] = useState<any>(order);
   const [isReviewOpen, setIsReviewOpen] = useState(false);
+  const [isTrackingOpen, setIsTrackingOpen] = useState(false);
 
   if (!isOpen || !order) return null;
 
@@ -329,14 +331,21 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
 
           {/* Modal Footer */}
           <div className="sticky bottom-0 bg-white/95 backdrop-blur border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-3">
-            <div className="w-full sm:w-auto">
+            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+              <button
+                onClick={() => setIsTrackingOpen(true)}
+                className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-purple-50 hover:bg-[#7C3AED] text-[#7C3AED] hover:text-white border border-purple-200 hover:border-[#7C3AED] text-xs sm:text-sm font-bold transition-all shadow-2xs group cursor-pointer"
+              >
+                <PackageSearch size={15} className="text-[#7C3AED] group-hover:text-white transition-colors" />
+                <span>Track Live Status</span>
+              </button>
               {activeOrder.paymentStatus === 'PAID' && user && (
                 <DownloadInvoiceButton order={JSON.parse(JSON.stringify(activeOrder))} user={JSON.parse(JSON.stringify(user))} />
               )}
             </div>
             <button
               onClick={onClose}
-              className="w-full sm:w-auto px-6 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold transition-colors text-sm"
+              className="w-full sm:w-auto px-6 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold transition-colors text-sm cursor-pointer"
             >
               Close
             </button>
@@ -350,6 +359,12 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
         isOpen={isReviewOpen}
         onClose={() => setIsReviewOpen(false)}
         onSuccess={(updated) => setCurrentOrder(updated)}
+      />
+
+      <OrderTrackingModal
+        order={activeOrder}
+        isOpen={isTrackingOpen}
+        onClose={() => setIsTrackingOpen(false)}
       />
     </>
   );

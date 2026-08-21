@@ -110,78 +110,78 @@ export default function ReviewsPage() {
   const avgRating = (reviews.reduce((acc, r) => acc + r.rating, 0) / (reviews.length || 1)).toFixed(1);
 
   return (
-    <div className="min-h-screen bg-gray-50/60 pb-16">
+    <div className="min-h-screen bg-gray-50/60 pb-12 sm:pb-16">
       {/* Header Banner */}
-      <section className="bg-white border-b border-slate-200/80 pt-10 sm:pt-14 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden shadow-xs">
+      <section className="bg-white border-b border-slate-200/80 pt-6 sm:pt-14 pb-8 sm:pb-14 px-3 sm:px-6 lg:px-8 relative overflow-hidden shadow-xs">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[320px] bg-purple-50 rounded-full blur-3xl opacity-80" />
         </div>
 
-        <div className="max-w-5xl mx-auto text-center space-y-4 relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-xs font-bold uppercase tracking-wider shadow-2xs">
-            <Star size={14} fill="currentColor" /> Verified Customer Feedback
+        <div className="max-w-5xl mx-auto text-center space-y-2.5 sm:space-y-4 relative z-10">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-[10px] sm:text-xs font-bold uppercase tracking-wider shadow-2xs">
+            <Star size={12} className="sm:w-3.5 sm:h-3.5" fill="currentColor" /> Verified Customer Feedback
           </div>
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-tight">
             Customer Reviews & <span className="text-[#7C3AED]">Testimonials</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
+          <p className="max-w-2xl mx-auto text-xs sm:text-base text-slate-600 font-medium leading-relaxed">
             See real reviews from clients who used our Jan Seva government services and custom website development.
           </p>
 
-          <div className="pt-4 flex flex-wrap justify-center items-center gap-4">
-            <div className="bg-slate-50 border border-slate-200/80 px-5 py-2.5 rounded-2xl flex items-center gap-3 shadow-2xs">
-              <span className="text-2xl font-black text-amber-500">{avgRating}</span>
+          <div className="pt-2 sm:pt-4 flex flex-wrap justify-center items-center gap-2.5 sm:gap-4">
+            <div className="bg-slate-50 border border-slate-200/80 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl flex items-center gap-2.5 sm:gap-3 shadow-2xs">
+              <span className="text-xl sm:text-2xl font-black text-amber-500">{avgRating}</span>
               <div className="text-left">
                 <div className="flex text-amber-500">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
+                    <Star key={i} size={12} className="sm:w-3.5 sm:h-3.5" fill="currentColor" />
                   ))}
                 </div>
-                <span className="text-[10px] text-slate-500 font-bold uppercase">{reviews.length} Verified Reviews</span>
+                <span className="text-[9px] sm:text-[10px] text-slate-500 font-bold uppercase">{reviews.length} Verified Reviews</span>
               </div>
             </div>
 
             <Button
               onClick={() => setShowModal(true)}
-              className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-extrabold rounded-2xl text-xs py-3 px-6 shadow-md shadow-purple-600/30 hover:scale-[1.02] transition-all flex items-center gap-2 cursor-pointer"
+              className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-extrabold rounded-xl sm:rounded-2xl text-xs py-2.5 px-4 sm:py-3 sm:px-6 shadow-md shadow-purple-600/30 hover:scale-[1.02] transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer h-10 sm:h-11"
             >
-              <MessageSquarePlus size={16} /> Leave Your Feedback
+              <MessageSquarePlus size={14} className="sm:w-4 sm:h-4" /> Leave Your Feedback
             </Button>
           </div>
         </div>
       </section>
 
       {/* Reviews Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-6 sm:pt-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {reviews.map((r) => (
-            <div key={r._id} className="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all space-y-4 flex flex-col justify-between">
-              <div className="space-y-3">
+            <div key={r._id} className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-gray-200 shadow-xs sm:shadow-sm hover:shadow-md transition-all space-y-3 sm:space-y-4 flex flex-col justify-between">
+              <div className="space-y-2 sm:space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex text-amber-400">
                     {[...Array(r.rating)].map((_, i) => (
-                      <Star key={i} size={15} fill="currentColor" />
+                      <Star key={i} size={13} className="sm:w-[15px] sm:h-[15px]" fill="currentColor" />
                     ))}
                   </div>
                   {r.verifiedOrder && (
-                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-extrabold flex items-center gap-1">
-                      <CheckCircle2 size={11} /> Verified Service
+                    <span className="px-2 sm:px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[9px] sm:text-[10px] font-extrabold flex items-center gap-1">
+                      <CheckCircle2 size={10} className="sm:w-[11px] sm:h-[11px]" /> Verified Service
                     </span>
                   )}
                 </div>
 
-                <Quote size={24} className="text-purple-300" />
+                <Quote size={18} className="text-purple-300 sm:w-6 sm:h-6" />
                 <p className="text-xs text-gray-700 font-medium leading-relaxed italic">
                   &ldquo;{r.comment}&rdquo;
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
+              <div className="pt-2.5 sm:pt-3 border-t border-gray-100 flex items-center justify-between">
                 <div>
                   <div className="text-xs font-bold text-gray-900">{r.name}</div>
                   <div className="text-[10px] text-gray-500 font-medium">{r.serviceCategory}</div>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-purple-100 text-[#7C3AED] font-black text-xs flex items-center justify-center">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 text-[#7C3AED] font-black text-xs flex items-center justify-center">
                   {r.name.charAt(0)}
                 </div>
               </div>

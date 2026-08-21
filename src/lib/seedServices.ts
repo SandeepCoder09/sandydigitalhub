@@ -134,14 +134,6 @@ export async function ensureServicesSeeded() {
     if (count === 0) {
       await Service.insertMany(INITIAL_SERVICES);
       console.log(`Seeded ${INITIAL_SERVICES.length} initial services successfully.`);
-    } else {
-      // Sync exact matching service images for accurate visual representations
-      for (const service of INITIAL_SERVICES) {
-        await Service.updateOne(
-          { title: service.title },
-          { $set: { image: service.image } }
-        );
-      }
     }
     isSeeded = true;
   } catch (error) {

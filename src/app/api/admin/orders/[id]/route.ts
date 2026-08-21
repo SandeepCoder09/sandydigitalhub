@@ -32,6 +32,17 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     if (!order) {
       return NextResponse.json({ message: 'Order not found' }, { status: 404 });
     }
+
+    // Auto-notify the customer if order status changed
+    if (body.orderStatus && order.userId) {
+      const { notifyOrderStatusChange } = await import('@/lib/notificationTriggers');
+      notifyOrderStatusChange(
+        order._id.toString(),
+        order.userId.toString(),
+        body.orderStatus,
+        order.createdAt
+      ).catch(console.error);
+    }
     
     return NextResponse.json({ order });
   } catch (error) {

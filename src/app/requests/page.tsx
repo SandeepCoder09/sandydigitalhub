@@ -26,16 +26,16 @@ export default async function RequestsPage({ searchParams }: RequestsPageProps) 
   const orders = await Order.find({ userId: session.user.id }).sort({ createdAt: -1 }).lean();
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-4 md:px-8 bg-white">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+    <div className="min-h-screen pt-8 sm:pt-14 pb-16 sm:pb-20 px-3 sm:px-6 md:px-8 bg-gray-50/60">
+      <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-gray-200 shadow-2xs">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">My Requested Services</h1>
-            <p className="text-gray-500">Track your order statuses, payment updates, and download invoices.</p>
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-900 leading-tight">My Requested Services</h1>
+            <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">Track your order statuses, payment updates, and download invoices.</p>
           </div>
           {from === 'account' && (
-            <Link href="/account" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 px-4 py-2 rounded-xl border border-gray-200 text-sm font-medium w-fit">
-              <ArrowLeft size={16} />
+            <Link href="/account" className="inline-flex items-center gap-1.5 text-gray-700 hover:text-[#7C3AED] bg-gray-50 hover:bg-purple-50 px-3.5 py-2 rounded-xl border border-gray-200 text-xs font-bold w-fit transition-colors">
+              <ArrowLeft size={14} />
               Account Settings
             </Link>
           )}

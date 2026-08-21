@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import {
   Menu, X, Search, Home, Zap, PackageCheck, FileCheck, Calculator,
   Wrench, Image as ImageIcon, Sparkles, FileText, Lock, Briefcase, Star, Tag,
-  PhoneCall, ShieldCheck, ArrowRight, ChevronRight, LogOut
+  PhoneCall, ShieldCheck, ArrowRight, ChevronRight, LogOut, ShoppingBag
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { NavLogoutButton } from './NavLogoutButton';
@@ -62,7 +62,6 @@ export function MobileNavDrawer({ session, controlledOpen, onClose, hideTrigger 
 
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      setTimeout(() => searchInputRef.current?.focus(), 150);
       window.addEventListener('keydown', handleKeyDown);
     } else {
       document.body.style.overflow = '';
@@ -82,6 +81,7 @@ export function MobileNavDrawer({ session, controlledOpen, onClose, hideTrigger 
       items: [
         { label: 'Hub Home', path: '/', icon: Home },
         { label: 'Citizen Services Catalog', path: '/services', icon: Zap, badge: 'SERVICES', color: 'text-[#7C3AED] bg-purple-50 border-purple-200' },
+        { label: 'My Requested Services', path: '/requests', icon: ShoppingBag, badge: 'ORDERS', color: 'text-[#7C3AED] bg-purple-50 border-purple-200' },
         { label: 'Live Track Request', path: '/track-order', icon: PackageCheck, badge: 'LIVE', color: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
         { label: 'Document Checklist', path: '/document-checklist', icon: FileCheck },
         { label: 'Price & Service Calculator', path: '/calculator', icon: Calculator },
@@ -250,12 +250,12 @@ export function MobileNavDrawer({ session, controlledOpen, onClose, hideTrigger 
         </div>
 
         {/* Footer: User Account / Auth Actions */}
-        <div className="p-4 sm:p-5 border-t border-slate-100 bg-slate-50/90 shrink-0 space-y-2.5">
+        <div className="p-3 sm:p-4 border-t border-slate-200 bg-slate-50/95 shrink-0 space-y-2">
           {session ? (
             <div className="space-y-2">
-              <div className="flex items-center justify-between p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+              <div className="flex items-center justify-between p-2.5 sm:p-3 rounded-2xl bg-white border border-slate-200 shadow-xs">
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="w-9 h-9 rounded-xl bg-[#7C3AED] text-white font-extrabold text-xs flex items-center justify-center shrink-0 shadow-xs">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#7C3AED] text-white font-extrabold text-xs flex items-center justify-center shrink-0 shadow-xs">
                     {session.user?.name ? session.user.name.charAt(0).toUpperCase() : 'U'}
                   </div>
                   <div className="min-w-0">
@@ -268,30 +268,40 @@ export function MobileNavDrawer({ session, controlledOpen, onClose, hideTrigger 
                   </div>
                 </div>
 
-                <Link
-                  href="/account"
-                  onClick={handleClose}
-                  className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-purple-50 text-slate-700 hover:text-[#7C3AED] text-xs font-bold transition-colors shrink-0"
-                >
-                  Profile
-                </Link>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <Link
+                    href="/requests"
+                    onClick={handleClose}
+                    className="px-2.5 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-[#7C3AED] text-xs font-bold transition-colors flex items-center gap-1 border border-purple-200"
+                  >
+                    <ShoppingBag size={12} />
+                    <span>Requests</span>
+                  </Link>
+                  <Link
+                    href="/account"
+                    onClick={handleClose}
+                    className="px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors"
+                  >
+                    Profile
+                  </Link>
+                </div>
               </div>
 
-              <NavLogoutButton />
+              <NavLogoutButton className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl bg-rose-50 hover:bg-rose-100/90 text-rose-600 hover:text-rose-700 border border-rose-200 text-xs font-bold transition-all shadow-xs cursor-pointer h-9.5" />
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-2">
               <Link
                 href="/login"
                 onClick={handleClose}
-                className="py-2.5 px-4 rounded-2xl bg-white border border-slate-200 text-slate-800 text-xs font-extrabold hover:bg-slate-100 text-center transition-colors shadow-2xs"
+                className="py-2.5 px-4 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs font-extrabold hover:bg-slate-100 text-center transition-colors shadow-xs"
               >
                 Sign In
               </Link>
               <Link
                 href="/signup"
                 onClick={handleClose}
-                className="py-2.5 px-4 rounded-2xl bg-[#7C3AED] text-white text-xs font-extrabold hover:bg-[#6D28D9] text-center transition-all shadow-md shadow-purple-200"
+                className="py-2.5 px-4 rounded-xl bg-[#7C3AED] text-white text-xs font-extrabold hover:bg-[#6D28D9] text-center transition-all shadow-sm shadow-purple-200"
               >
                 Get Started
               </Link>

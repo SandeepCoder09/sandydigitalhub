@@ -8,6 +8,8 @@ import { ToastProvider } from "@/components/ui/Toast";
 import { PageGuard } from "@/components/layout/PageGuard";
 import { VisitorTracker } from "@/components/layout/VisitorTracker";
 import { SuzuBusinessWidget } from "@/components/layout/SuzuBusinessWidget";
+import { CookieConsentPopup } from "@/components/layout/CookieConsentPopup";
+import { AnnouncementBanner } from "@/components/layout/AnnouncementBanner";
 
 import { LanguageProvider } from "@/context/LanguageContext";
 import { SidebarProvider } from "@/context/SidebarContext";
@@ -48,9 +50,11 @@ export default function RootLayout({
             <SidebarProvider>
               <ToastProvider>
                 <VisitorTracker />
+                <AnnouncementBanner />
                 <PageGuard navbar={<Navbar />} footer={<Footer />} liveChat={<SuzuBusinessWidget />}>
                   {children}
                 </PageGuard>
+                <CookieConsentPopup />
               </ToastProvider>
             </SidebarProvider>
           </LanguageProvider>

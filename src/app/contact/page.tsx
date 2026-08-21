@@ -64,45 +64,45 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="py-16 md:py-24 bg-white min-h-screen">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-xs font-bold uppercase tracking-wider shadow-sm">
-            <Sparkles size={14} /> Get Fast Support
+    <div className="py-8 sm:py-24 bg-white min-h-screen">
+      <div className="container mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-16 space-y-2 sm:space-y-4">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-[10px] sm:text-xs font-bold uppercase tracking-wider shadow-sm">
+            <Sparkles size={12} className="sm:w-3.5 sm:h-3.5" /> Get Fast Support
           </div>
-          <h1 className="text-4xl font-black tracking-tight sm:text-5xl text-gray-900">
+          <h1 className="text-2xl sm:text-5xl font-black tracking-tight text-gray-900 leading-tight">
             Contact <span className="text-[#7C3AED]">Sandy Digital Hub</span>
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-xs sm:text-lg text-gray-600">
             Have a project in mind or need digital assistance? Reach out to us today for high-speed solutions.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-12 max-w-6xl mx-auto items-start">
           {/* Contact Info Card */}
-          <div className="space-y-8">
-            <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-xl shadow-purple-500/5 hover:border-[#7C3AED]/30 transition-all">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h2>
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-3.5 rounded-2xl bg-purple-100/80 text-[#7C3AED] shrink-0 font-bold shadow-inner">
-                    <MapPin className="h-6 w-6" />
+          <div className="space-y-4 sm:space-y-8">
+            <div className="bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-gray-200 shadow-lg sm:shadow-xl shadow-purple-500/5 hover:border-[#7C3AED]/30 transition-all">
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-6">Get in Touch</h2>
+              <div className="space-y-3.5 sm:space-y-6">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-purple-100/80 text-[#7C3AED] shrink-0 font-bold shadow-inner">
+                    <MapPin className="h-4 w-4 sm:h-6 sm:w-6" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 text-base">Visit Our Office</h3>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <h3 className="font-bold text-gray-900 text-xs sm:text-base">Visit Our Office</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1">
                       Bairi, Khakhreru, Fatehpur,<br />Uttar Pradesh, India - 212656
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="p-3.5 rounded-2xl bg-purple-100/80 text-[#7C3AED] shrink-0 font-bold shadow-inner">
-                    <Phone className="h-6 w-6" />
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-purple-100/80 text-[#7C3AED] shrink-0 font-bold shadow-inner">
+                    <Phone className="h-4 w-4 sm:h-6 sm:w-6" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 text-base">Call / WhatsApp</h3>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <h3 className="font-bold text-gray-900 text-xs sm:text-base">Call / WhatsApp</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1">
                       <a href="https://wa.me/918756454282" target="_blank" rel="noreferrer" className="text-[#7C3AED] font-bold hover:underline">
                         +91 87564 54282
                       </a>
@@ -110,13 +110,13 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="p-3.5 rounded-2xl bg-purple-100/80 text-[#7C3AED] shrink-0 font-bold shadow-inner">
-                    <Mail className="h-6 w-6" />
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-purple-100/80 text-[#7C3AED] shrink-0 font-bold shadow-inner">
+                    <Mail className="h-4 w-4 sm:h-6 sm:w-6" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 text-base">Email Us</h3>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <h3 className="font-bold text-gray-900 text-xs sm:text-base">Email Us</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1">
                       <a href="mailto:support@sandydigitalhub.com" className="text-gray-800 hover:text-[#7C3AED] transition-colors">
                         support@sandydigitalhub.com
                       </a>
@@ -124,13 +124,13 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="p-3.5 rounded-2xl bg-purple-100/80 text-[#7C3AED] shrink-0 font-bold shadow-inner">
-                    <Clock className="h-6 w-6" />
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-purple-100/80 text-[#7C3AED] shrink-0 font-bold shadow-inner">
+                    <Clock className="h-4 w-4 sm:h-6 sm:w-6" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 text-base">Business Hours</h3>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <h3 className="font-bold text-gray-900 text-xs sm:text-base">Business Hours</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1">
                       Monday - Saturday: 8:00 AM - 9:00 PM<br />
                       Sunday: 9:00 AM - 6:00 PM
                     </p>
@@ -140,27 +140,27 @@ export default function ContactPage() {
             </div>
 
             {/* Quick WhatsApp Chat Card */}
-            <div className="bg-gradient-to-br from-green-500 to-emerald-600 p-6 rounded-3xl text-white shadow-xl flex items-center justify-between gap-4">
+            <div className="bg-gradient-to-br from-green-500 to-emerald-600 p-4 sm:p-6 rounded-2xl sm:rounded-3xl text-white shadow-lg sm:shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
               <div>
-                <h3 className="font-bold text-lg">Need Immediate Assistance?</h3>
-                <p className="text-xs text-white/90 mt-1">Chat directly with Sandy Support on WhatsApp</p>
+                <h3 className="font-bold text-sm sm:text-lg">Need Immediate Assistance?</h3>
+                <p className="text-[11px] sm:text-xs text-white/90 mt-0.5 sm:mt-1">Chat directly with Sandy Support on WhatsApp</p>
               </div>
               <a
                 href="https://wa.me/918756454282?text=Hello%20Sandy%20Digital%20Hub,%20I%20need%20assistance"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 bg-white text-green-700 px-4 py-2.5 rounded-2xl font-bold text-xs hover:bg-gray-100 transition-transform active:scale-95 shadow-md shrink-0"
+                className="inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-white text-green-700 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs hover:bg-gray-100 transition-transform active:scale-95 shadow-md shrink-0 text-center"
               >
-                <MessageCircle size={16} /> WhatsApp Chat
+                <MessageCircle size={15} /> WhatsApp Chat
               </a>
             </div>
           </div>
 
           {/* Form */}
-          <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-xl shadow-purple-500/5">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+          <div className="bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-gray-200 shadow-lg sm:shadow-xl shadow-purple-500/5">
+            <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Send us a Message</h2>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3.5 sm:space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <FormField
                     control={form.control}

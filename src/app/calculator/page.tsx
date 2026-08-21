@@ -90,65 +90,65 @@ export default function CalculatorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/60 pb-16">
+    <div className="min-h-screen bg-gray-50/60 pb-12 sm:pb-16">
       {/* Header Banner */}
-      <section className="bg-white border-b border-slate-200/80 pt-10 sm:pt-14 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden shadow-xs">
+      <section className="bg-white border-b border-slate-200/80 pt-6 sm:pt-14 pb-8 sm:pb-14 px-3 sm:px-6 lg:px-8 relative overflow-hidden shadow-xs">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[320px] bg-purple-50 rounded-full blur-3xl opacity-80" />
         </div>
 
-        <div className="max-w-5xl mx-auto text-center space-y-4 relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-xs font-bold uppercase tracking-wider shadow-2xs">
-            <Calculator size={14} /> Instant Quotation Calculator
+        <div className="max-w-5xl mx-auto text-center space-y-2.5 sm:space-y-4 relative z-10">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-[10px] sm:text-xs font-bold uppercase tracking-wider shadow-2xs">
+            <Calculator size={12} className="sm:w-3.5 sm:h-3.5" /> Instant Quotation Calculator
           </div>
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-tight">
             Transparent <span className="text-[#7C3AED]">Price Calculator</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
+          <p className="max-w-2xl mx-auto text-xs sm:text-base text-slate-600 font-medium leading-relaxed">
             Calculate instant estimated pricing for Website Development, Mobile Apps, or Jan Seva government services with zero hidden charges.
           </p>
 
           {/* Calculator Mode Switcher */}
-          <div className="inline-flex p-1.5 rounded-2xl bg-slate-100/90 border border-slate-200/80 mt-4 shadow-xs">
+          <div className="inline-flex p-1 rounded-xl sm:rounded-2xl bg-slate-100/90 border border-slate-200/80 mt-2 sm:mt-4 shadow-xs">
             <button
               onClick={() => setCalculatorMode('web')}
-              className={`px-5 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
+              className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 sm:gap-2 ${
                 calculatorMode === 'web'
-                  ? 'bg-white text-[#7C3AED] shadow-sm border border-slate-200/60'
+                  ? 'bg-white text-[#7C3AED] shadow-xs sm:shadow-sm border border-slate-200/60'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
               }`}
             >
-              <Globe size={15} /> Web & App Project Quote
+              <Globe size={13} className="sm:w-[15px] sm:h-[15px]" /> Web & App Quote
             </button>
             <button
               onClick={() => setCalculatorMode('govt')}
-              className={`px-5 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
+              className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 sm:gap-2 ${
                 calculatorMode === 'govt'
-                  ? 'bg-white text-[#7C3AED] shadow-sm border border-slate-200/60'
+                  ? 'bg-white text-[#7C3AED] shadow-xs sm:shadow-sm border border-slate-200/60'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
               }`}
             >
-              <FileText size={15} /> Jan Seva Services Estimator
+              <FileText size={13} className="sm:w-[15px] sm:h-[15px]" /> Jan Seva Services
             </button>
           </div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-8">
         {/* MODE A: WEB & APP CALCULATOR */}
         {calculatorMode === 'web' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8">
             
             {/* Options Selector Panel */}
-            <div className="lg:col-span-8 space-y-6">
+            <div className="lg:col-span-8 space-y-4 sm:space-y-6">
               
               {/* Step 1: Project Type */}
-              <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-4">
-                <h2 className="text-base font-extrabold text-gray-900 flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-purple-100 text-[#7C3AED] text-xs flex items-center justify-center font-black">1</span>
+              <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-xs space-y-3 sm:space-y-4">
+                <h2 className="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2">
+                  <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-purple-100 text-[#7C3AED] text-[10px] sm:text-xs flex items-center justify-center font-black">1</span>
                   Select Project Category
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                   {(Object.keys(PROJECT_BASE_PRICES) as Array<keyof typeof PROJECT_BASE_PRICES>).map(key => {
                     const item = PROJECT_BASE_PRICES[key];
                     const isSelected = projectType === key;
@@ -156,7 +156,7 @@ export default function CalculatorPage() {
                       <div
                         key={key}
                         onClick={() => setProjectType(key)}
-                        className={`p-4 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
+                        className={`p-3 sm:p-4 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
                           isSelected
                             ? 'bg-purple-50/70 border-[#7C3AED] ring-1 ring-[#7C3AED]'
                             : 'bg-white border-gray-200 hover:border-gray-300'
@@ -165,11 +165,11 @@ export default function CalculatorPage() {
                         <div>
                           <div className="flex items-center justify-between">
                             <span className="text-xs font-bold text-gray-900">{item.name}</span>
-                            <CheckCircle2 size={16} className={isSelected ? 'text-[#7C3AED]' : 'text-gray-300'} />
+                            <CheckCircle2 size={15} className={isSelected ? 'text-[#7C3AED]' : 'text-gray-300'} />
                           </div>
-                          <p className="text-[11px] text-gray-500 font-medium mt-1 leading-snug">{item.desc}</p>
+                          <p className="text-[10px] sm:text-[11px] text-gray-500 font-medium mt-0.5 sm:mt-1 leading-snug">{item.desc}</p>
                         </div>
-                        <div className="text-xs font-extrabold text-[#7C3AED] mt-3">
+                        <div className="text-[11px] sm:text-xs font-extrabold text-[#7C3AED] mt-2 sm:mt-3">
                           Base: ₹{item.base.toLocaleString('en-IN')}
                         </div>
                       </div>
@@ -179,13 +179,13 @@ export default function CalculatorPage() {
               </div>
 
               {/* Step 2: Page Count Slider */}
-              <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-4">
+              <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-xs space-y-3 sm:space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-base font-extrabold text-gray-900 flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-full bg-purple-100 text-[#7C3AED] text-xs flex items-center justify-center font-black">2</span>
+                  <h2 className="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2">
+                    <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-purple-100 text-[#7C3AED] text-[10px] sm:text-xs flex items-center justify-center font-black">2</span>
                     Estimated Page Count
                   </h2>
-                  <span className="px-3 py-1 rounded-full bg-purple-100 text-[#7C3AED] text-xs font-extrabold">
+                  <span className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-purple-100 text-[#7C3AED] text-[11px] sm:text-xs font-extrabold">
                     {pageCount} Pages
                   </span>
                 </div>
@@ -194,7 +194,7 @@ export default function CalculatorPage() {
                   onChange={e => setPageCount(Number(e.target.value))}
                   className="w-full accent-[#7C3AED] cursor-pointer"
                 />
-                <div className="flex justify-between text-[11px] text-gray-400 font-bold">
+                <div className="flex justify-between text-[10px] sm:text-[11px] text-gray-400 font-bold">
                   <span>1 Page (Landing)</span>
                   <span>5 Pages (Standard)</span>
                   <span>20+ Pages (Portal)</span>
@@ -202,19 +202,19 @@ export default function CalculatorPage() {
               </div>
 
               {/* Step 3: Addon Features */}
-              <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-4">
-                <h2 className="text-base font-extrabold text-gray-900 flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-purple-100 text-[#7C3AED] text-xs flex items-center justify-center font-black">3</span>
+              <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-xs space-y-3 sm:space-y-4">
+                <h2 className="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2">
+                  <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-purple-100 text-[#7C3AED] text-[10px] sm:text-xs flex items-center justify-center font-black">3</span>
                   Add-on Modules & Features
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                   {WEB_FEATURES.map(feat => {
                     const isSelected = selectedFeatures.includes(feat.id);
                     return (
                       <div
                         key={feat.id}
                         onClick={() => toggleFeature(feat.id)}
-                        className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                        className={`p-2.5 sm:p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-2.5 sm:gap-3 ${
                           isSelected
                             ? 'bg-purple-50/70 border-[#7C3AED]'
                             : 'bg-white border-gray-200 hover:border-gray-300'
@@ -234,30 +234,30 @@ export default function CalculatorPage() {
               </div>
 
               {/* Step 4: Urgency Timeline */}
-              <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-4">
-                <h2 className="text-base font-extrabold text-gray-900 flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-purple-100 text-[#7C3AED] text-xs flex items-center justify-center font-black">4</span>
+              <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-xs space-y-3 sm:space-y-4">
+                <h2 className="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2">
+                  <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-purple-100 text-[#7C3AED] text-[10px] sm:text-xs flex items-center justify-center font-black">4</span>
                   Delivery Timeline
                 </h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4">
                   <button
                     onClick={() => setTimeline('normal')}
-                    className={`p-4 rounded-xl border text-left cursor-pointer transition-all ${
+                    className={`p-3 sm:p-4 rounded-lg sm:rounded-xl border text-left cursor-pointer transition-all ${
                       timeline === 'normal' ? 'bg-purple-50 border-[#7C3AED]' : 'bg-white border-gray-200'
                     }`}
                   >
                     <div className="text-xs font-bold text-gray-900">Standard Delivery (7 - 14 Days)</div>
-                    <div className="text-[11px] text-gray-500 mt-1">Normal delivery timeline</div>
+                    <div className="text-[10px] sm:text-[11px] text-gray-500 mt-0.5 sm:mt-1">Normal delivery timeline</div>
                   </button>
 
                   <button
                     onClick={() => setTimeline('express')}
-                    className={`p-4 rounded-xl border text-left cursor-pointer transition-all ${
+                    className={`p-3 sm:p-4 rounded-lg sm:rounded-xl border text-left cursor-pointer transition-all ${
                       timeline === 'express' ? 'bg-purple-50 border-[#7C3AED]' : 'bg-white border-gray-200'
                     }`}
                   >
                     <div className="text-xs font-bold text-gray-900">⚡ Express Fast Track (3 - 5 Days)</div>
-                    <div className="text-[11px] text-purple-600 font-semibold mt-1">+25% Priority Surge</div>
+                    <div className="text-[10px] sm:text-[11px] text-purple-600 font-semibold mt-0.5 sm:mt-1">+25% Priority Surge</div>
                   </button>
                 </div>
               </div>
@@ -265,22 +265,22 @@ export default function CalculatorPage() {
             </div>
 
             {/* Price Output Card */}
-            <div className="lg:col-span-4 space-y-6">
-              <div className="bg-slate-900 text-white rounded-2xl p-6 border border-gray-800 shadow-xl sticky top-24 space-y-6">
+            <div className="lg:col-span-4 space-y-4 sm:space-y-6">
+              <div className="bg-slate-900 text-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-800 shadow-xl sticky top-20 sm:top-24 space-y-4 sm:space-y-6">
                 <div>
-                  <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">
+                  <span className="text-[9px] sm:text-[10px] font-bold text-blue-400 uppercase tracking-widest">
                     Live Quotation Estimate
                   </span>
-                  <div className="text-3xl sm:text-4xl font-black text-white mt-1">
+                  <div className="text-2xl sm:text-4xl font-black text-white mt-0.5 sm:mt-1">
                     ₹{calculateWebTotal().toLocaleString('en-IN')}
                     <span className="text-xs font-normal text-gray-400 ml-1.5">+ Tax</span>
                   </div>
-                  <p className="text-[11px] text-gray-400 font-medium mt-1">
+                  <p className="text-[10px] sm:text-[11px] text-gray-400 font-medium mt-0.5 sm:mt-1 leading-snug">
                     Includes source code, deployment, SSL & 30-day free support.
                   </p>
                 </div>
 
-                <div className="space-y-2 pt-3 border-t border-gray-800 text-xs">
+                <div className="space-y-1.5 sm:space-y-2 pt-2.5 sm:pt-3 border-t border-gray-800 text-[11px] sm:text-xs">
                   <div className="flex justify-between text-gray-300">
                     <span>Base ({PROJECT_BASE_PRICES[projectType].name}):</span>
                     <span>₹{PROJECT_BASE_PRICES[projectType].base.toLocaleString('en-IN')}</span>
@@ -305,14 +305,14 @@ export default function CalculatorPage() {
                   )}
                 </div>
 
-                <div className="space-y-2 pt-2">
+                <div className="space-y-2 pt-1 sm:pt-2">
                   <Link href={`/checkout?quote=${calculateWebTotal()}&type=${projectType}`}>
-                    <Button className="w-full bg-[#7C3AED] hover:bg-[#7C3AED]/90 text-white font-bold rounded-xl text-xs py-3 shadow-lg shadow-blue-950">
-                      Book This Project Now <ArrowRight size={14} />
+                    <Button className="w-full bg-[#7C3AED] hover:bg-[#7C3AED]/90 text-white font-bold rounded-lg sm:rounded-xl text-xs h-10 sm:h-11 shadow-lg shadow-blue-950">
+                      Book This Project Now <ArrowRight size={13} />
                     </Button>
                   </Link>
                   <a href="tel:+918756454282" className="block">
-                    <Button variant="outline" className="w-full border-gray-700 text-gray-200 hover:bg-gray-800 rounded-xl text-xs font-bold">
+                    <Button variant="outline" className="w-full border-gray-700 text-gray-200 hover:bg-gray-800 rounded-lg sm:rounded-xl text-xs font-bold h-9 sm:h-10">
                       📞 Discuss Requirement (+91 8756454282)
                     </Button>
                   </a>
@@ -325,13 +325,13 @@ export default function CalculatorPage() {
 
         {/* MODE B: GOVT & CYBER SERVICES ESTIMATOR */}
         {calculatorMode === 'govt' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-8 space-y-6">
-              <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-4">
-                <h2 className="text-base font-extrabold text-gray-900 flex items-center gap-2">
-                  <FileText size={18} className="text-[#7C3AED]" /> Select Government / Jan Seva Services
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8">
+            <div className="lg:col-span-8 space-y-4 sm:space-y-6">
+              <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-xs space-y-3 sm:space-y-4">
+                <h2 className="text-sm sm:text-base font-extrabold text-gray-900 flex items-center gap-2">
+                  <FileText size={16} className="text-[#7C3AED] sm:w-[18px] sm:h-[18px]" /> Select Government / Jan Seva Services
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                   {Object.keys(GOVT_SERVICE_PRICES).map(sId => {
                     const item = GOVT_SERVICE_PRICES[sId];
                     const isSelected = selectedGovtServices.includes(sId);
@@ -339,15 +339,15 @@ export default function CalculatorPage() {
                       <div
                         key={sId}
                         onClick={() => toggleGovtService(sId)}
-                        className={`p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                        className={`p-3 sm:p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-2.5 sm:gap-3 ${
                           isSelected ? 'bg-purple-50 border-[#7C3AED]' : 'bg-white border-gray-200 hover:border-gray-300'
                         }`}
                       >
-                        <div className="flex items-center gap-3">
-                          <CheckCircle2 size={18} className={isSelected ? 'text-[#7C3AED]' : 'text-gray-300'} />
-                          <span className="text-xs font-bold text-gray-900">{item.title}</span>
+                        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                          <CheckCircle2 size={16} className={isSelected ? 'text-[#7C3AED] shrink-0' : 'text-gray-300 shrink-0'} />
+                          <span className="text-[11px] sm:text-xs font-bold text-gray-900 truncate">{item.title}</span>
                         </div>
-                        <span className="text-xs font-extrabold text-[#7C3AED]">₹{item.price}</span>
+                        <span className="text-xs font-extrabold text-[#7C3AED] shrink-0">₹{item.price}</span>
                       </div>
                     );
                   })}
@@ -355,51 +355,51 @@ export default function CalculatorPage() {
               </div>
 
               {/* Delivery Option */}
-              <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-4">
-                <h2 className="text-base font-extrabold text-gray-900">Document Delivery Option</h2>
-                <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-xs space-y-3 sm:space-y-4">
+                <h2 className="text-sm sm:text-base font-extrabold text-gray-900">Document Delivery Option</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4">
                   <button
                     onClick={() => setDeliveryOption('digital')}
-                    className={`p-4 rounded-xl border text-left cursor-pointer transition-all ${
+                    className={`p-3 sm:p-4 rounded-lg sm:rounded-xl border text-left cursor-pointer transition-all ${
                       deliveryOption === 'digital' ? 'bg-purple-50 border-[#7C3AED]' : 'bg-white border-gray-200'
                     }`}
                   >
                     <div className="text-xs font-bold text-gray-900">Digital / Shop Pickup</div>
-                    <div className="text-[11px] text-gray-500 mt-1">Download PDF online or pick at shop (Free)</div>
+                    <div className="text-[10px] sm:text-[11px] text-gray-500 mt-0.5 sm:mt-1 leading-snug">Download PDF online or pick at shop (Free)</div>
                   </button>
 
                   <button
                     onClick={() => setDeliveryOption('home_delivery')}
-                    className={`p-4 rounded-xl border text-left cursor-pointer transition-all ${
+                    className={`p-3 sm:p-4 rounded-lg sm:rounded-xl border text-left cursor-pointer transition-all ${
                       deliveryOption === 'home_delivery' ? 'bg-purple-50 border-[#7C3AED]' : 'bg-white border-gray-200'
                     }`}
                   >
                     <div className="text-xs font-bold text-gray-900">🚚 Doorstep Hardcopy Delivery</div>
-                    <div className="text-[11px] text-purple-600 font-semibold mt-1">Laminated print delivered in Fatehpur (+₹100)</div>
+                    <div className="text-[10px] sm:text-[11px] text-purple-600 font-semibold mt-0.5 sm:mt-1 leading-snug">Laminated print delivered in Fatehpur (+₹100)</div>
                   </button>
                 </div>
               </div>
             </div>
 
             {/* Price Output */}
-            <div className="lg:col-span-4 space-y-6">
-              <div className="bg-slate-900 text-white rounded-2xl p-6 border border-gray-800 shadow-xl sticky top-24 space-y-6">
+            <div className="lg:col-span-4 space-y-4 sm:space-y-6">
+              <div className="bg-slate-900 text-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-800 shadow-xl sticky top-20 sm:top-24 space-y-4 sm:space-y-6">
                 <div>
-                  <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">
+                  <span className="text-[9px] sm:text-[10px] font-bold text-blue-400 uppercase tracking-widest">
                     Total Estimated Amount
                   </span>
-                  <div className="text-3xl sm:text-4xl font-black text-white mt-1">
+                  <div className="text-2xl sm:text-4xl font-black text-white mt-0.5 sm:mt-1">
                     ₹{calculateGovtTotal()}
                   </div>
-                  <p className="text-[11px] text-gray-400 font-medium mt-1">
+                  <p className="text-[10px] sm:text-[11px] text-gray-400 font-medium mt-0.5 sm:mt-1 leading-snug">
                     Includes official government portal fee + processing charge.
                   </p>
                 </div>
 
-                <div className="space-y-2 pt-2">
+                <div className="space-y-2 pt-1 sm:pt-2">
                   <Link href="/checkout">
-                    <Button className="w-full bg-[#7C3AED] hover:bg-[#7C3AED]/90 text-white font-bold rounded-xl text-xs py-3 shadow-lg">
-                      Apply Now <ArrowRight size={14} />
+                    <Button className="w-full bg-[#7C3AED] hover:bg-[#7C3AED]/90 text-white font-bold rounded-lg sm:rounded-xl text-xs h-10 sm:h-11 shadow-lg">
+                      Apply Now <ArrowRight size={13} />
                     </Button>
                   </Link>
                 </div>

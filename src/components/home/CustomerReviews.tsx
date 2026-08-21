@@ -37,30 +37,30 @@ export function CustomerReviews() {
   }
 
   return (
-    <section className="py-16 sm:py-24 bg-slate-50/60 border-t border-slate-200/80">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
-            <CheckCircle2 size={13} className="text-emerald-600" />
+    <section className="py-8 sm:py-24 bg-slate-50/60 border-t border-slate-200/80">
+      <div className="container mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-16 space-y-1.5 sm:space-y-2">
+          <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] sm:text-xs font-bold">
+            <CheckCircle2 size={12} className="text-emerald-600 sm:w-[13px] sm:h-[13px]" />
             <span>Verified Customer Feedback</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">
+          <h2 className="text-xl sm:text-4xl font-black tracking-tight text-slate-900 leading-tight">
             Real Customer <span className="text-[#7C3AED]">Experiences</span>
           </h2>
-          <p className="text-sm text-slate-600 font-medium">
+          <p className="text-xs sm:text-sm text-slate-600 font-medium">
             Genuine ratings and reviews from clients who used our digital facilitation services.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6">
           {reviewsList.slice(0, 6).map((review, index) => (
             <motion.div
               key={review._id || index}
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.4 }}
-              className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-2xs relative flex flex-col justify-between"
+              transition={{ delay: index * 0.08, duration: 0.35 }}
+              className="bg-white p-4 sm:p-7 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-2xs relative flex flex-col justify-between"
             >
               <div>
                 <div className="flex gap-1 mb-4 text-amber-400">

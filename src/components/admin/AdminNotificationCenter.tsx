@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Bell, Check, Trash2, Filter, X, ShieldAlert, ShoppingBag, UserPlus, CreditCard, RefreshCw, ExternalLink } from 'lucide-react';
+import { Bell, Check, Trash2, Filter, X, ShieldAlert, ShoppingBag, UserPlus, CreditCard, RefreshCw, ExternalLink, Megaphone } from 'lucide-react';
 
 interface NotificationItem {
   id: string;
-  category: 'PAYMENT' | 'ORDER' | 'CUSTOMER' | 'SERVICE' | 'SYSTEM';
+  category: 'PAYMENT' | 'ORDER' | 'CUSTOMER' | 'SERVICE' | 'SYSTEM' | 'ANNOUNCEMENT';
   title: string;
   desc: string;
   time: string;
@@ -19,7 +19,7 @@ const DELETED_STORAGE_KEY = 'sdh_admin_deleted_notifs';
 
 export function AdminNotificationCenter() {
   const [isOpen, setIsOpen] = useState(false);
-  const [filter, setFilter] = useState<'ALL' | 'UNREAD' | 'PAYMENT' | 'ORDER'>('ALL');
+  const [filter, setFilter] = useState<'ALL' | 'UNREAD' | 'PAYMENT' | 'ORDER' | 'ANNOUNCEMENT'>('ALL');
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [readIds, setReadIds] = useState<string[]>([]);
   const [deletedIds, setDeletedIds] = useState<string[]>([]);
@@ -54,6 +54,28 @@ export function AdminNotificationCenter() {
             ...n,
             read: n.read || savedRead.includes(n.id),
           }));
+
+        // Also fetch platform announcements targeted to ADMIN
+        try {
+          const annRes = await fetch('/api/notifications?limit=10');
+          if (annRes.ok) {
+            const annData = await annRes.json();
+            const annNotifs: NotificationItem[] = (annData.notifications || [])
+              .filter((n: any) => n.isAnnouncement)
+              .filter((n: any) => !savedDeleted.includes(n.id))
+              .map((n: any) => ({
+                id: n.id,
+                category: 'ANNOUNCEMENT' as const,
+                title: n.title,
+                desc: n.body,
+                time: n.createdAt,
+                read: n.isRead || savedRead.includes(n.id),
+                link: '/admin/announcements',
+              }));
+            setNotifications([...processed, ...annNotifs]);
+            return;
+          }
+        } catch {}
 
         setNotifications(processed);
       }
@@ -110,6 +132,7 @@ export function AdminNotificationCenter() {
     if (filter === 'UNREAD') return !n.read;
     if (filter === 'PAYMENT') return n.category === 'PAYMENT';
     if (filter === 'ORDER') return n.category === 'ORDER';
+    if (filter === 'ANNOUNCEMENT') return n.category === 'ANNOUNCEMENT';
     return true;
   });
 
@@ -123,6 +146,8 @@ export function AdminNotificationCenter() {
         return <span className="w-2.5 h-2.5 rounded-full bg-purple-500 shrink-0 shadow-2xs" />;
       case 'SERVICE':
         return <span className="w-2.5 h-2.5 rounded-full bg-red-500 shrink-0 animate-ping" />;
+      case 'ANNOUNCEMENT':
+        return <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 shrink-0" />;
       case 'SYSTEM':
       default:
         return <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0" />;
@@ -178,8 +203,8 @@ export function AdminNotificationCenter() {
             </div>
 
             {/* Filter Bar */}
-            <div className="p-2 border-b border-gray-100 flex items-center gap-1 text-[11px] font-bold">
-              {(['ALL', 'UNREAD', 'PAYMENT', 'ORDER'] as const).map((f) => (
+            <div className="p-2 border-b border-gray-100 flex items-center gap-1 text-[11px] font-bold flex-wrap">
+              {(['ALL', 'UNREAD', 'PAYMENT', 'ORDER', 'ANNOUNCEMENT'] as const).map((f) => (
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
@@ -189,7 +214,7 @@ export function AdminNotificationCenter() {
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
-                  {f}
+                  {f === 'ANNOUNCEMENT' ? '📢' : ''} {f}
                 </button>
               ))}
             </div>

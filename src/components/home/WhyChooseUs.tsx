@@ -40,48 +40,50 @@ export function WhyChooseUs() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-white border-t border-slate-200/80">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-100 border border-purple-200 text-[#7C3AED] text-xs font-black uppercase tracking-wider">
+    <section className="py-8 sm:py-24 bg-white border-t border-slate-200/80">
+      <div className="container mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-16 space-y-2 sm:space-y-3">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full bg-purple-100 border border-purple-200 text-[#7C3AED] text-[10px] sm:text-xs font-black uppercase tracking-wider">
             <span>Transparent Facilitation Workflow</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">
+          <h2 className="text-xl sm:text-4xl font-black tracking-tight text-slate-900 leading-tight">
             How Our Service <span className="text-[#7C3AED]">Works</span>
           </h2>
-          <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
+          <p className="text-xs sm:text-base text-slate-600 font-medium leading-relaxed">
             Follow 5 simple steps from selecting your required service to tracking your completed certificate or application online.
           </p>
         </div>
 
         {/* ── 5-Step Process Grid / Timeline ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-5">
           {steps.map((s, idx) => {
             const Icon = s.icon;
             return (
               <motion.div
                 key={s.num}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: idx * 0.1 }}
-                className="relative p-5 rounded-3xl bg-slate-50 hover:bg-purple-50/50 border border-slate-200/90 hover:border-purple-300 transition-all duration-300 flex flex-col justify-between group shadow-2xs hover:shadow-md"
+                transition={{ duration: 0.3, delay: idx * 0.08 }}
+                className="relative p-3 sm:p-5 rounded-2xl sm:rounded-3xl bg-slate-50 hover:bg-purple-50/50 border border-slate-200/90 hover:border-purple-300 transition-all duration-300 flex flex-row md:flex-col items-center md:items-stretch gap-3 md:gap-0 justify-between group shadow-2xs hover:shadow-md"
               >
-                <div className="space-y-3">
+                <div className="flex items-center md:block gap-3 flex-1 min-w-0 md:space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl font-black text-slate-300 group-hover:text-[#7C3AED] transition-colors">
+                    <span className="text-sm sm:text-2xl font-black text-[#7C3AED] sm:text-slate-300 group-hover:text-[#7C3AED] transition-colors font-mono shrink-0">
                       {s.num}
                     </span>
-                    <div className="w-10 h-10 rounded-2xl bg-white border border-slate-200 text-[#7C3AED] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#7C3AED] group-hover:text-white transition-all shadow-2xs">
-                      <Icon size={18} />
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white border border-slate-200 text-[#7C3AED] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#7C3AED] group-hover:text-white transition-all shadow-2xs shrink-0">
+                      <Icon size={16} className="sm:w-[18px] sm:h-[18px]" />
                     </div>
                   </div>
-                  <h3 className="text-sm font-black text-slate-900 group-hover:text-[#7C3AED] transition-colors">
-                    {s.title}
-                  </h3>
-                  <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                    {s.desc}
-                  </p>
+                  <div className="min-w-0">
+                    <h3 className="text-xs sm:text-sm font-black text-slate-900 group-hover:text-[#7C3AED] transition-colors truncate md:whitespace-normal">
+                      {s.title}
+                    </h3>
+                    <p className="text-[11px] sm:text-xs text-slate-600 leading-snug sm:leading-relaxed font-medium line-clamp-1 sm:line-clamp-none">
+                      {s.desc}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             );
@@ -89,15 +91,15 @@ export function WhyChooseUs() {
         </div>
 
         {/* Action Trigger */}
-        <div className="mt-12 text-center flex flex-col sm:flex-row items-center justify-center gap-3">
-          <Link href="/services">
-            <Button size="lg" className="w-full sm:w-auto h-12 px-7 rounded-2xl bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-extrabold text-xs shadow-md shadow-purple-500/20">
+        <div className="mt-6 sm:mt-12 text-center flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3">
+          <Link href="/services" className="w-full sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto h-11 sm:h-12 px-6 sm:px-7 rounded-xl sm:rounded-2xl bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-extrabold text-xs shadow-md shadow-purple-500/20">
               <span>Start Service Request</span>
-              <ArrowRight size={15} className="ml-1.5" />
+              <ArrowRight size={14} className="ml-1.5" />
             </Button>
           </Link>
-          <Link href="/document-checklist">
-            <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 px-6 rounded-2xl border-slate-300 text-slate-700 hover:text-[#7C3AED] hover:border-[#7C3AED] hover:bg-purple-50 font-bold text-xs">
+          <Link href="/document-checklist" className="w-full sm:w-auto">
+            <Button variant="outline" size="lg" className="w-full sm:w-auto h-11 sm:h-12 px-5 sm:px-6 rounded-xl sm:rounded-2xl border-slate-300 text-slate-700 hover:text-[#7C3AED] hover:border-[#7C3AED] hover:bg-purple-50 font-bold text-xs">
               Check Required Documents
             </Button>
           </Link>

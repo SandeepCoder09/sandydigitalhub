@@ -177,45 +177,45 @@ export default function DocumentChecklistPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/60 pb-16">
+    <div className="min-h-screen bg-gray-50/60 pb-12 sm:pb-16">
       {/* Header Banner */}
-      <section className="bg-white border-b border-slate-200/80 pt-10 sm:pt-14 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden shadow-xs">
+      <section className="bg-white border-b border-slate-200/80 pt-6 sm:pt-14 pb-8 sm:pb-14 px-3 sm:px-6 lg:px-8 relative overflow-hidden shadow-xs">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[320px] bg-purple-50 rounded-full blur-3xl opacity-80" />
         </div>
 
-        <div className="max-w-6xl mx-auto text-center space-y-4 relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-xs font-bold uppercase tracking-wider shadow-2xs">
-            <FileCheck size={14} /> Jan Seva Document Assistant
+        <div className="max-w-6xl mx-auto text-center space-y-2.5 sm:space-y-4 relative z-10">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-purple-50 border border-purple-200 text-[#7C3AED] text-[10px] sm:text-xs font-bold uppercase tracking-wider shadow-2xs">
+            <FileCheck size={12} className="sm:w-3.5 sm:h-3.5" /> Jan Seva Document Assistant
           </div>
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-tight">
             Government Document <span className="text-[#7C3AED]">Checklist & Eligibility</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
+          <p className="max-w-2xl mx-auto text-xs sm:text-base text-slate-600 font-medium leading-relaxed">
             Select any government service below to check exact document requirements, eligibility criteria, official processing time, and verify your readiness instantly!
           </p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8">
           
           {/* Left Panel: Service Selector Sidebar */}
-          <div className="lg:col-span-4 space-y-4">
-            <div className="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm space-y-3">
+          <div className="lg:col-span-4 space-y-3 sm:space-y-4">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-gray-200 shadow-xs space-y-2.5 sm:space-y-3">
               <div className="relative">
-                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7C3AED] pointer-events-none" />
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7C3AED] pointer-events-none sm:w-4 sm:h-4" />
                 <input
                   type="text"
                   placeholder="Search certificate or service..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-8 py-2.5 rounded-xl border-2 border-slate-200 hover:border-purple-200 focus:border-[#7C3AED] text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all shadow-2xs"
+                  className="w-full pl-8 sm:pl-10 pr-7 py-2 sm:py-2.5 rounded-lg sm:rounded-xl border-2 border-slate-200 hover:border-purple-200 focus:border-[#7C3AED] text-[11px] sm:text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all shadow-2xs"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400 hover:text-white bg-slate-200 hover:bg-[#7C3AED] rounded-full w-4.5 h-4.5 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] font-black text-slate-400 hover:text-white bg-slate-200 hover:bg-[#7C3AED] rounded-full w-4 h-4 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
                     aria-label="Clear search"
                   >
                     ✕
@@ -223,34 +223,34 @@ export default function DocumentChecklistPage() {
                 )}
               </div>
 
-              <div className="text-[11px] font-bold text-gray-400 uppercase tracking-wider px-1">
+              <div className="text-[10px] sm:text-[11px] font-bold text-gray-400 uppercase tracking-wider px-1">
                 Select Service ({filteredServices.length})
               </div>
 
-              <div className="space-y-2 max-h-[520px] overflow-y-auto pr-1">
+              <div className="space-y-1.5 sm:space-y-2 max-h-[360px] sm:max-h-[520px] overflow-y-auto pr-1">
                 {filteredServices.map((service) => {
                   const isSelected = selectedService.id === service.id;
                   return (
                     <button
                       key={service.id}
                       onClick={() => { setSelectedService(service); setCheckedDocs({}); }}
-                      className={`w-full text-left p-3.5 rounded-xl transition-all cursor-pointer border flex items-center justify-between gap-3 ${
+                      className={`w-full text-left p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl transition-all cursor-pointer border flex items-center justify-between gap-2 sm:gap-3 ${
                         isSelected
                           ? 'bg-purple-50 border-[#7C3AED] text-gray-900 shadow-xs'
                           : 'bg-white border-gray-100 hover:border-gray-200 text-gray-700'
                       }`}
                     >
-                      <div>
-                        <div className={`text-xs font-bold ${isSelected ? 'text-[#7C3AED]' : 'text-gray-900'}`}>
+                      <div className="min-w-0">
+                        <div className={`text-[11px] sm:text-xs font-bold truncate ${isSelected ? 'text-[#7C3AED]' : 'text-gray-900'}`}>
                           {service.title}
                         </div>
-                        <div className="text-[10px] text-gray-500 mt-0.5 flex items-center gap-2">
+                        <div className="text-[9px] sm:text-[10px] text-gray-500 mt-0.5 flex items-center gap-1.5 sm:gap-2">
                           <span>⏱️ {service.turnaroundTime}</span>
                           <span>•</span>
                           <span>💰 {service.fee}</span>
                         </div>
                       </div>
-                      <ChevronRight size={16} className={isSelected ? 'text-[#7C3AED]' : 'text-gray-400'} />
+                      <ChevronRight size={14} className={isSelected ? 'text-[#7C3AED]' : 'text-gray-400'} />
                     </button>
                   );
                 })}
@@ -258,19 +258,19 @@ export default function DocumentChecklistPage() {
             </div>
 
             {/* Quick Consultation Banner */}
-            <div className="bg-gradient-to-br from-purple-600 via-[#7C3AED] to-indigo-700 text-white rounded-2xl p-5 shadow-xl shadow-purple-500/15 space-y-3 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-purple-600 via-[#7C3AED] to-indigo-700 text-white rounded-xl sm:rounded-2xl p-3.5 sm:p-5 shadow-lg shadow-purple-500/15 space-y-2 sm:space-y-3 relative overflow-hidden">
               <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-white/10 rounded-full blur-xl pointer-events-none" />
-              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
-                <div className="p-1.5 rounded-lg bg-white/20">
-                  <PhoneCall size={14} className="text-white" />
+              <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-black uppercase tracking-wider">
+                <div className="p-1 sm:p-1.5 rounded-lg bg-white/20">
+                  <PhoneCall size={12} className="text-white sm:w-3.5 sm:h-3.5" />
                 </div>
                 <span>Need Personal Help?</span>
               </div>
-              <p className="text-xs text-purple-100 font-medium leading-relaxed">
+              <p className="text-[11px] sm:text-xs text-purple-100 font-medium leading-relaxed">
                 Unsure about your documents or need doorstep document pickup in Fatehpur? Call our team directly.
               </p>
               <a href="tel:+918756454282" className="block relative z-10">
-                <Button className="w-full bg-white hover:bg-purple-50 text-[#7C3AED] hover:text-[#6D28D9] font-extrabold text-xs rounded-xl shadow-md transition-all hover:scale-[1.02] h-10">
+                <Button className="w-full bg-white hover:bg-purple-50 text-[#7C3AED] hover:text-[#6D28D9] font-extrabold text-xs rounded-lg sm:rounded-xl shadow-md transition-all hover:scale-[1.02] h-9 sm:h-10">
                   📞 Call +91 8756454282
                 </Button>
               </a>
@@ -278,52 +278,52 @@ export default function DocumentChecklistPage() {
           </div>
 
           {/* Right Panel: Selected Service Detail & Document Interactive Checklist */}
-          <div className="lg:col-span-8 space-y-6">
+          <div className="lg:col-span-8 space-y-4 sm:space-y-6">
             
             {/* Overview Card */}
-            <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-5">
-              <div className="flex flex-wrap items-start justify-between gap-4 pb-4 border-b border-gray-100">
-                <div>
-                  <span className="px-3 py-1 rounded-full bg-purple-100 text-[#7C3AED] text-[11px] font-bold uppercase tracking-wider">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-xs space-y-3.5 sm:space-y-5">
+              <div className="flex flex-wrap items-start justify-between gap-3 sm:gap-4 pb-3 sm:pb-4 border-b border-gray-100">
+                <div className="min-w-0 flex-1">
+                  <span className="px-2.5 py-0.5 rounded-full bg-purple-100 text-[#7C3AED] text-[9px] sm:text-[11px] font-bold uppercase tracking-wider">
                     {selectedService.category}
                   </span>
-                  <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-2">
+                  <h2 className="text-base sm:text-2xl font-black text-gray-900 mt-1 sm:mt-2 leading-tight">
                     {selectedService.title}
                   </h2>
-                  <p className="text-xs text-gray-600 font-medium mt-1">
+                  <p className="text-[11px] sm:text-xs text-gray-600 font-medium mt-1 leading-snug">
                     {selectedService.description}
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2">
                   <Button
                     onClick={shareChecklist}
                     variant="outline"
-                    className="border-gray-300 text-gray-700 hover:bg-gray-50 rounded-xl text-xs font-bold flex items-center gap-1.5"
+                    className="border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 h-8 sm:h-9 px-2 sm:px-3"
                   >
-                    <Share2 size={14} className="text-[#7C3AED]" /> Share
+                    <Share2 size={12} className="text-[#7C3AED] sm:w-3.5 sm:h-3.5" /> Share
                   </Button>
                   <Link href={`/checkout?service=${selectedService.id}`}>
-                    <Button className="bg-[#7C3AED] hover:bg-[#7C3AED]/90 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-md shadow-purple-200">
-                      Apply Online <ArrowRight size={14} />
+                    <Button className="bg-[#7C3AED] hover:bg-[#7C3AED]/90 text-white font-bold rounded-lg sm:rounded-xl text-[11px] sm:text-xs flex items-center gap-1 shadow-md shadow-purple-200 h-8 sm:h-9 px-2.5 sm:px-3.5">
+                      Apply Online <ArrowRight size={12} className="sm:w-3.5 sm:h-3.5" />
                     </Button>
                   </Link>
                 </div>
               </div>
 
               {/* Service Meta Stats */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                <div className="p-3.5 rounded-xl bg-gray-50 border border-gray-100">
-                  <div className="text-[10px] text-gray-500 font-bold uppercase">Estimated Fee</div>
-                  <div className="text-sm font-extrabold text-gray-900 mt-0.5">{selectedService.fee}</div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-4">
+                <div className="p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl bg-gray-50 border border-gray-100">
+                  <div className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase">Estimated Fee</div>
+                  <div className="text-xs sm:text-sm font-extrabold text-gray-900 mt-0.5">{selectedService.fee}</div>
                 </div>
-                <div className="p-3.5 rounded-xl bg-gray-50 border border-gray-100">
-                  <div className="text-[10px] text-gray-500 font-bold uppercase">Processing Time</div>
-                  <div className="text-sm font-extrabold text-emerald-600 mt-0.5">{selectedService.turnaroundTime}</div>
+                <div className="p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl bg-gray-50 border border-gray-100">
+                  <div className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase">Processing Time</div>
+                  <div className="text-xs sm:text-sm font-extrabold text-emerald-600 mt-0.5">{selectedService.turnaroundTime}</div>
                 </div>
-                <div className="p-3.5 rounded-xl bg-gray-50 border border-gray-100 col-span-2 sm:col-span-1">
-                  <div className="text-[10px] text-gray-500 font-bold uppercase">Service Location</div>
-                  <div className="text-sm font-extrabold text-gray-900 mt-0.5">Jan Seva / Online</div>
+                <div className="p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl bg-gray-50 border border-gray-100 col-span-2 sm:col-span-1">
+                  <div className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase">Service Location</div>
+                  <div className="text-xs sm:text-sm font-extrabold text-gray-900 mt-0.5">Jan Seva / Online</div>
                 </div>
               </div>
 

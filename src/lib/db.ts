@@ -17,17 +17,21 @@ export const connectDB = async () => {
     throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
   }
 
+  // If already connected and cached, return existing connection
   if (cached.conn) {
     return cached.conn;
   }
 
-  if (!cached.promise) {
+  if (!cached.promise || mongoose.connection.readyState === 0 || mongoose.connection.readyState === 3) {
     const opts = {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 5000, // 5s timeout instead of hanging indefinitely
+      socketTimeoutMS: 20000,
+      maxPoolSize: 10,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((m) => {
+      return m;
     });
   }
   
@@ -35,6 +39,7 @@ export const connectDB = async () => {
     cached.conn = await cached.promise;
   } catch (e) {
     cached.promise = null;
+    cached.conn = null;
     throw e;
   }
 

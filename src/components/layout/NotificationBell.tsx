@@ -1,22 +1,104 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { formatOrderId } from '@/lib/utils';
-import { Bell, CheckCircle2, Clock, AlertCircle, ArrowRight, MessageSquare } from 'lucide-react';
+import {
+  Bell, CheckCircle2, Clock, AlertCircle, ArrowRight, MessageSquare,
+  Megaphone, ShieldAlert, Wrench, Zap, Package, X, RefreshCw,
+} from 'lucide-react';
+
+interface NotifItem {
+  id: string;
+  type: string;
+  title: string;
+  body: string;
+  priority: string;
+  pinned: boolean;
+  isRead: boolean;
+  createdAt: string;
+  link?: string | null;
+  relatedType?: string | null;
+  isAnnouncement: boolean;
+}
 
 interface NotificationBellProps {
   placement?: 'up' | 'down' | 'auto';
 }
 
+function formatRelative(d: string) {
+  const diff = Date.now() - new Date(d).getTime();
+  const m = Math.floor(diff / 60000);
+  if (m < 1) return 'Just now';
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  return new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+}
+
+function getNotifIcon(type: string, isAnnouncement: boolean) {
+  if (isAnnouncement) {
+    const iconMap: Record<string, { icon: any; color: string }> = {
+      MAINTENANCE: { icon: Wrench, color: 'bg-amber-100 text-amber-600' },
+      SECURITY_NOTICE: { icon: ShieldAlert, color: 'bg-red-100 text-red-600' },
+      NEW_FEATURE: { icon: Zap, color: 'bg-violet-100 text-violet-600' },
+      PLATFORM_UPDATE: { icon: Zap, color: 'bg-indigo-100 text-indigo-600' },
+      NEW_SERVICE: { icon: Package, color: 'bg-emerald-100 text-emerald-600' },
+    };
+    const conf = iconMap[type] || { icon: Megaphone, color: 'bg-slate-100 text-slate-600' };
+    return conf;
+  }
+  const map: Record<string, { icon: any; color: string }> = {
+    ORDER_COMPLETED: { icon: CheckCircle2, color: 'bg-green-100 text-green-600' },
+    ORDER_PLACED: { icon: Package, color: 'bg-blue-100 text-blue-600' },
+    ORDER_CANCELLED: { icon: X, color: 'bg-red-100 text-red-600' },
+    ORDER_STATUS_CHANGED: { icon: Clock, color: 'bg-purple-100 text-purple-600' },
+    PARTNER_APPROVED: { icon: CheckCircle2, color: 'bg-emerald-100 text-emerald-600' },
+    PARTNER_SUSPENDED: { icon: AlertCircle, color: 'bg-orange-100 text-orange-600' },
+    LIVE_AGENT_REQUEST: { icon: MessageSquare, color: 'bg-red-100 text-red-600' },
+  };
+  return map[type] || { icon: Bell, color: 'bg-gray-100 text-gray-500' };
+}
+
 export function NotificationBell({ placement = 'auto' }: NotificationBellProps) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<NotifItem[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [adminChatCount, setAdminChatCount] = useState(0);
 
   const isUp = placement === 'up';
+  const isAdmin = ['ADMIN', 'SUPER_ADMIN'].includes((session?.user as any)?.role || '');
+
+  // ─── Fetch notifications (unified for all roles) ───────────────────────────
+  const fetchNotifications = useCallback(async () => {
+    if (!session?.user || document.hidden) return;
+    setLoading(true);
+    try {
+      const res = await fetch('/api/notifications?limit=25');
+      if (res.ok) {
+        const data = await res.json();
+        setNotifications(data.notifications || []);
+        setUnreadCount(data.unreadCount || 0);
+      }
+    } catch {}
+    finally {
+      setLoading(false);
+    }
+  }, [session]);
+
+  // ─── Admin also polls chat separately for live chat badge ─────────────────
+  const fetchAdminChatAlerts = useCallback(async () => {
+    if (!isAdmin || document.hidden) return;
+    try {
+      const res = await fetch('/api/admin/chat');
+      if (res.ok) {
+        const data = await res.json();
+        setAdminChatCount(data.alertCount || 0);
+      }
+    } catch {}
+  }, [isAdmin]);
 
   useEffect(() => {
     if (!session?.user) {
@@ -25,71 +107,46 @@ export function NotificationBell({ placement = 'auto' }: NotificationBellProps) 
       return;
     }
 
-    let intervalId: NodeJS.Timeout | null = null;
+    fetchNotifications();
+    fetchAdminChatAlerts();
 
-    if (session.user.role === 'ADMIN') {
-      const fetchAdminNotifications = async () => {
-        if (document.hidden) return;
+    const interval = setInterval(() => {
+      fetchNotifications();
+      if (isAdmin) fetchAdminChatAlerts();
+    }, 20000);
 
-        try {
-          const res = await fetch('/api/admin/chat');
-          if (res.ok) {
-            const data = await res.json();
-            const alerts = (data.sessions || []).filter((s: any) => s.needsAdmin && !s.adminRead);
-            setNotifications(alerts.map((a: any) => ({
-              id: a._id,
-              brandedId: 'Live Agent Needed 🚨',
-              status: 'LIVE_AGENT_REQUEST',
-              title: `${a.lastSender || 'Customer'} requested to talk with a live Sandy Digital Hub agent!`,
-              updatedAt: a.updatedAt,
-            })));
-            setUnreadCount(data.alertCount || 0);
-          } else if (res.status === 401 || res.status === 403) {
-            if (intervalId) clearInterval(intervalId);
-          }
-        } catch (err) {
-          console.error('Failed to fetch admin notifications:', err);
-        }
-      };
+    return () => clearInterval(interval);
+  }, [session, fetchNotifications, fetchAdminChatAlerts, isAdmin]);
 
-      fetchAdminNotifications();
-      intervalId = setInterval(fetchAdminNotifications, 20000); // 20s interval
-      return () => {
-        if (intervalId) clearInterval(intervalId);
-      };
-    } else {
-      fetchCustomerOrders();
-    }
-  }, [session]);
-
-  const fetchCustomerOrders = async () => {
+  // ─── Mark single item read ─────────────────────────────────────────────────
+  const markRead = async (id: string) => {
+    setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, isRead: true } : n));
+    setUnreadCount((c) => Math.max(0, c - 1));
     try {
-      const res = await fetch('/api/orders');
-      if (res.ok) {
-        const data = await res.json();
-        const orders = data.orders || [];
+      await fetch('/api/notifications', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: [id] }),
+      });
+    } catch {}
+  };
 
-        const activeNotifs = orders
-          .filter((o: any) => ['PROCESSING', 'COMPLETED', 'AWAITING_CUSTOMER_VISIT'].includes(o.orderStatus))
-          .map((o: any) => ({
-            id: o._id.toString(),
-            brandedId: formatOrderId(o._id, o.createdAt),
-            status: o.orderStatus,
-            title: o.services?.map((s: any) => s.title).join(', ') || 'Service Order',
-            updatedAt: o.updatedAt || o.createdAt,
-          }));
-
-        setNotifications(activeNotifs);
-        setUnreadCount(activeNotifs.length);
-      }
-    } catch (error) {
-      console.error('Failed to fetch order notifications:', error);
-    }
+  // ─── Mark all read ─────────────────────────────────────────────────────────
+  const markAllRead = async () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+    setUnreadCount(0);
+    try {
+      await fetch('/api/notifications', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ markAll: true }),
+      });
+    } catch {}
   };
 
   if (!session?.user) return null;
 
-  const isAdmin = session.user.role === 'ADMIN';
+  const totalBadge = unreadCount + adminChatCount;
 
   return (
     <div className="relative">
@@ -98,22 +155,20 @@ export function NotificationBell({ placement = 'auto' }: NotificationBellProps) 
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 rounded-xl bg-slate-100 hover:bg-purple-50 text-slate-700 hover:text-[#7C3AED] transition-colors flex items-center justify-center border border-slate-200 hover:border-purple-200 shadow-2xs cursor-pointer group"
         aria-label="Notifications"
+        id="notification-bell-btn"
       >
         <Bell size={17} className="text-slate-600 group-hover:text-[#7C3AED] transition-colors" />
-        {unreadCount > 0 && (
+        {totalBadge > 0 && (
           <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-[#7C3AED] text-white text-[9px] font-black rounded-full flex items-center justify-center ring-2 ring-white animate-pulse">
-            {unreadCount > 9 ? '9+' : unreadCount}
+            {totalBadge > 9 ? '9+' : totalBadge}
           </span>
         )}
       </button>
 
-      {/* Notifications Dropdown */}
+      {/* Dropdown */}
       {isOpen && (
         <>
-          <div
-            className="fixed inset-0 z-40"
-            onClick={() => setIsOpen(false)}
-          />
+          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
 
           <div
             className={`absolute ${
@@ -129,75 +184,112 @@ export function NotificationBell({ placement = 'auto' }: NotificationBellProps) 
                   <Bell size={15} />
                 </div>
                 <span className="font-extrabold text-xs sm:text-sm text-slate-900">
-                  {isAdmin ? 'Admin Live Alerts' : 'Order Status Updates'}
+                  Notifications
                 </span>
+                {unreadCount > 0 && (
+                  <span className="text-[10px] font-extrabold bg-[#7C3AED] text-white px-2 py-0.5 rounded-full shadow-2xs">
+                    {unreadCount} New
+                  </span>
+                )}
               </div>
-              {unreadCount > 0 && (
-                <span className="text-[10px] font-extrabold bg-[#7C3AED] text-white px-2 py-0.5 rounded-full shadow-2xs">
-                  {unreadCount} {isAdmin ? 'Alerts' : 'Active'}
-                </span>
-              )}
+              <div className="flex items-center gap-2">
+                {unreadCount > 0 && (
+                  <button
+                    onClick={markAllRead}
+                    className="text-[10px] font-bold text-[#7C3AED] hover:underline cursor-pointer"
+                  >
+                    Mark all read
+                  </button>
+                )}
+                <button
+                  onClick={fetchNotifications}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer transition-colors"
+                >
+                  <RefreshCw size={12} className={loading ? 'animate-spin' : ''} />
+                </button>
+              </div>
             </div>
 
-            {/* Notifications List */}
+            {/* Admin chat alert shortcut */}
+            {isAdmin && adminChatCount > 0 && (
+              <Link
+                href="/admin/chat"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-2.5 px-4 py-2.5 bg-red-50 border-b border-red-100 text-red-700 hover:bg-red-100 transition-colors"
+              >
+                <span className="p-1 rounded-lg bg-red-100 text-red-600 animate-pulse">
+                  <MessageSquare size={13} />
+                </span>
+                <span className="text-xs font-bold flex-1">
+                  {adminChatCount} live agent request{adminChatCount > 1 ? 's' : ''} pending
+                </span>
+                <ArrowRight size={12} />
+              </Link>
+            )}
+
+            {/* Notification List */}
             <div className="max-h-72 overflow-y-auto divide-y divide-slate-100">
               {notifications.length === 0 ? (
-                <div className="p-6 text-center text-xs font-semibold text-slate-400">
-                  {isAdmin ? 'No pending customer live agent requests.' : 'No recent order status updates.'}
+                <div className="p-8 text-center text-xs font-semibold text-slate-400">
+                  <Bell size={28} className="mx-auto text-slate-200 mb-2" />
+                  No notifications yet.
                 </div>
               ) : (
-                notifications.map((n) => (
-                  <Link
-                    key={n.id}
-                    href={isAdmin ? '/admin/chat' : '/requests'}
-                    onClick={() => setIsOpen(false)}
-                    className="p-3.5 flex items-start gap-3 hover:bg-purple-50/60 transition-colors block text-left"
-                  >
-                    <div className="mt-0.5 shrink-0">
-                      {n.status === 'LIVE_AGENT_REQUEST' ? (
-                        <div className="p-1.5 rounded-xl bg-red-100 text-red-600 animate-pulse">
-                          <MessageSquare size={15} />
-                        </div>
-                      ) : n.status === 'COMPLETED' ? (
-                        <div className="p-1.5 rounded-xl bg-green-100 text-green-600">
-                          <CheckCircle2 size={15} />
-                        </div>
-                      ) : n.status === 'PROCESSING' ? (
-                        <div className="p-1.5 rounded-xl bg-purple-100 text-[#7C3AED]">
-                          <Clock size={15} className="animate-spin" />
-                        </div>
-                      ) : (
-                        <div className="p-1.5 rounded-xl bg-purple-100 text-[#7C3AED]">
-                          <AlertCircle size={15} />
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0 space-y-0.5">
-                      <div className="flex justify-between items-center text-xs gap-1">
-                        <span className="font-mono font-bold text-[#7C3AED] truncate">{n.brandedId}</span>
-                        <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-md uppercase shrink-0 ${
-                          n.status === 'LIVE_AGENT_REQUEST' ? 'bg-red-100 text-red-700 border border-red-200' :
-                          n.status === 'COMPLETED' ? 'bg-green-100 text-green-700 border border-green-200' :
-                          n.status === 'PROCESSING' ? 'bg-purple-100 text-[#7C3AED] border border-purple-200' : 'bg-purple-100 text-[#7C3AED] border border-purple-200'
-                        }`}>
-                          {n.status === 'LIVE_AGENT_REQUEST' ? 'AGENT NEEDED' : n.status === 'AWAITING_CUSTOMER_VISIT' ? 'VISIT' : n.status}
-                        </span>
+                notifications.slice(0, 20).map((n) => {
+                  const { icon: Icon, color } = getNotifIcon(n.type, n.isAnnouncement);
+                  const dest = n.link || (isAdmin ? '/admin' : '/requests');
+
+                  return (
+                    <Link
+                      key={n.id}
+                      href={dest}
+                      onClick={() => {
+                        if (!n.isRead) markRead(n.id);
+                        setIsOpen(false);
+                      }}
+                      className={`flex items-start gap-3 p-3.5 hover:bg-purple-50/60 transition-colors ${
+                        !n.isRead ? 'bg-purple-50/25' : ''
+                      }`}
+                    >
+                      <div className={`p-1.5 rounded-xl shrink-0 mt-0.5 ${color}`}>
+                        <Icon size={13} />
                       </div>
-                      <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">{n.title}</p>
-                    </div>
-                  </Link>
-                ))
+                      <div className="flex-1 min-w-0 space-y-0.5">
+                        <div className="flex items-center justify-between gap-1">
+                          <p className="text-xs font-bold text-slate-800 truncate leading-tight">{n.title}</p>
+                          {!n.isRead && (
+                            <span className="w-2 h-2 rounded-full bg-[#7C3AED] shrink-0" />
+                          )}
+                        </div>
+                        <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">{n.body}</p>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] text-slate-400 font-medium">{formatRelative(n.createdAt)}</span>
+                          {n.isAnnouncement && (
+                            <span className="text-[9px] font-bold text-violet-500 bg-violet-50 px-1.5 py-0.5 rounded-md">
+                              Platform
+                            </span>
+                          )}
+                          {n.priority === 'URGENT' && (
+                            <span className="text-[9px] font-black text-red-600 bg-red-50 px-1.5 py-0.5 rounded-md">
+                              URGENT
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })
               )}
             </div>
 
             {/* Footer */}
             <div className="p-3 bg-slate-50/80 border-t border-slate-100 text-center">
               <Link
-                href={isAdmin ? '/admin/chat' : '/requests'}
+                href={isAdmin ? '/admin/notifications' : '/notifications'}
                 onClick={() => setIsOpen(false)}
                 className="text-xs text-[#7C3AED] font-extrabold hover:underline inline-flex items-center gap-1.5"
               >
-                <span>{isAdmin ? 'Open Live Support Chat Inbox' : 'View All My Requests'}</span>
+                <span>{isAdmin ? 'View All Notifications' : 'View All My Notifications'}</span>
                 <ArrowRight size={13} />
               </Link>
             </div>

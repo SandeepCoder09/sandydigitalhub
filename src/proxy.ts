@@ -1,16 +1,19 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { COOKIE_KEYS } from '@/lib/cookies';
 
 export function proxy(request: NextRequest) {
   // NextAuth uses 'next-auth.session-token' in dev, '__Secure-next-auth.session-token' in production
-  const token = request.cookies.get('next-auth.session-token')?.value
-    || request.cookies.get('__Secure-next-auth.session-token')?.value;
+  const token = request.cookies.get(COOKIE_KEYS.SESSION_TOKEN)?.value
+    || request.cookies.get(COOKIE_KEYS.SECURE_SESSION_TOKEN)?.value;
   const path = request.nextUrl.pathname;
 
   // Protect account, requests, profile, and admin routes
   if (path.startsWith('/account') || path.startsWith('/requests') || path.startsWith('/profile') || path.startsWith('/admin')) {
     if (!token) {
-      return NextResponse.redirect(new URL('/login', request.url));
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('callbackUrl', path);
+      return NextResponse.redirect(loginUrl);
     }
   }
 
@@ -23,5 +26,16 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/account/:path*', '/requests/:path*', '/profile/:path*', '/admin/:path*', '/login', '/signup'],
+  matcher: [
+    '/account',
+    '/account/:path*',
+    '/requests',
+    '/requests/:path*',
+    '/profile',
+    '/profile/:path*',
+    '/admin',
+    '/admin/:path*',
+    '/login',
+    '/signup',
+  ],
 };
