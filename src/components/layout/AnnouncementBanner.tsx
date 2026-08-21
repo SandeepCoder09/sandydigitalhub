@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { X, AlertTriangle, Wrench, ShieldAlert, Zap, Megaphone } from 'lucide-react';
+import { useSidebar } from '@/context/SidebarContext';
 
 interface ActiveAnnouncement {
   _id: string;
@@ -32,47 +33,23 @@ function saveDismissed(ids: string[]) {
 
 function getBannerStyle(type: string, priority: string) {
   if (priority === 'URGENT' || type === 'SECURITY_NOTICE') {
-    return {
-      bg: 'bg-red-600',
-      text: 'text-white',
-      icon: ShieldAlert,
-      label: '🔴 URGENT',
-    };
+    return { bg: 'bg-red-600', text: 'text-white', icon: ShieldAlert, label: '🔴 URGENT' };
   }
   if (type === 'MAINTENANCE') {
-    return {
-      bg: 'bg-amber-500',
-      text: 'text-white',
-      icon: Wrench,
-      label: '🔧 Maintenance',
-    };
+    return { bg: 'bg-amber-500', text: 'text-white', icon: Wrench, label: '🔧 Maintenance' };
   }
   if (priority === 'HIGH') {
-    return {
-      bg: 'bg-orange-500',
-      text: 'text-white',
-      icon: AlertTriangle,
-      label: '⚠️ Important',
-    };
+    return { bg: 'bg-orange-500', text: 'text-white', icon: AlertTriangle, label: '⚠️ Important' };
   }
   if (type === 'NEW_FEATURE' || type === 'PLATFORM_UPDATE') {
-    return {
-      bg: 'bg-violet-600',
-      text: 'text-white',
-      icon: Zap,
-      label: '✨ New',
-    };
+    return { bg: 'bg-violet-600', text: 'text-white', icon: Zap, label: '✨ New' };
   }
-  return {
-    bg: 'bg-slate-800',
-    text: 'text-white',
-    icon: Megaphone,
-    label: '📢 Notice',
-  };
+  return { bg: 'bg-slate-800', text: 'text-white', icon: Megaphone, label: '📢 Notice' };
 }
 
 export function AnnouncementBanner() {
   const { data: session } = useSession();
+  const { isCollapsed } = useSidebar();
   const [banners, setBanners] = useState<ActiveAnnouncement[]>([]);
   const [dismissed, setDismissed] = useState<string[]>([]);
 
@@ -82,31 +59,27 @@ export function AnnouncementBanner() {
 
   useEffect(() => {
     if (!session?.user) return;
-
-    const fetchBanners = async () => {
+    const fetch_banners = async () => {
       try {
         const res = await fetch('/api/notifications?limit=5');
         if (res.ok) {
           const data = await res.json();
-          const pinned = (data.notifications || []).filter(
-            (n: any) => n.isAnnouncement && n.pinned && !n.isRead
+          setBanners(
+            (data.notifications || []).filter(
+              (n: any) => n.isAnnouncement && n.pinned && !n.isRead
+            )
           );
-          setBanners(pinned);
         }
       } catch {}
     };
-
-    fetchBanners();
+    fetch_banners();
   }, [session]);
 
   const dismiss = async (id: string) => {
-    const rawId = id.replace('ann-', '');
     const updated = [...dismissed, id];
     setDismissed(updated);
     saveDismissed(updated);
-    setBanners((prev) => prev.filter((b) => `ann-${b._id}` !== id && b._id !== rawId));
-
-    // Mark as read on server
+    setBanners((prev) => prev.filter((b) => `ann-${b._id}` !== id && b._id !== id.replace('ann-', '')));
     try {
       await fetch('/api/notifications', {
         method: 'PATCH',
@@ -116,46 +89,68 @@ export function AnnouncementBanner() {
     } catch {}
   };
 
-  const visible = banners.filter((b) => !dismissed.includes(`ann-${b._id}`) && !dismissed.includes(b._id));
+  const visible = banners.filter(
+    (b) => !dismissed.includes(`ann-${b._id}`) && !dismissed.includes(b._id)
+  );
 
   if (visible.length === 0) return null;
 
-  // Show the highest priority banner only (avoid stacking)
   const top = visible[0];
   const style = getBannerStyle(top.type, top.priority);
   const Icon = style.icon;
 
+  // ── Sidebar is fixed: w-72 (expanded) or w-20 (collapsed), shown only on lg+ ──
+  // The banner must start AFTER the sidebar so it never overlaps it.
+  const sidebarLeft = isCollapsed ? 'lg:left-20' : 'lg:left-72';
+
   return (
-    <div
-      className={`${style.bg} ${style.text} w-full px-4 py-2.5 flex items-center justify-between gap-4 text-sm shadow-sm`}
-      role="alert"
-    >
-      <div className="flex items-center gap-3 min-w-0 flex-1">
-        <div className="flex items-center gap-2 shrink-0">
-          <Icon size={15} className="shrink-0" />
-          <span className="text-[11px] font-black uppercase tracking-wider opacity-90">{style.label}</span>
+    <>
+      {/*
+        Fixed banner pinned to top-right of the sidebar.
+        - On mobile (<lg): left-0 → full width (no sidebar)
+        - On desktop (lg+): left offset matches sidebar width, transitions smoothly
+      */}
+      <div
+        className={`fixed top-0 left-0 right-0 ${sidebarLeft} z-50
+          ${style.bg} ${style.text}
+          px-4 py-2.5 flex items-center justify-between gap-4 text-sm
+          shadow-md transition-[left] duration-300 ease-in-out`}
+        role="alert"
+      >
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <div className="flex items-center gap-2 shrink-0">
+            <Icon size={15} className="shrink-0" />
+            <span className="text-[11px] font-black uppercase tracking-wider opacity-90">
+              {style.label}
+            </span>
+          </div>
+          <div className="min-w-0">
+            <span className="font-bold text-xs">{top.title}</span>
+            {top.body && (
+              <span className="text-[11px] opacity-80 ml-2 hidden sm:inline truncate">
+                — {top.body}
+              </span>
+            )}
+          </div>
         </div>
-        <div className="min-w-0">
-          <span className="font-bold text-xs">{top.title}</span>
-          {top.body && (
-            <span className="text-[11px] opacity-80 ml-2 hidden sm:inline truncate">— {top.body}</span>
-          )}
-        </div>
+
+        {visible.length > 1 && (
+          <span className="text-[10px] font-bold opacity-70 shrink-0 hidden sm:block">
+            +{visible.length - 1} more
+          </span>
+        )}
+
+        <button
+          onClick={() => dismiss(top._id)}
+          className="p-1 rounded-lg hover:bg-white/20 transition-colors cursor-pointer shrink-0"
+          aria-label="Dismiss announcement"
+        >
+          <X size={15} />
+        </button>
       </div>
 
-      {visible.length > 1 && (
-        <span className="text-[10px] font-bold opacity-70 shrink-0 hidden sm:block">
-          +{visible.length - 1} more
-        </span>
-      )}
-
-      <button
-        onClick={() => dismiss(top._id)}
-        className="p-1 rounded-lg hover:bg-white/20 transition-colors cursor-pointer shrink-0"
-        aria-label="Dismiss announcement"
-      >
-        <X size={15} />
-      </button>
-    </div>
+      {/* Spacer — pushes page content down by the banner height so nothing hides under it */}
+      <div className="h-10 shrink-0" aria-hidden="true" />
+    </>
   );
 }
