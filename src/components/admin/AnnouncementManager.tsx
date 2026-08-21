@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import {
   Megaphone, Plus, Send, Archive, Trash2, X, ChevronDown,
   AlertTriangle, Bell, Wrench, ShieldAlert, Zap, Package,
-  RefreshCw, Users, CheckCircle2, Clock, Filter, Eye
+  RefreshCw, Users, CheckCircle2, Clock, Filter, Eye, Pin
 } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -293,8 +293,8 @@ export function AnnouncementManager() {
                           </span>
                           <div className="min-w-0">
                             <div className="font-bold text-gray-900 truncate flex items-center gap-1.5">
-                              {a.pinned && <span className="text-amber-500 text-[10px] font-black shrink-0">📌</span>}
-                              {a.title}
+                              {a.pinned && <Pin size={12} className="text-amber-500 shrink-0" />}
+                              <span className="truncate">{a.title}</span>
                             </div>
                             <div className="text-[10px] text-gray-400 font-semibold mt-0.5 truncate">{typeConf.label}</div>
                           </div>
@@ -491,13 +491,14 @@ export function AnnouncementManager() {
                     <label className="block text-xs font-black text-gray-700 mb-1.5">Pinned Banner</label>
                     <button
                       onClick={() => setForm((f) => ({ ...f, pinned: !f.pinned }))}
-                      className={`w-full py-2.5 rounded-xl border text-[11px] font-bold cursor-pointer transition-all ${
+                      className={`w-full py-2.5 rounded-xl border text-[11px] font-bold cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
                         form.pinned
-                          ? 'bg-amber-50 border-amber-300 text-amber-700'
+                          ? 'bg-amber-50 border-amber-300 text-amber-700 shadow-xs'
                           : 'bg-white border-gray-200 text-gray-500 hover:bg-gray-50'
                       }`}
                     >
-                      {form.pinned ? '📌 Pinned — Shows as Banner' : '📌 Pin as Top Banner'}
+                        <Pin size={13} className={form.pinned ? 'text-amber-600' : 'text-gray-400'} />
+                        {form.pinned ? 'Pinned — Shows as Banner' : 'Pin as Top Banner'}
                     </button>
                   </div>
                 </div>

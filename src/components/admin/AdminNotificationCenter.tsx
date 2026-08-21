@@ -208,13 +208,14 @@ export function AdminNotificationCenter() {
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
-                  className={`px-2.5 py-1 rounded-xl transition-all cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-xl transition-all cursor-pointer flex items-center gap-1 ${
                     filter === f
                       ? 'bg-violet-600 text-white font-extrabold shadow-2xs'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
-                  {f === 'ANNOUNCEMENT' ? '📢' : ''} {f}
+                  {f === 'ANNOUNCEMENT' && <Megaphone size={11} />}
+                  {f === 'ALL' ? 'All' : f === 'UNREAD' ? 'Unread' : f === 'PAYMENT' ? 'Payment' : f === 'ORDER' ? 'Order' : 'Platform'}
                 </button>
               ))}
             </div>

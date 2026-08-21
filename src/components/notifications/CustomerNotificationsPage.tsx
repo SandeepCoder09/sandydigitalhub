@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   Bell, CheckCircle2, Clock, AlertCircle, ShieldAlert, Package,
   Megaphone, Wrench, Zap, X, RefreshCw, Check, ArrowRight,
-  ShoppingBag, Search, ChevronRight, Sparkles, Star,
+  ShoppingBag, Search, ChevronRight, Sparkles, Star, Pin,
 } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -287,9 +287,9 @@ export function CustomerNotificationsPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0 flex-1">
-                            <p className={`text-sm font-bold truncate ${!n.isRead ? 'text-gray-900' : 'text-gray-700'}`}>
-                              {n.pinned && <span className="mr-1">📌</span>}
-                              {n.title}
+                            <p className={`text-sm font-bold truncate ${!n.isRead ? 'text-gray-900' : 'text-gray-700'} flex items-center gap-1.5`}>
+                              {n.pinned && <Pin size={13} className="text-amber-500 shrink-0" />}
+                              <span className="truncate">{n.title}</span>
                             </p>
                             <p className="text-[12px] text-gray-500 mt-0.5 line-clamp-2 leading-relaxed font-medium">
                               {n.body}
@@ -363,8 +363,8 @@ export function CustomerNotificationsPage() {
                     <div>
                       <h2 className="text-base font-black text-gray-900 leading-snug">{selected.title}</h2>
                       {selected.pinned && (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-md mt-1.5">
-                          📌 Pinned Notice
+                        <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md mt-1.5">
+                          <Pin size={11} className="text-amber-600" /> Pinned Notice
                         </span>
                       )}
                     </div>
@@ -383,8 +383,18 @@ export function CustomerNotificationsPage() {
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-gray-100">
                         <span className="font-bold text-gray-400">Status</span>
-                        <span className={`font-bold ${selected.isRead ? 'text-emerald-600' : 'text-violet-600'}`}>
-                          {selected.isRead ? '✓ Read' : '● Unread'}
+                        <span className={`font-bold flex items-center gap-1.5 ${selected.isRead ? 'text-emerald-600' : 'text-violet-600'}`}>
+                          {selected.isRead ? (
+                            <>
+                              <CheckCircle2 size={13} />
+                              Read
+                            </>
+                          ) : (
+                            <>
+                              <span className="w-2 h-2 rounded-full bg-violet-600 shrink-0" />
+                              Unread
+                            </>
+                          )}
                         </span>
                       </div>
                       {selected.priority !== 'NORMAL' && (

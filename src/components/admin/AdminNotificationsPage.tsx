@@ -326,13 +326,15 @@ export function AdminNotificationsPage() {
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
-                  className={`px-2.5 py-1 rounded-xl text-[10px] font-black transition-all cursor-pointer border ${
+                  className={`px-2.5 py-1 rounded-xl text-[10px] font-black transition-all cursor-pointer border flex items-center gap-1 ${
                     filter === f
                       ? 'bg-violet-600 text-white border-violet-600 shadow-sm'
                       : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300'
                   }`}
                 >
-                  {f === 'ALL' ? '🔔 All' : f === 'UNREAD' ? `● Unread (${unread})` : conf?.label}
+                  {f === 'ALL' && <Bell size={11} />}
+                  {f === 'UNREAD' && <span className="w-1.5 h-1.5 rounded-full bg-current" />}
+                  {f === 'ALL' ? 'All' : f === 'UNREAD' ? `Unread (${unread})` : conf?.label}
                 </button>
               );
             })}
@@ -482,8 +484,18 @@ export function AdminNotificationsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-2xl p-4 border border-gray-100">
                     <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Status</div>
-                    <div className={`text-sm font-bold ${selected.read ? 'text-emerald-600' : 'text-violet-600'}`}>
-                      {selected.read ? '✓ Read' : '● Unread'}
+                    <div className={`text-sm font-bold flex items-center gap-1.5 ${selected.read ? 'text-emerald-600' : 'text-violet-600'}`}>
+                      {selected.read ? (
+                        <>
+                          <CheckCircle2 size={14} />
+                          Read
+                        </>
+                      ) : (
+                        <>
+                          <span className="w-2 h-2 rounded-full bg-violet-600 shrink-0" />
+                          Unread
+                        </>
+                      )}
                     </div>
                   </div>
                   <div className="bg-gray-50 rounded-2xl p-4 border border-gray-100 col-span-2">
