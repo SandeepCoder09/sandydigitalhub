@@ -204,17 +204,14 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
             >
               <Image src="/icon.svg" alt="SDH" width={36} height={36} className="w-full h-full object-contain" />
             </Link>
-            <div className="flex flex-col items-center gap-1.5 pt-1">
-              <NotificationBell placement="down" align="left" />
-              <button
-                onClick={toggleCollapse}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
-                aria-label="Expand Sidebar"
-                title="Expand Sidebar"
-              >
-                <PanelLeftOpen size={15} />
-              </button>
-            </div>
+            <button
+              onClick={toggleCollapse}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+              aria-label="Expand Sidebar"
+              title="Expand Sidebar"
+            >
+              <PanelLeftOpen size={15} />
+            </button>
           </>
         ) : (
           <>
@@ -231,17 +228,14 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
                 </span>
               </div>
             </Link>
-            <div className="flex items-center gap-1 shrink-0 ml-2">
-              <NotificationBell placement="down" align="right" />
-              <button
-                onClick={toggleCollapse}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
-                aria-label="Collapse Sidebar"
-                title="Collapse Sidebar"
-              >
-                <PanelLeftClose size={16} />
-              </button>
-            </div>
+            <button
+              onClick={toggleCollapse}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer shrink-0 ml-2"
+              aria-label="Collapse Sidebar"
+              title="Collapse Sidebar"
+            >
+              <PanelLeftClose size={16} />
+            </button>
           </>
         )}
       </div>

@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ShieldCheck, Code2, Sparkles } from 'lucide-react';
+import { ShieldCheck, Code2 } from 'lucide-react';
+import { NotificationBell } from '@/components/layout/NotificationBell';
 
 export function BrandSwitcherBanner() {
   const pathname = usePathname();
@@ -25,34 +26,39 @@ export function BrandSwitcherBanner() {
           </span>
         </div>
 
-        {/* Right: Dual Brand Segmented Switcher */}
-        <div className="flex items-center gap-1 p-1 bg-slate-900/90 rounded-2xl border border-slate-800 shrink-0 shadow-inner">
-          <Link
-            href="/"
-            className={`px-3 py-1 rounded-xl text-[11px] font-black flex items-center gap-1.5 transition-all duration-200 ${
-              !isStudio
-                ? 'bg-[#7C3AED] text-white shadow-md shadow-purple-900/40 scale-102'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/80'
-            }`}
-          >
-            <ShieldCheck size={13} className={!isStudio ? 'text-white' : 'text-purple-400'} />
-            <span>SARA DIGITAL HUB</span>
-          </Link>
+        {/* Right: Dual Brand Segmented Switcher & Notification Bell */}
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-1 p-1 bg-slate-900/90 rounded-2xl border border-slate-800 shrink-0 shadow-inner">
+            <Link
+              href="/"
+              className={`px-3 py-1 rounded-xl text-[11px] font-black flex items-center gap-1.5 transition-all duration-200 ${
+                !isStudio
+                  ? 'bg-[#7C3AED] text-white shadow-md shadow-purple-900/40 scale-102'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/80'
+              }`}
+            >
+              <ShieldCheck size={13} className={!isStudio ? 'text-white' : 'text-purple-400'} />
+              <span>SARA DIGITAL HUB</span>
+            </Link>
 
-          <Link
-            href="/studio"
-            className={`px-3 py-1 rounded-xl text-[11px] font-black flex items-center gap-1.5 transition-all duration-200 ${
-              isStudio
-                ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-indigo-900/40 scale-102'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/80'
-            }`}
-          >
-            <Code2 size={13} className={isStudio ? 'text-white' : 'text-indigo-400'} />
-            <span>SANDY DIGITAL STUDIO</span>
-            <span className="text-[9px] px-1.5 py-0.2 rounded-md bg-white/20 text-white font-black uppercase tracking-wider">
-              TECH
-            </span>
-          </Link>
+            <Link
+              href="/studio"
+              className={`px-3 py-1 rounded-xl text-[11px] font-black flex items-center gap-1.5 transition-all duration-200 ${
+                isStudio
+                  ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-indigo-900/40 scale-102'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/80'
+              }`}
+            >
+              <Code2 size={13} className={isStudio ? 'text-white' : 'text-indigo-400'} />
+              <span>SANDY DIGITAL STUDIO</span>
+              <span className="text-[9px] px-1.5 py-0.2 rounded-md bg-white/20 text-white font-black uppercase tracking-wider">
+                TECH
+              </span>
+            </Link>
+          </div>
+
+          {/* Top-Right Notification Center Bell */}
+          <NotificationBell placement="down" align="right" theme="dark" />
         </div>
       </div>
     </nav>

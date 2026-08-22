@@ -25,6 +25,7 @@ interface NotifItem {
 interface NotificationBellProps {
   placement?: 'up' | 'down' | 'auto';
   align?: 'left' | 'right' | 'auto';
+  theme?: 'dark' | 'light' | 'auto';
 }
 
 function formatRelative(d: string) {
@@ -61,7 +62,7 @@ function getNotifIcon(type: string, isAnnouncement: boolean) {
   return map[type] || { icon: Bell, color: 'bg-gray-100 text-gray-500' };
 }
 
-export function NotificationBell({ placement = 'auto', align = 'auto' }: NotificationBellProps) {
+export function NotificationBell({ placement = 'auto', align = 'auto', theme = 'auto' }: NotificationBellProps) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState<NotifItem[]>([]);
@@ -164,14 +165,18 @@ export function NotificationBell({ placement = 'auto', align = 'auto' }: Notific
       {/* Bell Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-1.5 rounded-lg hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors flex items-center justify-center cursor-pointer group"
+        className={`relative p-2 rounded-xl transition-all flex items-center justify-center cursor-pointer group ${
+          theme === 'dark'
+            ? 'bg-slate-900/90 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white shadow-inner'
+            : 'hover:bg-slate-100 text-slate-600 hover:text-slate-900'
+        }`}
         aria-label="Notifications"
         id="notification-bell-btn"
         title="Notifications"
       >
-        <Bell size={16} className="text-slate-600 group-hover:text-slate-900 transition-colors" />
+        <Bell size={16} className={theme === 'dark' ? 'text-slate-300 group-hover:text-white transition-colors' : 'text-slate-600 group-hover:text-slate-900 transition-colors'} />
         {totalBadge > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 min-w-[15px] h-[15px] px-0.5 bg-[#7C3AED] text-white text-[8.5px] font-bold rounded-full flex items-center justify-center ring-1 ring-white">
+          <span className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 bg-[#7C3AED] text-white text-[9px] font-black rounded-full flex items-center justify-center ring-2 ring-slate-950 shadow-sm">
             {totalBadge > 9 ? '9+' : totalBadge}
           </span>
         )}
