@@ -163,14 +163,19 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
 
   const totalBadge = unreadCount + adminChatCount;
 
-  // Compute dropdown placement classes
-  let dropdownPositionClass = 'top-full mt-2.5 right-0 w-[350px] sm:w-[380px]';
+  // Compute dropdown placement classes: Centered on mobile (< sm), dropdown on desktop (sm+)
+  let dropdownPositionClass =
+    'fixed left-1/2 -translate-x-1/2 top-20 w-[calc(100vw-24px)] max-w-[390px] sm:absolute sm:left-auto sm:right-0 sm:translate-x-0 sm:top-full sm:mt-2.5 sm:w-[380px]';
+
   if (isUp) {
-    dropdownPositionClass = 'bottom-full mb-3 left-1/2 -translate-x-[45%] w-[340px] sm:w-[380px]';
+    dropdownPositionClass =
+      'fixed left-1/2 -translate-x-1/2 top-20 w-[calc(100vw-24px)] max-w-[390px] sm:absolute sm:left-1/2 sm:-translate-x-[45%] sm:top-auto sm:bottom-full sm:mb-3 sm:w-[380px]';
   } else if (align === 'left') {
-    dropdownPositionClass = 'top-0 left-full ml-3 w-[350px] sm:w-[380px]';
+    dropdownPositionClass =
+      'fixed left-1/2 -translate-x-1/2 top-20 w-[calc(100vw-24px)] max-w-[390px] sm:absolute sm:left-full sm:ml-3 sm:top-0 sm:translate-x-0 sm:w-[380px]';
   } else if (align === 'right') {
-    dropdownPositionClass = 'top-full mt-2.5 right-0 w-[350px] sm:w-[380px]';
+    dropdownPositionClass =
+      'fixed left-1/2 -translate-x-1/2 top-20 w-[calc(100vw-24px)] max-w-[390px] sm:absolute sm:left-auto sm:right-0 sm:translate-x-0 sm:top-full sm:mt-2.5 sm:w-[380px]';
   }
 
   return (
@@ -205,10 +210,13 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
       {/* Dropdown */}
       {isOpen && (
         <>
-          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+          <div
+            className="fixed inset-0 z-40 bg-slate-950/25 backdrop-blur-[1px] sm:bg-transparent"
+            onClick={() => setIsOpen(false)}
+          />
 
           <div
-            className={`absolute ${dropdownPositionClass} bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-slate-900/15 z-50 overflow-hidden text-slate-900 duration-150 animate-in fade-in slide-in-from-top-2 max-w-[calc(100vw-32px)]`}
+            className={`z-50 ${dropdownPositionClass} bg-white border border-slate-200/90 rounded-2xl shadow-2xl shadow-slate-950/20 overflow-hidden text-slate-900 duration-150 animate-in fade-in zoom-in-95`}
           >
             {/* Header */}
             <div className="p-3.5 border-b border-slate-100 bg-slate-50/80 flex items-center justify-between">
