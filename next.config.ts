@@ -65,15 +65,6 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
         source: '/images/:path*',
         headers: [
           {
@@ -83,6 +74,18 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
+  },
+  async rewrites() {
+    const backendUrl = process.env.BACKEND_URL || (process.env.NEXT_PUBLIC_API_URL && !process.env.NEXT_PUBLIC_API_URL.includes('localhost') ? process.env.NEXT_PUBLIC_API_URL : '');
+    if (backendUrl && backendUrl.startsWith('http')) {
+      return [
+        {
+          source: '/api/:path*',
+          destination: `${backendUrl.replace(/\/+$/, '')}/api/:path*`,
+        },
+      ];
+    }
+    return [];
   },
 };
 

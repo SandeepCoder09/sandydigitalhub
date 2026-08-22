@@ -1,9 +1,4 @@
-/**
- * Client-Side Request Deduplication & SWR Caching
- * 
- * Prevents multiple components from firing identical API requests concurrently.
- * Shares in-flight Promises and maintains short-lived client caches.
- */
+import { buildApiUrl } from '@/lib/apiClient';
 
 interface ClientCacheEntry<T> {
   data: T;
@@ -19,38 +14,43 @@ export interface ClientFetchOptions extends RequestInit {
 }
 
 /**
- * Deduplicated fetch wrapper for client components.
+ * Deduplicated fetch wrapper for client components with cross-domain support.
  */
 export async function clientFetch<T = any>(
-  url: string,
+  endpointOrUrl: string,
   options: ClientFetchOptions = {}
 ): Promise<T> {
   const method = (options.method || 'GET').toUpperCase();
   const cacheTtlMs = options.cacheTtlMs ?? (method === 'GET' ? 10000 : 0);
   const dedupe = options.dedupe ?? true;
+  const fullUrl = buildApiUrl(endpointOrUrl);
 
   // Only GET requests are cached and deduplicated
   if (method === 'GET') {
-    const cached = clientCache.get(url);
+    const cached = clientCache.get(fullUrl);
     if (cached && Date.now() < cached.expiry) {
       return cached.data as T;
     }
 
-    if (dedupe && inFlightRequests.has(url)) {
-      return inFlightRequests.get(url) as Promise<T>;
+    if (dedupe && inFlightRequests.has(fullUrl)) {
+      return inFlightRequests.get(fullUrl) as Promise<T>;
     }
   }
 
   const promise = (async () => {
     try {
-      const res = await fetch(url, options);
+      const fetchOptions: RequestInit = {
+        credentials: 'include',
+        ...options,
+      };
+      const res = await fetch(fullUrl, fetchOptions);
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       const data = await res.json();
 
       if (method === 'GET' && cacheTtlMs > 0) {
-        clientCache.set(url, {
+        clientCache.set(fullUrl, {
           data,
           expiry: Date.now() + cacheTtlMs,
         });
@@ -59,13 +59,13 @@ export async function clientFetch<T = any>(
       return data as T;
     } finally {
       if (method === 'GET') {
-        inFlightRequests.delete(url);
+        inFlightRequests.delete(fullUrl);
       }
     }
   })();
 
   if (method === 'GET' && dedupe) {
-    inFlightRequests.set(url, promise);
+    inFlightRequests.set(fullUrl, promise);
   }
 
   return promise;
