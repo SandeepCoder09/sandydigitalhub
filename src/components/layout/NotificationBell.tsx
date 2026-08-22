@@ -7,6 +7,7 @@ import {
   Bell, CheckCircle2, Clock, AlertCircle, ArrowRight, MessageSquare,
   Megaphone, ShieldAlert, Wrench, Zap, Package, X, RefreshCw,
 } from 'lucide-react';
+import { clientFetch } from '@/lib/clientFetch';
 
 interface NotifItem {
   id: string;
@@ -73,14 +74,31 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
   const isUp = placement === 'up';
   const isAdmin = ['ADMIN', 'SUPER_ADMIN'].includes((session?.user as any)?.role || '');
 
-  // ─── Fetch notifications (unified for all roles) ───────────────────────────
-  const fetchNotifications = useCallback(async () => {
+  // ─── 1. Lightweight Unread Count Polling (< 50 bytes, zero heavy document downloads) ───
+  const fetchUnreadCount = useCallback(async () => {
     if (!session?.user || document.hidden) return;
+    try {
+      const data = await clientFetch<{ unreadCount: number; adminChatCount: number }>(
+        '/api/notifications/unread-count',
+        { cacheTtlMs: 15000 }
+      );
+      if (data) {
+        setUnreadCount(data.unreadCount || 0);
+        setAdminChatCount(data.adminChatCount || 0);
+      }
+    } catch {}
+  }, [session]);
+
+  // ─── 2. Full Notification Feed Fetch (Only triggered when user opens the menu or refreshes) ───
+  const fetchFullNotifications = useCallback(async () => {
+    if (!session?.user) return;
     setLoading(true);
     try {
-      const res = await fetch('/api/notifications?limit=25');
-      if (res.ok) {
-        const data = await res.json();
+      const data = await clientFetch<{ notifications: NotifItem[]; unreadCount: number }>(
+        '/api/notifications?limit=25',
+        { cacheTtlMs: 10000 }
+      );
+      if (data) {
         setNotifications(data.notifications || []);
         setUnreadCount(data.unreadCount || 0);
       }
@@ -90,39 +108,34 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
     }
   }, [session]);
 
-  // ─── Admin also polls chat separately for live chat badge ─────────────────
-  const fetchAdminChatAlerts = useCallback(async () => {
-    if (!isAdmin || document.hidden) return;
-    try {
-      const res = await fetch('/api/admin/chat');
-      if (res.ok) {
-        const data = await res.json();
-        setAdminChatCount(data.alertCount || 0);
-      }
-    } catch {}
-  }, [isAdmin]);
-
+  // Set up low-overhead polling for badge count only
   useEffect(() => {
     if (!session?.user) {
       setNotifications([]);
       setUnreadCount(0);
+      setAdminChatCount(0);
       return;
     }
 
-    fetchNotifications();
-    fetchAdminChatAlerts();
+    fetchUnreadCount();
 
     const interval = setInterval(() => {
-      fetchNotifications();
-      if (isAdmin) fetchAdminChatAlerts();
-    }, 20000);
+      fetchUnreadCount();
+    }, 30000); // 30s lightweight ping
 
     return () => clearInterval(interval);
-  }, [session, fetchNotifications, fetchAdminChatAlerts, isAdmin]);
+  }, [session, fetchUnreadCount]);
+
+  // Fetch full notification list whenever user clicks open the bell
+  useEffect(() => {
+    if (isOpen) {
+      fetchFullNotifications();
+    }
+  }, [isOpen, fetchFullNotifications]);
 
   // ─── Mark single item read ─────────────────────────────────────────────────
   const markRead = async (id: string) => {
-    setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, isRead: true } : n));
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)));
     setUnreadCount((c) => Math.max(0, c - 1));
     try {
       await fetch('/api/notifications', {
@@ -174,7 +187,14 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
         id="notification-bell-btn"
         title="Notifications"
       >
-        <Bell size={16} className={theme === 'dark' ? 'text-slate-300 group-hover:text-white transition-colors' : 'text-slate-600 group-hover:text-slate-900 transition-colors'} />
+        <Bell
+          size={16}
+          className={
+            theme === 'dark'
+              ? 'text-slate-300 group-hover:text-white transition-colors'
+              : 'text-slate-600 group-hover:text-slate-900 transition-colors'
+          }
+        />
         {totalBadge > 0 && (
           <span className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 bg-[#7C3AED] text-white text-[9px] font-black rounded-full flex items-center justify-center ring-2 ring-slate-950 shadow-sm">
             {totalBadge > 9 ? '9+' : totalBadge}
@@ -196,9 +216,7 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
                 <div className="p-1.5 rounded-lg bg-purple-100 text-[#7C3AED]">
                   <Bell size={15} />
                 </div>
-                <span className="font-bold text-xs sm:text-sm text-slate-900">
-                  Notifications
-                </span>
+                <span className="font-bold text-xs sm:text-sm text-slate-900">Notifications</span>
                 {unreadCount > 0 && (
                   <span className="text-[10px] font-bold bg-[#7C3AED] text-white px-2 py-0.5 rounded-full shadow-2xs">
                     {unreadCount} New
@@ -215,7 +233,7 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
                   </button>
                 )}
                 <button
-                  onClick={fetchNotifications}
+                  onClick={fetchFullNotifications}
                   className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer transition-colors"
                   title="Refresh Notifications"
                 >
@@ -243,7 +261,12 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
 
             {/* Notification List */}
             <div className="max-h-[380px] overflow-y-auto divide-y divide-slate-100 custom-scrollbar">
-              {notifications.length === 0 ? (
+              {loading && notifications.length === 0 ? (
+                <div className="p-8 text-center text-xs font-medium text-slate-400">
+                  <RefreshCw size={24} className="mx-auto text-slate-300 mb-2 animate-spin" />
+                  Loading notifications...
+                </div>
+              ) : notifications.length === 0 ? (
                 <div className="p-8 text-center text-xs font-medium text-slate-400">
                   <Bell size={28} className="mx-auto text-slate-200 mb-2" />
                   No notifications yet.
@@ -281,7 +304,9 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
                           {n.body}
                         </p>
                         <div className="flex items-center gap-2 pt-0.5">
-                          <span className="text-[10.5px] text-slate-400 font-medium">{formatRelative(n.createdAt)}</span>
+                          <span className="text-[10.5px] text-slate-400 font-medium">
+                            {formatRelative(n.createdAt)}
+                          </span>
                           {n.isAnnouncement && (
                             <span className="text-[9px] font-bold text-violet-600 bg-violet-50 px-1.5 py-0.5 rounded">
                               Platform

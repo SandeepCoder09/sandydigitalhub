@@ -59,6 +59,8 @@ const reviewSchema = new Schema<IReview>(
 // Indexes for fast lookup
 reviewSchema.index({ status: 1, publishedAt: -1 });
 reviewSchema.index({ division: 1, status: 1 });
+reviewSchema.index({ serviceCategory: 1, status: 1, publishedAt: -1 });
+reviewSchema.index({ customerId: 1, createdAt: -1 });
 
 export const Review: Model<IReview> =
   mongoose.models.Review || mongoose.model<IReview>('Review', reviewSchema);

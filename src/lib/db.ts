@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import fs from 'fs';
 import path from 'path';
 
-// --- Mongoose Connection ---
+// --- Mongoose Global Cached Connection for Serverless Environments ---
 const MONGODB_URI = process.env.MONGODB_URI;
 
 let cached = (global as any).mongoose;
@@ -17,17 +17,19 @@ export const connectDB = async () => {
     throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
   }
 
-  // If already connected and cached, return existing connection
-  if (cached.conn) {
+  // If already connected and cached, return existing connection immediately
+  if (cached.conn && mongoose.connection.readyState === 1) {
     return cached.conn;
   }
 
   if (!cached.promise || mongoose.connection.readyState === 0 || mongoose.connection.readyState === 3) {
-    const opts = {
+    const opts: mongoose.ConnectOptions = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 5000, // 5s timeout instead of hanging indefinitely
-      socketTimeoutMS: 20000,
-      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 5000, // 5s timeout to fail fast rather than hanging
+      socketTimeoutMS: 30000,
+      maxPoolSize: 10, // Optimized for serverless concurrency
+      minPoolSize: 2,  // Keep warm pool ready
+      autoIndex: process.env.NODE_ENV !== 'production', // Build indexes only in dev/build, never in live production requests
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((m) => {

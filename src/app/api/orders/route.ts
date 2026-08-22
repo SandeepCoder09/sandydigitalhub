@@ -162,16 +162,21 @@ export async function POST(req: NextRequest) {
       ],
     });
 
-    return NextResponse.json(
+    // Invalidate order & analytics cache
+    cache.invalidateOrders(effectiveUserId, partnerId);
+
+    const res = NextResponse.json(
       {
         success: true,
         orderId: order._id,
         customOrderId: order.customOrderId,
-        razorpayOrderId: razorpayOrder.id,
-        amount: razorpayOrder.amount,
+        total: order.total,
+        order,
       },
       { status: 201 }
     );
+    res.headers.set('Cache-Control', 'private, no-cache, no-store, max-age=0, must-revalidate');
+    return res;
   } catch (error: any) {
     return handleApiError(error, 'POST /api/orders');
   }
@@ -234,7 +239,7 @@ export async function GET(req: NextRequest) {
       .select('customOrderId customerName customerPhone services total paymentStatus orderStatus paymentMethod createdAt timeline notes')
       .lean();
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       orders,
       pagination: {
@@ -245,6 +250,8 @@ export async function GET(req: NextRequest) {
         hasMore: page * limit < total,
       },
     });
+    response.headers.set('Cache-Control', 'private, no-cache, no-store, max-age=0, must-revalidate');
+    return response;
   } catch (error: any) {
     return handleApiError(error, 'GET /api/orders');
   }

@@ -98,4 +98,10 @@ const orderSchema = new Schema<IOrder>(
   { timestamps: true }
 );
 
+// Compound indexes for user requests, partner dashboards, and order tracking
+orderSchema.index({ userId: 1, createdAt: -1 });
+orderSchema.index({ partnerId: 1, orderStatus: 1, createdAt: -1 });
+orderSchema.index({ paymentStatus: 1, orderStatus: 1, createdAt: -1 });
+orderSchema.index({ createdAt: -1 });
+
 export const Order: Model<IOrder> = mongoose.models.Order || mongoose.model<IOrder>('Order', orderSchema);

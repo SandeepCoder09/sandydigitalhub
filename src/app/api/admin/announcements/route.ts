@@ -4,6 +4,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
 import { connectDB } from '@/lib/db';
 import { Announcement } from '@/models/Announcement';
+import { cache } from '@/lib/cache';
+import { dispatchJob } from '@/lib/jobs';
 
 const ADMIN_ROLES = ['ADMIN', 'SUPER_ADMIN'];
 
@@ -83,6 +85,24 @@ export async function POST(req: NextRequest) {
       pinned: pinned || false,
       readBy: [],
     });
+
+    if (publishNow) {
+      // Invalidate caches immediately
+      cache.invalidateAnnouncements();
+
+      // Dispatch background worker to generate targeted user notifications
+      await dispatchJob(
+        'ANNOUNCEMENT_DELIVERY',
+        {
+          announcementId: (announcement._id as any).toString(),
+          targetAudience: announcement.targetAudience,
+          targetPartnerId: announcement.targetPartnerId,
+          title: announcement.title,
+          body: announcement.body,
+        },
+        { idempotencyKey: `ann-publish-${announcement._id}` }
+      ).catch((err) => console.error('[Announcements] Background dispatch error:', err));
+    }
 
     return NextResponse.json({ success: true, announcement }, { status: 201 });
   } catch (error: any) {

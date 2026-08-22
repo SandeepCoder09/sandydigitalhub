@@ -78,10 +78,12 @@ export async function GET(req: NextRequest) {
       120 // SWR window 120s
     );
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       ...result,
     });
+    response.headers.set('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=600');
+    return response;
   } catch (err: any) {
     return handleApiError(err, 'GET /api/reviews');
   }

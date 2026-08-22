@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/authOptions';
 import { connectDB } from '@/lib/db';
 import { UserNotification } from '@/models/UserNotification';
 import { Announcement } from '@/models/Announcement';
+import { cache } from '@/lib/cache';
 
 // GET /api/notifications — fetch the logged-in user's notification feed
 export async function GET(req: NextRequest) {
@@ -175,7 +176,12 @@ export async function PATCH(req: NextRequest) {
       }
     }
 
-    return NextResponse.json({ success: true });
+    // Invalidate user notification and unread-count caches
+    cache.invalidateNotifications(userId);
+
+    const res = NextResponse.json({ success: true });
+    res.headers.set('Cache-Control', 'private, no-cache, no-store, max-age=0, must-revalidate');
+    return res;
   } catch (error: any) {
     console.error('[PATCH /api/notifications]', error);
     return NextResponse.json({ error: error.message || 'Server error' }, { status: 500 });

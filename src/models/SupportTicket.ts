@@ -121,6 +121,7 @@ const supportTicketSchema = new Schema<ISupportTicket>(
 supportTicketSchema.index({ ticketNumber: 1 });
 supportTicketSchema.index({ customerId: 1, lastActivityAt: -1 });
 supportTicketSchema.index({ partnerId: 1, status: 1 });
+supportTicketSchema.index({ status: 1, lastActivityAt: -1 });
 
 export const SupportTicket: Model<ISupportTicket> =
   mongoose.models.SupportTicket ||
