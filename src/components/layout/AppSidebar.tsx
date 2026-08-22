@@ -184,7 +184,7 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
     <aside
       className={`hidden lg:flex fixed top-0 left-0 bottom-0 ${
         isCollapsed ? 'w-[72px]' : 'w-[272px]'
-      } bg-white border-r border-slate-200/80 shadow-[1px_0_3px_rgba(0,0,0,0.02)] z-40 flex-col justify-between overflow-hidden transition-all duration-300 ease-in-out select-none`}
+      } bg-white border-r border-slate-200/80 shadow-[1px_0_3px_rgba(0,0,0,0.02)] z-40 flex-col justify-between overflow-visible transition-all duration-300 ease-in-out select-none`}
     >
       {/* ─────────────────────────────────────────────────────────────
           1. TOP BRAND HEADER & COLLAPSE TOGGLE BUTTON
