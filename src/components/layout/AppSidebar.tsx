@@ -55,25 +55,25 @@ const hubMainNavItems: NavItem[] = [
 
 const hubSecondaryNavItems: NavItem[] = [
   { key: 'Studio', label: 'Sandy Digital Studio', path: '/studio', icon: Briefcase, badge: { text: 'TECH', variant: 'purple' } },
-  { key: 'Portfolio', label: 'Work Portfolio', path: '/portfolio', icon: Layers },
+  { key: 'Partners', label: 'Partner Network', path: '/partners', icon: Briefcase },
+  { key: 'Support', label: 'Support & Help', path: '/support', icon: PhoneCall },
   { key: 'Reviews', label: 'Verified Reviews', path: '/reviews', icon: Star },
-  { key: 'Contact', label: 'Contact & Support', path: '/contact', icon: PhoneCall },
 ];
 
 const studioMainNavItems: NavItem[] = [
   { key: 'Studio Home', label: 'Studio Overview', path: '/studio', icon: Briefcase },
   { key: 'Studio Services', label: 'Tech & App Services', path: '/studio#services', icon: Zap, badge: { text: 'STUDIO', variant: 'purple' } },
   { key: 'Portfolio', label: 'Featured Portfolio', path: '/portfolio', icon: Layers },
-  { key: 'Process', label: 'How We Build', path: '/studio#process', icon: Compass },
   { key: 'Pricing', label: 'Studio Packages', path: '/pricing', icon: Tag },
+  { key: 'Calculator', label: 'Project Calculator', path: '/calculator', icon: Calculator },
   { key: 'Start Project', label: 'Start a Project', path: '/studio#quote', icon: FileCheck, badge: { text: 'QUOTE', variant: 'green' } },
 ];
 
 const studioSecondaryNavItems: NavItem[] = [
-  { key: 'Sara Hub', label: '← Sara Digital Hub', path: '/', icon: Home },
-  { key: 'Free Tools', label: 'Free Utilities', path: '/tools', icon: Wrench },
-  { key: 'Track Request', label: 'Track Order', path: '/track-order', icon: PackageCheck },
-  { key: 'Contact', label: 'Talk to Studio Team', path: '/contact', icon: PhoneCall },
+  { key: 'Sara Hub', label: '← SARA Digital Hub', path: '/', icon: Home },
+  { key: 'Support', label: 'Support Ticket Center', path: '/support', icon: PhoneCall },
+  { key: 'Status', label: 'Platform Status', path: '/status', icon: Zap },
+  { key: 'Contact', label: 'Contact Studio Team', path: '/contact', icon: PhoneCall },
 ];
 
 interface AppSidebarProps {

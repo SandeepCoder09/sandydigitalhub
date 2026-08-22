@@ -164,10 +164,15 @@ export default function PortfolioPage() {
                   ))}
                 </div>
 
-                <div className="pt-1 sm:pt-2">
-                  <Link href={`/calculator`}>
+                <div className="pt-1 sm:pt-2 flex gap-2">
+                  <Link href={`/portfolio/${project.id}`} className="flex-1">
+                    <Button variant="outline" className="w-full border-purple-200 text-purple-700 hover:bg-purple-50 font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 h-10 sm:h-11">
+                      Case Study <ArrowRight size={13} />
+                    </Button>
+                  </Link>
+                  <Link href="/calculator" className="flex-1">
                     <Button className="w-full bg-gray-900 hover:bg-black text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 h-10 sm:h-11">
-                      Request Similar Project <ArrowRight size={13} />
+                      Estimate Cost
                     </Button>
                   </Link>
                 </div>
