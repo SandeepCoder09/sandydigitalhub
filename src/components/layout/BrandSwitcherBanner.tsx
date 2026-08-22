@@ -58,11 +58,11 @@ export function BrandSwitcherBanner() {
             </Link>
           </div>
 
-          {/* Top-Right Notification Center Bell */}
-          <NotificationBell placement="down" align="right" theme="dark" />
-
-          {/* Top-Right Shopping Cart Drawer */}
-          <CartDrawer theme="dark" />
+          {/* Top-Right Notification Center Bell & Cart Drawer (Desktop only - Mobile has them in the top navbar) */}
+          <div className="hidden lg:flex items-center gap-2">
+            <NotificationBell placement="down" align="right" theme="dark" />
+            <CartDrawer theme="dark" />
+          </div>
         </div>
       </div>
     </nav>
