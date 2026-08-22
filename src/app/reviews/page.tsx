@@ -210,7 +210,7 @@ export default function ReviewsPage() {
             {reviews.map((r) => (
               <div
                 key={r.id}
-                className="bg-white rounded-3xl p-5 sm:p-6 border border-gray-200 shadow-xs hover:shadow-md transition-all space-y-4 flex flex-col justify-between"
+                className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-gray-200 shadow-xs hover:shadow-md transition-all space-y-3 sm:space-y-4 flex flex-col justify-between"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">

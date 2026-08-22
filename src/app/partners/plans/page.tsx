@@ -84,7 +84,7 @@ export default function PartnerPlansPage() {
           {PLANS.map((plan) => (
             <div
               key={plan.id}
-              className={`rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all ${
+              className={`rounded-2xl sm:rounded-3xl p-4.5 sm:p-6 lg:p-8 flex flex-col justify-between transition-all ${
                 plan.popular
                   ? 'bg-slate-900 text-white border-2 border-purple-500 shadow-xl shadow-purple-950/40 relative'
                   : 'bg-white text-slate-900 border border-gray-200 shadow-xs hover:shadow-md'
@@ -96,16 +96,16 @@ export default function PartnerPlansPage() {
                 </span>
               )}
 
-              <div className="space-y-4">
+              <div className="space-y-3.5 sm:space-y-4">
                 <div>
-                  <h3 className="text-lg font-black">{plan.name}</h3>
+                  <h3 className="text-base sm:text-lg font-black">{plan.name}</h3>
                   <p className={`text-xs mt-1 font-medium ${plan.popular ? 'text-slate-400' : 'text-gray-500'}`}>
                     {plan.tagline}
                   </p>
                 </div>
 
-                <div className={`p-3.5 rounded-2xl ${plan.popular ? 'bg-slate-800' : 'bg-purple-50'}`}>
-                  <div className={`text-xl font-black ${plan.popular ? 'text-purple-400' : 'text-purple-700'}`}>
+                <div className={`p-3 sm:p-3.5 rounded-xl sm:rounded-2xl ${plan.popular ? 'bg-slate-800' : 'bg-purple-50'}`}>
+                  <div className={`text-lg sm:text-xl font-black ${plan.popular ? 'text-purple-400' : 'text-purple-700'}`}>
                     {plan.commissionShare}
                   </div>
                   <div className={`text-[11px] font-medium ${plan.popular ? 'text-slate-400' : 'text-purple-900'}`}>

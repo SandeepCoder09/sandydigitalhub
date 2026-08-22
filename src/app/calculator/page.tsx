@@ -398,7 +398,7 @@ export default function CalculatorPage() {
 
             {/* Right Sticky Cost Summary Panel */}
             <div className="lg:col-span-4 space-y-4">
-              <div className="bg-slate-900 text-white rounded-3xl p-6 border border-slate-800 shadow-2xl sticky top-24 space-y-5">
+              <div className="bg-slate-900 text-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-800 shadow-2xl sticky top-24 space-y-4 sm:space-y-5">
                 
                 <div>
                   <div className="flex items-center justify-between">
@@ -569,7 +569,7 @@ export default function CalculatorPage() {
 
             {/* Right Summary */}
             <div className="lg:col-span-4 space-y-4">
-              <div className="bg-slate-900 text-white rounded-3xl p-6 border border-slate-800 shadow-2xl sticky top-24 space-y-5">
+              <div className="bg-slate-900 text-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-800 shadow-2xl sticky top-24 space-y-4 sm:space-y-5">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-purple-400">
                     SARA DIGITAL HUB TOTAL

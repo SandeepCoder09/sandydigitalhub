@@ -117,11 +117,11 @@ export default function PartnerCentersDirectoryPage() {
             actionHref="/partners/apply"
           />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {filtered.map(center => (
               <div
                 key={center.id}
-                className="bg-white rounded-3xl p-6 border border-gray-200 shadow-xs hover:shadow-md transition-all space-y-4 flex flex-col justify-between"
+                className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-gray-200 shadow-xs hover:shadow-md transition-all space-y-3.5 sm:space-y-4 flex flex-col justify-between"
               >
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-3">

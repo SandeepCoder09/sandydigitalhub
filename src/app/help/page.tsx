@@ -135,11 +135,11 @@ export default function HelpCenterPage() {
               return (
                 <div
                   key={art.slug}
-                  className="bg-white rounded-3xl border border-gray-200 shadow-xs overflow-hidden transition-all"
+                  className="bg-white rounded-2xl sm:rounded-3xl border border-gray-200 shadow-xs overflow-hidden transition-all"
                 >
                   <button
                     onClick={() => setOpenSlug(isOpen ? null : art.slug)}
-                    className="w-full p-5 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-gray-50/60 transition-colors"
+                    className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-3 sm:gap-4 cursor-pointer hover:bg-gray-50/60 transition-colors"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
@@ -157,7 +157,7 @@ export default function HelpCenterPage() {
                   </button>
 
                   {isOpen && (
-                    <div className="px-5 pb-6 pt-2 text-xs sm:text-sm text-gray-700 leading-relaxed font-medium border-t border-gray-100 bg-slate-50/30 whitespace-pre-wrap">
+                    <div className="px-4 sm:px-5 pb-5 sm:pb-6 pt-2 text-xs sm:text-sm text-gray-700 leading-relaxed font-medium border-t border-gray-100 bg-slate-50/30 whitespace-pre-wrap">
                       {art.content}
                     </div>
                   )}
@@ -168,7 +168,7 @@ export default function HelpCenterPage() {
         </div>
 
         {/* Support Callout Strip */}
-        <div className="mt-12 p-6 sm:p-8 rounded-3xl bg-purple-50 border border-purple-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div className="mt-10 sm:mt-12 p-4.5 sm:p-8 rounded-2xl sm:rounded-3xl bg-purple-50 border border-purple-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="space-y-1">
             <h3 className="text-base font-black text-purple-950">Still need help with your request?</h3>
             <p className="text-xs text-purple-800 font-medium">

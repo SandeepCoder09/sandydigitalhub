@@ -126,19 +126,19 @@ export default function PartnerNetworkLandingPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {BENEFITS.map((b, idx) => {
             const Icon = b.icon;
             return (
               <div
                 key={idx}
-                className="p-6 sm:p-8 rounded-3xl bg-slate-800/60 border border-slate-700/80 hover:border-purple-500/50 transition-all space-y-3 flex flex-col justify-between"
+                className="p-4.5 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl bg-slate-800/60 border border-slate-700/80 hover:border-purple-500/50 transition-all space-y-3 flex flex-col justify-between"
               >
                 <div className="space-y-3">
-                  <div className="w-12 h-12 rounded-2xl bg-purple-950/80 border border-purple-800/80 text-purple-300 flex items-center justify-center">
-                    <Icon size={22} />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-purple-950/80 border border-purple-800/80 text-purple-300 flex items-center justify-center">
+                    <Icon size={20} />
                   </div>
-                  <h3 className="text-base font-bold text-white">{b.title}</h3>
+                  <h3 className="text-sm sm:text-base font-bold text-white">{b.title}</h3>
                   <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-medium">
                     {b.description}
                   </p>
@@ -150,23 +150,23 @@ export default function PartnerNetworkLandingPage() {
       </section>
 
       {/* ── HOW IT WORKS ── */}
-      <section className="py-16 sm:py-20 bg-slate-950 border-y border-slate-800 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-20 bg-slate-950 border-y border-slate-800 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-16 space-y-3">
             <span className="text-xs font-black uppercase tracking-widest text-purple-400">Onboarding Process</span>
             <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
               How to Become an Authorized Partner Center
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {WORKFLOW_STEPS.map((step) => (
               <div
                 key={step.step}
-                className="p-6 rounded-3xl bg-slate-900 border border-slate-800 relative space-y-3"
+                className="p-4.5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-900 border border-slate-800 relative space-y-2.5 sm:space-y-3"
               >
-                <div className="text-3xl font-black text-purple-500/40">{step.step}</div>
-                <h3 className="text-base font-bold text-white">{step.title}</h3>
+                <div className="text-2xl sm:text-3xl font-black text-purple-500/40">{step.step}</div>
+                <h3 className="text-sm sm:text-base font-bold text-white">{step.title}</h3>
                 <p className="text-xs text-slate-400 leading-relaxed font-medium">
                   {step.description}
                 </p>
@@ -174,7 +174,7 @@ export default function PartnerNetworkLandingPage() {
             ))}
           </div>
 
-          <div className="mt-12 text-center">
+          <div className="mt-8 sm:mt-12 text-center">
             <Link href="/partners/apply">
               <Button className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-black text-sm px-8 py-3.5 h-12 rounded-2xl shadow-xl shadow-purple-950/60 cursor-pointer">
                 Start Partner Application →
@@ -185,10 +185,10 @@ export default function PartnerNetworkLandingPage() {
       </section>
 
       {/* ── QUICK LINKS BANNER ── */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-purple-900/50 to-indigo-900/50 border border-purple-700/40 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
-          <div className="space-y-2">
-            <h3 className="text-xl sm:text-2xl font-black text-white">Looking for an active center near you?</h3>
+      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <div className="p-5 sm:p-8 lg:p-12 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-purple-900/50 to-indigo-900/50 border border-purple-700/40 flex flex-col sm:flex-row items-center justify-between gap-5 sm:gap-6 text-center sm:text-left">
+          <div className="space-y-1.5 sm:space-y-2">
+            <h3 className="text-lg sm:text-2xl font-black text-white">Looking for an active center near you?</h3>
             <p className="text-xs sm:text-sm text-slate-300 font-medium">
               Browse our verified physical partner centers operating in your district or city.
             </p>
