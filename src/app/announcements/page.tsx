@@ -6,6 +6,8 @@ import {
   Megaphone, Zap, Wrench, ShieldAlert, Package, Sparkles,
   Calendar, Pin, ArrowRight, CheckCircle2, Search
 } from 'lucide-react';
+import { useDebounceValue } from '@/hooks/useDebounce';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 interface AnnouncementItem {
   id: string;
@@ -21,6 +23,7 @@ export default function PublicAnnouncementsPage() {
   const [announcements, setAnnouncements] = useState<AnnouncementItem[]>([]);
   const [typeFilter, setTypeFilter] = useState('ALL');
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounceValue(search, 250);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -47,9 +50,9 @@ export default function PublicAnnouncementsPage() {
   const filtered = announcements.filter((a) => {
     const matchType = typeFilter === 'ALL' || a.type === typeFilter;
     const matchSearch =
-      !search ||
-      a.title.toLowerCase().includes(search.toLowerCase()) ||
-      a.body.toLowerCase().includes(search.toLowerCase());
+      !debouncedSearch ||
+      a.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      a.body.toLowerCase().includes(debouncedSearch.toLowerCase());
     return matchType && matchSearch;
   });
 

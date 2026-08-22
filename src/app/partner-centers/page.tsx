@@ -7,6 +7,9 @@ import {
   ShieldCheck, CheckCircle2, Globe, ExternalLink, Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useDebounceValue } from '@/hooks/useDebounce';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { CardSkeleton } from '@/components/ui/LoadingSkeletons';
 
 interface CenterItem {
   id: string;
@@ -25,6 +28,7 @@ interface CenterItem {
 export default function PartnerCentersDirectoryPage() {
   const [centers, setCenters] = useState<CenterItem[]>([]);
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounceValue(search, 250);
   const [cityFilter, setCityFilter] = useState('ALL');
   const [loading, setLoading] = useState(true);
 
@@ -51,10 +55,10 @@ export default function PartnerCentersDirectoryPage() {
   const filtered = centers.filter(c => {
     const matchCity = cityFilter === 'ALL' || c.city === cityFilter;
     const matchSearch =
-      !search ||
-      c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.address.toLowerCase().includes(search.toLowerCase()) ||
-      c.city.toLowerCase().includes(search.toLowerCase());
+      !debouncedSearch ||
+      c.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      c.address.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      c.city.toLowerCase().includes(debouncedSearch.toLowerCase());
     return matchCity && matchSearch;
   });
 
@@ -103,26 +107,15 @@ export default function PartnerCentersDirectoryPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         {loading ? (
-          <div className="text-center py-16 text-xs text-gray-400 font-semibold animate-pulse">
-            Loading authorized partner centers...
-          </div>
+          <CardSkeleton count={6} />
         ) : filtered.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-gray-200 p-12 text-center max-w-md mx-auto space-y-4 shadow-sm">
-            <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mx-auto">
-              <Building2 size={26} />
-            </div>
-            <div>
-              <h3 className="text-base font-black text-gray-900">No Centers Found</h3>
-              <p className="text-xs text-gray-500 font-medium mt-1">
-                {search ? 'Try clearing your search terms.' : 'Be the first authorized partner in your district!'}
-              </p>
-            </div>
-            <Link href="/partners/apply">
-              <Button className="bg-[#7C3AED] text-white text-xs font-bold rounded-xl h-10 px-5">
-                Apply to Open a Center →
-              </Button>
-            </Link>
-          </div>
+          <EmptyState
+            type="partners"
+            title="No Centers Match Search"
+            description={debouncedSearch ? `No partner centers found matching "${debouncedSearch}".` : 'Be the first authorized partner center in your district!'}
+            actionText="Apply to Open a Center →"
+            actionHref="/partners/apply"
+          />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map(center => (

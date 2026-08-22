@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
 import { ContactEnquiry } from '@/models/ContactEnquiry';
 import { Order } from '@/models/Order';
+import { handleApiError, AppError } from '@/lib/errors';
+import { contactEnquirySchema } from '@/lib/validation/schemas';
 
 function generateEnquiryNumber(): string {
   const year = new Date().getFullYear();
@@ -13,33 +15,22 @@ function generateEnquiryNumber(): string {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, phone, department, relatedRequestNumber, subject, message } = body;
-
-    if (!name || !email || !subject || !message) {
-      return NextResponse.json(
-        { error: 'Name, email, subject, and message are mandatory fields.' },
-        { status: 400 }
-      );
-    }
+    const validated = contactEnquirySchema.parse(body);
 
     await connectDB();
 
     // If relatedRequestNumber is supplied, check validity
-    if (relatedRequestNumber) {
+    if (validated.relatedRequestNumber) {
       const orderExists = await Order.findOne({
         $or: [
-          { customOrderId: relatedRequestNumber.trim() },
-          { orderId: relatedRequestNumber.trim() },
+          { customOrderId: validated.relatedRequestNumber.trim() },
+          { orderId: validated.relatedRequestNumber.trim() },
         ],
       }).lean();
 
-      if (!orderExists && department === 'EXISTING_REQUEST') {
-        return NextResponse.json(
-          {
-            error:
-              'The provided Request ID could not be found. Please check your tracking number or select General Support.',
-          },
-          { status: 404 }
+      if (!orderExists && validated.department === 'EXISTING_REQUEST') {
+        throw AppError.notFound(
+          'The provided Request ID could not be found. Please check your tracking number or select General Support.'
         );
       }
     }
@@ -56,13 +47,13 @@ export async function POST(req: NextRequest) {
 
     const enquiry = await ContactEnquiry.create({
       enquiryNumber,
-      name: name.trim(),
-      email: email.trim(),
-      phone: phone ? phone.trim() : undefined,
-      department: department || 'GENERAL',
-      relatedRequestNumber: relatedRequestNumber ? relatedRequestNumber.trim() : undefined,
-      subject: subject.trim(),
-      message: message.trim(),
+      name: validated.name,
+      email: validated.email,
+      phone: validated.phone,
+      department: validated.department,
+      relatedRequestNumber: validated.relatedRequestNumber,
+      subject: validated.subject,
+      message: validated.message,
       status: 'NEW',
     });
 
@@ -72,7 +63,6 @@ export async function POST(req: NextRequest) {
       message: 'Your inquiry has been successfully routed to the responsible department.',
     });
   } catch (error: any) {
-    console.error('[POST /api/contact]', error);
-    return NextResponse.json({ error: error.message || 'Server error' }, { status: 500 });
+    return handleApiError(error, 'POST /api/contact');
   }
 }

@@ -7,6 +7,8 @@ import {
   LifeBuoy, Sparkles, FileText, CheckCircle2, Globe, ShieldCheck
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useDebounceValue } from '@/hooks/useDebounce';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 interface ArticleItem {
   slug: string;
@@ -23,6 +25,7 @@ export default function HelpCenterPage() {
   const [categories, setCategories] = useState<string[]>(['ALL']);
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounceValue(search, 250);
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -49,10 +52,10 @@ export default function HelpCenterPage() {
   const filtered = articles.filter(a => {
     const matchCat = selectedCategory === 'ALL' || a.category.toLowerCase() === selectedCategory.toLowerCase();
     const matchSearch =
-      !search ||
-      a.title.toLowerCase().includes(search.toLowerCase()) ||
-      a.summary.toLowerCase().includes(search.toLowerCase()) ||
-      a.content.toLowerCase().includes(search.toLowerCase());
+      !debouncedSearch ||
+      a.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      a.summary.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      a.content.toLowerCase().includes(debouncedSearch.toLowerCase());
     return matchCat && matchSearch;
   });
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
 import { Order } from '@/models/Order';
 import { Partner } from '@/models/Partner';
@@ -7,10 +7,12 @@ import { User } from '@/models/User';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
 import { calculateOrderCommission } from '@/lib/tenant';
-import Razorpay from 'razorpay';
 import { SiteControl } from '@/models/SiteControl';
+import { handleApiError, AppError } from '@/lib/errors';
+import cache from '@/lib/cache';
+import Razorpay from 'razorpay';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     const body = await req.json();
@@ -30,7 +32,11 @@ export async function POST(req: Request) {
     } = body;
 
     if (!items || items.length === 0) {
-      return NextResponse.json({ message: 'Cart or requested service items are required' }, { status: 400 });
+      throw AppError.badRequest('Cart or requested service items are required');
+    }
+
+    if (!total || total < 0) {
+      throw AppError.badRequest('Invalid order total amount');
     }
 
     await connectDB();
@@ -38,27 +44,23 @@ export async function POST(req: Request) {
     // Check SiteControl allowFileUploads setting
     const siteControl = await SiteControl.findOne().lean();
     if (siteControl && siteControl.allowFileUploads === false && documentUrl) {
-      return NextResponse.json(
-        { message: 'File and photo uploads are currently restricted by Admin Firewall settings.' },
-        { status: 403 }
-      );
+      throw AppError.forbidden('File uploads are currently restricted by Admin settings.');
     }
 
     // Resolve or find User ID
     let effectiveUserId = session?.user?.id;
     if (!effectiveUserId) {
       if (!customerPhone && !customerEmail) {
-        return NextResponse.json({ message: 'Customer phone or login required' }, { status: 400 });
+        throw AppError.badRequest('Customer phone number or account login is required.');
       }
 
-      // Find or create customer
-      const lookupQuery = customerPhone ? { mobile: customerPhone } : { email: customerEmail };
+      const lookupQuery = customerPhone ? { mobile: customerPhone.trim() } : { email: customerEmail.trim().toLowerCase() };
       let customer = await User.findOne(lookupQuery);
       if (!customer) {
         customer = await User.create({
-          name: customerName || 'Valued Customer',
-          email: customerEmail || `customer_${Date.now()}@sandydigitalhub.com`,
-          mobile: customerPhone || `+91${Date.now().toString().slice(-10)}`,
+          name: (customerName || 'Valued Customer').trim(),
+          email: customerEmail ? customerEmail.trim().toLowerCase() : `customer_${Date.now()}@sandydigitalhub.com`,
+          mobile: customerPhone ? customerPhone.trim() : `+91${Date.now().toString().slice(-10)}`,
           role: 'CUSTOMER',
           partnerId: partnerId || null,
           status: 'ACTIVE',
@@ -95,14 +97,14 @@ export async function POST(req: Request) {
         paymentMethod: 'pay_at_shop',
         paymentStatus: 'PENDING',
         orderStatus: 'AWAITING_CUSTOMER_VISIT',
-        notes,
+        notes: notes ? String(notes).trim().slice(0, 1000) : undefined,
         documentUrl,
         documentName,
         timeline: [
           {
             status: 'CREATED',
             timestamp: new Date(),
-            note: partnerId ? `Request submitted via partner center (${partnerId})` : 'Request submitted on central platform',
+            note: 'Order created with Pay-at-Shop mode',
             updatedBy: 'Customer Portal',
           },
         ],
@@ -110,8 +112,11 @@ export async function POST(req: Request) {
 
       return NextResponse.json(
         {
+          success: true,
           orderId: order._id,
-          message: 'Service request created successfully',
+          customOrderId: order.customOrderId,
+          status: order.orderStatus,
+          message: 'Order created successfully. Please visit the center to complete documentation.',
         },
         { status: 201 }
       );
@@ -144,7 +149,7 @@ export async function POST(req: Request) {
       razorpayOrderId: razorpayOrder.id,
       paymentStatus: 'PENDING',
       orderStatus: 'PENDING',
-      notes,
+      notes: notes ? String(notes).trim().slice(0, 1000) : undefined,
       documentUrl,
       documentName,
       timeline: [
@@ -159,36 +164,88 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       {
+        success: true,
         orderId: order._id,
+        customOrderId: order.customOrderId,
         razorpayOrderId: razorpayOrder.id,
         amount: razorpayOrder.amount,
       },
       { status: 201 }
     );
   } catch (error: any) {
-    console.error('Order creation error:', error);
-    return NextResponse.json({ message: error.message || 'Error creating order' }, { status: 500 });
+    return handleApiError(error, 'POST /api/orders');
   }
 }
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    if (!session?.user) {
+      throw AppError.unauthorized();
     }
+
+    const { searchParams } = new URL(req.url);
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
+    const limit = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') || '20', 10)));
+    const status = searchParams.get('status')?.trim();
+    const search = searchParams.get('search')?.trim();
 
     await connectDB();
 
-    let orders;
-    if (session.user.role === 'ADMIN' || session.user.role === 'SUPER_ADMIN') {
-      orders = await Order.find().sort({ createdAt: -1 }).populate('userId', 'name email mobile');
+    const filter: any = {};
+
+    // Enforce Tenant & Role Isolation
+    const userRole = (session.user as any).role;
+    const userPartnerId = (session.user as any).partnerId;
+    const userId = (session.user as any).id;
+
+    if (userRole === 'ADMIN' || userRole === 'SUPER_ADMIN') {
+      // Super Admin can view all or filter by partner
+      const partnerParam = searchParams.get('partnerId');
+      if (partnerParam) filter.partnerId = partnerParam;
+    } else if (userRole === 'PARTNER_ADMIN' || userRole === 'PARTNER_STAFF') {
+      // Must be locked strictly to their assigned partner
+      if (!userPartnerId) {
+        throw AppError.forbidden('User is not assigned to any authorized partner center');
+      }
+      filter.partnerId = userPartnerId;
     } else {
-      orders = await Order.find({ userId: session.user.id }).sort({ createdAt: -1 });
+      // Regular Customer
+      filter.userId = userId;
     }
 
-    return NextResponse.json({ orders });
-  } catch (error) {
-    return NextResponse.json({ message: 'Error fetching orders' }, { status: 500 });
+    if (status && status !== 'ALL') {
+      filter.orderStatus = status;
+    }
+
+    if (search) {
+      filter.$or = [
+        { customOrderId: { $regex: search, $options: 'i' } },
+        { customerName: { $regex: search, $options: 'i' } },
+        { customerPhone: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    const total = await Order.countDocuments(filter);
+    const orders = await Order.find(filter)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .select('customOrderId customerName customerPhone services total paymentStatus orderStatus paymentMethod createdAt timeline notes')
+      .lean();
+
+    return NextResponse.json({
+      success: true,
+      orders,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+        hasMore: page * limit < total,
+      },
+    });
+  } catch (error: any) {
+    return handleApiError(error, 'GET /api/orders');
   }
 }

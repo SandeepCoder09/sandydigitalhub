@@ -3,6 +3,8 @@ import { connectDB } from '@/lib/db';
 import { SupportTicket } from '@/models/SupportTicket';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
+import { handleApiError, AppError } from '@/lib/errors';
+import { createTicketSchema, addTicketMessageSchema } from '@/lib/validation/schemas';
 
 function generateTicketNumber(): string {
   const year = new Date().getFullYear();
@@ -15,7 +17,7 @@ export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw AppError.unauthorized();
     }
 
     const userId = (session.user as any).id;
@@ -25,15 +27,19 @@ export async function GET(req: NextRequest) {
     await connectDB();
 
     const { searchParams } = new URL(req.url);
-    const ticketNumber = searchParams.get('ticketNumber');
+    const ticketNumber = searchParams.get('ticketNumber')?.trim();
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
+    const limit = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') || '20', 10)));
+    const status = searchParams.get('status')?.trim();
+    const category = searchParams.get('category')?.trim();
 
     if (ticketNumber) {
       const ticket = await SupportTicket.findOne({ ticketNumber }).lean();
       if (!ticket) {
-        return NextResponse.json({ error: 'Ticket not found' }, { status: 404 });
+        throw AppError.notFound('Ticket not found with provided reference number.');
       }
 
-      // Role authorization check
+      // Role authorization check (IDOR prevention)
       const isOwner = ticket.customerId.toString() === userId;
       const isAdmin = ['ADMIN', 'SUPER_ADMIN'].includes(userRole);
       const isPartner =
@@ -42,7 +48,7 @@ export async function GET(req: NextRequest) {
         ticket.partnerId.toString() === userPartnerId;
 
       if (!isOwner && !isAdmin && !isPartner) {
-        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        throw AppError.forbidden('You do not have permission to view this ticket.');
       }
 
       // Filter internal notes if user is a customer
@@ -62,14 +68,24 @@ export async function GET(req: NextRequest) {
     if (userRole === 'CUSTOMER') {
       filter = { customerId: userId };
     } else if (['PARTNER_ADMIN', 'PARTNER_STAFF'].includes(userRole)) {
+      if (!userPartnerId) {
+        throw AppError.forbidden('User is not assigned to any partner center.');
+      }
       filter = { partnerId: userPartnerId };
     } else if (['ADMIN', 'SUPER_ADMIN'].includes(userRole)) {
-      filter = {}; // Admins see all authorized tickets
+      const partnerParam = searchParams.get('partnerId');
+      if (partnerParam) filter.partnerId = partnerParam;
     }
 
+    if (status && status !== 'ALL') filter.status = status;
+    if (category && category !== 'ALL') filter.category = category;
+
+    const total = await SupportTicket.countDocuments(filter);
     const tickets = await SupportTicket.find(filter)
       .sort({ lastActivityAt: -1 })
-      .limit(50)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .select('ticketNumber subject category priority status customerName messages lastActivityAt createdAt')
       .lean();
 
     return NextResponse.json({
@@ -86,10 +102,16 @@ export async function GET(req: NextRequest) {
         lastActivityAt: t.lastActivityAt,
         createdAt: t.createdAt,
       })),
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+        hasMore: page * limit < total,
+      },
     });
   } catch (error: any) {
-    console.error('[GET /api/support/tickets]', error);
-    return NextResponse.json({ error: error.message || 'Server error' }, { status: 500 });
+    return handleApiError(error, 'GET /api/support/tickets');
   }
 }
 
@@ -98,36 +120,30 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw AppError.unauthorized();
     }
 
     const userId = (session.user as any).id;
-    const userName = session.user.name || 'User';
-    const userEmail = session.user.email || '';
-    const userRole = (session.user as any).role || 'CUSTOMER';
+    const userRole = (session.user as any).role;
+    const userName = (session.user as any).name || 'User';
+    const userEmail = (session.user as any).email || '';
     const userPartnerId = (session.user as any).partnerId;
 
     const body = await req.json();
-    const {
-      ticketNumber, // If appending to existing ticket
-      subject,
-      category,
-      priority,
-      message,
-      relatedRequestNumber,
-      isInternalNote,
-      attachments,
-    } = body;
-
     await connectDB();
 
-    // CASE 1: Appending a reply/message to an existing ticket
-    if (ticketNumber) {
-      const ticket = await SupportTicket.findOne({ ticketNumber });
+    // ── Scenario A: Append a message to existing ticket ──
+    if (body.ticketId) {
+      const validated = addTicketMessageSchema.parse(body);
+      const ticket = await SupportTicket.findOne({
+        $or: [{ _id: validated.ticketId }, { ticketNumber: validated.ticketId }],
+      });
+
       if (!ticket) {
-        return NextResponse.json({ error: 'Ticket not found' }, { status: 404 });
+        throw AppError.notFound('Ticket not found.');
       }
 
+      // Verify access
       const isOwner = ticket.customerId.toString() === userId;
       const isAdmin = ['ADMIN', 'SUPER_ADMIN'].includes(userRole);
       const isPartner =
@@ -136,89 +152,85 @@ export async function POST(req: NextRequest) {
         ticket.partnerId.toString() === userPartnerId;
 
       if (!isOwner && !isAdmin && !isPartner) {
-        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        throw AppError.forbidden('You do not have permission to comment on this ticket.');
       }
 
-      const newMsg = {
+      // Customer cannot create internal notes
+      const isInternal = (!isOwner && (isAdmin || isPartner)) ? !!validated.isInternalNote : false;
+
+      ticket.messages.push({
         senderId: userId,
+        senderRole: userRole,
         senderName: userName,
-        senderRole: userRole as any,
-        content: message.trim(),
-        isInternalNote: Boolean(isInternalNote && (isAdmin || isPartner)),
-        attachments: attachments || [],
+        message: validated.message,
+        isInternalNote: isInternal,
+        attachments: validated.attachments || [],
         createdAt: new Date(),
-      };
+      });
 
-      ticket.messages.push(newMsg as any);
-      ticket.lastActivityAt = new Date();
-
-      // Update status if replied
-      if (isOwner && ticket.status === 'WAITING_FOR_USER') {
+      // Update status on response
+      if (isOwner && ticket.status === 'WAITING_ON_CUSTOMER') {
         ticket.status = 'IN_PROGRESS';
-      } else if (!isOwner && !isInternalNote) {
-        ticket.status = 'WAITING_FOR_USER';
+      } else if (!isOwner && !isInternal) {
+        ticket.status = 'WAITING_ON_CUSTOMER';
       }
 
+      ticket.lastActivityAt = new Date();
       await ticket.save();
 
-      return NextResponse.json({ success: true, message: newMsg });
+      return NextResponse.json({
+        success: true,
+        message: 'Message added to ticket thread successfully.',
+      });
     }
 
-    // CASE 2: Creating a new support ticket
-    if (!subject || !message || !category) {
-      return NextResponse.json(
-        { error: 'Subject, category, and initial message are required' },
-        { status: 400 }
-      );
-    }
+    // ── Scenario B: Create a brand new ticket ──
+    const validated = createTicketSchema.parse(body);
 
-    let newTicketNumber = generateTicketNumber();
+    let ticketNumber = generateTicketNumber();
     let isUnique = false;
     let attempts = 0;
     while (!isUnique && attempts < 5) {
-      const existing = await SupportTicket.findOne({ ticketNumber: newTicketNumber });
+      const existing = await SupportTicket.findOne({ ticketNumber });
       if (!existing) isUnique = true;
-      else newTicketNumber = generateTicketNumber();
+      else ticketNumber = generateTicketNumber();
       attempts++;
     }
 
     const ticket = await SupportTicket.create({
-      ticketNumber: newTicketNumber,
+      ticketNumber,
       customerId: userId,
       customerName: userName,
       customerEmail: userEmail,
       partnerId: userPartnerId || undefined,
-      category: category,
-      priority: priority || 'NORMAL',
-      subject: subject.trim(),
-      relatedRequestNumber: relatedRequestNumber ? relatedRequestNumber.trim() : undefined,
+      subject: validated.subject,
+      category: validated.category,
+      priority: validated.priority || 'MEDIUM',
+      relatedRequestNumber: validated.relatedRequestNumber || undefined,
       status: 'OPEN',
       messages: [
         {
           senderId: userId,
+          senderRole: userRole,
           senderName: userName,
-          senderRole: userRole as any,
-          content: message.trim(),
+          message: validated.message,
           isInternalNote: false,
-          attachments: attachments || [],
+          attachments: [],
           createdAt: new Date(),
         },
       ],
       lastActivityAt: new Date(),
     });
 
-    return NextResponse.json({
-      success: true,
-      ticket: {
-        id: ticket._id,
+    return NextResponse.json(
+      {
+        success: true,
         ticketNumber: ticket.ticketNumber,
-        subject: ticket.subject,
-        status: ticket.status,
-        createdAt: ticket.createdAt,
+        message: 'Support ticket created successfully.',
       },
-    });
+      { status: 201 }
+    );
   } catch (error: any) {
-    console.error('[POST /api/support/tickets]', error);
-    return NextResponse.json({ error: error.message || 'Server error' }, { status: 500 });
+    return handleApiError(error, 'POST /api/support/tickets');
   }
 }

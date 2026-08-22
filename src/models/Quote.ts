@@ -3,14 +3,15 @@ import mongoose, { Document, Model, Schema } from 'mongoose';
 export type QuoteStatus = 'DRAFT' | 'SAVED' | 'SENT' | 'ACCEPTED' | 'EXPIRED' | 'DECLINED';
 
 export interface IQuoteItem {
-  id: string;
-  category: string;
-  name: string;
-  price: number;
+  id?: string;
+  category?: string;
+  name?: string;
+  price?: number;
   description?: string;
 }
 
 export interface IQuote extends Document {
+  _id: mongoose.Types.ObjectId;
   quoteNumber: string; // e.g. SDS-2026-00124
   customerId?: mongoose.Types.ObjectId;
   name: string;
@@ -20,7 +21,7 @@ export interface IQuote extends Document {
   projectType: string; // e.g. 'Business Website', 'Fullstack Web App', 'Mobile App', 'UI/UX Design'
   scope: string; // e.g. 'Standard', 'Advanced', 'Enterprise'
   timelineWeeks: number;
-  selectedItems: IQuoteItem[];
+  selectedItems: (IQuoteItem | string | any)[];
   basePrice: number;
   addOnsPrice: number;
   estimatedSubtotal: number;
@@ -47,15 +48,7 @@ const quoteSchema = new Schema<IQuote>(
     projectType: { type: String, required: true },
     scope: { type: String, default: 'Standard' },
     timelineWeeks: { type: Number, default: 2 },
-    selectedItems: [
-      {
-        id: { type: String, required: true },
-        category: { type: String, required: true },
-        name: { type: String, required: true },
-        price: { type: Number, required: true },
-        description: { type: String },
-      },
-    ],
+    selectedItems: { type: Schema.Types.Mixed, default: [] },
     basePrice: { type: Number, required: true },
     addOnsPrice: { type: Number, default: 0 },
     estimatedSubtotal: { type: Number, required: true },
@@ -79,8 +72,9 @@ const quoteSchema = new Schema<IQuote>(
 );
 
 quoteSchema.index({ quoteNumber: 1 });
-quoteSchema.index({ email: 1 });
-quoteSchema.index({ status: 1, createdAt: -1 });
+quoteSchema.index({ customerId: 1, createdAt: -1 });
 
 export const Quote: Model<IQuote> =
   mongoose.models.Quote || mongoose.model<IQuote>('Quote', quoteSchema);
+
+export default Quote;

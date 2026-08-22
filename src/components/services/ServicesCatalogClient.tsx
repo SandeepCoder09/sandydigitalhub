@@ -4,6 +4,8 @@ import { useState, useMemo } from 'react';
 import { ServiceCard } from '@/components/services/ServiceCard';
 import { Search, Sparkles, SlidersHorizontal, Layers, Check } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { useDebounceValue } from '@/hooks/useDebounce';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 interface ServicesCatalogClientProps {
   initialServices: any[];
@@ -12,6 +14,7 @@ interface ServicesCatalogClientProps {
 export function ServicesCatalogClient({ initialServices }: ServicesCatalogClientProps) {
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
+  const debouncedQuery = useDebounceValue(searchQuery, 200);
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
 
   // Extract unique categories
@@ -24,15 +27,16 @@ export function ServicesCatalogClient({ initialServices }: ServicesCatalogClient
   const filteredServices = useMemo(() => {
     return initialServices.filter((service) => {
       const matchesSearch =
-        service.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        service.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        service.category?.toLowerCase().includes(searchQuery.toLowerCase());
+        !debouncedQuery ||
+        service.title?.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
+        service.description?.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
+        service.category?.toLowerCase().includes(debouncedQuery.toLowerCase());
 
       const matchesCategory = selectedCategory === 'ALL' || service.category === selectedCategory;
 
       return matchesSearch && matchesCategory;
     });
-  }, [initialServices, searchQuery, selectedCategory]);
+  }, [initialServices, debouncedQuery, selectedCategory]);
 
   // Group filtered services by category (if viewing ALL) or single category
   const groupedServices = useMemo(() => {
@@ -108,24 +112,16 @@ export function ServicesCatalogClient({ initialServices }: ServicesCatalogClient
           2. SERVICE CATALOG GRID (Responsive Breakpoints)
       ───────────────────────────────────────────────────────────── */}
       {filteredServices.length === 0 ? (
-        <div className="text-center py-12 sm:py-20 bg-white rounded-2xl sm:rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-3">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center mx-auto text-xl sm:text-2xl">
-            🔍
-          </div>
-          <h3 className="text-base sm:text-lg font-bold text-slate-800">No Services Found</h3>
-          <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
-            We couldn't find any services matching "{searchQuery}". Try searching with a different keyword or view all services.
-          </p>
-          <button
-            onClick={() => {
-              setSearchQuery('');
-              setSelectedCategory('ALL');
-            }}
-            className="px-4 py-2 sm:px-5 sm:py-2.5 bg-[#7C3AED] text-white text-xs font-bold rounded-xl shadow-md hover:bg-[#6D28D9] transition-all"
-          >
-            Reset Filters
-          </button>
-        </div>
+        <EmptyState
+          type="search"
+          title="No Services Found"
+          description={`We couldn't find any services matching "${debouncedQuery}". Try searching with a different keyword or reset your filters.`}
+          actionText="Reset Filters"
+          onActionClick={() => {
+            setSearchQuery('');
+            setSelectedCategory('ALL');
+          }}
+        />
       ) : (
         <div className="space-y-8 sm:space-y-12">
           {Object.entries(groupedServices).map(([category, items]) => (

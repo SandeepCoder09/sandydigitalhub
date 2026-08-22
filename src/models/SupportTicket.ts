@@ -1,14 +1,27 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
 
-export type TicketStatus = 'OPEN' | 'IN_PROGRESS' | 'WAITING_FOR_USER' | 'RESOLVED' | 'CLOSED';
-export type TicketPriority = 'NORMAL' | 'HIGH' | 'URGENT';
+export type TicketStatus =
+  | 'OPEN'
+  | 'IN_PROGRESS'
+  | 'WAITING_ON_CUSTOMER'
+  | 'WAITING_FOR_USER'
+  | 'RESOLVED'
+  | 'CLOSED';
+
+export type TicketPriority = 'LOW' | 'MEDIUM' | 'NORMAL' | 'HIGH' | 'URGENT';
+
 export type TicketCategory =
   | 'SERVICE_REQUEST'
+  | 'PAYMENT_REFUND'
   | 'PAYMENT_BILLING'
+  | 'STUDIO_DEVELOPMENT'
   | 'STUDIO_PROJECT'
+  | 'PARTNER_PORTAL'
   | 'PARTNER_SUPPORT'
-  | 'FREE_TOOLS'
+  | 'ACCOUNT_SECURITY'
   | 'ACCOUNT_LOGIN'
+  | 'FREE_TOOLS'
+  | 'GENERAL'
   | 'OTHER';
 
 export interface ITicketMessage {
@@ -16,19 +29,21 @@ export interface ITicketMessage {
   senderId: mongoose.Types.ObjectId;
   senderName: string;
   senderRole: 'CUSTOMER' | 'PARTNER_STAFF' | 'PARTNER_ADMIN' | 'ADMIN' | 'SUPER_ADMIN';
-  content: string;
+  content?: string;
+  message?: string;
   isInternalNote: boolean; // Only visible to ADMIN / SUPER_ADMIN and authorized partner staff
   attachments?: { name: string; url: string; size?: number }[];
   createdAt: Date;
 }
 
 export interface ISupportTicket extends Document {
+  _id: mongoose.Types.ObjectId;
   ticketNumber: string; // e.g. SDH-TKT-2026-0089
   customerId: mongoose.Types.ObjectId;
   customerName: string;
   customerEmail: string;
   customerPhone?: string;
-  partnerId?: mongoose.Types.ObjectId; // Multi-tenant isolation for partner-assigned tickets
+  partnerId?: mongoose.Types.ObjectId | string; // Multi-tenant isolation for partner-assigned tickets
   relatedRequestId?: mongoose.Types.ObjectId; // Linked order/request ID
   relatedRequestNumber?: string;
   category: TicketCategory;
@@ -53,7 +68,8 @@ const ticketMessageSchema = new Schema<ITicketMessage>(
       enum: ['CUSTOMER', 'PARTNER_STAFF', 'PARTNER_ADMIN', 'ADMIN', 'SUPER_ADMIN'],
       required: true,
     },
-    content: { type: String, required: true },
+    content: { type: String },
+    message: { type: String },
     isInternalNote: { type: Boolean, default: false },
     attachments: [
       {
@@ -74,31 +90,23 @@ const supportTicketSchema = new Schema<ISupportTicket>(
     customerName: { type: String, required: true },
     customerEmail: { type: String, required: true },
     customerPhone: { type: String },
-    partnerId: { type: Schema.Types.ObjectId, ref: 'Partner' },
+    partnerId: { type: Schema.Types.Mixed },
     relatedRequestId: { type: Schema.Types.ObjectId, ref: 'Order' },
     relatedRequestNumber: { type: String },
     category: {
       type: String,
-      enum: [
-        'SERVICE_REQUEST',
-        'PAYMENT_BILLING',
-        'STUDIO_PROJECT',
-        'PARTNER_SUPPORT',
-        'FREE_TOOLS',
-        'ACCOUNT_LOGIN',
-        'OTHER',
-      ],
       required: true,
+      default: 'GENERAL',
     },
     priority: {
       type: String,
-      enum: ['NORMAL', 'HIGH', 'URGENT'],
+      enum: ['LOW', 'MEDIUM', 'NORMAL', 'HIGH', 'URGENT'],
       default: 'NORMAL',
     },
     subject: { type: String, required: true },
     status: {
       type: String,
-      enum: ['OPEN', 'IN_PROGRESS', 'WAITING_FOR_USER', 'RESOLVED', 'CLOSED'],
+      enum: ['OPEN', 'IN_PROGRESS', 'WAITING_ON_CUSTOMER', 'WAITING_FOR_USER', 'RESOLVED', 'CLOSED'],
       default: 'OPEN',
     },
     assignedTo: { type: String },
@@ -110,12 +118,12 @@ const supportTicketSchema = new Schema<ISupportTicket>(
   { timestamps: true }
 );
 
-// Indexes
-supportTicketSchema.index({ customerId: 1, createdAt: -1 });
-supportTicketSchema.index({ partnerId: 1, status: 1 });
-supportTicketSchema.index({ status: 1, priority: 1, createdAt: -1 });
 supportTicketSchema.index({ ticketNumber: 1 });
+supportTicketSchema.index({ customerId: 1, lastActivityAt: -1 });
+supportTicketSchema.index({ partnerId: 1, status: 1 });
 
 export const SupportTicket: Model<ISupportTicket> =
   mongoose.models.SupportTicket ||
   mongoose.model<ISupportTicket>('SupportTicket', supportTicketSchema);
+
+export default SupportTicket;

@@ -20,6 +20,7 @@ export interface IOrderCommission {
 }
 
 export interface IOrder extends Document {
+  customOrderId?: string;
   userId: mongoose.Types.ObjectId;
   partnerId?: string; // e.g. SARA-0001 (or null/empty for central platform)
   customerName?: string;
@@ -48,6 +49,7 @@ export interface IOrder extends Document {
 
 const orderSchema = new Schema<IOrder>(
   {
+    customOrderId: { type: String, unique: true, sparse: true, index: true },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     partnerId: { type: String, default: null, index: true },
     customerName: { type: String },
