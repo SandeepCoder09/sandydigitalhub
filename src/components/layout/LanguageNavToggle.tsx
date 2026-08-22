@@ -2,7 +2,7 @@
 
 import { useLanguage } from '@/context/LanguageContext';
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Globe } from 'lucide-react';
 
 interface LanguageNavToggleProps {
   placement?: 'up' | 'down' | 'auto';
@@ -32,26 +32,24 @@ export function LanguageNavToggle({ placement = 'auto', compact = false }: Langu
       {compact ? (
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="relative p-2 rounded-xl bg-slate-100 hover:bg-purple-50 text-slate-700 hover:text-[#7C3AED] transition-colors flex items-center justify-center border border-slate-200 hover:border-purple-200 shadow-2xs cursor-pointer group"
+          className="p-1.5 rounded-lg hover:bg-slate-200/60 text-slate-600 hover:text-slate-900 transition-colors flex items-center justify-center cursor-pointer group"
           aria-label="Select Language"
+          title={`Language: ${language.toUpperCase()}`}
         >
-          <span className="text-base leading-none">{language === 'hi' ? '🇮🇳' : '🇺🇸'}</span>
-          <span className="absolute -bottom-1 -right-1 text-[8px] font-black uppercase bg-[#7C3AED] text-white px-1 py-0.2 rounded-md shadow-xs leading-tight">
-            {language.toUpperCase()}
-          </span>
+          <Globe size={15} />
         </button>
       ) : (
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-purple-50 border border-slate-200 hover:border-purple-200 text-xs font-black text-slate-700 hover:text-[#7C3AED] transition-all cursor-pointer shadow-2xs group"
+          className="flex items-center gap-1.5 px-2 py-1 rounded-lg hover:bg-slate-200/60 text-xs font-semibold text-slate-700 hover:text-slate-900 transition-colors cursor-pointer group"
           aria-label="Select Language"
         >
-          <span className="text-sm leading-none">{language === 'hi' ? '🇮🇳' : '🇺🇸'}</span>
-          <span className="font-black tracking-wider">{language.toUpperCase()}</span>
+          <Globe size={13} className="text-slate-500 group-hover:text-slate-700" />
+          <span className="tracking-wide text-[11.5px]">{language.toUpperCase()}</span>
           {isUp ? (
-            <ChevronUp size={12} className={`text-slate-400 group-hover:text-[#7C3AED] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+            <ChevronUp size={11} className={`text-slate-400 group-hover:text-slate-700 transition-transform duration-150 ${isOpen ? 'rotate-180' : ''}`} />
           ) : (
-            <ChevronDown size={12} className={`text-slate-400 group-hover:text-[#7C3AED] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+            <ChevronDown size={11} className={`text-slate-400 group-hover:text-slate-700 transition-transform duration-150 ${isOpen ? 'rotate-180' : ''}`} />
           )}
         </button>
       )}
@@ -61,26 +59,23 @@ export function LanguageNavToggle({ placement = 'auto', compact = false }: Langu
         <div
           className={`absolute ${
             isUp
-              ? 'bottom-full mb-2 left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 animate-in fade-in slide-in-from-bottom-2'
+              ? 'bottom-full mb-2 left-0 animate-in fade-in slide-in-from-bottom-2'
               : 'top-full mt-2 left-0 animate-in fade-in slide-in-from-top-2'
-          } w-28 bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-purple-900/10 p-1 z-50 duration-150 space-y-0.5`}
+          } w-28 bg-white border border-slate-200 rounded-xl shadow-xl shadow-slate-900/10 p-1 z-50 duration-150 space-y-0.5`}
         >
           <button
             onClick={() => {
               setLanguage('en');
               setIsOpen(false);
             }}
-            className={`w-full flex items-center justify-between px-2.5 py-2 text-xs font-black transition-colors text-left cursor-pointer rounded-xl ${
+            className={`w-full flex items-center justify-between px-2.5 py-1.5 text-xs font-medium transition-colors text-left cursor-pointer rounded-lg ${
               language === 'en'
-                ? 'bg-purple-50 text-[#7C3AED]'
+                ? 'bg-purple-50 text-[#7C3AED] font-semibold'
                 : 'text-slate-700 hover:bg-slate-50'
             }`}
           >
-            <span className="flex items-center gap-2">
-              <span className="text-base leading-none">🇺🇸</span>
-              <span>EN</span>
-            </span>
-            {language === 'en' && <span className="text-[#7C3AED] font-black">✓</span>}
+            <span>English</span>
+            {language === 'en' && <span className="text-[#7C3AED] font-bold">✓</span>}
           </button>
 
           <button
@@ -88,17 +83,14 @@ export function LanguageNavToggle({ placement = 'auto', compact = false }: Langu
               setLanguage('hi');
               setIsOpen(false);
             }}
-            className={`w-full flex items-center justify-between px-2.5 py-2 text-xs font-black transition-colors text-left cursor-pointer rounded-xl ${
+            className={`w-full flex items-center justify-between px-2.5 py-1.5 text-xs font-medium transition-colors text-left cursor-pointer rounded-lg ${
               language === 'hi'
-                ? 'bg-purple-50 text-[#7C3AED]'
+                ? 'bg-purple-50 text-[#7C3AED] font-semibold'
                 : 'text-slate-700 hover:bg-slate-50'
             }`}
           >
-            <span className="flex items-center gap-2">
-              <span className="text-base leading-none">🇮🇳</span>
-              <span>HI</span>
-            </span>
-            {language === 'hi' && <span className="text-[#7C3AED] font-black">✓</span>}
+            <span>हिंदी (HI)</span>
+            {language === 'hi' && <span className="text-[#7C3AED] font-bold">✓</span>}
           </button>
         </div>
       )}

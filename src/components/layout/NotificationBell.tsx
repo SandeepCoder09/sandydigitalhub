@@ -153,13 +153,14 @@ export function NotificationBell({ placement = 'auto' }: NotificationBellProps) 
       {/* Bell Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-xl bg-slate-100 hover:bg-purple-50 text-slate-700 hover:text-[#7C3AED] transition-colors flex items-center justify-center border border-slate-200 hover:border-purple-200 shadow-2xs cursor-pointer group"
+        className="relative p-1.5 rounded-lg hover:bg-slate-200/60 text-slate-600 hover:text-slate-900 transition-colors flex items-center justify-center cursor-pointer group"
         aria-label="Notifications"
         id="notification-bell-btn"
+        title="Notifications"
       >
-        <Bell size={17} className="text-slate-600 group-hover:text-[#7C3AED] transition-colors" />
+        <Bell size={16} className="text-slate-600 group-hover:text-slate-900 transition-colors" />
         {totalBadge > 0 && (
-          <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-[#7C3AED] text-white text-[9px] font-black rounded-full flex items-center justify-center ring-2 ring-white animate-pulse">
+          <span className="absolute -top-0.5 -right-0.5 min-w-[15px] h-[15px] px-0.5 bg-[#7C3AED] text-white text-[8.5px] font-bold rounded-full flex items-center justify-center ring-1 ring-white">
             {totalBadge > 9 ? '9+' : totalBadge}
           </span>
         )}

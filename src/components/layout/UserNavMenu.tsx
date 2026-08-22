@@ -25,7 +25,7 @@ export function UserNavMenu({ user, placement = 'auto', fullWidth = false }: Use
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const isAdmin = user?.role === 'ADMIN' || user?.role === 'admin';
+  const isAdmin = user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' || user?.role === 'admin';
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -60,30 +60,31 @@ export function UserNavMenu({ user, placement = 'auto', fullWidth = false }: Use
       {fullWidth ? (
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between p-2.5 rounded-2xl bg-white border border-slate-200 hover:border-purple-300 hover:bg-purple-50/50 transition-all cursor-pointer shadow-2xs group text-left"
+          className="w-full flex items-center justify-between p-2 rounded-xl bg-slate-50/90 hover:bg-purple-50/60 border border-slate-200/70 hover:border-purple-200/80 transition-all cursor-pointer group text-left"
+          aria-label="User Menu"
         >
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-xl bg-[#7C3AED] text-white flex items-center justify-center text-xs font-black shadow-xs shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-[#7C3AED] text-white flex items-center justify-center text-xs font-bold shadow-xs shrink-0">
               {getInitials(user?.name)}
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
-                <p className="text-xs font-bold text-slate-900 truncate leading-tight group-hover:text-[#7C3AED]">
+                <p className="text-[13px] font-semibold text-slate-800 truncate leading-tight group-hover:text-[#7C3AED]">
                   {user?.name || 'Account'}
                 </p>
                 {isAdmin && (
-                  <span className="px-1.5 py-0.2 text-[9px] font-black bg-purple-100 text-[#7C3AED] rounded-md uppercase">
+                  <span className="px-1.5 py-0.2 text-[9px] font-bold bg-purple-100 text-[#7C3AED] rounded uppercase tracking-wider">
                     Admin
                   </span>
                 )}
               </div>
-              <p className="text-[10px] text-slate-500 truncate">{user?.email || ''}</p>
+              <p className="text-[11px] text-slate-400 truncate mt-0.5">{user?.email || ''}</p>
             </div>
           </div>
           {isUp ? (
-            <ChevronUp size={14} className={`text-slate-400 group-hover:text-[#7C3AED] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+            <ChevronUp size={14} className={`text-slate-400 group-hover:text-[#7C3AED] transition-transform duration-200 shrink-0 ml-1.5 ${isOpen ? 'rotate-180' : ''}`} />
           ) : (
-            <ChevronDown size={14} className={`text-slate-400 group-hover:text-[#7C3AED] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+            <ChevronDown size={14} className={`text-slate-400 group-hover:text-[#7C3AED] transition-transform duration-200 shrink-0 ml-1.5 ${isOpen ? 'rotate-180' : ''}`} />
           )}
         </button>
       ) : (
@@ -94,11 +95,11 @@ export function UserNavMenu({ user, placement = 'auto', fullWidth = false }: Use
           <div className="w-7 h-7 rounded-full bg-[#7C3AED] text-white flex items-center justify-center text-xs font-bold shadow-xs">
             {getInitials(user?.name)}
           </div>
-          <span className="text-xs font-bold text-slate-700 max-w-[100px] truncate group-hover:text-[#7C3AED]">
+          <span className="text-xs font-semibold text-slate-700 max-w-[100px] truncate group-hover:text-[#7C3AED]">
             {user?.name || 'Account'}
           </span>
           {isAdmin && (
-            <span className="px-1.5 py-0.5 text-[10px] font-extrabold bg-purple-100 text-[#7C3AED] rounded-md uppercase">
+            <span className="px-1.5 py-0.5 text-[9px] font-bold bg-purple-100 text-[#7C3AED] rounded uppercase">
               Admin
             </span>
           )}
@@ -111,13 +112,13 @@ export function UserNavMenu({ user, placement = 'auto', fullWidth = false }: Use
         <div
           className={`absolute ${fullWidth ? 'left-0 right-0 w-full' : 'right-0 w-56'} ${
             isUp ? 'bottom-full mb-2 animate-in fade-in slide-in-from-bottom-2' : 'top-full mt-2 animate-in fade-in slide-in-from-top-2'
-          } bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-purple-900/10 py-2 z-50 duration-150`}
+          } bg-white border border-slate-200/90 rounded-xl shadow-xl shadow-slate-900/10 py-1.5 z-50 duration-150`}
         >
           {/* User Info Header (if not fullWidth) */}
           {!fullWidth && (
-            <div className="px-4 py-2.5 border-b border-slate-100 mb-1">
-              <p className="text-xs font-bold text-slate-900 truncate">{user?.name || 'User'}</p>
-              <p className="text-[11px] text-slate-500 truncate">{user?.email || ''}</p>
+            <div className="px-3.5 py-2 border-b border-slate-100 mb-1">
+              <p className="text-xs font-semibold text-slate-900 truncate">{user?.name || 'User'}</p>
+              <p className="text-[11px] text-slate-400 truncate">{user?.email || ''}</p>
             </div>
           )}
 
@@ -127,7 +128,7 @@ export function UserNavMenu({ user, placement = 'auto', fullWidth = false }: Use
               <Link
                 href="/admin"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50 rounded-xl transition-colors"
+                className="flex items-center gap-2.5 px-2.5 py-2 text-xs font-medium text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50/70 rounded-lg transition-colors"
               >
                 <ShieldCheck size={15} className="text-[#7C3AED]" />
                 <span>{t('Admin Dashboard', 'Admin Dashboard')}</span>
@@ -137,7 +138,7 @@ export function UserNavMenu({ user, placement = 'auto', fullWidth = false }: Use
             <Link
               href="/requests"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50 rounded-xl transition-colors"
+              className="flex items-center gap-2.5 px-2.5 py-2 text-xs font-medium text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50/70 rounded-lg transition-colors"
             >
               <ShoppingBag size={15} className="text-[#7C3AED]" />
               <span>{t('My Requested Services', 'My Requested Services')}</span>
@@ -146,7 +147,7 @@ export function UserNavMenu({ user, placement = 'auto', fullWidth = false }: Use
             <Link
               href="/account"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50 rounded-xl transition-colors"
+              className="flex items-center gap-2.5 px-2.5 py-2 text-xs font-medium text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50/70 rounded-lg transition-colors"
             >
               <User size={15} className="text-[#7C3AED]" />
               <span>{t('My Account', 'My Account')}</span>
@@ -154,13 +155,13 @@ export function UserNavMenu({ user, placement = 'auto', fullWidth = false }: Use
           </div>
 
           {/* Logout Option */}
-          <div className="border-t border-slate-100 mt-1.5 pt-1.5 px-1.5">
+          <div className="border-t border-slate-100 mt-1 pt-1 px-1.5">
             <button
               onClick={() => {
                 setIsOpen(false);
                 setShowConfirm(true);
               }}
-              className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors text-left cursor-pointer"
+              className="w-full flex items-center gap-2.5 px-2.5 py-2 text-xs font-medium text-red-600 hover:bg-red-50/70 rounded-lg transition-colors text-left cursor-pointer"
             >
               <LogOut size={15} className="text-red-500" />
               <span>{t('Logout', 'Sign Out')}</span>

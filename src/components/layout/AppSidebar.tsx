@@ -45,24 +45,24 @@ interface NavItem {
 
 const hubMainNavItems: NavItem[] = [
   { key: 'Home', label: 'Hub Home', path: '/', icon: Home },
-  { key: 'Services', label: 'Services Catalog', path: '/services', icon: Zap, badge: { text: 'FAST', variant: 'purple' } },
-  { key: 'My Requests', label: 'My Requests', path: '/requests', icon: ShoppingBag, badge: { text: 'ORDERS', variant: 'purple' } },
+  { key: 'Services', label: 'Services Catalog', path: '/services', icon: Zap },
+  { key: 'My Requests', label: 'My Requests', path: '/requests', icon: ShoppingBag },
   { key: 'Track Order', label: 'Track Request', path: '/track-order', icon: PackageCheck, badge: { text: 'LIVE', variant: 'green' } },
-  { key: 'Tools', label: 'Free Digital Tools', path: '/tools', icon: Wrench, badge: { text: 'FREE', variant: 'purple' } },
+  { key: 'Tools', label: 'Free Digital Tools', path: '/tools', icon: Wrench },
   { key: 'Checklist', label: 'Doc Checklist', path: '/document-checklist', icon: FileCheck },
   { key: 'Calculator', label: 'Price Calculator', path: '/calculator', icon: Calculator },
 ];
 
 const hubSecondaryNavItems: NavItem[] = [
-  { key: 'Studio', label: 'Sandy Digital Studio', path: '/studio', icon: Briefcase, badge: { text: 'TECH', variant: 'purple' } },
-  { key: 'Partners', label: 'Partner Network', path: '/partners', icon: Briefcase },
+  { key: 'Studio', label: 'Sandy Digital Studio', path: '/studio', icon: Briefcase },
+  { key: 'Partners', label: 'Partner Network', path: '/partners', icon: Compass },
   { key: 'Support', label: 'Support & Help', path: '/support', icon: PhoneCall },
   { key: 'Reviews', label: 'Verified Reviews', path: '/reviews', icon: Star },
 ];
 
 const studioMainNavItems: NavItem[] = [
   { key: 'Studio Home', label: 'Studio Overview', path: '/studio', icon: Briefcase },
-  { key: 'Studio Services', label: 'Tech & App Services', path: '/studio#services', icon: Zap, badge: { text: 'STUDIO', variant: 'purple' } },
+  { key: 'Studio Services', label: 'Tech & App Services', path: '/studio#services', icon: Zap },
   { key: 'Portfolio', label: 'Featured Portfolio', path: '/portfolio', icon: Layers },
   { key: 'Pricing', label: 'Studio Packages', path: '/pricing', icon: Tag },
   { key: 'Calculator', label: 'Project Calculator', path: '/calculator', icon: Calculator },
@@ -92,9 +92,11 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
     return null;
   }
 
+  const isStudio = pathname?.startsWith('/studio');
+
   const renderNavList = (items: NavItem[]) => {
     return (
-      <ul className="space-y-2">
+      <ul className="space-y-1">
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.path || (item.path !== '/' && pathname?.startsWith(item.path));
@@ -105,17 +107,19 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
               <li key={item.path} className="flex justify-center">
                 <Link
                   href={item.path}
-                  className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all relative ${
+                  title={translatedLabel}
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors relative ${
                     isActive
-                      ? 'bg-[#7C3AED] text-white border-2 border-[#6D28D9] shadow-md shadow-purple-500/25 scale-105'
-                      : 'bg-white text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50/70 border border-slate-200/90 hover:border-purple-300 shadow-2xs'
+                      ? 'bg-purple-50 text-[#7C3AED] border border-purple-200/80 shadow-2xs font-semibold'
+                      : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100/70'
                   }`}
+                  aria-current={isActive ? 'page' : undefined}
                 >
-                  <Icon size={18} className={isActive ? 'stroke-[2.5]' : 'stroke-[2]'} />
+                  <Icon size={18} className={isActive ? 'stroke-[2.2]' : 'stroke-[1.8]'} />
 
-                  {/* Indicator Dot */}
+                  {/* Active dot indicator */}
                   {item.badge?.variant === 'green' && !isActive && (
-                    <span className="absolute top-1 right-1 flex h-2 w-2">
+                    <span className="absolute top-1.5 right-1.5 flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
@@ -129,22 +133,20 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
             <li key={item.path}>
               <Link
                 href={item.path}
-                className={`group flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-bold transition-all ${
+                className={`group flex items-center justify-between px-3 py-2 rounded-xl text-[13.5px] transition-all ${
                   isActive
-                    ? 'bg-purple-50/90 text-[#7C3AED] border-2 border-[#7C3AED] shadow-xs'
-                    : 'bg-white text-slate-700 hover:text-[#7C3AED] hover:bg-purple-50/50 border border-slate-200/80 hover:border-purple-300 shadow-2xs'
+                    ? 'bg-purple-50/90 text-[#7C3AED] font-semibold border-l-[3px] border-[#7C3AED] pl-2.5 shadow-2xs'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50/90 font-medium'
                 }`}
+                aria-current={isActive ? 'page' : undefined}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div
-                    className={`w-7.5 h-7.5 rounded-xl flex items-center justify-center transition-all shrink-0 ${
-                      isActive
-                        ? 'bg-[#7C3AED] text-white shadow-xs'
-                        : 'bg-slate-100 border border-slate-200/70 text-slate-600 group-hover:bg-purple-100 group-hover:text-[#7C3AED] group-hover:border-purple-200'
+                  <Icon
+                    size={17}
+                    className={`shrink-0 transition-colors ${
+                      isActive ? 'text-[#7C3AED] stroke-[2.2]' : 'text-slate-400 group-hover:text-slate-700 stroke-[1.8]'
                     }`}
-                  >
-                    <Icon size={15} />
-                  </div>
+                  />
                   <span className="truncate">{translatedLabel}</span>
                 </div>
 
@@ -158,12 +160,12 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
                       </span>
                     )}
                     <span
-                      className={`text-[9px] font-black px-1.5 py-0.5 rounded-md uppercase tracking-wider ${
+                      className={`text-[9.5px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider ${
                         item.badge.variant === 'purple'
                           ? 'bg-[#7C3AED] text-white shadow-xs'
                           : item.badge.variant === 'green'
-                          ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
-                          : 'bg-amber-100 text-amber-800 border border-amber-200'
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/80'
+                          : 'bg-amber-50 text-amber-800 border border-amber-200/80'
                       }`}
                     >
                       {item.badge.text}
@@ -181,61 +183,78 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
   return (
     <aside
       className={`hidden lg:flex fixed top-0 left-0 bottom-0 ${
-        isCollapsed ? 'w-20' : 'w-72'
-      } bg-slate-50/70 backdrop-blur-2xl border-r border-slate-200/90 shadow-sm z-40 flex-col justify-between overflow-hidden transition-all duration-300 ease-in-out select-none`}
+        isCollapsed ? 'w-[72px]' : 'w-[272px]'
+      } bg-white border-r border-slate-200/80 shadow-[1px_0_3px_rgba(0,0,0,0.02)] z-40 flex-col justify-between overflow-hidden transition-all duration-300 ease-in-out select-none`}
     >
       {/* ─────────────────────────────────────────────────────────────
-          1. TOP BRANDING & COLLAPSE TOGGLE BUTTON (Bordered)
+          1. TOP BRAND HEADER & COLLAPSE TOGGLE BUTTON
       ───────────────────────────────────────────────────────────── */}
-      <div className={`p-4 border-b border-slate-200/80 bg-white flex items-center ${isCollapsed ? 'justify-center flex-col gap-2.5' : 'justify-between'} shrink-0`}>
+      <div
+        className={`h-[72px] px-4 border-b border-slate-100 bg-white flex items-center ${
+          isCollapsed ? 'justify-center flex-col gap-2' : 'justify-between'
+        } shrink-0`}
+      >
         {isCollapsed ? (
           <>
-            <Link href="/" className="w-10 h-10 rounded-2xl overflow-hidden shadow-md shadow-purple-500/20 hover:scale-105 transition-transform shrink-0 flex items-center justify-center" aria-label="Sandy Digital Hub">
-              <Image src="/icon.svg" alt="SDH" width={40} height={40} className="w-full h-full object-contain" />
+            <Link
+              href="/"
+              className="w-9 h-9 rounded-xl overflow-hidden hover:scale-105 transition-transform shrink-0 flex items-center justify-center"
+              aria-label="Sandy Digital Hub"
+              title="Sandy Digital Hub"
+            >
+              <Image src="/icon.svg" alt="SDH" width={36} height={36} className="w-full h-full object-contain" />
             </Link>
             <button
               onClick={toggleCollapse}
-              className="p-2 rounded-xl bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-[#7C3AED] transition-colors cursor-pointer border border-slate-200 hover:border-purple-200 shadow-2xs"
+              className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
               aria-label="Expand Sidebar"
+              title="Expand Sidebar"
             >
-              <PanelLeftOpen size={16} />
+              <PanelLeftOpen size={15} />
             </button>
           </>
         ) : (
           <>
-            <Link href="/" className="flex items-center transition-transform hover:scale-105">
-              <Image
-                src="/logo.png"
-                alt="Sandy Digital Hub"
-                width={180}
-                height={52}
-                className="h-10 sm:h-11 w-auto object-contain max-h-12"
-                priority
-              />
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0 flex items-center justify-center transition-transform group-hover:scale-105">
+                <Image src="/icon.svg" alt="SDH" width={36} height={36} className="w-full h-full object-contain" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[15px] font-black tracking-tight text-slate-900 leading-none">
+                  SANDY
+                </span>
+                <span className="text-[9.5px] font-bold uppercase tracking-[0.18em] text-[#7C3AED] leading-tight mt-0.5">
+                  DIGITAL HUB
+                </span>
+              </div>
             </Link>
             <button
               onClick={toggleCollapse}
-              className="p-2 rounded-xl bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-[#7C3AED] transition-colors cursor-pointer border border-slate-200 hover:border-purple-200 shadow-2xs"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
               aria-label="Collapse Sidebar"
+              title="Collapse Sidebar"
             >
-              <PanelLeftClose size={17} />
+              <PanelLeftClose size={16} />
             </button>
           </>
         )}
       </div>
 
       {/* ─────────────────────────────────────────────────────────────
-          2. CENTER SCROLLABLE NAVIGATION (Bordered Items)
+          2. WORKSPACE CONTEXT & SCROLLABLE NAVIGATION
       ───────────────────────────────────────────────────────────── */}
-      <div className="flex-1 overflow-y-auto p-3.5 space-y-5 custom-scrollbar">
-        {/* Brand Active Indicator */}
+      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-4 custom-scrollbar">
+        {/* Workspace Context Selector */}
         {!isCollapsed && (
-          <div className="p-2.5 rounded-2xl bg-gradient-to-r from-purple-50 to-indigo-50/50 border border-purple-200/80 shadow-2xs text-left">
-            <div className="text-[10px] font-black uppercase tracking-wider text-[#7C3AED]">
-              {pathname?.startsWith('/studio') ? 'SANDY DIGITAL STUDIO' : 'SARA DIGITAL HUB'}
+          <div className="p-2.5 rounded-xl bg-slate-50/90 border border-slate-200/70 text-left">
+            <div className="text-[8.5px] font-bold uppercase tracking-wider text-slate-400">
+              CURRENT WORKSPACE
             </div>
-            <div className="text-[11px] font-medium text-slate-600 truncate mt-0.5">
-              {pathname?.startsWith('/studio') ? 'Web, App & Tech Solutions' : 'Citizen & Document Services'}
+            <div className="text-[12.5px] font-bold text-slate-800 truncate mt-0.5">
+              {isStudio ? 'SANDY DIGITAL STUDIO' : 'SARA DIGITAL HUB'}
+            </div>
+            <div className="text-[10.5px] text-slate-500 truncate">
+              {isStudio ? 'Web, App & Tech Solutions' : 'Citizen & Document Services'}
             </div>
           </div>
         )}
@@ -243,47 +262,45 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
         {/* Primary Navigation Group */}
         <div>
           {!isCollapsed && (
-            <div className="flex items-center justify-between px-2.5 py-1 mb-2 rounded-xl bg-slate-100/80 border border-slate-200/70">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                <Layers size={12} className="text-[#7C3AED]" />
-                {pathname?.startsWith('/studio') ? 'Studio Services' : 'Hub Services'}
-              </span>
+            <div className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 px-3 mb-1.5">
+              {isStudio ? 'Studio Services' : 'Hub Services'}
             </div>
           )}
-          {renderNavList(pathname?.startsWith('/studio') ? studioMainNavItems : hubMainNavItems)}
+          {renderNavList(isStudio ? studioMainNavItems : hubMainNavItems)}
         </div>
 
         {/* Secondary / Ecosystem Switch Group */}
         <div>
           {!isCollapsed ? (
-            <div className="flex items-center justify-between px-2.5 py-1 mb-2 rounded-xl bg-slate-100/80 border border-slate-200/70">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                <Compass size={12} className="text-[#7C3AED]" />
-                {pathname?.startsWith('/studio') ? 'Citizen Portal' : 'Technology Studio'}
-              </span>
+            <div className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 px-3 mb-1.5">
+              {isStudio ? 'Citizen Portal' : 'Technology Studio'}
             </div>
           ) : (
-            <div className="w-8 h-px bg-slate-200 mx-auto my-2" />
+            <div className="w-6 h-px bg-slate-200 mx-auto my-2" />
           )}
-          {renderNavList(pathname?.startsWith('/studio') ? studioSecondaryNavItems : hubSecondaryNavItems)}
+          {renderNavList(isStudio ? studioSecondaryNavItems : hubSecondaryNavItems)}
         </div>
       </div>
 
       {/* ─────────────────────────────────────────────────────────────
-          3. BOTTOM UTILITY & USER PROFILE CARD (Bordered)
+          3. BOTTOM UTILITY ACTIONS & USER PROFILE
       ───────────────────────────────────────────────────────────── */}
-      <div className={`p-3 border-t border-slate-200/80 bg-white shrink-0 ${isCollapsed ? 'flex flex-col items-center gap-2.5' : 'space-y-2.5'}`}>
-        {/* Utility Tools Row */}
+      <div
+        className={`p-3 border-t border-slate-100 bg-white shrink-0 ${
+          isCollapsed ? 'flex flex-col items-center gap-2.5' : 'space-y-2'
+        }`}
+      >
+        {/* Compact Utility Row (Language, Notifications, Cart) */}
         {!isCollapsed ? (
-          <div className="flex items-center justify-between p-2 rounded-2xl bg-slate-50 border border-slate-200/90 shadow-2xs">
+          <div className="flex items-center justify-between px-2 py-1 rounded-xl bg-slate-50/90 border border-slate-200/70">
             <LanguageNavToggle placement="up" />
-            <div className="h-4 w-px bg-slate-200" />
+            <div className="h-3.5 w-px bg-slate-200" />
             <NotificationBell placement="up" />
-            <div className="h-4 w-px bg-slate-200" />
+            <div className="h-3.5 w-px bg-slate-200" />
             <CartDrawer />
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-2 py-1">
             <LanguageNavToggle placement="up" compact={true} />
             <NotificationBell placement="up" />
             <CartDrawer />
@@ -295,7 +312,8 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
           isCollapsed ? (
             <Link
               href="/account"
-              className="w-10 h-10 rounded-2xl bg-[#7C3AED] border border-purple-400 text-white flex items-center justify-center text-xs font-black shadow-md shadow-purple-500/20 hover:scale-105 transition-transform"
+              title="My Account"
+              className="w-9 h-9 rounded-xl bg-[#7C3AED] text-white flex items-center justify-center text-xs font-bold shadow-xs hover:scale-105 transition-transform"
             >
               {session.user.name?.[0]?.toUpperCase() || 'U'}
             </Link>
@@ -305,10 +323,11 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
         ) : isCollapsed ? (
           <Link
             href="/login"
-            className="w-10 h-10 rounded-2xl bg-white border border-slate-200 text-[#7C3AED] hover:bg-purple-50 flex items-center justify-center text-xs font-black shadow-2xs transition-colors"
+            title="Login"
+            className="w-9 h-9 rounded-xl bg-slate-100 hover:bg-purple-50 text-slate-700 hover:text-[#7C3AED] flex items-center justify-center text-xs font-semibold transition-colors"
             aria-label="Login"
           >
-            <LogIn size={16} />
+            <LogIn size={15} />
           </Link>
         ) : (
           <div className="grid grid-cols-2 gap-2 pt-0.5">
@@ -316,7 +335,7 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full text-xs font-bold rounded-xl border-slate-200 hover:bg-purple-50 hover:text-[#7C3AED] hover:border-purple-200 transition-all h-9"
+                className="w-full text-xs font-semibold rounded-lg border-slate-200 hover:bg-slate-50 hover:text-slate-900 transition-all h-8.5"
               >
                 <LogIn size={13} className="mr-1" /> Login
               </Button>
@@ -324,7 +343,7 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
             <Link href="/signup" className="w-full">
               <Button
                 size="sm"
-                className="w-full text-xs font-bold rounded-xl bg-[#7C3AED] hover:bg-[#6D28D9] text-white shadow-md shadow-purple-200 transition-all hover:scale-[1.02] h-9 border border-purple-500"
+                className="w-full text-xs font-semibold rounded-lg bg-[#7C3AED] hover:bg-[#6D28D9] text-white shadow-xs transition-all h-8.5"
               >
                 <UserPlus size={13} className="mr-1" /> Join
               </Button>

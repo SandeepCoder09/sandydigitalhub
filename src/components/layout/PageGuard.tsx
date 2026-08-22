@@ -82,7 +82,7 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
     return (
       <div className="min-h-screen flex flex-col bg-white pb-20 lg:pb-0">
         {navbar}
-        <div className={`flex-1 flex flex-col ${isCollapsed ? 'lg:pl-20' : 'lg:pl-72'} min-w-0 transition-all duration-300 ease-in-out`}>
+        <div className={`flex-1 flex flex-col ${isCollapsed ? 'lg:pl-[72px]' : 'lg:pl-[272px]'} min-w-0 transition-all duration-300 ease-in-out`}>
           <BrandSwitcherBanner />
           <main className="flex-1">
             {content}

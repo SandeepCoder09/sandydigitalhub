@@ -162,11 +162,13 @@ export function CartDrawer() {
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="relative p-2 text-[#7C3AED] hover:text-[#6D28D9] transition-colors cursor-pointer"
+        className="relative p-1.5 rounded-lg hover:bg-slate-200/60 text-slate-600 hover:text-slate-900 transition-colors flex items-center justify-center cursor-pointer group"
+        aria-label="Shopping Cart"
+        title="Shopping Cart"
       >
-        <ShoppingCart size={24} />
+        <ShoppingCart size={16} className="text-slate-600 group-hover:text-slate-900 transition-colors" />
         {items.length > 0 && (
-          <span className="absolute top-0 right-0 bg-[#7C3AED] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-md">
+          <span className="absolute -top-0.5 -right-0.5 min-w-[15px] h-[15px] px-0.5 bg-[#7C3AED] text-white text-[8.5px] font-bold rounded-full flex items-center justify-center ring-1 ring-white">
             {items.length}
           </span>
         )}
