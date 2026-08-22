@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
 import { Partner } from '@/models/Partner';
+import { ensureFlagshipPartners } from '@/lib/ensurePartners';
 
 // GET /api/partner-centers — Returns public active partner centers
 export async function GET(req: NextRequest) {
@@ -10,6 +11,7 @@ export async function GET(req: NextRequest) {
     const city = searchParams.get('city')?.toLowerCase();
 
     await connectDB();
+    await ensureFlagshipPartners();
 
     const filter: any = {
       status: 'ACTIVE',

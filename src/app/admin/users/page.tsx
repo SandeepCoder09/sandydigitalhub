@@ -6,6 +6,7 @@ import { User } from "@/models/User";
 import { Partner } from "@/models/Partner";
 import { AdminUsersManager } from "@/components/admin/AdminUsersManager";
 import { isProtectedSuperAdmin } from "@/lib/rbac";
+import { ensureFlagshipPartners } from "@/lib/ensurePartners";
 
 export default async function AdminUsers() {
   const session = await getServerSession(authOptions);
@@ -20,6 +21,8 @@ export default async function AdminUsers() {
 
   try {
     await connectDB();
+    await ensureFlagshipPartners();
+
     const [rawUsers, rawPartners] = await Promise.all([
       User.find().select('-password -resetPasswordToken').sort({ createdAt: -1 }).lean(),
       Partner.find({ status: { $in: ['ACTIVE', 'PENDING'] } }).select('_id name branchCode city state').lean(),

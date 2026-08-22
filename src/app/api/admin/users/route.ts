@@ -5,6 +5,7 @@ import { Partner } from '@/models/Partner';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
 import { isProtectedSuperAdmin } from '@/lib/rbac';
+import { ensureFlagshipPartners } from '@/lib/ensurePartners';
 
 export async function GET() {
   try {
@@ -16,6 +17,8 @@ export async function GET() {
     }
 
     await connectDB();
+    await ensureFlagshipPartners();
+
     const [users, partners] = await Promise.all([
       User.find().select('-password -resetPasswordToken').sort({ createdAt: -1 }).lean(),
       Partner.find({ status: { $in: ['ACTIVE', 'PENDING'] } }).select('_id name branchCode city state').lean(),

@@ -6,6 +6,7 @@ import { Partner } from '@/models/Partner';
 import { Service } from '@/models/Service';
 import { User } from '@/models/User';
 import { PartnerAuditLog } from '@/models/PartnerAuditLog';
+import { ensureFlagshipPartners } from '@/lib/ensurePartners';
 import bcrypt from 'bcryptjs';
 
 // GET /api/admin/partners - List all partner centers with stats
@@ -17,6 +18,7 @@ export async function GET(req: NextRequest) {
     }
 
     await connectDB();
+    await ensureFlagshipPartners();
 
     const { searchParams } = new URL(req.url);
     const search = searchParams.get('search') || '';
