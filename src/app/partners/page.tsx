@@ -93,7 +93,7 @@ export default function PartnerNetworkLandingPage() {
               </Button>
             </Link>
             <Link href="/partners/plans">
-              <Button variant="outline" className="border-slate-700 text-slate-200 hover:bg-slate-800 font-bold text-sm px-6 py-3.5 h-12 rounded-2xl cursor-pointer">
+              <Button className="bg-white/10 hover:bg-white/20 border border-white/20 hover:border-purple-400 text-white font-bold text-sm px-6 py-3.5 h-12 rounded-2xl cursor-pointer transition-all backdrop-blur-md shadow-sm">
                 Explore Partner Plans
               </Button>
             </Link>
