@@ -187,22 +187,22 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
       } bg-white border-r border-slate-200/80 shadow-[1px_0_3px_rgba(0,0,0,0.02)] z-40 flex-col justify-between overflow-hidden transition-all duration-300 ease-in-out select-none`}
     >
       {/* ─────────────────────────────────────────────────────────────
-          1. TOP BRAND HEADER & NOTIFICATIONS & COLLAPSE TOGGLE BUTTON
+          1. TOP BRAND HEADER & COLLAPSE TOGGLE BUTTON
       ───────────────────────────────────────────────────────────── */}
       <div
-        className={`h-[72px] px-3.5 border-b border-slate-100 bg-white flex items-center ${
-          isCollapsed ? 'justify-center flex-col gap-2' : 'justify-between'
-        } shrink-0`}
+        className={`${
+          isCollapsed ? 'py-3.5 px-2 flex-col gap-2.5 min-h-[88px]' : 'h-[72px] px-3.5 justify-between'
+        } border-b border-slate-100 bg-white flex items-center shrink-0 transition-all`}
       >
         {isCollapsed ? (
           <>
             <Link
               href="/"
-              className="w-9 h-9 rounded-xl overflow-hidden hover:scale-105 transition-transform shrink-0 flex items-center justify-center"
+              className="w-10 h-10 rounded-xl overflow-hidden hover:scale-105 transition-transform shrink-0 flex items-center justify-center shadow-2xs mt-0.5"
               aria-label="Sandy Digital Hub"
               title="Sandy Digital Hub"
             >
-              <Image src="/icon.svg" alt="SDH" width={36} height={36} className="w-full h-full object-contain" />
+              <Image src="/icon.svg" alt="SDH" width={38} height={38} className="w-full h-full object-contain" />
             </Link>
             <button
               onClick={toggleCollapse}
@@ -210,7 +210,7 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
               aria-label="Expand Sidebar"
               title="Expand Sidebar"
             >
-              <PanelLeftOpen size={15} />
+              <PanelLeftOpen size={16} />
             </button>
           </>
         ) : (
