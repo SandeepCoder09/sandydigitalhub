@@ -3,22 +3,46 @@ import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
 import { connectDB } from "@/lib/db";
 import { User } from "@/models/User";
+import { Partner } from "@/models/Partner";
 import { AdminUsersManager } from "@/components/admin/AdminUsersManager";
+import { isProtectedSuperAdmin } from "@/lib/rbac";
 
 export default async function AdminUsers() {
   const session = await getServerSession(authOptions);
+  const userRole = (session?.user as any)?.role || '';
 
-  if (!session || session.user.role !== 'ADMIN') {
+  if (!session || !isProtectedSuperAdmin(userRole)) {
     redirect("/login");
   }
 
   let users: any[] = [];
+  let partners: any[] = [];
+
   try {
     await connectDB();
-    users = await User.find().select('-password').sort({ createdAt: -1 }).lean();
+    const [rawUsers, rawPartners] = await Promise.all([
+      User.find().select('-password -resetPasswordToken').sort({ createdAt: -1 }).lean(),
+      Partner.find({ status: { $in: ['ACTIVE', 'PENDING'] } }).select('_id name branchCode city state').lean(),
+    ]);
+
+    users = rawUsers;
+    partners = rawPartners.map((p: any) => ({
+      id: p._id.toString(),
+      name: p.name,
+      branchCode: p.branchCode,
+      city: p.city,
+      state: p.state,
+    }));
   } catch (err) {
     console.error('Failed to load users:', err);
   }
+
+  const currentUser = {
+    id: (session.user as any).id || '',
+    email: session.user.email || '',
+    role: userRole,
+    name: session.user.name || 'Super Admin',
+  };
 
   return (
     <div className="space-y-6">
@@ -26,12 +50,16 @@ export default async function AdminUsers() {
         <div>
           <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">Manage User Accounts</h1>
           <p className="text-xs text-gray-500 font-medium mt-0.5">
-            Audit registered customer accounts, roles, and status ({users.length} total users)
+            Role-Based Access Control & User Administration ({users.length} total registered accounts)
           </p>
         </div>
       </div>
 
-      <AdminUsersManager initialUsers={JSON.parse(JSON.stringify(users))} />
+      <AdminUsersManager
+        initialUsers={JSON.parse(JSON.stringify(users))}
+        initialPartners={JSON.parse(JSON.stringify(partners))}
+        currentUser={currentUser}
+      />
     </div>
   );
 }

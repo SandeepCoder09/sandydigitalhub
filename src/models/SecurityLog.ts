@@ -1,7 +1,17 @@
 import mongoose, { Schema, model, models } from 'mongoose';
 
 export interface ISecurityLog {
-  eventType: 'BLOCKED_IP_HIT' | 'FAILED_LOGIN' | 'SUSPICIOUS_REQUEST' | 'LOCKDOWN_TRIGGERED' | 'UNAUTHORIZED_ACCESS';
+  eventType:
+    | 'BLOCKED_IP_HIT'
+    | 'FAILED_LOGIN'
+    | 'SUSPICIOUS_REQUEST'
+    | 'LOCKDOWN_TRIGGERED'
+    | 'UNAUTHORIZED_ACCESS'
+    | 'USER_ROLE_CHANGED'
+    | 'USER_SUSPENDED'
+    | 'USER_REACTIVATED'
+    | 'ROLE_CHANGE_DENIED'
+    | 'PROTECTED_ACCOUNT_ACTION_BLOCKED';
   ip: string;
   userEmail?: string;
   path: string;
