@@ -187,10 +187,10 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
       } bg-white border-r border-slate-200/80 shadow-[1px_0_3px_rgba(0,0,0,0.02)] z-40 flex-col justify-between overflow-hidden transition-all duration-300 ease-in-out select-none`}
     >
       {/* ─────────────────────────────────────────────────────────────
-          1. TOP BRAND HEADER & COLLAPSE TOGGLE BUTTON
+          1. TOP BRAND HEADER & NOTIFICATIONS & COLLAPSE TOGGLE BUTTON
       ───────────────────────────────────────────────────────────── */}
       <div
-        className={`h-[72px] px-4 border-b border-slate-100 bg-white flex items-center ${
+        className={`h-[72px] px-3.5 border-b border-slate-100 bg-white flex items-center ${
           isCollapsed ? 'justify-center flex-col gap-2' : 'justify-between'
         } shrink-0`}
       >
@@ -204,22 +204,25 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
             >
               <Image src="/icon.svg" alt="SDH" width={36} height={36} className="w-full h-full object-contain" />
             </Link>
-            <button
-              onClick={toggleCollapse}
-              className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
-              aria-label="Expand Sidebar"
-              title="Expand Sidebar"
-            >
-              <PanelLeftOpen size={15} />
-            </button>
+            <div className="flex flex-col items-center gap-1.5 pt-1">
+              <NotificationBell placement="down" align="left" />
+              <button
+                onClick={toggleCollapse}
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                aria-label="Expand Sidebar"
+                title="Expand Sidebar"
+              >
+                <PanelLeftOpen size={15} />
+              </button>
+            </div>
           </>
         ) : (
           <>
-            <Link href="/" className="flex items-center gap-2.5 group">
+            <Link href="/" className="flex items-center gap-2.5 group min-w-0">
               <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0 flex items-center justify-center transition-transform group-hover:scale-105">
                 <Image src="/icon.svg" alt="SDH" width={36} height={36} className="w-full h-full object-contain" />
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col min-w-0">
                 <span className="text-[15px] font-black tracking-tight text-slate-900 leading-none">
                   SANDY
                 </span>
@@ -228,14 +231,17 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
                 </span>
               </div>
             </Link>
-            <button
-              onClick={toggleCollapse}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
-              aria-label="Collapse Sidebar"
-              title="Collapse Sidebar"
-            >
-              <PanelLeftClose size={16} />
-            </button>
+            <div className="flex items-center gap-1 shrink-0 ml-2">
+              <NotificationBell placement="down" align="right" />
+              <button
+                onClick={toggleCollapse}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                aria-label="Collapse Sidebar"
+                title="Collapse Sidebar"
+              >
+                <PanelLeftClose size={16} />
+              </button>
+            </div>
           </>
         )}
       </div>
@@ -290,19 +296,16 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
           isCollapsed ? 'flex flex-col items-center gap-2.5' : 'space-y-2'
         }`}
       >
-        {/* Compact Utility Row (Language, Notifications, Cart) */}
+        {/* Compact Utility Row (Language & Cart) */}
         {!isCollapsed ? (
-          <div className="flex items-center justify-between px-2 py-1 rounded-xl bg-slate-50/90 border border-slate-200/70">
+          <div className="flex items-center justify-between px-2.5 py-1 rounded-xl bg-slate-50/90 border border-slate-200/70">
             <LanguageNavToggle placement="up" />
-            <div className="h-3.5 w-px bg-slate-200" />
-            <NotificationBell placement="up" />
             <div className="h-3.5 w-px bg-slate-200" />
             <CartDrawer />
           </div>
         ) : (
           <div className="flex flex-col items-center gap-2 py-1">
             <LanguageNavToggle placement="up" compact={true} />
-            <NotificationBell placement="up" />
             <CartDrawer />
           </div>
         )}
