@@ -4,6 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import { connectDB } from '@/lib/db';
 import { User } from '@/models/User';
+import { checkLoginAttempts, recordFailedLogin, resetLoginAttempts } from '@/lib/rateLimit';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -14,25 +15,48 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        const rawEmail = credentials?.email ? String(credentials.email).trim().toLowerCase() : '';
+        const rawPassword = credentials?.password ? String(credentials.password) : '';
+
+        if (!rawEmail || !rawPassword) {
           throw new Error('Please enter an email and password');
+        }
+
+        // 1. Rate Limit & Brute-Force Check
+        const attemptCheck = checkLoginAttempts(rawEmail);
+        if (!attemptCheck.allowed) {
+          const minutes = Math.ceil((attemptCheck.lockedUntilSeconds || 300) / 60);
+          throw new Error(`Too many failed login attempts. Please wait ${minutes} minute(s) before trying again.`);
         }
 
         await connectDB();
 
-        const user = await User.findOne({ email: credentials.email }).lean();
+        // 2. Fetch User by Email
+        const user = await User.findOne({ email: rawEmail });
         if (!user || !user.password) {
-          throw new Error('No user found with this email');
+          recordFailedLogin(rawEmail);
+          // Generic error message to prevent user enumeration
+          throw new Error('Invalid email or password.');
         }
 
+        // 3. Status Check
         if (user.status === 'SUSPENDED') {
           throw new Error('Your account has been suspended. Please contact support.');
         }
 
-        const isPasswordMatch = await bcrypt.compare(credentials.password, user.password);
+        // 4. Secure Password Comparison
+        const isPasswordMatch = await bcrypt.compare(rawPassword, user.password);
         if (!isPasswordMatch) {
-          throw new Error('Incorrect password');
+          const lockResult = recordFailedLogin(rawEmail);
+          if (lockResult.locked) {
+            const minutes = Math.ceil((lockResult.lockTimeSeconds || 300) / 60);
+            throw new Error(`Too many failed attempts. Account locked for ${minutes} minute(s).`);
+          }
+          throw new Error('Invalid email or password.');
         }
+
+        // 5. Successful login: reset failed counters
+        resetLoginAttempts(rawEmail);
 
         return {
           id: user._id.toString(),
@@ -67,9 +91,23 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === 'production' ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
   },
   secret: process.env.NEXTAUTH_SECRET || 'sandy_digital_hub_super_secret_jwt_key_2026_999888',
   pages: {
     signIn: '/login',
   },
 };
+
+export default authOptions;

@@ -1,46 +1,57 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
 import { connectDB } from '@/lib/db';
 import { User } from '@/models/User';
 import bcrypt from 'bcryptjs';
+import { checkRateLimit } from '@/lib/rateLimit';
+import { passwordUpdateSchema } from '@/lib/validation/schemas';
+import { handleApiError, AppError } from '@/lib/errors';
+import { sanitizeMongoQuery } from '@/lib/validation/sanitize';
 
 export async function PUT(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!session?.user?.id) {
+      throw AppError.unauthorized('Authentication required to change password.');
     }
 
-    const { currentPassword, newPassword } = await req.json();
-
-    if (!currentPassword || !newPassword) {
-      return NextResponse.json({ error: 'Current password and new password are required' }, { status: 400 });
+    const rateCheck = checkRateLimit(`pwd-change:${session.user.id}`, { limit: 5, windowSeconds: 300 });
+    if (!rateCheck.success) {
+      throw AppError.rateLimited('Too many password update attempts. Please wait 5 minutes.');
     }
 
-    if (newPassword.length < 6) {
-      return NextResponse.json({ error: 'New password must be at least 6 characters long' }, { status: 400 });
+    const body = await req.json();
+    const sanitizedBody = sanitizeMongoQuery(body);
+    const parsed = passwordUpdateSchema.safeParse(sanitizedBody);
+
+    if (!parsed.success) {
+      throw parsed.error;
     }
+
+    const { currentPassword, newPassword } = parsed.data;
 
     await connectDB();
 
     const user = await User.findById(session.user.id);
     if (!user || !user.password) {
-      return NextResponse.json({ error: 'User account not found' }, { status: 404 });
+      throw AppError.notFound('User account not found.');
     }
 
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
-      return NextResponse.json({ error: 'Incorrect current password' }, { status: 400 });
+      throw AppError.badRequest('Current password entered is incorrect.');
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 12);
     user.password = hashedPassword;
     await user.save();
 
-    return NextResponse.json({ message: 'Password updated successfully' });
+    return NextResponse.json({
+      success: true,
+      message: 'Password updated successfully.',
+    });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Failed to update password' }, { status: 500 });
+    return handleApiError(error, 'PUT /api/user/password');
   }
 }

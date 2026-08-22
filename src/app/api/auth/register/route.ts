@@ -1,41 +1,66 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-require-imports, @next/next/no-img-element, @next/next/no-sync-scripts, react/no-unescaped-entities */
 import { NextResponse, NextRequest } from 'next/server';
 import { connectDB } from '@/lib/db';
 import { User } from '@/models/User';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
+import { checkRateLimit, getClientIp } from '@/lib/rateLimit';
+import { registerSchema } from '@/lib/validation/schemas';
+import { handleApiError, AppError } from '@/lib/errors';
+import { sanitizeMongoQuery } from '@/lib/validation/sanitize';
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, mobile, password } = await req.json();
+    const ip = getClientIp(req);
+    const rateCheck = checkRateLimit(`register:${ip}`, { limit: 10, windowSeconds: 3600 });
+    if (!rateCheck.success) {
+      throw AppError.rateLimited('Registration rate limit exceeded. Please try again later.');
+    }
 
-    if (!name || !email || !mobile || !password) {
-      return NextResponse.json({ message: 'All fields are required' }, { status: 400 });
+    const body = await req.json();
+    const sanitizedBody = sanitizeMongoQuery(body);
+    const parsed = registerSchema.safeParse(sanitizedBody);
+
+    if (!parsed.success) {
+      throw parsed.error;
+    }
+
+    const { name, email, mobile, phone, password } = parsed.data;
+    const mobileNumber = (mobile || phone || '').trim();
+
+    if (!mobileNumber) {
+      throw AppError.badRequest('Mobile phone number is required.');
     }
 
     await connectDB();
 
-    const existingUser = await User.findOne({ $or: [{ email }, { mobile }] });
+    const existingUser = await User.findOne({
+      $or: [{ email: email.toLowerCase().trim() }, { mobile: mobileNumber }],
+    });
+
     if (existingUser) {
-      return NextResponse.json(
-        { message: 'User with this email or mobile already exists' },
-        { status: 400 }
-      );
+      throw AppError.conflict('An account with this email address or mobile number already exists.');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash password with bcrypt (12 rounds)
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await User.create({
-      name,
-      email,
-      mobile,
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
+      mobile: mobileNumber,
       password: hashedPassword,
+      role: 'CUSTOMER',
+      status: 'ACTIVE',
     });
 
     return NextResponse.json(
-      { message: 'User registered successfully', userId: user._id },
+      {
+        success: true,
+        message: 'Account registered successfully.',
+        userId: user._id.toString(),
+      },
       { status: 201 }
     );
   } catch (error: any) {
-    return NextResponse.json({ message: error.message || 'Internal Server Error' }, { status: 500 });
+    return handleApiError(error, 'POST /api/auth/register');
   }
 }

@@ -1,80 +1,73 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
 import { Order } from '@/models/Order';
 import { User } from '@/models/User';
 import mongoose from 'mongoose';
+import { checkRateLimit, getClientIp } from '@/lib/rateLimit';
+import { handleApiError, AppError } from '@/lib/errors';
+import { sanitizeMongoQuery, sanitizeText } from '@/lib/validation/sanitize';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const { trackingId, phone } = await req.json();
+    const ip = getClientIp(req);
+    const rateCheck = checkRateLimit(`track-order:${ip}`, { limit: 20, windowSeconds: 60 });
+    if (!rateCheck.success) {
+      throw AppError.rateLimited('Too many tracking requests. Please wait a moment.');
+    }
+
+    const body = await req.json();
+    const sanitizedBody = sanitizeMongoQuery(body);
+    const trackingId = sanitizedBody?.trackingId ? sanitizeText(String(sanitizedBody.trackingId), 100) : '';
+    const phone = sanitizedBody?.phone ? sanitizeText(String(sanitizedBody.phone), 20) : '';
 
     if (!trackingId && !phone) {
-      return NextResponse.json({ error: 'Order ID or registered Phone Number is required' }, { status: 400 });
+      throw AppError.badRequest('Order ID or registered Mobile Number is required.');
     }
 
     await connectDB();
 
     let orders: any[] = [];
 
-    if (trackingId && trackingId.trim()) {
-      const cleanId = trackingId.trim();
-      
-      if (mongoose.Types.ObjectId.isValid(cleanId)) {
-        orders = await Order.find({ _id: cleanId })
+    if (trackingId) {
+      if (mongoose.Types.ObjectId.isValid(trackingId)) {
+        orders = await Order.find({ _id: trackingId })
           .sort({ createdAt: -1 })
           .populate('userId', 'name phone email')
+          .select('customOrderId services total paymentMethod paymentStatus orderStatus documentUrl documentName createdAt userId')
           .lean();
       } else {
-        // Handle branded order IDs like SDH-20260803-37DBC7 or short hash 37DBC7
-        let shortCode = cleanId.trim();
-        if (shortCode.toUpperCase().startsWith('SDH-')) {
-          const parts = shortCode.split('-');
-          shortCode = parts[parts.length - 1]; // Extract XXXXXX
-        }
-
-        const allOrders = await Order.find()
+        // Search by customOrderId or match by pattern
+        orders = await Order.find({
+          $or: [
+            { customOrderId: trackingId },
+            { customOrderId: { $regex: trackingId, $options: 'i' } },
+          ],
+        })
           .sort({ createdAt: -1 })
           .populate('userId', 'name phone email')
+          .select('customOrderId services total paymentMethod paymentStatus orderStatus documentUrl documentName createdAt userId')
           .lean();
-
-        orders = allOrders.filter((o: any) => {
-          const rawId = o._id.toString();
-          const razorpayOrder = o.razorpayOrderId || '';
-          const razorpayPayment = o.razorpayPaymentId || '';
-          const shortHash6 = rawId.slice(-6).toUpperCase();
-          const shortHash4 = rawId.slice(-4).toUpperCase();
-          const cleanUpper = cleanId.toUpperCase();
-          const shortUpper = shortCode.toUpperCase();
-
-          return (
-            rawId.toUpperCase() === cleanUpper ||
-            razorpayOrder === cleanId ||
-            razorpayPayment === cleanId ||
-            shortHash4 === shortUpper ||
-            shortHash6 === shortUpper ||
-            cleanUpper.includes(shortHash4)
-          );
-        });
       }
-    } else if (phone && phone.trim()) {
-      const cleanPhone = phone.trim();
-      const matchedUser = await User.findOne({ phone: cleanPhone });
+    } else if (phone) {
+      const matchedUser = await User.findOne({ mobile: phone }).select('_id').lean();
       if (!matchedUser) {
-        return NextResponse.json({ error: 'No orders found matching this phone number.' }, { status: 404 });
+        throw AppError.notFound('No requests found for this mobile number.');
       }
       orders = await Order.find({ userId: matchedUser._id })
         .sort({ createdAt: -1 })
         .populate('userId', 'name phone email')
+        .select('customOrderId services total paymentMethod paymentStatus orderStatus documentUrl documentName createdAt userId')
         .lean();
     }
 
     if (!orders || orders.length === 0) {
-      return NextResponse.json({ error: 'No orders found with provided tracking details.' }, { status: 404 });
+      throw AppError.notFound('No requests found matching the provided tracking information.');
     }
 
-    // Map order fields for safe public tracking response
+    // Map order fields for safe public tracking response (mask customer name for privacy)
     const formattedOrders = orders.map((o: any) => ({
       orderId: o._id.toString(),
+      customOrderId: o.customOrderId || null,
       createdAt: o.createdAt,
       services: o.services,
       total: o.total,
@@ -87,8 +80,7 @@ export async function POST(req: Request) {
     }));
 
     return NextResponse.json({ success: true, orders: formattedOrders });
-  } catch (err: any) {
-    console.error('Track order API error:', err);
-    return NextResponse.json({ error: err.message || 'Internal Server Error' }, { status: 500 });
+  } catch (error: any) {
+    return handleApiError(error, 'POST /api/track-order');
   }
 }

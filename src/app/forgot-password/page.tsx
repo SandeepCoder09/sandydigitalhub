@@ -40,18 +40,19 @@ export default function ForgotPasswordPage() {
     setMessage("");
 
     try {
-      // Typically, you would call an API endpoint here to handle password reset
-      // const response = await fetch('/api/auth/forgot-password', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(values)
-      // });
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      const data = await res.json();
       
-      // Simulate network request for now
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to process password reset request.");
+      }
+
       setStatus("success");
-      setMessage("If an account exists with this email, you will receive a password reset link shortly.");
+      setMessage(data.message || "If an account exists with this email, you will receive a password reset link shortly.");
     } catch (err: any) {
       setStatus("error");
       setMessage(err.message || "Something went wrong. Please try again.");

@@ -38,6 +38,7 @@ export const paginationQuerySchema = z.object({
 export const registerSchema = z.object({
   name: z.string().trim().min(2, 'Name must be at least 2 characters').max(60, 'Name cannot exceed 60 characters'),
   email: emailSchema,
+  mobile: phoneSchema.optional(),
   phone: phoneSchema.optional(),
   password: z.string().min(6, 'Password must be at least 6 characters').max(100, 'Password is too long'),
 });
@@ -49,6 +50,7 @@ export const loginSchema = z.object({
 
 export const profileUpdateSchema = z.object({
   name: z.string().trim().min(2).max(60).optional(),
+  mobile: phoneSchema.optional(),
   phone: phoneSchema.optional(),
   address: z.string().trim().max(200).optional(),
   city: z.string().trim().max(50).optional(),
