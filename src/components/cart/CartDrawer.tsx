@@ -152,7 +152,7 @@ export function CartDrawer({ theme = 'auto', className }: CartDrawerProps = {}) 
                 </div>
 
                 <Link
-                  href="/services"
+                  href="/checkout"
                   onClick={() => setIsOpen(false)}
                   className="w-full py-3.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-extrabold rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30 transition-all text-sm cursor-pointer"
                 >
