@@ -135,6 +135,56 @@ export default function AdminAnalyticsPage() {
             </div>
           </div>
 
+          {/* Top Pages & Device Breakdown */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Top Visited Pages */}
+            <div className="bg-white rounded-3xl p-5 border border-gray-200 shadow-2xs space-y-3">
+              <h2 className="text-sm font-black text-gray-900 flex items-center gap-2">
+                <TrendingUp size={16} className="text-violet-600" />
+                Most Visited Pages
+              </h2>
+              <div className="space-y-2">
+                {(!data.topPages || data.topPages.length === 0) ? (
+                  <p className="text-xs text-gray-400 font-medium py-3">No page view data available yet.</p>
+                ) : (
+                  data.topPages.map((page: any, idx: number) => (
+                    <div key={idx} className="flex items-center justify-between p-2.5 rounded-xl bg-gray-50 text-xs">
+                      <span className="font-mono font-bold text-gray-800 truncate max-w-[200px] sm:max-w-xs">{page.path}</span>
+                      <span className="font-bold text-violet-700 px-2 py-0.5 rounded-md bg-violet-50 border border-violet-200 shrink-0">
+                        {page.views} views
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
+            {/* Device Breakdown */}
+            <div className="bg-white rounded-3xl p-5 border border-gray-200 shadow-2xs space-y-3">
+              <h2 className="text-sm font-black text-gray-900 flex items-center gap-2">
+                <Smartphone size={16} className="text-purple-600" />
+                Device Breakdown
+              </h2>
+              <div className="space-y-2">
+                {(!data.deviceBreakdown || data.deviceBreakdown.length === 0) ? (
+                  <p className="text-xs text-gray-400 font-medium py-3">No device data available yet.</p>
+                ) : (
+                  data.deviceBreakdown.map((d: any, idx: number) => (
+                    <div key={idx} className="flex items-center justify-between p-2.5 rounded-xl bg-gray-50 text-xs">
+                      <span className="font-bold text-gray-800 flex items-center gap-2">
+                        {d.device === 'Mobile' ? <Smartphone size={14} className="text-amber-500" /> : <Monitor size={14} className="text-blue-500" />}
+                        {d.device}
+                      </span>
+                      <span className="font-bold text-purple-700 px-2 py-0.5 rounded-md bg-purple-50 border border-purple-200 shrink-0">
+                        {d.count} hits
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* Real-time Recent Visitors Table */}
           <div className="bg-white rounded-3xl border border-gray-200 shadow-2xs overflow-hidden">
             <div className="p-6 border-b border-gray-100 flex items-center justify-between">
@@ -157,30 +207,38 @@ export default function AdminAnalyticsPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 text-xs">
-                  {(data.recentVisitors || []).map((v: any, idx: number) => (
-                    <tr key={idx} className="hover:bg-gray-50/80 transition-colors">
-                      <td className="p-4 font-mono font-bold text-violet-700">
-                        {v.ip || '127.0.0.1'}
-                      </td>
-                      <td className="p-4 font-mono font-bold text-gray-900 text-[11px]">
-                        {v.path || '/'}
-                      </td>
-                      <td className="p-4 text-gray-600 font-medium">
-                        {v.device || 'Desktop'} ({v.browser || 'Chrome'})
-                      </td>
-                      <td className="p-4 text-gray-500 font-medium">
-                        {formatDateTime(v.lastSeen || new Date())}
-                      </td>
-                      <td className="p-4 text-center">
-                        <button
-                          onClick={() => handleQuickBlockIp(v.ip)}
-                          className="px-2.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 font-bold border border-red-200 text-[11px] transition-colors cursor-pointer"
-                        >
-                          Quick Block IP
-                        </button>
+                  {(!data.recentVisitors || data.recentVisitors.length === 0) ? (
+                    <tr>
+                      <td colSpan={5} className="p-8 text-center text-gray-400 font-medium">
+                        No visitor telemetry recorded yet. Browse public pages (e.g. /services, /partners) to see live logs!
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    (data.recentVisitors || []).map((v: any, idx: number) => (
+                      <tr key={idx} className="hover:bg-gray-50/80 transition-colors">
+                        <td className="p-4 font-mono font-bold text-violet-700">
+                          {v.ip || '127.0.0.1'}
+                        </td>
+                        <td className="p-4 font-mono font-bold text-gray-900 text-[11px]">
+                          {v.path || '/'}
+                        </td>
+                        <td className="p-4 text-gray-600 font-medium">
+                          {v.device || 'Desktop'} ({v.browser || 'Chrome'})
+                        </td>
+                        <td className="p-4 text-gray-500 font-medium">
+                          {formatDateTime(v.lastSeen || v.createdAt || new Date())}
+                        </td>
+                        <td className="p-4 text-center">
+                          <button
+                            onClick={() => handleQuickBlockIp(v.ip)}
+                            className="px-2.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 font-bold border border-red-200 text-[11px] transition-colors cursor-pointer"
+                          >
+                            Quick Block IP
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
