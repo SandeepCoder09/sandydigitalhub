@@ -74,7 +74,7 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
   const isUp = placement === 'up';
   const isAdmin = ['ADMIN', 'SUPER_ADMIN'].includes((session?.user as any)?.role || '');
 
-  // ─── 1. Lightweight Unread Count Polling (< 50 bytes, zero heavy document downloads) ───
+  // ─── 1. Lightweight Unread Count Polling (< 50 bytes) ───
   const fetchUnreadCount = useCallback(async () => {
     if (!session?.user || document.hidden) return;
     try {
@@ -89,7 +89,7 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
     } catch {}
   }, [session]);
 
-  // ─── 2. Full Notification Feed Fetch (Only triggered when user opens the menu or refreshes) ───
+  // ─── 2. Full Notification Feed Fetch (Triggered on open/refresh) ───
   const fetchFullNotifications = useCallback(async () => {
     if (!session?.user) return;
     setLoading(true);
@@ -108,7 +108,6 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
     }
   }, [session]);
 
-  // Set up low-overhead polling for badge count only
   useEffect(() => {
     if (!session?.user) {
       setNotifications([]);
@@ -121,12 +120,11 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
 
     const interval = setInterval(() => {
       fetchUnreadCount();
-    }, 30000); // 30s lightweight ping
+    }, 30000);
 
     return () => clearInterval(interval);
   }, [session, fetchUnreadCount]);
 
-  // Fetch full notification list whenever user clicks open the bell
   useEffect(() => {
     if (isOpen) {
       fetchFullNotifications();
@@ -163,19 +161,12 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
 
   const totalBadge = unreadCount + adminChatCount;
 
-  // Compute dropdown placement classes: Centered on mobile (< sm), dropdown on desktop (sm+)
-  let dropdownPositionClass =
-    'fixed left-1/2 -translate-x-1/2 top-20 w-[calc(100vw-24px)] max-w-[390px] sm:absolute sm:left-auto sm:right-0 sm:translate-x-0 sm:top-full sm:mt-2.5 sm:w-[380px]';
-
+  // Desktop positioning overrides
+  let desktopPositionClass = 'sm:absolute sm:right-0 sm:top-full sm:mt-2.5 sm:w-[390px]';
   if (isUp) {
-    dropdownPositionClass =
-      'fixed left-1/2 -translate-x-1/2 top-20 w-[calc(100vw-24px)] max-w-[390px] sm:absolute sm:left-1/2 sm:-translate-x-[45%] sm:top-auto sm:bottom-full sm:mb-3 sm:w-[380px]';
+    desktopPositionClass = 'sm:absolute sm:left-1/2 sm:-translate-x-[45%] sm:top-auto sm:bottom-full sm:mb-3 sm:w-[390px]';
   } else if (align === 'left') {
-    dropdownPositionClass =
-      'fixed left-1/2 -translate-x-1/2 top-20 w-[calc(100vw-24px)] max-w-[390px] sm:absolute sm:left-full sm:ml-3 sm:top-0 sm:translate-x-0 sm:w-[380px]';
-  } else if (align === 'right') {
-    dropdownPositionClass =
-      'fixed left-1/2 -translate-x-1/2 top-20 w-[calc(100vw-24px)] max-w-[390px] sm:absolute sm:left-auto sm:right-0 sm:translate-x-0 sm:top-full sm:mt-2.5 sm:w-[380px]';
+    desktopPositionClass = 'sm:absolute sm:left-full sm:ml-3 sm:top-0 sm:w-[390px]';
   }
 
   return (
@@ -207,45 +198,55 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
         )}
       </button>
 
-      {/* Dropdown */}
+      {/* Dropdown / Full Mobile Sheet */}
       {isOpen && (
         <>
+          {/* Backdrop */}
           <div
-            className="fixed inset-0 z-40 bg-slate-950/25 backdrop-blur-[1px] sm:bg-transparent"
+            className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-xs sm:bg-transparent"
             onClick={() => setIsOpen(false)}
           />
 
+          {/* Modal Container: Full-width on mobile (inset-x-2 top-16), neat dropdown on desktop */}
           <div
-            className={`z-50 ${dropdownPositionClass} bg-white border border-slate-200/90 rounded-2xl shadow-2xl shadow-slate-950/20 overflow-hidden text-slate-900 duration-150 animate-in fade-in zoom-in-95`}
+            className={`fixed inset-x-2.5 top-16 sm:inset-x-auto ${desktopPositionClass} z-50 bg-white border border-slate-200/95 rounded-2xl sm:rounded-2xl shadow-2xl shadow-slate-950/25 overflow-hidden text-slate-900 duration-200 animate-in fade-in zoom-in-98 max-h-[82vh] sm:max-h-none flex flex-col`}
           >
             {/* Header */}
-            <div className="p-3.5 border-b border-slate-100 bg-slate-50/80 flex items-center justify-between">
+            <div className="p-3.5 border-b border-slate-100 bg-slate-50/90 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 rounded-lg bg-purple-100 text-[#7C3AED]">
                   <Bell size={15} />
                 </div>
-                <span className="font-bold text-xs sm:text-sm text-slate-900">Notifications</span>
+                <span className="font-bold text-sm text-slate-900">Notifications</span>
                 {unreadCount > 0 && (
                   <span className="text-[10px] font-bold bg-[#7C3AED] text-white px-2 py-0.5 rounded-full shadow-2xs">
                     {unreadCount} New
                   </span>
                 )}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllRead}
-                    className="text-[11px] font-bold text-[#7C3AED] hover:underline cursor-pointer"
+                    className="text-[11.5px] font-bold text-[#7C3AED] hover:underline cursor-pointer"
                   >
                     Mark all read
                   </button>
                 )}
                 <button
                   onClick={fetchFullNotifications}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer transition-colors"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 cursor-pointer transition-colors"
                   title="Refresh Notifications"
                 >
-                  <RefreshCw size={12} className={loading ? 'animate-spin' : ''} />
+                  <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
+                </button>
+                {/* Explicit Close Button for Mobile */}
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 cursor-pointer transition-colors sm:hidden"
+                  title="Close"
+                >
+                  <X size={16} />
                 </button>
               </div>
             </div>
@@ -255,7 +256,7 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
               <Link
                 href="/admin/chat"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-2.5 px-3.5 py-2.5 bg-red-50 border-b border-red-100 text-red-700 hover:bg-red-100 transition-colors"
+                className="flex items-center gap-2.5 px-3.5 py-2.5 bg-red-50 border-b border-red-100 text-red-700 hover:bg-red-100 transition-colors shrink-0"
               >
                 <span className="p-1 rounded-lg bg-red-100 text-red-600 animate-pulse">
                   <MessageSquare size={13} />
@@ -268,15 +269,15 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
             )}
 
             {/* Notification List */}
-            <div className="max-h-[380px] overflow-y-auto divide-y divide-slate-100 custom-scrollbar">
+            <div className="overflow-y-auto divide-y divide-slate-100 custom-scrollbar flex-1 max-h-[calc(82vh-120px)] sm:max-h-[380px]">
               {loading && notifications.length === 0 ? (
-                <div className="p-8 text-center text-xs font-medium text-slate-400">
-                  <RefreshCw size={24} className="mx-auto text-slate-300 mb-2 animate-spin" />
+                <div className="p-10 text-center text-xs font-medium text-slate-400">
+                  <RefreshCw size={26} className="mx-auto text-slate-300 mb-2 animate-spin" />
                   Loading notifications...
                 </div>
               ) : notifications.length === 0 ? (
-                <div className="p-8 text-center text-xs font-medium text-slate-400">
-                  <Bell size={28} className="mx-auto text-slate-200 mb-2" />
+                <div className="p-10 text-center text-xs font-medium text-slate-400">
+                  <Bell size={30} className="mx-auto text-slate-200 mb-2" />
                   No notifications yet.
                 </div>
               ) : (
@@ -293,26 +294,26 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
                         setIsOpen(false);
                       }}
                       className={`flex items-start gap-3 p-3.5 hover:bg-purple-50/50 transition-colors ${
-                        !n.isRead ? 'bg-purple-50/20' : ''
+                        !n.isRead ? 'bg-purple-50/25' : ''
                       }`}
                     >
-                      <div className={`p-1.5 rounded-lg shrink-0 mt-0.5 ${color}`}>
-                        <Icon size={14} />
+                      <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${color}`}>
+                        <Icon size={15} />
                       </div>
                       <div className="flex-1 min-w-0 space-y-1">
-                        <div className="flex items-start justify-between gap-1.5">
-                          <p className="text-[12.5px] font-bold text-slate-900 leading-snug break-words">
+                        <div className="flex items-start justify-between gap-2">
+                          <p className="text-[13px] font-bold text-slate-900 leading-snug break-words">
                             {n.title}
                           </p>
                           {!n.isRead && (
                             <span className="w-2 h-2 rounded-full bg-[#7C3AED] shrink-0 mt-1" />
                           )}
                         </div>
-                        <p className="text-[11.5px] text-slate-600 leading-relaxed break-words">
+                        <p className="text-[12px] text-slate-600 leading-relaxed break-words">
                           {n.body}
                         </p>
                         <div className="flex items-center gap-2 pt-0.5">
-                          <span className="text-[10.5px] text-slate-400 font-medium">
+                          <span className="text-[11px] text-slate-400 font-medium">
                             {formatRelative(n.createdAt)}
                           </span>
                           {n.isAnnouncement && (
@@ -334,7 +335,7 @@ export function NotificationBell({ placement = 'auto', align = 'auto', theme = '
             </div>
 
             {/* Footer */}
-            <div className="p-3 bg-slate-50/80 border-t border-slate-100 text-center">
+            <div className="p-3 bg-slate-50/90 border-t border-slate-100 text-center shrink-0">
               <Link
                 href={isAdmin ? '/admin/notifications' : '/notifications'}
                 onClick={() => setIsOpen(false)}
