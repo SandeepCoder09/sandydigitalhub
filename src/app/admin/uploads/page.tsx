@@ -110,7 +110,11 @@ export default function AdminUploadsPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredUploads.map((item) => {
-            const isImage = item.documentUrl?.match(/\.(jpg|jpeg|png|webp|gif)/i);
+            const isImage = Boolean(
+              item.documentUrl?.startsWith('data:image/') ||
+              item.documentName?.match(/\.(jpg|jpeg|png|webp|gif|svg|bmp|ico)$/i) ||
+              item.documentUrl?.match(/\.(jpg|jpeg|png|webp|gif|svg|bmp|ico)/i)
+            );
             const brandedId = formatOrderId(item._id, item.createdAt);
 
             return (
@@ -138,11 +142,17 @@ export default function AdminUploadsPage() {
 
                   {/* Document Thumbnail Preview */}
                   {isImage ? (
-                    <div className="relative aspect-video rounded-2xl bg-gray-100 overflow-hidden border border-gray-100 group">
+                    <div
+                      onClick={() => setPreviewItem(item)}
+                      className="relative aspect-video rounded-2xl bg-slate-900/5 overflow-hidden border border-gray-200 group cursor-pointer flex items-center justify-center"
+                    >
                       <img
                         src={item.documentUrl}
-                        alt="User Upload"
+                        alt={item.documentName || 'User Upload'}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={(e: any) => {
+                          e.target.style.display = 'none';
+                        }}
                       />
                     </div>
                   ) : (
@@ -175,6 +185,7 @@ export default function AdminUploadsPage() {
                   </button>
                   <a
                     href={item.documentUrl}
+                    download={item.documentName || 'customer-attachment'}
                     target="_blank"
                     rel="noreferrer"
                     className="py-2 px-3 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
@@ -208,9 +219,17 @@ export default function AdminUploadsPage() {
             </div>
 
             <div className="space-y-4">
-              {previewItem.documentUrl?.match(/\.(jpg|jpeg|png|webp|gif)/i) ? (
+              {Boolean(
+                previewItem.documentUrl?.startsWith('data:image/') ||
+                previewItem.documentName?.match(/\.(jpg|jpeg|png|webp|gif|svg|bmp|ico)$/i) ||
+                previewItem.documentUrl?.match(/\.(jpg|jpeg|png|webp|gif|svg|bmp|ico)/i)
+              ) ? (
                 <div className="max-h-80 overflow-hidden rounded-2xl bg-black/5 flex items-center justify-center p-2">
-                  <img src={previewItem.documentUrl} alt="Preview" className="max-h-76 object-contain rounded-xl" />
+                  <img
+                    src={previewItem.documentUrl}
+                    alt={previewItem.documentName || 'Preview'}
+                    className="max-h-76 object-contain rounded-xl"
+                  />
                 </div>
               ) : (
                 <div className="p-8 bg-slate-50 rounded-2xl text-center space-y-2 border border-slate-200">
