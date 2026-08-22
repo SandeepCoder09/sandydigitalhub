@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShieldCheck, Code2 } from 'lucide-react';
 import { NotificationBell } from '@/components/layout/NotificationBell';
+import { CartDrawer } from '@/components/cart/CartDrawer';
 
 export function BrandSwitcherBanner() {
   const pathname = usePathname();
@@ -26,7 +27,7 @@ export function BrandSwitcherBanner() {
           </span>
         </div>
 
-        {/* Right: Dual Brand Segmented Switcher & Notification Bell */}
+        {/* Right: Dual Brand Segmented Switcher, Notifications & Cart */}
         <div className="flex items-center gap-2 shrink-0">
           <div className="flex items-center gap-1 p-1 bg-slate-900/90 rounded-2xl border border-slate-800 shrink-0 shadow-inner">
             <Link
@@ -59,6 +60,9 @@ export function BrandSwitcherBanner() {
 
           {/* Top-Right Notification Center Bell */}
           <NotificationBell placement="down" align="right" theme="dark" />
+
+          {/* Top-Right Shopping Cart Drawer */}
+          <CartDrawer theme="dark" />
         </div>
       </div>
     </nav>

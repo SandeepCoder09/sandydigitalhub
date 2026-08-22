@@ -9,7 +9,12 @@ import { ShoppingCart, X, Plus, Minus, Trash2, ShieldCheck, ArrowRight } from 'l
 import Link from 'next/link';
 import Image from 'next/image';
 
-export function CartDrawer() {
+interface CartDrawerProps {
+  theme?: 'dark' | 'light' | 'auto';
+  className?: string;
+}
+
+export function CartDrawer({ theme = 'auto', className }: CartDrawerProps = {}) {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { items, updateQuantity, removeItem, getTotal, getSubtotal } = useCartStore();
@@ -75,41 +80,52 @@ export function CartDrawer() {
                   <div className="w-16 h-16 rounded-full bg-purple-50 text-[#7C3AED] flex items-center justify-center mb-3">
                     <ShoppingCart size={32} />
                   </div>
-                  <h3 className="font-bold text-gray-800 text-base mb-1">Your cart is empty</h3>
-                  <p className="text-xs text-gray-500 max-w-xs">Add any digital service or tool package to proceed with your request.</p>
+                  <h3 className="font-bold text-gray-700 text-sm">Your cart is empty</h3>
+                  <p className="text-xs text-gray-400 mt-1 max-w-[200px]">Browse our digital catalog to add fast and secure services.</p>
+                  <Link 
+                    href="/services" 
+                    onClick={() => setIsOpen(false)}
+                    className="mt-4 px-4 py-2 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-purple-500/20"
+                  >
+                    Explore Services
+                  </Link>
                 </div>
               ) : (
-                items.map(item => (
+                items.map((item) => (
                   <div key={item.serviceId} className="flex gap-3.5 bg-white p-3.5 rounded-2xl border border-gray-200 shadow-sm items-center hover:border-purple-200 transition-colors">
-                    <div className="w-16 h-16 bg-gray-100 rounded-xl overflow-hidden shrink-0 relative border border-gray-100">
-                      <Image src={item.image} alt={item.title} fill className="object-cover" unoptimized />
+                    <div className="w-14 h-14 bg-purple-50 rounded-xl overflow-hidden shrink-0 relative border border-purple-100 flex items-center justify-center">
+                      {item.image ? (
+                        <Image src={item.image} alt={item.title} fill className="object-cover" unoptimized />
+                      ) : (
+                        <span className="text-base font-black text-[#7C3AED]">{item.title.charAt(0)}</span>
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-gray-900 font-bold text-sm mb-0.5 truncate">{item.title}</h4>
-                      <p className="text-[#7C3AED] font-black text-sm mb-2">₹{item.price}</p>
+                      <h4 className="text-xs font-bold text-gray-900 truncate">{item.title}</h4>
+                      <p className="text-[11px] font-black text-[#7C3AED] mt-0.5">₹{item.price * item.quantity}</p>
                       
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-lg p-1">
+                      <div className="flex items-center justify-between mt-2">
+                        <div className="flex items-center border border-gray-200 rounded-lg bg-gray-50">
                           <button 
                             onClick={() => updateQuantity(item.serviceId, item.quantity - 1)}
-                            className="text-gray-600 hover:text-gray-900 p-0.5 cursor-pointer font-bold"
+                            className="p-1 text-gray-500 hover:text-black cursor-pointer"
                           >
-                            <Minus size={13} />
+                            <Minus size={12} />
                           </button>
-                          <span className="text-gray-900 font-bold text-xs w-4 text-center">{item.quantity}</span>
+                          <span className="text-xs font-bold px-2 text-gray-800">{item.quantity}</span>
                           <button 
                             onClick={() => updateQuantity(item.serviceId, item.quantity + 1)}
-                            className="text-gray-600 hover:text-gray-900 p-0.5 cursor-pointer font-bold"
+                            className="p-1 text-gray-500 hover:text-black cursor-pointer"
                           >
-                            <Plus size={13} />
+                            <Plus size={12} />
                           </button>
                         </div>
                         <button 
                           onClick={() => removeItem(item.serviceId)}
-                          className="text-red-500 hover:text-red-700 p-1.5 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                          className="text-gray-400 hover:text-red-500 p-1 transition-colors cursor-pointer"
                           title="Remove item"
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={13} />
                         </button>
                       </div>
                     </div>
@@ -119,29 +135,26 @@ export function CartDrawer() {
             </div>
 
             {items.length > 0 && (
-              <div className="p-5 border-t border-gray-200 bg-white shadow-lg space-y-4">
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between text-gray-600">
+              <div className="p-5 border-t border-gray-200 bg-white space-y-3">
+                <div className="space-y-1.5 text-xs">
+                  <div className="flex justify-between text-gray-500 font-medium">
                     <span>Subtotal</span>
-                    <span className="font-semibold text-gray-800">₹{getSubtotal().toFixed(2)}</span>
+                    <span>₹{getSubtotal()}</span>
                   </div>
-                  <div className="flex justify-between text-green-600 font-bold">
-                    <span>GST (18%)</span>
-                    <div className="flex items-center gap-1.5">
-                      <span className="line-through text-gray-400 text-xs font-normal">₹{(getSubtotal() * 0.18).toFixed(2)}</span>
-                      <span>₹0.00 (Waived)</span>
-                    </div>
+                  <div className="flex justify-between text-gray-500 font-medium">
+                    <span>Government/Gateway Processing</span>
+                    <span className="text-emerald-600 font-bold">Standard</span>
                   </div>
-                  <div className="flex justify-between text-gray-900 font-black text-xl pt-2 border-t border-gray-100">
-                    <span>Total</span>
-                    <span className="text-[#7C3AED]">₹{getTotal().toFixed(2)}</span>
+                  <div className="flex justify-between text-sm font-black text-gray-900 pt-2 border-t border-gray-100">
+                    <span>Total Amount</span>
+                    <span className="text-[#7C3AED] text-base">₹{getTotal()}</span>
                   </div>
                 </div>
 
-                <Link 
-                  href="/checkout" 
+                <Link
+                  href="/services"
                   onClick={() => setIsOpen(false)}
-                  className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20 transition-all hover:scale-[1.01] active:scale-95"
+                  className="w-full py-3.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-extrabold rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30 transition-all text-sm cursor-pointer"
                 >
                   Proceed to Checkout <ArrowRight size={18} />
                 </Link>
@@ -162,14 +175,18 @@ export function CartDrawer() {
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="relative p-1.5 rounded-lg hover:bg-slate-200/60 text-slate-600 hover:text-slate-900 transition-colors flex items-center justify-center cursor-pointer group"
+        className={className || `relative p-2 rounded-xl transition-all flex items-center justify-center cursor-pointer group ${
+          theme === 'dark'
+            ? 'bg-slate-900/90 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white shadow-inner'
+            : 'hover:bg-slate-100 text-slate-600 hover:text-slate-900'
+        }`}
         aria-label="Shopping Cart"
         title="Shopping Cart"
       >
-        <ShoppingCart size={16} className="text-slate-600 group-hover:text-slate-900 transition-colors" />
+        <ShoppingCart size={16} className={theme === 'dark' ? 'text-slate-300 group-hover:text-white transition-colors' : 'text-slate-600 group-hover:text-slate-900 transition-colors'} />
         {items.length > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 min-w-[15px] h-[15px] px-0.5 bg-[#7C3AED] text-white text-[8.5px] font-bold rounded-full flex items-center justify-center ring-1 ring-white">
-            {items.length}
+          <span className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 bg-[#7C3AED] text-white text-[9px] font-black rounded-full flex items-center justify-center ring-2 ring-slate-950 shadow-sm">
+            {items.length > 9 ? '9+' : items.length}
           </span>
         )}
       </button>

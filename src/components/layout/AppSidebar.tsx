@@ -27,8 +27,6 @@ import {
 import { useLanguage } from '@/context/LanguageContext';
 import { useSidebar } from '@/context/SidebarContext';
 import { LanguageNavToggle } from '@/components/layout/LanguageNavToggle';
-import { NotificationBell } from '@/components/layout/NotificationBell';
-import { CartDrawer } from '@/components/cart/CartDrawer';
 import { UserNavMenu } from '@/components/layout/UserNavMenu';
 import { Button } from '@/components/ui/button';
 
@@ -290,17 +288,15 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
           isCollapsed ? 'flex flex-col items-center gap-2.5' : 'space-y-2'
         }`}
       >
-        {/* Compact Utility Row (Language & Cart) */}
+        {/* Compact Utility Row (Language) */}
         {!isCollapsed ? (
-          <div className="flex items-center justify-between px-2.5 py-1 rounded-xl bg-slate-50/90 border border-slate-200/70">
+          <div className="flex items-center justify-between px-2.5 py-1.5 rounded-xl bg-slate-50/90 border border-slate-200/70">
+            <span className="text-[11px] font-semibold text-slate-500">Language</span>
             <LanguageNavToggle placement="up" />
-            <div className="h-3.5 w-px bg-slate-200" />
-            <CartDrawer />
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-2 py-1">
+          <div className="flex flex-col items-center py-1">
             <LanguageNavToggle placement="up" compact={true} />
-            <CartDrawer />
           </div>
         )}
 
