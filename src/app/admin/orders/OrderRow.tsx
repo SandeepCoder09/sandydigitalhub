@@ -325,7 +325,7 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
       </td>
 
       {/* Action Column: Icon Buttons with Tooltips */}
-      <td className="py-3 px-4 text-center">
+      <td className="py-3 px-4 text-center whitespace-nowrap">
         <div className="flex items-center justify-center gap-1.5">
           {onInspect && (
             <button
@@ -335,19 +335,20 @@ export default function OrderRow({ order, isMobile = false, onInspect }: { order
                 e.stopPropagation();
                 onInspect(order);
               }}
-              className="w-8 h-8 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-bold flex items-center justify-center shadow-xs transition-all hover:scale-105 cursor-pointer shrink-0"
+              className="px-2.5 py-1.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-extrabold text-[11px] flex items-center gap-1.5 shadow-xs transition-all hover:scale-105 cursor-pointer shrink-0"
               title="Inspect & Track Order Details"
             >
-              <Eye size={15} />
+              <Eye size={13} />
+              <span>Details</span>
             </button>
           )}
 
           <button
             onClick={handlePrintWorkOrder}
-            className="w-8 h-8 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200 font-bold flex items-center justify-center transition-all hover:scale-105 shrink-0 cursor-pointer"
+            className="p-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200 font-bold transition-all hover:scale-105 shrink-0 cursor-pointer"
             title="Print Work Order Receipt"
           >
-            <Printer size={15} />
+            <Printer size={14} />
           </button>
         </div>
       </td>

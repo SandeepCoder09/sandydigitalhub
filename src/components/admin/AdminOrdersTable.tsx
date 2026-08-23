@@ -145,17 +145,17 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
 
           {/* Large Screen Desktop Table View (>= xl) */}
           <div className="hidden xl:block bg-white rounded-3xl border border-gray-200 shadow-2xs overflow-hidden">
-            <div className="w-full overflow-x-auto no-scrollbar">
-              <table className="w-full text-left text-gray-700 border-collapse">
+            <div className="w-full overflow-x-auto">
+              <table className="w-full text-left text-gray-700 border-collapse min-w-[960px]">
                 <thead className="bg-gray-50/90 border-b border-gray-200 text-[11px] text-gray-600 font-extrabold uppercase tracking-wider">
                   <tr>
-                    <th className="py-3.5 px-4">Order ID</th>
-                    <th className="py-3.5 px-4">Customer Info</th>
-                    <th className="py-3.5 px-4">Requested Service</th>
-                    <th className="py-3.5 px-4">Amount</th>
-                    <th className="py-3.5 px-4">Payment</th>
-                    <th className="py-3.5 px-4">Order Status</th>
-                    <th className="py-3.5 px-4 text-center">Actions</th>
+                    <th className="py-3.5 px-4 whitespace-nowrap min-w-[150px]">Order ID</th>
+                    <th className="py-3.5 px-4 whitespace-nowrap min-w-[170px]">Customer Info</th>
+                    <th className="py-3.5 px-4 whitespace-nowrap min-w-[200px]">Requested Service</th>
+                    <th className="py-3.5 px-4 whitespace-nowrap min-w-[100px]">Amount</th>
+                    <th className="py-3.5 px-4 whitespace-nowrap min-w-[140px]">Payment</th>
+                    <th className="py-3.5 px-4 whitespace-nowrap min-w-[160px]">Order Status</th>
+                    <th className="py-3.5 px-4 whitespace-nowrap text-center min-w-[140px]">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 text-xs">
