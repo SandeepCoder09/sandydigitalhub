@@ -53,21 +53,21 @@ export function ServicesCatalogClient({ initialServices }: ServicesCatalogClient
       {/* ─────────────────────────────────────────────────────────────
           1. SEARCH & CATEGORY FILTER BAR (Fully Responsive)
       ───────────────────────────────────────────────────────────── */}
-      <div className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-6 border border-slate-200/90 shadow-sm space-y-3 sm:space-y-4">
+      <div className="bg-white rounded-2xl sm:rounded-3xl p-2.5 sm:p-6 border border-slate-200/90 shadow-2xs space-y-2 sm:space-y-4">
         {/* Search Input */}
         <div className="relative w-full max-w-2xl mx-auto">
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7C3AED] pointer-events-none sm:w-[19px] sm:h-[19px]" />
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7C3AED] pointer-events-none sm:w-[19px] sm:h-[19px]" />
           <input
             type="text"
             placeholder={t('Search services by name, keywords...', 'Search services by name, keywords (e.g. Aadhaar, PAN, GST, ITR)...')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 sm:pl-12 pr-9 sm:pr-11 py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl border-2 border-slate-200 hover:border-purple-200 focus:border-[#7C3AED] bg-white text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-purple-500/15 shadow-sm transition-all"
+            className="w-full pl-9 sm:pl-12 pr-8 sm:pr-11 py-2 sm:py-3.5 rounded-xl sm:rounded-2xl border-2 border-slate-200 hover:border-purple-200 focus:border-[#7C3AED] bg-white text-[11px] sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-purple-500/15 shadow-2xs transition-all"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-black text-slate-400 hover:text-white bg-slate-200 hover:bg-[#7C3AED] rounded-full w-5 h-5 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400 hover:text-white bg-slate-200 hover:bg-[#7C3AED] rounded-full w-4.5 h-4.5 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
               aria-label="Clear search"
             >
               ✕
@@ -76,7 +76,7 @@ export function ServicesCatalogClient({ initialServices }: ServicesCatalogClient
         </div>
 
         {/* Category Pill Tabs */}
-        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 pt-1 no-scrollbar sm:justify-center flex-wrap">
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 pt-0.5 no-scrollbar sm:justify-center">
           {categories.map((cat) => {
             const isSelected = selectedCategory === cat;
             const count =
@@ -88,15 +88,15 @@ export function ServicesCatalogClient({ initialServices }: ServicesCatalogClient
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1 sm:gap-1.5 shrink-0 ${
+                className={`px-2.5 sm:px-3.5 py-1 sm:py-2 rounded-full sm:rounded-xl text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1 sm:gap-1.5 shrink-0 ${
                   isSelected
-                    ? 'bg-[#7C3AED] text-white shadow-md shadow-purple-500/25 scale-[1.02]'
+                    ? 'bg-[#7C3AED] text-white shadow-xs'
                     : 'bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-[#7C3AED] border border-slate-200/60'
                 }`}
               >
                 <span>{cat === 'ALL' ? t('All Services', 'All Services') : cat}</span>
                 <span
-                  className={`text-[9px] sm:text-[10px] font-black px-1.5 py-0.2 rounded-md ${
+                  className={`text-[8px] sm:text-[10px] font-black px-1.5 py-0.2 rounded-full ${
                     isSelected ? 'bg-white/25 text-white' : 'bg-slate-200 text-slate-600'
                   }`}
                 >
@@ -123,22 +123,22 @@ export function ServicesCatalogClient({ initialServices }: ServicesCatalogClient
           }}
         />
       ) : (
-        <div className="space-y-8 sm:space-y-12">
+        <div className="space-y-6 sm:space-y-12">
           {Object.entries(groupedServices).map(([category, items]) => (
-            <div key={category} className="space-y-3 sm:space-y-6">
+            <div key={category} className="space-y-2 sm:space-y-6">
               {/* Category Heading with Item Counter */}
-              <div className="flex items-center justify-between pb-2 sm:pb-3 border-b border-slate-200">
-                <div className="flex items-center gap-2 sm:gap-2.5">
-                  <div className="w-2 sm:w-2.5 h-4 sm:h-6 bg-[#7C3AED] rounded-full" />
-                  <h2 className="text-base sm:text-2xl font-black text-slate-900 tracking-tight">{category}</h2>
+              <div className="flex items-center justify-between pb-1.5 sm:pb-3 border-b border-slate-200">
+                <div className="flex items-center gap-1.5 sm:gap-2.5">
+                  <div className="w-1.5 sm:w-2.5 h-3.5 sm:h-6 bg-[#7C3AED] rounded-full" />
+                  <h2 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight">{category}</h2>
                 </div>
-                <span className="text-[10px] sm:text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full border border-slate-200/80">
+                <span className="text-[9px] sm:text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full border border-slate-200/80">
                   {items.length} {items.length === 1 ? 'Service' : 'Services'}
                 </span>
               </div>
 
               {/* Grid: 2 cols on mobile, 2 cols on tablet/laptop, 3 cols on xl, 4 cols on 2xl */}
-              <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2.5 sm:gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2 sm:gap-6">
                 {items.map((service: any) => (
                   <ServiceCard key={service._id?.toString() || service.id} service={service} />
                 ))}
