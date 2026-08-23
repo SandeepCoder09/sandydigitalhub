@@ -181,59 +181,61 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
           </div>
 
           {/* Desktop Table View (>= md) */}
-          <div className="hidden md:block overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+          <div className="hidden md:block overflow-hidden rounded-2xl border border-gray-200 shadow-2xs">
             <table className="w-full text-left text-gray-700 border-collapse">
-              <thead className="border-b border-gray-200 text-xs font-semibold uppercase tracking-wider text-gray-500 bg-gray-50">
+              <thead className="border-b border-gray-200 text-[11px] font-extrabold uppercase tracking-wider text-gray-500 bg-gray-50/90">
                 <tr>
-                  <th className="px-6 py-3.5">Order ID</th>
-                  <th className="px-6 py-3.5">Date & Time</th>
-                  <th className="px-6 py-3.5">Requested Services</th>
-                  <th className="px-6 py-3.5">Amount</th>
-                  <th className="px-6 py-3.5">Status</th>
-                  <th className="px-6 py-3.5 text-right">Action</th>
+                  <th className="px-4 py-3">Order & Date</th>
+                  <th className="px-4 py-3">Requested Services</th>
+                  <th className="px-3 py-3 text-center">Amount</th>
+                  <th className="px-3 py-3 text-center">Status</th>
+                  <th className="px-4 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 bg-white">
+              <tbody className="divide-y divide-gray-100 bg-white text-xs">
                 {filteredOrders.map((order) => {
                   const brandedId = formatOrderId(order._id, order.createdAt);
                   const servicesText = order.services?.map((s: any) => s.title).join(', ') || 'Service Request';
 
                   return (
                     <tr key={order._id.toString()} className="hover:bg-gray-50/80 transition-colors">
-                      <td className="px-6 py-4 font-mono font-bold text-gray-900 whitespace-nowrap">
-                        <div className="flex items-center gap-2">
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-1.5 font-mono font-bold text-gray-900 text-xs">
                           <span>{brandedId}</span>
                           <CopyButton text={brandedId} />
                         </div>
+                        <div className="text-[11px] text-gray-400 font-medium mt-0.5 flex items-center gap-1">
+                          <Calendar size={11} className="text-gray-400" />
+                          <span>{formatDateTime(order.createdAt)}</span>
+                        </div>
                       </td>
-                      <td className="px-6 py-4 text-gray-500 whitespace-nowrap text-xs">
-                        {formatDateTime(order.createdAt)}
-                      </td>
-                      <td className="px-6 py-4 max-w-xs">
-                        <div className="truncate font-medium text-gray-800">
+                      <td className="px-4 py-3">
+                        <div className="truncate font-semibold text-gray-800 max-w-[180px] lg:max-w-[280px]" title={servicesText}>
                           {servicesText}
                         </div>
                       </td>
-                      <td className="px-6 py-4 font-bold text-[#7C3AED] whitespace-nowrap">
+                      <td className="px-3 py-3 text-center font-bold text-[#7C3AED] whitespace-nowrap text-xs sm:text-sm">
                         ₹{order.total}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-3 py-3 text-center whitespace-nowrap">
                         {getStatusBadge(order.orderStatus, order.paymentStatus)}
                       </td>
-                      <td className="px-6 py-4 text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-2">
+                      <td className="px-4 py-3 text-right whitespace-nowrap">
+                        <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => setTrackingOrder(order)}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-[#7C3AED] text-[#7C3AED] hover:text-white border border-purple-200 hover:border-[#7C3AED] text-xs font-bold transition-all shadow-2xs group cursor-pointer"
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-purple-50 hover:bg-[#7C3AED] text-[#7C3AED] hover:text-white border border-purple-200 hover:border-[#7C3AED] text-xs font-bold transition-all shadow-2xs group cursor-pointer"
+                            title="Live Tracking Pipeline"
                           >
-                            <PackageSearch size={13} className="text-[#7C3AED] group-hover:text-white transition-colors" />
-                            <span>Track Order</span>
+                            <PackageSearch size={12} className="text-[#7C3AED] group-hover:text-white transition-colors" />
+                            <span>Track</span>
                           </button>
                           <button
                             onClick={() => setSelectedOrder(order)}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold transition-all shadow-2xs cursor-pointer"
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold transition-all shadow-2xs cursor-pointer border border-gray-200"
+                            title="View Invoice & Attachments"
                           >
-                            <Eye size={14} />
+                            <Eye size={12} />
                             <span>Details</span>
                           </button>
                         </div>
