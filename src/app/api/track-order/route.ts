@@ -11,7 +11,7 @@ import { formatOrderId } from '@/lib/utils';
 export async function POST(req: NextRequest) {
   try {
     const ip = getClientIp(req);
-    const rateCheck = checkRateLimit(`track-order:${ip}`, { limit: 30, windowSeconds: 60 });
+    const rateCheck = checkRateLimit(`track-order:${ip}`, { limit: 120, windowSeconds: 60 });
     if (!rateCheck.success) {
       throw AppError.rateLimited('Too many tracking requests. Please wait a moment.');
     }
@@ -27,72 +27,58 @@ export async function POST(req: NextRequest) {
 
     await connectDB();
 
-    let orders: any[] = [];
+    const orConditions: any[] = [];
 
-    // 1. Direct MongoDB ObjectId Match
+    // 1. Direct MongoDB ObjectId match
     if (mongoose.Types.ObjectId.isValid(query) && query.length === 24) {
-      orders = await Order.find({ _id: query })
-        .sort({ createdAt: -1 })
-        .populate('userId', 'name phone email')
-        .select('customOrderId services total paymentMethod paymentStatus orderStatus documentUrl documentName createdAt userId')
-        .lean();
+      orConditions.push({ _id: new mongoose.Types.ObjectId(query) });
     }
 
-    // 2. Custom Order ID Exact / Case-Insensitive Match
-    if (orders.length === 0) {
-      orders = await Order.find({
-        $or: [
-          { customOrderId: query },
-          { customOrderId: { $regex: `^${query}$`, $options: 'i' } },
-        ],
-      })
-        .sort({ createdAt: -1 })
-        .populate('userId', 'name phone email')
-        .select('customOrderId services total paymentMethod paymentStatus orderStatus documentUrl documentName createdAt userId')
-        .lean();
-    }
+    // 2. Custom Order ID match
+    orConditions.push({ customOrderId: query });
+    orConditions.push({ customOrderId: { $regex: `^${query}$`, $options: 'i' } });
 
-    // 3. Branded Order ID Match (e.g. SDH-20260820-341D or suffix 341D)
-    if (orders.length === 0) {
-      const parts = query.split('-');
-      const suffix = parts[parts.length - 1]?.trim().toLowerCase() || '';
-
-      if (suffix.length >= 3 && suffix.length <= 8) {
-        // Query candidates whose ObjectId string ends with the suffix
-        const candidates = await Order.find({
-          $expr: {
-            $regexMatch: {
-              input: { $toString: '$_id' },
-              regex: `${suffix}$`,
-              options: 'i',
-            },
+    // 3. Hex Suffix matching (e.g. 59B5 or SDH-20260805-59B5)
+    const suffix = query.split('-').pop()?.trim().toLowerCase() || '';
+    if (suffix.length >= 3 && suffix.length <= 8 && /^[0-9a-f]+$/i.test(suffix)) {
+      orConditions.push({
+        $expr: {
+          $regexMatch: {
+            input: { $toString: '$_id' },
+            regex: `${suffix}$`,
+            options: 'i',
           },
-        })
-          .sort({ createdAt: -1 })
-          .populate('userId', 'name phone email')
-          .select('customOrderId services total paymentMethod paymentStatus orderStatus documentUrl documentName createdAt userId')
-          .lean();
+        },
+      });
+    }
 
-        if (candidates.length > 0) {
-          // If the query contains SDH-... check for exact formatted match first
-          const exactMatches = candidates.filter((c: any) =>
-            formatOrderId(c._id.toString(), c.createdAt).toLowerCase() === query.toLowerCase()
-          );
+    // Execute fast primary search
+    let orders = await Order.find({ $or: orConditions })
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .populate('userId', 'name phone email')
+      .select('customOrderId services total paymentMethod paymentStatus orderStatus documentUrl documentName createdAt userId')
+      .lean();
 
-          orders = exactMatches.length > 0 ? exactMatches : candidates;
-        }
+    // If query has SDH-... prefix and multiple candidates returned, find exact branded match
+    if (orders.length > 1 && query.toUpperCase().startsWith('SDH-')) {
+      const exact = orders.filter((o: any) =>
+        formatOrderId(o._id.toString(), o.createdAt).toUpperCase() === query.toUpperCase()
+      );
+      if (exact.length > 0) {
+        orders = exact;
       }
     }
 
-    // 4. Mobile Number / Phone / Email lookup
+    // 4. If not found, check phone / email in parallel
     if (orders.length === 0) {
       const cleanDigits = query.replace(/[^\d]/g, '');
       if (cleanDigits.length >= 8) {
         const last10 = cleanDigits.slice(-10);
         const users = await User.find({
           $or: [
-            { mobile: { $regex: last10, $options: 'i' } },
-            { phone: { $regex: last10, $options: 'i' } },
+            { mobile: { $regex: last10 } },
+            { phone: { $regex: last10 } },
             { email: { $regex: query, $options: 'i' } },
           ],
         })
@@ -100,9 +86,9 @@ export async function POST(req: NextRequest) {
           .lean();
 
         if (users.length > 0) {
-          const userIds = users.map((u) => u._id);
-          orders = await Order.find({ userId: { $in: userIds } })
+          orders = await Order.find({ userId: { $in: users.map((u) => u._id) } })
             .sort({ createdAt: -1 })
+            .limit(10)
             .populate('userId', 'name phone email')
             .select('customOrderId services total paymentMethod paymentStatus orderStatus documentUrl documentName createdAt userId')
             .lean();
@@ -110,19 +96,19 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 5. Fallback: Scan recent orders and match against formatted branded ID
+    // 5. Fallback scan for recent orders
     if (orders.length === 0) {
       const recentOrders = await Order.find()
         .sort({ createdAt: -1 })
-        .limit(100)
+        .limit(50)
         .populate('userId', 'name phone email')
         .select('customOrderId services total paymentMethod paymentStatus orderStatus documentUrl documentName createdAt userId')
         .lean();
 
       const matched = recentOrders.filter((o: any) => {
-        const branded = formatOrderId(o._id.toString(), o.createdAt).toLowerCase();
-        const q = query.toLowerCase();
-        return branded === q || branded.includes(q) || o._id.toString().toLowerCase().includes(q);
+        const branded = formatOrderId(o._id.toString(), o.createdAt).toUpperCase();
+        const q = query.toUpperCase();
+        return branded === q || branded.includes(q) || o._id.toString().toUpperCase().includes(q);
       });
 
       if (matched.length > 0) {
@@ -134,7 +120,7 @@ export async function POST(req: NextRequest) {
       throw AppError.notFound('No requests found matching the provided tracking information.');
     }
 
-    // Map order fields for safe public tracking response (mask customer name for privacy)
+    // Safe public projection
     const formattedOrders = orders.map((o: any) => ({
       orderId: o._id.toString(),
       customOrderId: o.customOrderId || null,
