@@ -50,20 +50,36 @@ export async function notifyOrderStatusChange(
 
     const isCompleted = newStatus === 'COMPLETED';
     const isCancelled = newStatus === 'CANCELLED';
+    const notifType = isCompleted
+      ? 'ORDER_COMPLETED'
+      : isCancelled
+      ? 'ORDER_CANCELLED'
+      : 'ORDER_STATUS_CHANGED';
+
+    const notifTitle = isCompleted
+      ? `Your order ${brandedId} is complete!`
+      : isCancelled
+      ? `Order ${brandedId} was cancelled`
+      : `Order ${brandedId} update`;
+
+    const notifBody = `Status is now: ${label}. Visit your requests page for details.`;
+
+    // Deduplication check: Do not insert if a notification with this title or status for this order already exists
+    const recentDuplicate = await UserNotification.findOne({
+      userId,
+      relatedId: orderId,
+      title: notifTitle,
+    }).sort({ createdAt: -1 });
+
+    if (recentDuplicate) {
+      return;
+    }
 
     await UserNotification.create({
       userId,
-      type: isCompleted
-        ? 'ORDER_COMPLETED'
-        : isCancelled
-        ? 'ORDER_CANCELLED'
-        : 'ORDER_STATUS_CHANGED',
-      title: isCompleted
-        ? `Your order ${brandedId} is complete!`
-        : isCancelled
-        ? `Order ${brandedId} was cancelled`
-        : `Order ${brandedId} update`,
-      body: `Status is now: ${label}. Visit your requests page for details.`,
+      type: notifType,
+      title: notifTitle,
+      body: notifBody,
       relatedId: orderId,
       relatedType: 'ORDER',
       link: '/requests',

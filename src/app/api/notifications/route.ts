@@ -85,6 +85,7 @@ export async function GET(req: NextRequest) {
       isRead: (a.readBy || []).includes(userId),
       createdAt: a.publishedAt || a.createdAt,
       link: null,
+      relatedId: a._id.toString(),
       relatedType: 'ANNOUNCEMENT',
       isAnnouncement: true,
     }));
@@ -106,14 +107,23 @@ export async function GET(req: NextRequest) {
     }));
 
     // Combine and sort by date
-    const all = [...mergedPersonal, ...mergedAnnouncements].sort(
+    const sorted = [...mergedPersonal, ...mergedAnnouncements].sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
 
-    const unreadCount = all.filter((n) => !n.isRead).length;
+    // Filter out duplicates (keep the latest occurrence)
+    const seen = new Set<string>();
+    const deduplicatedAll = sorted.filter((n) => {
+      const key = `${n.title}_${n.body}_${n.relatedId || ''}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    const unreadCount = deduplicatedAll.filter((n) => !n.isRead).length;
 
     return NextResponse.json({
-      notifications: all.slice(0, limit),
+      notifications: deduplicatedAll.slice(0, limit),
       unreadCount,
     });
   } catch (error: any) {

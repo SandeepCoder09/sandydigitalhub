@@ -17,6 +17,13 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     
     await connectDB();
 
+    const existingOrder = await Order.findById(id);
+    if (!existingOrder) {
+      return NextResponse.json({ message: 'Order not found' }, { status: 404 });
+    }
+
+    const previousOrderStatus = existingOrder.orderStatus;
+
     const updateData: any = {};
     if (body.paymentStatus) updateData.paymentStatus = body.paymentStatus;
     if (body.orderStatus) updateData.orderStatus = body.orderStatus;
@@ -33,8 +40,8 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
       return NextResponse.json({ message: 'Order not found' }, { status: 404 });
     }
 
-    // Auto-notify the customer if order status changed
-    if (body.orderStatus && order.userId) {
+    // Auto-notify the customer ONLY if order status actually changed
+    if (body.orderStatus && body.orderStatus !== previousOrderStatus && order.userId) {
       const { notifyOrderStatusChange } = await import('@/lib/notificationTriggers');
       notifyOrderStatusChange(
         order._id.toString(),
