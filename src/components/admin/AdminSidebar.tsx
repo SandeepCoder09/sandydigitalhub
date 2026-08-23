@@ -25,6 +25,7 @@ import {
   Megaphone,
   Bell
 } from "lucide-react";
+import { AdminNotificationCenter } from "./AdminNotificationCenter";
 
 interface NavItem {
   href: string;
@@ -113,29 +114,45 @@ export function AdminSidebar() {
 
   return (
     <>
-      {/* Mobile Bar & Off-Canvas Drawer Trigger (< md) */}
-      <div className="block lg:hidden mb-6">
-        <div className="bg-[#111318] p-4 rounded-2xl border border-[#2B3038] shadow-lg flex items-center justify-between text-white">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-violet-600/20 border border-violet-500/30 flex items-center justify-center text-violet-400 font-extrabold text-xs">
+      {/* Mobile Single Unified Navbar (< lg) */}
+      <div className="block lg:hidden sticky top-0 z-30 mb-2">
+        <div className="bg-[#111318] px-3.5 py-2.5 border-b border-[#2B3038] shadow-md flex items-center justify-between text-white">
+          {/* Brand Logo & Name */}
+          <Link href="/admin" className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-xl bg-violet-600/20 border border-violet-500/30 flex items-center justify-center text-violet-400 font-extrabold text-xs shrink-0">
               <ShieldCheck size={18} />
             </div>
-            <div>
-              <div className="text-sm font-extrabold tracking-tight">Sandy Digital Hub</div>
-              <div className="text-[10px] font-bold text-violet-400 uppercase tracking-widest">Admin Console</div>
+            <div className="min-w-0">
+              <div className="text-xs font-black tracking-tight truncate">Sandy Digital Hub</div>
+              <div className="text-[9px] font-bold text-violet-400 uppercase tracking-widest">Admin Console</div>
             </div>
+          </Link>
+
+          {/* Quick Actions & Menu Toggle */}
+          <div className="flex items-center gap-2 shrink-0">
+            <AdminNotificationCenter />
+            
+            <Link
+              href="/account"
+              className="w-7 h-7 rounded-xl bg-violet-600 text-white font-extrabold text-xs flex items-center justify-center shadow-xs"
+              title="Admin Profile"
+            >
+              {session?.user?.name ? session.user.name.charAt(0).toUpperCase() : 'A'}
+            </Link>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-1.5 rounded-xl bg-[#181B21] border border-[#2B3038] text-gray-300 hover:text-white transition-colors cursor-pointer"
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
           </div>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl bg-[#181B21] border border-[#2B3038] text-gray-300 hover:text-white transition-colors cursor-pointer"
-          >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
         </div>
 
         {/* Mobile Slide-down Menu */}
         {mobileMenuOpen && (
-          <div className="mt-2 bg-[#111318] border border-[#2B3038] rounded-2xl p-4 space-y-4 shadow-2xl animate-in fade-in duration-200">
+          <div className="bg-[#111318] border-b border-[#2B3038] p-4 space-y-4 shadow-2xl animate-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
             {navGroups.map((group) => (
               <div key={group.title} className="space-y-1">
                 <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider px-2 py-1">
@@ -151,14 +168,14 @@ export function AdminSidebar() {
                         key={item.href}
                         href={item.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+                        className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
                           isActive
                             ? 'bg-violet-600/20 text-violet-200 border border-violet-500/40 font-bold'
                             : 'text-gray-400 hover:text-white hover:bg-[#181B21]'
                         }`}
                       >
                         <div className="flex items-center gap-2.5">
-                          <Icon size={16} className={isActive ? 'text-violet-400' : 'text-gray-400'} />
+                          <Icon size={15} className={isActive ? 'text-violet-400' : 'text-gray-400'} />
                           <span>{item.label}</span>
                         </div>
                         {item.badge && item.badge > 0 ? (

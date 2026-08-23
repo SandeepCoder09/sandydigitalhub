@@ -100,7 +100,7 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-1.5 text-xs font-semibold">
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 text-xs font-semibold flex-nowrap">
           {[
             { id: 'ALL', label: 'All Orders' },
             { id: 'PAID', label: 'Paid' },
@@ -112,10 +112,10 @@ export function AdminOrdersTable({ initialOrders }: AdminOrdersTableProps) {
             <button
               key={tab.id}
               onClick={() => setStatusFilter(tab.id)}
-              className={`px-3 py-1.5 rounded-xl transition-all whitespace-nowrap cursor-pointer ${
+              className={`px-3 py-1.5 rounded-xl transition-all whitespace-nowrap cursor-pointer shrink-0 ${
                 statusFilter === tab.id
                   ? 'bg-violet-600 text-white shadow-xs font-bold'
-                  : 'bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200'
+                  : 'bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200 border border-gray-200/60'
               }`}
             >
               {tab.label}
