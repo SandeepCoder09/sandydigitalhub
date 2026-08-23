@@ -36,7 +36,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
         transition={{ duration: 0.2 }}
         className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-purple-500/10 flex flex-col h-full hover:border-purple-300 transition-all group select-none"
       >
-        {/* ── Image & Category Pill ── */}
+        {/* ── Image ── */}
         <div className="relative h-28 sm:h-48 w-full bg-slate-100 overflow-hidden shrink-0">
           <Image
             src={service.image}
@@ -47,11 +47,6 @@ export function ServiceCard({ service }: ServiceCardProps) {
           />
           {/* Subtle Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 pointer-events-none" />
-
-          {/* Category Badge */}
-          <div className="absolute top-2 left-2 sm:top-3 sm:left-3 max-w-[85%] bg-white/95 backdrop-blur-md px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-xl text-[8px] sm:text-[10px] font-black uppercase tracking-wider text-[#7C3AED] border border-purple-100 shadow-xs truncate">
-            {service.category}
-          </div>
         </div>
 
         {/* ── Card Content ── */}
