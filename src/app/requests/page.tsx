@@ -26,12 +26,12 @@ export default async function RequestsPage({ searchParams }: RequestsPageProps) 
   const orders = await Order.find({ userId: session.user.id }).sort({ createdAt: -1 }).lean();
 
   return (
-    <div className="min-h-screen pt-8 sm:pt-14 pb-16 sm:pb-20 px-3 sm:px-6 md:px-8 bg-gray-50/60">
-      <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-gray-200 shadow-2xs">
+    <div className="min-h-screen pt-4 sm:pt-10 pb-28 sm:pb-32 px-3 sm:px-6 md:px-8 bg-slate-50/60">
+      <div className="max-w-6xl mx-auto space-y-3.5 sm:space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 bg-white p-3.5 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-2xs">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-900 leading-tight">My Requested Services</h1>
-            <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">Track your order statuses, payment updates, and download invoices.</p>
+            <h1 className="text-xl sm:text-3xl font-black text-slate-900 leading-tight">My Requested Services</h1>
+            <p className="text-[11px] sm:text-sm text-slate-500 font-medium mt-0.5">Track your order statuses, payment updates, and download invoices.</p>
           </div>
           {from === 'account' && (
             <Link href="/account" className="inline-flex items-center gap-1.5 text-gray-700 hover:text-[#7C3AED] bg-gray-50 hover:bg-purple-50 px-3.5 py-2 rounded-xl border border-gray-200 text-xs font-bold w-fit transition-colors">
