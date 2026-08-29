@@ -1,6 +1,6 @@
 import { Service } from '@/models/Service';
 
-interface ServiceSeedData {
+export interface ServiceSeedData {
   title: string;
   category: string;
   price: number;
@@ -10,11 +10,94 @@ interface ServiceSeedData {
 }
 
 export const INITIAL_SERVICES: ServiceSeedData[] = [
+  // 1. Resume & Documents
+  {
+    title: 'Resume & Cover Letter Building',
+    category: 'Career Services',
+    price: 299,
+    image: '/services/resume-cover-letter.webp',
+    description: 'Professional resume formatting and ATS-friendly cover letter building tailored for job applications and corporate standards.',
+    status: 'ACTIVE',
+  },
+
+  // 2. PAN Card & Financial
+  {
+    title: 'PAN Card Application / Correction',
+    category: 'Government Services',
+    price: 199,
+    image: '/services/pan-application-correction.webp',
+    description: 'Fast online application and correction assistance for physical and instant digital e-PAN cards with biometric verification.',
+    status: 'ACTIVE',
+  },
+  {
+    title: 'PAN Card New Application',
+    category: 'Government Services',
+    price: 199,
+    image: '/services/pan-new-application.webp',
+    description: 'Fresh application for new Indian PAN card with Aadhaar e-KYC integration and doorstep delivery of physical card.',
+    status: 'ACTIVE',
+  },
+  {
+    title: 'PAN Card Correction',
+    category: 'Government Services',
+    price: 199,
+    image: '/services/pan-correction.webp',
+    description: 'Name, date of birth, father name, photo, signature and address correction service in existing PAN card database.',
+    status: 'ACTIVE',
+  },
+  {
+    title: 'PF / EPFO Balance Withdrawal & KYC Update',
+    category: 'Cyber Cafe Services',
+    price: 250,
+    image: '/services/pf-epfo-kyc.webp',
+    description: 'UAN activation, Aadhaar/PAN/Bank KYC linking, and online Provident Fund (PF) advance, pension and claim withdrawal assistance.',
+    status: 'ACTIVE',
+  },
+
+  // 3. Educational & Student Services
+  {
+    title: 'UP Scholarship Online Form Submission',
+    category: 'Career Services',
+    price: 150,
+    image: '/services/up-scholarship.webp',
+    description: 'Pre-matric and Post-matric UP Scholarship online application filling, annual renewal, biometric auth and document upload.',
+    status: 'ACTIVE',
+  },
+
+  // 4. Identity & Photo Studio
+  {
+    title: 'Passport Size Photo Printing',
+    category: 'Digital Services',
+    price: 100,
+    image: '/services/passport-photo-printing.webp',
+    description: 'Professional background editing, retouching, and high-grade glossy photo printing for government and exam passport-size photos.',
+    status: 'ACTIVE',
+  },
+  {
+    title: 'Aadhaar Card Download & Print',
+    category: 'Jan Seva Kendra / e-District',
+    price: 50,
+    image: '/services/aadhaar-download-print.webp',
+    description: 'High-quality color printout and PVC plastic smart card printing for original masked/unmasked Aadhaar card downloads.',
+    status: 'ACTIVE',
+  },
+
+  // 5. Passport & Travel
+  {
+    title: 'Passport Application',
+    category: 'Government Services',
+    price: 499,
+    image: '/services/passport-application.webp',
+    description: 'Online application submission, document verification, appointment booking, and PSK slot scheduling for Indian Passport.',
+    status: 'ACTIVE',
+  },
+
+  // 6. Jan Seva Kendra / e-District Certificates
   {
     title: 'Aay Praman Patra (Income Certificate)',
     category: 'Jan Seva Kendra / e-District',
     price: 120,
-    image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800',
+    image: '/services/income-certificate.webp',
     description: 'Official online application and verification for Income Certificate (आय प्रमाण पत्र) via UP e-District portal.',
     status: 'ACTIVE',
   },
@@ -22,104 +105,94 @@ export const INITIAL_SERVICES: ServiceSeedData[] = [
     title: 'Jati Praman Patra (Caste Certificate)',
     category: 'Jan Seva Kendra / e-District',
     price: 120,
-    image: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&q=80&w=800',
-    description: 'Official online application and verification for Caste Certificate (जाति प्रमाण पत्र) for OBC/SC/ST categories.',
+    image: '/services/caste-certificate.webp',
+    description: 'Official online application and verification for Caste Certificate (जाति प्रमाण पत्र) for General-EWS/OBC/SC/ST categories.',
     status: 'ACTIVE',
   },
   {
     title: 'Niwas Praman Patra (Domicile / Residence Certificate)',
     category: 'Jan Seva Kendra / e-District',
     price: 120,
-    image: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800',
-    description: 'Official online application for Domicile / Residence Certificate (निवास प्रमाण पत्र) via UP e-District.',
-    status: 'ACTIVE',
-  },
-  {
-    title: 'Voter ID Card Application / Correction',
-    category: 'Jan Seva Kendra / e-District',
-    price: 150,
-    image: 'https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&q=80&w=800',
-    description: 'New Voter ID card registration, address update, name correction, and digital voter card PDF download.',
-    status: 'ACTIVE',
-  },
-  {
-    title: 'Ration Card Application / Member Addition',
-    category: 'Jan Seva Kendra / e-District',
-    price: 150,
-    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800',
-    description: 'New Ration Card filing, adding new family members, unit update, and e-Ration slip printout.',
+    image: '/services/residence-certificate.webp',
+    description: 'Official online application for Domicile / Residence Certificate (निवास प्रमाण पत्र) via UP e-District with instant tracking.',
     status: 'ACTIVE',
   },
   {
     title: 'Khasra Khatauni / Bhulekh Land Records',
     category: 'Jan Seva Kendra / e-District',
     price: 50,
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=800',
-    description: 'Instant download and certified printout of UP Bhulekh Khasra-Khatauni land record details.',
+    image: '/services/khasra-khatauni-bhulekh.webp',
+    description: 'Instant download and certified printout of UP Bhulekh Khasra-Khatauni digitized land records and certified copy.',
     status: 'ACTIVE',
   },
+  {
+    title: 'Ration Card Application / Member Addition',
+    category: 'Jan Seva Kendra / e-District',
+    price: 150,
+    image: '/services/ration-card.webp',
+    description: 'New NFSA Ration Card filing, adding new family members, unit update, split card, and e-Ration slip printout.',
+    status: 'ACTIVE',
+  },
+  {
+    title: 'Voter ID Card Application / Correction',
+    category: 'Jan Seva Kendra / e-District',
+    price: 150,
+    image: '/services/voter-id.webp',
+    description: 'New Voter ID card registration (Form 6), address update (Form 8), name correction, and digital voter card PDF download.',
+    status: 'ACTIVE',
+  },
+
+  // 7. Printing & Copying
+  {
+    title: 'Document Printing (B&W)',
+    category: 'Printing & Copying',
+    price: 10,
+    image: '/services/document-printing-bw.webp',
+    description: 'High-speed laser monochrome printing on premium 75/80 GSM paper for resumes, reports, and legal documents.',
+    status: 'ACTIVE',
+  },
+  {
+    title: 'Document Printing (Color)',
+    category: 'Printing & Copying',
+    price: 20,
+    image: '/services/document-printing-color.webp',
+    description: 'Vibrant high-resolution full-color printing for presentations, brochures, certificates, and college projects.',
+    status: 'ACTIVE',
+  },
+  {
+    title: 'Photocopy (B&W)',
+    category: 'Printing & Copying',
+    price: 5,
+    image: '/services/photocopy-bw.webp',
+    description: 'Single-sided and duplex black and white photocopying with crystal sharp clarity and bulk page handling.',
+    status: 'ACTIVE',
+  },
+  {
+    title: 'Photocopy (Color)',
+    category: 'Printing & Copying',
+    price: 15,
+    image: '/services/photocopy-color.webp',
+    description: 'Full-color digital photocopying and scanning for multi-page booklets, legal files, and colored originals.',
+    status: 'ACTIVE',
+  },
+
+  // 8. Transport & Vehicles
   {
     title: 'Driving License (DL) Learning & Permanent Form',
     category: 'Transport & Cyber Services',
     price: 350,
-    image: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=800',
-    description: 'Online application form submission, RTO slot booking, and fee payment for Learning & Permanent Driving License.',
+    image: '/services/driving-license.webp',
+    description: 'Online application form submission, Parivahan RTO slot booking, LL mock test prep, and fee payment for Driving License.',
     status: 'ACTIVE',
   },
-  {
-    title: 'UP Scholarship Online Form Submission',
-    category: 'Cyber Cafe Services',
-    price: 150,
-    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=800',
-    description: 'Pre-matric and Post-matric UP Scholarship online application filling, renewal, and document upload.',
-    status: 'ACTIVE',
-  },
-  {
-    title: 'PF / EPFO Balance Withdrawal & KYC Update',
-    category: 'Cyber Cafe Services',
-    price: 250,
-    image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=800',
-    description: 'UAN activation, Aadhaar/PAN/Bank KYC linking, and online Provident Fund (PF) advance/claim withdrawal.',
-    status: 'ACTIVE',
-  },
-  {
-    title: 'PAN Card Application / Correction',
-    category: 'Cyber Cafe Services',
-    price: 199,
-    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800',
-    description: 'Fast online application or correction service for physical and instant digital e-PAN cards.',
-    status: 'ACTIVE',
-  },
-  {
-    title: 'Aadhaar Card Download & Print',
-    category: 'Cyber Cafe Services',
-    price: 50,
-    image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800',
-    description: 'High-quality color printout and PVC plastic card printing for original Aadhaar card downloads.',
-    status: 'ACTIVE',
-  },
-  {
-    title: 'Passport Size Photo Printing',
-    category: 'Digital Services',
-    price: 100,
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800',
-    description: 'Professional background editing, retouching, and high-grade glossy photo printing for passport-size photographs.',
-    status: 'ACTIVE',
-  },
+
+  // 9. Software & Web Engineering
   {
     title: 'Website Development',
     category: 'Web Development',
     price: 4999,
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800',
-    description: 'Custom responsive website development with fast loading speed, modern UI design, SEO optimization, and mobile-friendly layouts.',
-    status: 'ACTIVE',
-  },
-  {
-    title: 'Resume & Cover Letter Building',
-    category: 'Graphic Design & Documents',
-    price: 299,
-    image: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&q=80&w=800',
-    description: 'Professional resume formatting and ATS-friendly cover letter building tailored for job applications and corporate standards.',
+    image: '/services/website-development.webp',
+    description: 'Custom responsive web application and e-commerce development with fast loading speed, modern UI design, SEO, and CMS.',
     status: 'ACTIVE',
   },
 ];
@@ -134,9 +207,25 @@ export async function ensureServicesSeeded() {
     if (count === 0) {
       await Service.insertMany(INITIAL_SERVICES);
       console.log(`Seeded ${INITIAL_SERVICES.length} initial services successfully.`);
+    } else {
+      // Sync/update service images to the new custom local images
+      for (const s of INITIAL_SERVICES) {
+        await Service.updateOne(
+          { title: s.title },
+          { 
+            $set: { 
+              image: s.image,
+              category: s.category,
+              description: s.description,
+            } 
+          },
+          { upsert: true }
+        );
+      }
+      console.log(`Synchronized all ${INITIAL_SERVICES.length} service images and categories.`);
     }
     isSeeded = true;
   } catch (error) {
-    console.error('Error seeding services:', error);
+    console.error('Error seeding/syncing services:', error);
   }
 }

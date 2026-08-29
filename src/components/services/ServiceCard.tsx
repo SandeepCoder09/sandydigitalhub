@@ -37,11 +37,13 @@ export function ServiceCard({ service }: ServiceCardProps) {
         className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-purple-500/10 flex flex-col h-full hover:border-purple-300 transition-all group select-none"
       >
         {/* ── Image ── */}
-        <div className="relative h-28 sm:h-48 w-full bg-slate-100 overflow-hidden shrink-0">
+        <div className="relative h-28 sm:h-48 w-full bg-slate-900 overflow-hidden shrink-0">
           <Image
-            src={service.image}
+            src={service.image || '/services/resume-cover-letter.webp'}
             alt={service.title}
             fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            loading="lazy"
             unoptimized
             className="object-cover group-hover:scale-105 transition-transform duration-500"
           />

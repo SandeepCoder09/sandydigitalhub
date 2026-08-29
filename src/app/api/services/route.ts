@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
 
         return Service.find(query)
           .sort({ category: 1, title: 1 })
-          .select('title slug category description basePrice fastDeliveryAvailable documentRequirements formFields status')
+          .select('title slug category description price basePrice image fastDeliveryAvailable documentRequirements formFields status')
           .lean();
       },
       300
