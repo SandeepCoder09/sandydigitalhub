@@ -22,14 +22,6 @@ export const INITIAL_SERVICES: ServiceSeedData[] = [
 
   // 2. PAN Card & Financial
   {
-    title: 'PAN Card Application / Correction',
-    category: 'Government Services',
-    price: 199,
-    image: '/services/pan-application-correction.webp',
-    description: 'Fast online application and correction assistance for physical and instant digital e-PAN cards with biometric verification.',
-    status: 'ACTIVE',
-  },
-  {
     title: 'PAN Card New Application',
     category: 'Government Services',
     price: 199,
@@ -208,7 +200,12 @@ export async function ensureServicesSeeded() {
       await Service.insertMany(INITIAL_SERVICES);
       console.log(`Seeded ${INITIAL_SERVICES.length} initial services successfully.`);
     } else {
-      // Sync/update service images to the new custom local images
+      // Clean up obsolete/duplicate services that are no longer in the initial services definition
+      await Service.deleteMany({
+        title: { $nin: INITIAL_SERVICES.map((s) => s.title) },
+      });
+
+      // Sync/update service images and categories
       for (const s of INITIAL_SERVICES) {
         await Service.updateOne(
           { title: s.title },

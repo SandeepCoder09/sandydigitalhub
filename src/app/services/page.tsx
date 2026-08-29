@@ -19,10 +19,24 @@ export default async function ServicesPage() {
     await connectDB();
     await ensureServicesSeeded();
     const services = await Service.find({ status: 'ACTIVE' }).sort({ category: 1, title: 1 }).lean();
-    serializedServices = JSON.parse(JSON.stringify(services));
+    
+    // Deduplicate by title to ensure no service appears twice
+    const uniqueMap = new Map();
+    for (const item of services) {
+      if (!uniqueMap.has(item.title)) {
+        uniqueMap.set(item.title, item);
+      }
+    }
+    serializedServices = JSON.parse(JSON.stringify(Array.from(uniqueMap.values())));
   } catch (err) {
     console.error('Failed to load services from DB, falling back to static services:', err);
-    serializedServices = INITIAL_SERVICES.map((s, idx) => ({
+    const uniqueMap = new Map();
+    for (const s of INITIAL_SERVICES) {
+      if (!uniqueMap.has(s.title)) {
+        uniqueMap.set(s.title, s);
+      }
+    }
+    serializedServices = Array.from(uniqueMap.values()).map((s, idx) => ({
       _id: `seed-${idx}`,
       ...s,
     }));

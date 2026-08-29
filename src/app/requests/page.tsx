@@ -62,7 +62,7 @@ export default async function RequestsPage({ searchParams }: RequestsPageProps) 
           </div>
         )}
 
-        <div className="bg-transparent sm:bg-white sm:p-6 sm:rounded-3xl sm:border sm:border-gray-200 sm:shadow-2xs">
+        <div className="space-y-4">
           <RequestsTable 
             orders={JSON.parse(JSON.stringify(orders))} 
             user={JSON.parse(JSON.stringify(user))} 

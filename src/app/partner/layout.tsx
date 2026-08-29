@@ -29,7 +29,7 @@ export default async function PartnerLayout({ children }: { children: ReactNode 
   return (
     <div className="min-h-screen bg-[#0B0D11] flex flex-col lg:flex-row antialiased">
       <PartnerSidebar partner={partner} />
-      <main className="flex-1 p-4 sm:p-6 lg:p-8 min-w-0 max-w-7xl overflow-y-auto">
+      <main className="flex-1 p-2.5 sm:p-5 md:p-6 lg:p-8 min-w-0 max-w-7xl overflow-y-auto">
         {children}
       </main>
     </div>

@@ -117,7 +117,7 @@ export default function TrackOrderPage() {
         return handleTrack(undefined, topBrandedId);
       }
 
-      setErrorMsg('Please enter your Branded Order ID (SDH-...) or Phone Number above.');
+      setErrorMsg('Please enter your Order ID (e.g. SDH-...) above.');
       inputRef.current?.focus();
       return;
     }
@@ -131,7 +131,7 @@ export default function TrackOrderPage() {
       const res = await fetch('/api/track-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ trackingId: query, phone: query }),
+        body: JSON.stringify({ trackingId: query }),
       });
 
       const data = await res.json();
@@ -139,7 +139,7 @@ export default function TrackOrderPage() {
       if (res.ok && data.orders && data.orders.length > 0) {
         setOrders(data.orders);
       } else {
-        setErrorMsg(data.error || 'No matching order found. Check your Order ID or Phone Number.');
+        setErrorMsg(data.error || 'No matching order found. Please check your Order ID and try again.');
       }
     } catch (err) {
       setErrorMsg('Could not fetch tracking data. Please try again or call +91 8756454282.');
@@ -180,7 +180,7 @@ export default function TrackOrderPage() {
 
     // 3. If guest user with no orders, prompt and focus input field
     inputRef.current?.focus();
-    setErrorMsg(`Please enter your Branded Order ID (SDH-...) or Phone Number above to track your ${service.title}.`);
+    setErrorMsg(`Please enter your Order ID (e.g. SDH-...) above to track your ${service.title}.`);
   };
 
   const handleChipClick = (brandedId: string) => {
@@ -341,7 +341,7 @@ export default function TrackOrderPage() {
             Track Your <span className="text-[#7C3AED]">Order Status</span>
           </h1>
           <p className="max-w-xl mx-auto text-xs sm:text-base text-slate-600 font-medium leading-relaxed">
-            Enter your Branded Order ID (SDH-...), Payment ID, or registered Phone Number to check real-time processing updates.
+            Enter your Branded Order ID (e.g. SDH-...) to check real-time processing updates.
           </p>
 
           {/* Search Bar Form */}
@@ -353,7 +353,7 @@ export default function TrackOrderPage() {
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="Enter Order ID or Phone (e.g. SDH-... or 9876543210)"
+                placeholder="Enter Order ID (e.g. SDH-...)"
                 className="w-full h-11 sm:h-14 pl-10 sm:pl-12 pr-9 sm:pr-11 rounded-xl sm:rounded-2xl bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-base font-semibold focus:outline-none border-2 border-slate-200 hover:border-purple-200 focus:border-[#7C3AED] focus:ring-4 focus:ring-purple-500/15 shadow-sm sm:shadow-lg shadow-purple-900/5 transition-all"
               />
               {searchInput && (
@@ -500,7 +500,7 @@ export default function TrackOrderPage() {
             <div className="max-w-sm mx-auto space-y-1">
               <h3 className="text-xs sm:text-sm font-extrabold text-gray-900">Track Any Application Instantly</h3>
               <p className="text-[10px] sm:text-xs text-gray-500 font-medium leading-relaxed">
-                Enter your Branded Order ID (e.g. SDH-20260805-8CC84C) or registered Phone Number, or click "Track Status" on any service above.
+                Enter your Branded Order ID (e.g. SDH-20260805-59B5) or click "Track Status" on any service above.
               </p>
             </div>
           </div>

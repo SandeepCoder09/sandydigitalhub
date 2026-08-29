@@ -26,18 +26,18 @@ export async function Navbar() {
       {/* ─────────────────────────────────────────────────────────────
           2. MOBILE TOP HEADER BAR (< lg)
       ───────────────────────────────────────────────────────────── */}
-      <header className="lg:hidden sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-xs">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="flex h-16 items-center justify-between gap-3">
+      <header className="lg:hidden sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs">
+        <div className="container mx-auto px-3 sm:px-6">
+          <div className="flex h-13 sm:h-14 items-center justify-between gap-2.5">
             {/* Logo */}
             <div className="flex items-center shrink-0">
               <Link href="/" className="flex items-center transition-transform hover:scale-105 shrink-0">
                 <Image
                   src="/logo.png"
                   alt="Sandy Digital Hub"
-                  width={150}
-                  height={42}
-                  className="h-8.5 w-auto object-contain shrink-0 max-w-[140px]"
+                  width={130}
+                  height={36}
+                  className="h-7 sm:h-8 w-auto object-contain shrink-0 max-w-[125px] sm:max-w-[140px]"
                   priority
                 />
               </Link>

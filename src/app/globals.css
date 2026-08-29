@@ -38,99 +38,158 @@
 
 :root {
   /* ── Public Website Brand Colors ─────────────────────────────── */
-  --brand-primary:   #7C3AED;   /* Vivid Violet / Purple */
-  --brand-hover:     #6D28D9;   /* Deep Violet */
-  --brand-cyan:      #8B5CF6;   /* Soft Violet accent */
-  --brand-success:   #22C55E;
-  --brand-warning:   #F59E0B;
-  --brand-error:     #EF4444;
+  --brand-primary: #7C3AED;
+  /* Vivid Violet / Purple */
+  --brand-hover: #6D28D9;
+  /* Deep Violet */
+  --brand-cyan: #8B5CF6;
+  /* Soft Violet accent */
+  --brand-success: #22C55E;
+  --brand-warning: #F59E0B;
+  --brand-error: #EF4444;
 
   /* ── ADMIN PANEL SYSTEM DESIGN TOKENS (Graphite + Violet) ───── */
-  --admin-primary:        #7C3AED; /* Violet Brand */
-  --admin-primary-hover:  #6D28D9;
+  --admin-primary: #7C3AED;
+  /* Violet Brand */
+  --admin-primary-hover: #6D28D9;
   --admin-primary-active: #5B21B6;
-  --admin-primary-soft:   #F5F3FF;
+  --admin-primary-soft: #F5F3FF;
   --admin-primary-border: #DDD6FE;
 
-  --admin-sidebar:         #111318; /* Dark Graphite */
+  --admin-sidebar: #111318;
+  /* Dark Graphite */
   --admin-sidebar-surface: #181B21;
-  --admin-sidebar-border:  #2B3038;
-  --admin-sidebar-text:    #F8FAFC;
-  --admin-sidebar-muted:   #A7AFBC;
+  --admin-sidebar-border: #2B3038;
+  --admin-sidebar-text: #F8FAFC;
+  --admin-sidebar-muted: #A7AFBC;
 
-  --admin-bg:                #F6F7F9;
-  --admin-surface:           #FFFFFF;
+  --admin-bg: #F6F7F9;
+  --admin-surface: #FFFFFF;
   --admin-surface-secondary: #F9FAFB;
-  --admin-border:            #E5E7EB;
+  --admin-border: #E5E7EB;
 
-  --admin-text:           #171A21;
+  --admin-text: #171A21;
   --admin-text-secondary: #4B5563;
-  --admin-text-muted:     #6B7280;
+  --admin-text-muted: #6B7280;
 
-  --admin-success:        #059669; /* Emerald */
-  --admin-success-soft:   #ECFDF5;
-  --admin-warning:        #D97706; /* Amber */
-  --admin-warning-soft:   #FFFBEB;
-  --admin-danger:         #DC2626; /* Red */
-  --admin-danger-soft:    #FEF2F2;
-  --admin-info:           #7C3AED;
-  --admin-info-soft:      #F5F3FF;
+  --admin-success: #059669;
+  /* Emerald */
+  --admin-success-soft: #ECFDF5;
+  --admin-warning: #D97706;
+  /* Amber */
+  --admin-warning-soft: #FFFBEB;
+  --admin-danger: #DC2626;
+  /* Red */
+  --admin-danger-soft: #FEF2F2;
+  --admin-info: #7C3AED;
+  --admin-info-soft: #F5F3FF;
 
   /* ── Shadcn/Tailwind CSS Variables ───────────── */
-  --background:          #F8FAFC;
-  --foreground:          #0F172A;
-  --card:                #FFFFFF;
-  --card-foreground:     #0F172A;
-  --popover:             #FFFFFF;
-  --popover-foreground:  #0F172A;
-  --primary:             #7C3AED;
-  --primary-foreground:  #FFFFFF;
-  --secondary:           #0F172A;
-  --secondary-foreground:#CBD5E1;
-  --muted:               #F1F5F9;
-  --muted-foreground:    #475569;
-  --accent:              #F5F3FF;
-  --accent-foreground:   #6D28D9;
-  --destructive:         #EF4444;
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --primary: #7C3AED;
+  --primary-foreground: #FFFFFF;
+  --secondary: #0F172A;
+  --secondary-foreground: #CBD5E1;
+  --muted: #F1F5F9;
+  --muted-foreground: #475569;
+  --accent: #F5F3FF;
+  --accent-foreground: #6D28D9;
+  --destructive: #EF4444;
   --destructive-foreground: #F8FAFC;
-  --border:              #E2E8F0;
-  --input:               #E2E8F0;
-  --ring:                #7C3AED;
-  --radius:              0.75rem;  /* 12px base radius */
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #7C3AED;
+  --radius: 0.75rem;
+  /* 12px base radius */
 }
 
 .dark {
-  --background:          #020817;
-  --foreground:          #F8FAFC;
-  --card:                #0F172A;
-  --card-foreground:     #F8FAFC;
-  --popover:             #0F172A;
-  --popover-foreground:  #F8FAFC;
-  --primary:             #8B5CF6;
-  --primary-foreground:  #FFFFFF;
-  --secondary:           #1E293B;
-  --secondary-foreground:#CBD5E1;
-  --muted:               #1E293B;
-  --muted-foreground:    #94A3B8;
-  --accent:              #2E1065;
-  --accent-foreground:   #DDD6FE;
-  --destructive:         #7F1D1D;
+  --background: #020817;
+  --foreground: #F8FAFC;
+  --card: #0F172A;
+  --card-foreground: #F8FAFC;
+  --popover: #0F172A;
+  --popover-foreground: #F8FAFC;
+  --primary: #8B5CF6;
+  --primary-foreground: #FFFFFF;
+  --secondary: #1E293B;
+  --secondary-foreground: #CBD5E1;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+  --accent: #2E1065;
+  --accent-foreground: #DDD6FE;
+  --destructive: #7F1D1D;
   --destructive-foreground: #F8FAFC;
-  --border:              #1E293B;
-  --input:               #1E293B;
-  --ring:                #8B5CF6;
+  --border: #1E293B;
+  --input: #1E293B;
+  --ring: #8B5CF6;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
     scroll-behavior: smooth;
+  }
+
+  /* ── Mobile-First Responsive Typography & Density Scaling ─────── */
+  @media (max-width: 640px) {
+    html {
+      font-size: 14px; /* Proportionally scales all rem-based sizes for compact mobile elegance */
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* Headings on mobile: tighter line height and punchier tracking */
+    h1 {
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+    }
+
+    h2 {
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    h3 {
+      letter-spacing: -0.015em;
+      line-height: 1.25;
+    }
+
+    /* High-density mobile tables */
+    table th {
+      padding: 0.5rem 0.625rem;
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+    }
+
+    table td {
+      padding: 0.5rem 0.625rem;
+      font-size: 0.75rem;
+    }
+
+    /* High-density card paddings on mobile */
+    .card-compact-mobile {
+      padding: 0.75rem;
+      border-radius: 1rem;
+    }
+  }
+
+  @media (max-width: 380px) {
+    html {
+      font-size: 13.25px; /* Compact scale for smaller screens (e.g. iPhone SE) */
+    }
   }
 
   /* ── Subtle Professional Scrollbar ───────────────────────── */
@@ -138,13 +197,16 @@
     width: 5px;
     height: 5px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
     background: #E2E8F0;
     border-radius: 100px;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: #CBD5E1;
   }
@@ -152,13 +214,16 @@
   .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
   }
+
   .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
   }
+
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background: #E2E8F0;
     border-radius: 10px;
   }
+
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #CBD5E1;
   }
@@ -176,5 +241,11 @@
 }
 
 /* ── Utility: Hide scrollbar while keeping scroll ── */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

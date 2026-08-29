@@ -2,12 +2,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { formatOrderId, formatDateTime } from '@/lib/utils';
 import { OrderDetailsModal } from './OrderDetailsModal';
 import { OrderTrackingModal } from './OrderTrackingModal';
+import { OrderReviewModal } from './OrderReviewModal';
 import { CopyButton } from '@/components/ui/CopyButton';
+import { useCartStore } from '@/store/cartStore';
+import { toast } from '@/components/ui/Toast';
 import { 
-  Eye, 
   ShoppingBag, 
   Search, 
   Calendar, 
@@ -18,38 +22,87 @@ import {
   RotateCw,
   XCircle,
   Store,
-  Layers
+  ChevronRight,
+  Download,
+  Star,
+  Sparkles,
+  MessageCircle,
+  FileText,
+  CreditCard,
+  Plus
 } from 'lucide-react';
-import Link from 'next/link';
 
 interface RequestsTableProps {
   orders: any[];
   user: any;
 }
 
-export function RequestsTable({ orders, user }: RequestsTableProps) {
+// Service image mapping helper
+const getServiceImage = (title: string, defaultImg?: string) => {
+  if (defaultImg) return defaultImg;
+  const t = title?.toLowerCase() || '';
+  if (t.includes('pan') && t.includes('correction')) return '/services/pan-correction.webp';
+  if (t.includes('pan')) return '/services/pan-new-application.webp';
+  if (t.includes('resume') || t.includes('cv') || t.includes('cover')) return '/services/resume-cover-letter.webp';
+  if (t.includes('aadhaar')) return '/services/aadhaar-download-print.webp';
+  if (t.includes('passport') && t.includes('photo')) return '/services/passport-photo-printing.webp';
+  if (t.includes('passport')) return '/services/passport-application.webp';
+  if (t.includes('income') || t.includes('aay')) return '/services/income-certificate.webp';
+  if (t.includes('caste') || t.includes('jati')) return '/services/caste-certificate.webp';
+  if (t.includes('domicile') || t.includes('niwas') || t.includes('residence')) return '/services/residence-certificate.webp';
+  if (t.includes('khasra') || t.includes('bhulekh') || t.includes('land')) return '/services/khasra-khatauni-bhulekh.webp';
+  if (t.includes('ration')) return '/services/ration-card.webp';
+  if (t.includes('voter')) return '/services/voter-id.webp';
+  if (t.includes('scholarship')) return '/services/up-scholarship.webp';
+  if (t.includes('pf') || t.includes('epfo')) return '/services/pf-epfo-kyc.webp';
+  if (t.includes('driving') || t.includes('dl')) return '/services/driving-license.webp';
+  if (t.includes('print') && t.includes('color')) return '/services/document-printing-color.webp';
+  if (t.includes('print')) return '/services/document-printing-bw.webp';
+  if (t.includes('photocopy') && t.includes('color')) return '/services/photocopy-color.webp';
+  if (t.includes('photocopy')) return '/services/photocopy-bw.webp';
+  if (t.includes('web') || t.includes('app')) return '/services/website-development.webp';
+  return '/services/resume-cover-letter.webp';
+};
+
+export function RequestsTable({ orders: initialOrders, user }: RequestsTableProps) {
+  const [orders, setOrders] = useState<any[]>(initialOrders);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [trackingOrder, setTrackingOrder] = useState<any>(null);
+  const [reviewOrder, setReviewOrder] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
+  const addItem = useCartStore((state) => state.addItem);
+
+  const handleReorder = (service: any) => {
+    addItem({
+      serviceId: service.serviceId || `reorder-${Date.now()}`,
+      title: service.title,
+      price: service.price || 199,
+      quantity: 1,
+      image: getServiceImage(service.title, service.image),
+    });
+    toast.success(`"${service.title}" added to your cart!`, 'Added to Cart');
+  };
+
   if (!orders || orders.length === 0) {
     return (
-      <div className="bg-white rounded-3xl border border-gray-200 p-8 sm:p-12 text-center flex flex-col items-center gap-4 shadow-2xs">
-        <div className="w-16 h-16 rounded-3xl bg-violet-50 text-violet-600 flex items-center justify-center shadow-xs">
-          <ShoppingBag size={30} />
+      <div className="bg-white rounded-3xl border border-gray-200 p-8 sm:p-14 text-center flex flex-col items-center gap-4 shadow-2xs">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-purple-50 text-[#7C3AED] flex items-center justify-center shadow-xs">
+          <ShoppingBag size={34} />
         </div>
-        <div className="max-w-md space-y-1">
-          <h3 className="text-lg font-black text-gray-900">No Requested Services Yet</h3>
-          <p className="text-xs text-gray-500 font-medium">
-            You haven&apos;t placed any service requests or orders yet. Explore our wide catalog of citizen & digital services.
+        <div className="max-w-md space-y-1.5">
+          <h3 className="text-lg sm:text-xl font-black text-gray-900">You have no orders yet</h3>
+          <p className="text-xs sm:text-sm text-gray-500 font-medium">
+            Explore our wide catalog of Jan Seva Kendra, government certificates, and digital services.
           </p>
         </div>
         <Link 
           href="/services" 
-          className="bg-violet-600 text-white px-6 py-2.5 rounded-xl text-xs font-black hover:bg-violet-700 transition-all shadow-md active:scale-95"
+          className="mt-2 bg-[#7C3AED] text-white px-7 py-3 rounded-2xl text-xs sm:text-sm font-black hover:bg-[#6D28D9] transition-all shadow-md active:scale-95 flex items-center gap-2"
         >
-          Browse Citizen Services
+          <Sparkles size={16} />
+          <span>Explore Services</span>
         </Link>
       </div>
     );
@@ -76,58 +129,88 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
   // Calculate live counts for filter chips
   const counts = {
     ALL: orders.length,
-    PAID: orders.filter((o) => o.paymentStatus === 'PAID').length,
-    AWAITING_VISIT: orders.filter((o) => o.orderStatus === 'AWAITING_CUSTOMER_VISIT').length,
-    PROCESSING: orders.filter((o) => o.orderStatus === 'PROCESSING').length,
     COMPLETED: orders.filter((o) => o.orderStatus === 'COMPLETED').length,
+    PROCESSING: orders.filter((o) => o.orderStatus === 'PROCESSING').length,
+    AWAITING_VISIT: orders.filter((o) => o.orderStatus === 'AWAITING_CUSTOMER_VISIT').length,
+    PAID: orders.filter((o) => o.paymentStatus === 'PAID').length,
     CANCELLED: orders.filter((o) => o.orderStatus === 'CANCELLED').length,
   };
 
-  const getStatusBadge = (orderStatus: string, paymentStatus: string) => {
+  const getStatusIndicator = (orderStatus: string, dateStr: string) => {
+    const formattedDate = new Date(dateStr).toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'short',
+    });
+
     if (orderStatus === 'COMPLETED') {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200/80 shadow-2xs">
-          <CheckCircle2 size={11} className="text-emerald-600" />
-          <span>COMPLETED</span>
-        </span>
+        <div className="space-y-0.5">
+          <div className="flex items-center gap-1.5 text-xs sm:text-sm font-black text-emerald-700">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
+            <span>Delivered / Completed on {formattedDate}</span>
+          </div>
+          <p className="text-[11px] text-gray-500 font-medium pl-4">
+            Your certificate & document processing is complete
+          </p>
+        </div>
       );
     }
     if (orderStatus === 'PROCESSING') {
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-extrabold bg-violet-50 text-violet-700 border border-violet-200/80 shadow-2xs">
-          <span className="w-1.5 h-1.5 rounded-full bg-violet-600 animate-pulse" />
-          <span>PROCESSING</span>
-        </span>
-      );
-    }
-    if (orderStatus === 'CANCELLED') {
-      return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-extrabold bg-rose-50 text-rose-700 border border-rose-200/80 shadow-2xs">
-          <XCircle size={11} className="text-rose-600" />
-          <span>CANCELLED</span>
-        </span>
+        <div className="space-y-0.5">
+          <div className="flex items-center gap-1.5 text-xs sm:text-sm font-black text-purple-700">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#7C3AED] animate-ping shrink-0" />
+            <span>In Processing</span>
+          </div>
+          <p className="text-[11px] text-gray-500 font-medium pl-4">
+            Submitted to department · Expected within 24-48 hrs
+          </p>
+        </div>
       );
     }
     if (orderStatus === 'AWAITING_CUSTOMER_VISIT') {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-extrabold bg-amber-50 text-amber-800 border border-amber-200/80 shadow-2xs">
-          <Store size={11} className="text-amber-700" />
-          <span>AWAITING VISIT</span>
-        </span>
+        <div className="space-y-0.5">
+          <div className="flex items-center gap-1.5 text-xs sm:text-sm font-black text-amber-800">
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0" />
+            <span>Shop Visit Required</span>
+          </div>
+          <p className="text-[11px] text-amber-700 font-medium pl-4">
+            Please visit center for biometric or physical verification
+          </p>
+        </div>
+      );
+    }
+    if (orderStatus === 'CANCELLED') {
+      return (
+        <div className="space-y-0.5">
+          <div className="flex items-center gap-1.5 text-xs sm:text-sm font-black text-rose-700">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shrink-0" />
+            <span>Cancelled</span>
+          </div>
+          <p className="text-[11px] text-gray-500 font-medium pl-4">
+            This request has been cancelled / refunded
+          </p>
+        </div>
       );
     }
     return (
-      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-extrabold bg-slate-100 text-slate-700 border border-slate-200/80 shadow-2xs">
-        <Clock size={11} className="text-slate-500" />
-        <span>PENDING</span>
-      </span>
+      <div className="space-y-0.5">
+        <div className="flex items-center gap-1.5 text-xs sm:text-sm font-black text-slate-700">
+          <span className="w-2.5 h-2.5 rounded-full bg-slate-400 shrink-0" />
+          <span>Order Confirmed</span>
+        </div>
+        <p className="text-[11px] text-gray-500 font-medium pl-4">
+          Under initial review by operator
+        </p>
+      </div>
     );
   };
 
   const filterTabs = [
-    { id: 'ALL', label: 'All', count: counts.ALL },
-    { id: 'COMPLETED', label: 'Completed', count: counts.COMPLETED },
-    { id: 'PROCESSING', label: 'Processing', count: counts.PROCESSING },
+    { id: 'ALL', label: 'All Orders', count: counts.ALL },
+    { id: 'COMPLETED', label: 'Delivered / Done', count: counts.COMPLETED },
+    { id: 'PROCESSING', label: 'In Progress', count: counts.PROCESSING },
     { id: 'AWAITING_VISIT', label: 'Awaiting Visit', count: counts.AWAITING_VISIT },
     { id: 'PAID', label: 'Paid', count: counts.PAID },
     { id: 'CANCELLED', label: 'Cancelled', count: counts.CANCELLED },
@@ -135,22 +218,24 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* Search & Filter Header */}
-      <div className="space-y-3">
+      {/* ─────────────────────────────────────────────────────────────
+          1. E-COMMERCE SEARCH & HORIZONTAL FILTER TABS
+      ───────────────────────────────────────────────────────────── */}
+      <div className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-4 border border-slate-200 shadow-2xs space-y-3">
         {/* Search Bar */}
         <div className="relative w-full">
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-violet-600 pointer-events-none" />
+          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7C3AED] pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search Order ID or service name..."
-            className="w-full bg-white border-2 border-slate-200 hover:border-violet-200 focus:border-violet-600 rounded-2xl pl-10 pr-9 py-2.5 text-xs font-semibold text-gray-900 placeholder:text-gray-400 focus:ring-4 focus:ring-violet-600/10 outline-none transition-all shadow-2xs"
+            placeholder="Search in orders by Order ID or service name..."
+            className="w-full bg-slate-50/70 hover:bg-white focus:bg-white border-2 border-slate-200 hover:border-purple-200 focus:border-[#7C3AED] rounded-xl sm:rounded-2xl pl-10 pr-9 py-2.5 text-xs sm:text-sm font-semibold text-gray-900 placeholder:text-gray-400 focus:ring-4 focus:ring-purple-600/10 outline-none transition-all shadow-2xs"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400 hover:text-white bg-slate-200 hover:bg-violet-600 rounded-full w-4.5 h-4.5 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400 hover:text-white bg-slate-200 hover:bg-[#7C3AED] rounded-full w-4.5 h-4.5 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
               aria-label="Clear search"
             >
               ✕
@@ -158,24 +243,24 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
           )}
         </div>
 
-        {/* Modern Horizontal Scroll Filter Chips (App-Grade UX) */}
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+        {/* Flipkart-Style Horizontal Filter Chips */}
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
           {filterTabs.map((tab) => {
             const isActive = statusFilter === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setStatusFilter(tab.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-extrabold whitespace-nowrap transition-all cursor-pointer shadow-2xs ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer shadow-2xs ${
                   isActive
-                    ? 'bg-violet-600 text-white shadow-xs'
-                    : 'bg-white text-gray-600 hover:text-gray-900 hover:bg-gray-100 border border-gray-200/90'
+                    ? 'bg-[#7C3AED] text-white shadow-xs scale-[1.01]'
+                    : 'bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-[#7C3AED] border border-slate-200/80'
                 }`}
               >
                 <span>{tab.label}</span>
                 <span
                   className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
-                    isActive ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'
+                    isActive ? 'bg-white/25 text-white' : 'bg-slate-200/80 text-slate-600'
                   }`}
                 >
                   {tab.count}
@@ -186,177 +271,215 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
         </div>
       </div>
 
+      {/* ─────────────────────────────────────────────────────────────
+          2. FLIPKART-STYLE ORDER CARDS LIST (Unified for Mobile & Desktop)
+      ───────────────────────────────────────────────────────────── */}
       {filteredOrders.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-gray-200 p-8 text-center space-y-2 shadow-2xs">
-          <PackageSearch size={36} className="mx-auto text-gray-300" />
-          <h4 className="text-xs font-black text-gray-900">No Orders Found</h4>
-          <p className="text-[11px] text-gray-500 font-medium">No service requests match your search or selected filter.</p>
+        <div className="bg-white rounded-3xl border border-gray-200 p-8 sm:p-12 text-center space-y-2.5 shadow-2xs">
+          <PackageSearch size={40} className="mx-auto text-gray-300" />
+          <h4 className="text-sm font-black text-gray-900">No Orders Found</h4>
+          <p className="text-xs text-gray-500 font-medium max-w-sm mx-auto">
+            We couldn't find any orders matching "{searchQuery}". Try searching with another keyword or change your filter.
+          </p>
+          <button
+            onClick={() => {
+              setSearchQuery('');
+              setStatusFilter('ALL');
+            }}
+            className="mt-2 text-xs font-black text-[#7C3AED] hover:underline cursor-pointer"
+          >
+            Reset Filters
+          </button>
         </div>
       ) : (
-        <>
-          {/* Mobile & Tablet App-Grade Cards View (< md) */}
-          <div className="block md:hidden space-y-3">
-            {filteredOrders.map((order) => {
-              const brandedId = formatOrderId(order._id, order.createdAt);
-              const servicesText = order.services?.map((s: any) => s.title).join(', ') || 'Service Request';
-              const isPaid = order.paymentStatus === 'PAID';
+        <div className="space-y-4 sm:space-y-5">
+          {filteredOrders.map((order) => {
+            const brandedId = formatOrderId(order._id, order.createdAt);
+            const isPaid = order.paymentStatus === 'PAID';
+            const primaryService = order.services?.[0] || { title: 'Digital Service Request', price: order.total, quantity: 1 };
+            const extraServicesCount = (order.services?.length || 1) - 1;
+            const itemImage = getServiceImage(primaryService.title, primaryService.image);
 
-              return (
-                <div 
-                  key={order._id.toString()} 
-                  className="bg-white rounded-3xl p-4 border border-gray-200/90 shadow-2xs space-y-3 hover:border-violet-300 transition-all"
-                >
-                  {/* Top Bar: Order ID + Status Badge */}
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-mono text-xs font-black text-violet-700 bg-violet-50/90 px-2.5 py-1 rounded-xl border border-violet-100">
-                        {brandedId}
-                      </span>
+            return (
+              <div 
+                key={order._id.toString()} 
+                className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-2xs hover:shadow-md transition-all overflow-hidden group"
+              >
+                {/* ── Order Top Meta Header (Flipkart / Amazon Style) ── */}
+                <div className="bg-slate-50/90 px-3.5 sm:px-6 py-2.5 sm:py-3 border-b border-slate-200/70 flex flex-wrap items-center justify-between gap-2 text-xs">
+                  <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                    <div className="flex items-center gap-1.5 font-mono font-black text-slate-900 bg-white px-2.5 py-0.5 sm:py-1 rounded-lg border border-slate-200/80 shadow-2xs">
+                      <span className="text-gray-400 text-[10px] uppercase tracking-wider">ORDER</span>
+                      <span className="text-[#7C3AED]">{brandedId}</span>
                       <CopyButton text={brandedId} />
                     </div>
-                    <div>{getStatusBadge(order.orderStatus, order.paymentStatus)}</div>
-                  </div>
 
-                  {/* Service Details & Date */}
-                  <div className="space-y-1.5 pt-0.5">
-                    <div className="flex items-start gap-2">
-                      <div className="w-6 h-6 rounded-lg bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 mt-0.5">
-                        <Layers size={13} />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="text-xs font-extrabold text-gray-900 leading-snug line-clamp-2">
-                          {servicesText}
-                        </div>
-                        <div className="text-[11px] text-gray-400 font-medium flex items-center gap-1 mt-1">
-                          <Calendar size={11} />
-                          <span>{formatDateTime(order.createdAt)}</span>
-                        </div>
-                      </div>
+                    <div className="text-[11px] text-slate-500 font-medium flex items-center gap-1">
+                      <Calendar size={12} className="text-slate-400" />
+                      <span>Placed on {formatDateTime(order.createdAt)}</span>
                     </div>
-
-                    {/* Attached Document Pill if available */}
-                    {order.documentUrl && (
-                      <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-slate-50 text-slate-600 border border-slate-200 text-[10px] font-bold">
-                        <Paperclip size={10} className="text-violet-600" />
-                        <span className="truncate max-w-[200px]">{order.documentName || 'Document Attached'}</span>
-                      </div>
-                    )}
                   </div>
 
-                  {/* Bottom Bar: Amount + Dual Action Buttons */}
-                  <div className="pt-2.5 border-t border-gray-100 flex items-center justify-between gap-2">
-                    <div>
-                      <div className="text-xs font-black text-gray-900 flex items-baseline gap-1">
-                        <span className="text-[10px] text-gray-400 font-semibold uppercase">Total:</span>
-                        <span className="text-sm font-black text-violet-700">₹{order.total}</span>
+                  {/* Payment Mode & Total */}
+                  <div className="flex items-center gap-2 sm:gap-3 ml-auto">
+                    <span className="text-xs sm:text-sm font-black text-slate-900">
+                      ₹{order.total}
+                    </span>
+                    <span className={`text-[10px] sm:text-[11px] font-extrabold px-2 py-0.5 rounded-md border ${
+                      isPaid 
+                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+                        : 'bg-amber-50 text-amber-800 border-amber-200'
+                    }`}>
+                      {isPaid ? '● Paid Online' : '● Pay at Shop'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* ── Order Content Body ── */}
+                <div className="p-3.5 sm:p-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+                    
+                    {/* Left & Center: Service Thumbnail + Details (lg:col-span-7) */}
+                    <div className="lg:col-span-7 flex items-start gap-3 sm:gap-4">
+                      {/* Product / Service Thumbnail */}
+                      <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0 shadow-2xs">
+                        <Image
+                          src={itemImage}
+                          alt={primaryService.title}
+                          fill
+                          sizes="80px"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        {extraServicesCount > 0 && (
+                          <div className="absolute bottom-0 right-0 left-0 bg-slate-900/80 backdrop-blur-xs text-white text-[9px] font-black text-center py-0.5">
+                            +{extraServicesCount} more
+                          </div>
+                        )}
                       </div>
-                      <div className="text-[10px] font-bold mt-0.5">
-                        {isPaid ? (
-                          <span className="text-emerald-600">● Paid Online</span>
-                        ) : (
-                          <span className="text-amber-600">● Pay at Shop</span>
+
+                      {/* Service Info */}
+                      <div className="min-w-0 flex-1 space-y-1">
+                        <h3 className="text-xs sm:text-base font-extrabold text-slate-900 leading-snug group-hover:text-[#7C3AED] transition-colors line-clamp-2">
+                          {primaryService.title}
+                          {extraServicesCount > 0 && (
+                            <span className="text-slate-500 font-medium text-xs ml-1">
+                              (+{extraServicesCount} other {extraServicesCount === 1 ? 'service' : 'services'})
+                            </span>
+                          )}
+                        </h3>
+
+                        <div className="text-[11px] sm:text-xs text-slate-500 font-medium flex items-center gap-2 flex-wrap">
+                          <span>Qty: {primaryService.quantity || 1}</span>
+                          <span>•</span>
+                          <span>Unit Price: ₹{primaryService.price || order.total}</span>
+                          <span>•</span>
+                          <span className="text-purple-700 font-bold bg-purple-50 px-1.5 py-0.2 rounded border border-purple-100">
+                            Digital Service Token
+                          </span>
+                        </div>
+
+                        {/* Document Attachment Pill if ready */}
+                        {order.documentUrl && (
+                          <div className="pt-1">
+                            <a
+                              href={order.documentUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-[11px] font-bold transition-colors shadow-2xs"
+                            >
+                              <Paperclip size={12} className="text-emerald-600" />
+                              <span className="truncate max-w-[220px]">
+                                {order.documentName || 'Download Processed Certificate'}
+                              </span>
+                              <Download size={11} className="text-emerald-700" />
+                            </a>
+                          </div>
                         )}
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        onClick={() => setTrackingOrder(order)}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-violet-50 hover:bg-violet-600 text-violet-700 hover:text-white border border-violet-200 hover:border-violet-600 text-xs font-extrabold transition-all shadow-2xs active:scale-95 cursor-pointer"
-                      >
-                        <PackageSearch size={13} />
-                        <span>Track</span>
-                      </button>
-                      <button
-                        onClick={() => setSelectedOrder(order)}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold transition-all shadow-2xs border border-gray-200 active:scale-95 cursor-pointer"
-                      >
-                        <Eye size={13} />
-                        <span>Details</span>
-                      </button>
+                    {/* Right: Flipkart-Style Delivery Status Pipeline (lg:col-span-5) */}
+                    <div className="lg:col-span-5 border-t lg:border-t-0 lg:border-l border-slate-100 pt-3 lg:pt-0 lg:pl-6">
+                      {getStatusIndicator(order.orderStatus, order.createdAt)}
+
+                      {/* Star Rating Display or Prompt */}
+                      {order.orderStatus === 'COMPLETED' && (
+                        <div className="mt-2.5 flex items-center gap-2 text-xs">
+                          {order.rating ? (
+                            <div className="flex items-center gap-1 text-amber-500 font-bold bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-200">
+                              <Star size={12} className="fill-amber-400" />
+                              <span>Rated {order.rating}/5</span>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setReviewOrder(order)}
+                              className="text-[11px] font-bold text-[#7C3AED] hover:underline flex items-center gap-1 cursor-pointer"
+                            >
+                              <Star size={12} />
+                              <span>Rate & Review this Service</span>
+                            </button>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
 
-          {/* Desktop Table View (>= md) */}
-          <div className="hidden md:block overflow-hidden rounded-3xl border border-gray-200 shadow-2xs">
-            <table className="w-full text-left text-gray-700 border-collapse">
-              <thead className="border-b border-gray-200 text-[11px] font-extrabold uppercase tracking-wider text-gray-500 bg-gray-50/90">
-                <tr>
-                  <th className="px-4 py-3.5">Order & Date</th>
-                  <th className="px-4 py-3.5">Requested Services</th>
-                  <th className="px-3 py-3.5 text-center">Amount</th>
-                  <th className="px-3 py-3.5 text-center">Status</th>
-                  <th className="px-4 py-3.5 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 bg-white text-xs">
-                {filteredOrders.map((order) => {
-                  const brandedId = formatOrderId(order._id, order.createdAt);
-                  const servicesText = order.services?.map((s: any) => s.title).join(', ') || 'Service Request';
+                {/* ── Order Bottom Action Footer (Flipkart Style Action Strip) ── */}
+                <div className="bg-slate-50/50 px-3.5 sm:px-6 py-2.5 sm:py-3 border-t border-slate-200/70 flex flex-wrap items-center justify-between gap-2.5">
+                  <div className="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
+                    <MessageCircle size={13} className="text-slate-400" />
+                    <span>Need help?</span>
+                    <a 
+                      href={`https://wa.me/+918756454282?text=${encodeURIComponent(`Hi Sandy Digital Hub! Need update on Order ${brandedId}`)}`}
+                      target="_blank" 
+                      rel="noreferrer"
+                      className="text-[#7C3AED] hover:underline font-bold"
+                    >
+                      Chat on WhatsApp
+                    </a>
+                  </div>
 
-                  return (
-                    <tr key={order._id.toString()} className="hover:bg-gray-50/80 transition-colors">
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-1.5 font-mono font-bold text-gray-900 text-xs">
-                          <span>{brandedId}</span>
-                          <CopyButton text={brandedId} />
-                        </div>
-                        <div className="text-[11px] text-gray-400 font-medium mt-0.5 flex items-center gap-1">
-                          <Calendar size={11} className="text-gray-400" />
-                          <span>{formatDateTime(order.createdAt)}</span>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3">
-                        <div className="truncate font-semibold text-gray-800 max-w-[180px] lg:max-w-[280px]" title={servicesText}>
-                          {servicesText}
-                        </div>
-                        {order.documentUrl && (
-                          <div className="text-[10px] text-violet-600 mt-0.5 flex items-center gap-1">
-                            <Paperclip size={10} />
-                            <span className="truncate max-w-[160px]">{order.documentName || 'Attachment'}</span>
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-3 py-3 text-center font-bold text-violet-700 whitespace-nowrap text-xs sm:text-sm">
-                        ₹{order.total}
-                      </td>
-                      <td className="px-3 py-3 text-center whitespace-nowrap">
-                        {getStatusBadge(order.orderStatus, order.paymentStatus)}
-                      </td>
-                      <td className="px-4 py-3 text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-1.5">
-                          <button
-                            onClick={() => setTrackingOrder(order)}
-                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-violet-50 hover:bg-violet-600 text-violet-700 hover:text-white border border-violet-200 hover:border-violet-600 text-xs font-bold transition-all shadow-2xs group cursor-pointer active:scale-95"
-                            title="Live Tracking Pipeline"
-                          >
-                            <PackageSearch size={12} className="text-violet-600 group-hover:text-white transition-colors" />
-                            <span>Track</span>
-                          </button>
-                          <button
-                            onClick={() => setSelectedOrder(order)}
-                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold transition-all shadow-2xs cursor-pointer border border-gray-200 active:scale-95"
-                            title="View Invoice & Attachments"
-                          >
-                            <Eye size={12} />
-                            <span>Details</span>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </>
+                  {/* Action Buttons */}
+                  <div className="flex items-center gap-2 ml-auto">
+                    <button
+                      onClick={() => handleReorder(primaryService)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-xl bg-white hover:bg-purple-50 text-slate-700 hover:text-[#7C3AED] border border-slate-200 hover:border-purple-200 text-xs font-bold transition-all shadow-2xs active:scale-95 cursor-pointer"
+                      title="Add to cart again"
+                    >
+                      <RotateCw size={12} />
+                      <span className="hidden sm:inline">Order Again</span>
+                      <span className="sm:hidden">Reorder</span>
+                    </button>
+
+                    <button
+                      onClick={() => setSelectedOrder(order)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all shadow-2xs border border-slate-200 active:scale-95 cursor-pointer"
+                      title="View full order details & invoice"
+                    >
+                      <FileText size={12} />
+                      <span>Details & Invoice</span>
+                    </button>
+
+                    <button
+                      onClick={() => setTrackingOrder(order)}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-xl bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-extrabold transition-all shadow-sm shadow-purple-600/20 active:scale-95 cursor-pointer"
+                      title="Live Tracking Pipeline"
+                    >
+                      <PackageSearch size={13} />
+                      <span>Track Status</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       )}
 
-      {/* Modal Inspector */}
+      {/* ─────────────────────────────────────────────────────────────
+          3. MODAL INSPECTORS (Details, Tracking, Review)
+      ───────────────────────────────────────────────────────────── */}
       {selectedOrder && (
         <OrderDetailsModal
           order={selectedOrder}
@@ -366,12 +489,24 @@ export function RequestsTable({ orders, user }: RequestsTableProps) {
         />
       )}
 
-      {/* In-Page Live Order Tracking Modal */}
       {trackingOrder && (
         <OrderTrackingModal
           order={trackingOrder}
           isOpen={!!trackingOrder}
           onClose={() => setTrackingOrder(null)}
+        />
+      )}
+
+      {reviewOrder && (
+        <OrderReviewModal
+          order={reviewOrder}
+          isOpen={!!reviewOrder}
+          onClose={() => setReviewOrder(null)}
+          onSuccess={(updatedOrder) => {
+            setOrders((prev) =>
+              prev.map((o) => (o._id === updatedOrder._id ? updatedOrder : o))
+            );
+          }}
         />
       )}
     </div>

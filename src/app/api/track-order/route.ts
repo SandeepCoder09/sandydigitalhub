@@ -18,11 +18,11 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
     const sanitizedBody = sanitizeMongoQuery(body);
-    const rawQuery = (sanitizedBody?.trackingId || sanitizedBody?.phone || sanitizedBody?.query || '').toString().trim();
+    const rawQuery = (sanitizedBody?.trackingId || sanitizedBody?.orderId || sanitizedBody?.query || '').toString().trim();
     const query = sanitizeText(rawQuery, 100);
 
     if (!query) {
-      throw AppError.badRequest('Order ID, Tracking Code, or registered Mobile Number is required.');
+      throw AppError.badRequest('Order ID is required to track your order (e.g. SDH-...).');
     }
 
     await connectDB();
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Execute fast primary search
+    // Execute fast primary search by Order ID
     let orders = await Order.find({ $or: orConditions })
       .sort({ createdAt: -1 })
       .limit(10)
@@ -70,33 +70,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 4. If not found, check phone / email in parallel
-    if (orders.length === 0) {
-      const cleanDigits = query.replace(/[^\d]/g, '');
-      if (cleanDigits.length >= 8) {
-        const last10 = cleanDigits.slice(-10);
-        const users = await User.find({
-          $or: [
-            { mobile: { $regex: last10 } },
-            { phone: { $regex: last10 } },
-            { email: { $regex: query, $options: 'i' } },
-          ],
-        })
-          .select('_id')
-          .lean();
-
-        if (users.length > 0) {
-          orders = await Order.find({ userId: { $in: users.map((u) => u._id) } })
-            .sort({ createdAt: -1 })
-            .limit(10)
-            .populate('userId', 'name phone email')
-            .select('customOrderId services total paymentMethod paymentStatus orderStatus documentUrl documentName createdAt userId')
-            .lean();
-        }
-      }
-    }
-
-    // 5. Fallback scan for recent orders
+    // 4. Fallback scan for recent orders matching Branded Order ID
     if (orders.length === 0) {
       const recentOrders = await Order.find()
         .sort({ createdAt: -1 })
@@ -117,7 +91,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (!orders || orders.length === 0) {
-      throw AppError.notFound('No requests found matching the provided tracking information.');
+      throw AppError.notFound('No order found matching the provided Order ID. Please verify and try again.');
     }
 
     // Safe public projection
