@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Mono, Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
@@ -17,6 +17,12 @@ import { SidebarProvider } from "@/context/SidebarContext";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-heading" });
 const dmMono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono" });
+
+// Match supported mobile browser chrome (address/status bar) to the violet-dark site theme.
+export const viewport: Viewport = {
+  themeColor: "#100B1D",
+  colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
   title: "Sandy Digital Hub | Your One-Stop Digital Solution Center",
