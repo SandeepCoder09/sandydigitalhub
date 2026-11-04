@@ -110,7 +110,7 @@ export async function POST(req: Request) {
         } else if (lower.includes('website') || lower.includes('app') || lower.includes('development')) {
           botResponse = 'We build custom Next.js websites, E-commerce, & Apps! View options under "Services" or click "Talk to Real Agent" below.';
         } else if (lower.includes('contact') || lower.includes('phone') || lower.includes('location')) {
-          botResponse = 'Sandy Digital Hub is located at Bairi, Khakhreru, Fatehpur, UP. Helpline: +91 8756454282.';
+          botResponse = 'Sandy Digital Hub is located at Bairi, Khakhreru, Fatehpur, UP. Helpline: +91 9118269278.';
         } else {
           botResponse = `Thanks for your message, ${name}! Click "🙋‍♂️ Talk to Real Agent" if you'd like to chat with an admin immediately.`;
         }
