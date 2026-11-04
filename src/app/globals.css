@@ -404,7 +404,6 @@
   --sdh-glass: rgba(28, 20, 46, .88);
   --sdh-glass-light: rgba(43, 31, 68, .78);
   --sdh-glow: rgba(168, 121, 255, .22);
-  perspective: 1400px;
 }
 [data-site-theme="violet-dark"] header,
 [data-site-theme="violet-dark"] nav,
@@ -438,6 +437,7 @@
 }
 [data-site-theme="violet-dark"] main {
   position: relative;
+  perspective: 1400px;
   transform-style: preserve-3d;
 }
 [data-site-theme="violet-dark"] main > section {
