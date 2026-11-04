@@ -3,7 +3,7 @@ import { Service } from "@/models/Service";
 import { ServicesCatalogClient } from "@/components/services/ServicesCatalogClient";
 import { ensureServicesSeeded, INITIAL_SERVICES } from "@/lib/seedServices";
 import type { Metadata } from "next";
-import { Sparkles, ShieldCheck, Zap } from "lucide-react";
+import { Sparkles, ShieldCheck, Zap, MapPin } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Service Catalog | Sandy Digital Hub",
@@ -60,13 +60,13 @@ export default async function ServicesPage() {
           {/* Quick Feature Badges */}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-1 text-xs font-bold text-slate-600">
             <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-slate-200/80 shadow-2xs">
-              ⚡ Fast 24-48h Processing
+              <Zap size={14} className="text-amber-400" /> Fast 24-48h Processing
             </span>
             <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-slate-200/80 shadow-2xs">
-              🔒 100% Secure & Verified
+              <ShieldCheck size={14} className="text-emerald-400" /> 100% Secure & Verified
             </span>
             <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-slate-200/80 shadow-2xs">
-              📍 Doorstep / Shop Delivery
+              <MapPin size={14} className="text-cyan-400" /> Doorstep / Shop Delivery
             </span>
           </div>
         </div>
