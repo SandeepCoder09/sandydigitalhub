@@ -22,7 +22,7 @@ export function LocalTrustStrip() {
           </div>
           <div>
             <div className="font-extrabold text-slate-900 leading-tight text-[11px] sm:text-xs">Direct Support</div>
-            <div className="text-[9px] sm:text-[11px] text-slate-500 font-medium">+91 8756454282 (Mon–Sat)</div>
+            <div className="text-[9px] sm:text-[11px] text-slate-500 font-medium">+91 9118269278 (Mon–Sat)</div>
           </div>
         </div>
 
