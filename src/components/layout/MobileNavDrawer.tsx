@@ -77,7 +77,7 @@ export function MobileNavDrawer({ session, controlledOpen, onClose, hideTrigger 
 
   const menuSections = [
     {
-      title: 'SARA DIGITAL HUB (CITIZEN SERVICES)',
+      title: 'SANDY DIGITAL HUB (CITIZEN SERVICES)',
       items: [
         { label: 'Hub Home', path: '/', icon: Home },
         { label: 'Citizen Services Catalog', path: '/services', icon: Zap, badge: 'SERVICES', color: 'text-[#7C3AED] bg-purple-50 border-purple-200' },
@@ -89,9 +89,9 @@ export function MobileNavDrawer({ session, controlledOpen, onClose, hideTrigger 
       ]
     },
     {
-      title: 'SANDY DIGITAL STUDIO (TECH & SOFTWARE)',
+      title: 'SARA DIGITAL STUDIO (TECH & SOFTWARE)',
       items: [
-        { label: 'Sandy Digital Studio', path: '/studio', icon: Briefcase, badge: 'STUDIO', color: 'text-indigo-700 bg-indigo-50 border-indigo-200' },
+        { label: 'Sara Digital Studio', path: '/studio', icon: Briefcase, badge: 'STUDIO', color: 'text-indigo-700 bg-indigo-50 border-indigo-200' },
         { label: 'Custom Websites & Web Apps', path: '/studio#services', icon: Sparkles },
         { label: 'Client Work & Portfolio', path: '/portfolio', icon: FileText },
         { label: 'Development Packages', path: '/pricing', icon: Tag },
