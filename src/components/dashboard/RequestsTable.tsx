@@ -436,7 +436,7 @@ export function RequestsTable({ orders: initialOrders, user }: RequestsTableProp
                     <MessageCircle size={12} className="text-slate-400" />
                     <span>Need help?</span>
                     <a 
-                      href={`https://wa.me/+918756454282?text=${encodeURIComponent(`Hi Sandy Digital Hub! Need update on Order ${brandedId}`)}`}
+                      href={`https://wa.me/+919118269278?text=${encodeURIComponent(`Hi Sandy Digital Hub! Need update on Order ${brandedId}`)}`}
                       target="_blank" 
                       rel="noreferrer"
                       className="text-[#7C3AED] hover:underline font-bold"
