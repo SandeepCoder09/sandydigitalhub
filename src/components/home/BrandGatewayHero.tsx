@@ -27,7 +27,7 @@ export function BrandGatewayHero() {
 
         {/* ── Two Primary Brand Cards ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-6 text-left">
-          {/* Card 1: SARA DIGITAL HUB */}
+          {/* Card 1: SANDY DIGITAL HUB */}
           <Link
             href="/services"
             className="group relative p-3 sm:p-7 rounded-2xl sm:rounded-3xl bg-slate-900/90 border border-purple-500/30 sm:border-2 hover:border-purple-500 transition-all duration-300 shadow-xl flex flex-row md:flex-col justify-between items-center md:items-stretch gap-3 md:gap-0 hover:-translate-y-0.5 md:hover:-translate-y-1 cursor-pointer"
@@ -45,7 +45,7 @@ export function BrandGatewayHero() {
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 md:block">
                   <h3 className="text-xs sm:text-xl font-black text-white group-hover:text-purple-300 transition-colors truncate">
-                    SARA DIGITAL HUB
+                    SANDY DIGITAL HUB
                   </h3>
                   <span className="md:hidden px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[9px] font-bold shrink-0">
                     Citizen
@@ -90,7 +90,7 @@ export function BrandGatewayHero() {
             </div>
           </Link>
 
-          {/* Card 2: SANDY DIGITAL STUDIO */}
+          {/* Card 2: SARA DIGITAL STUDIO */}
           <Link
             href="/studio"
             className="group relative p-3 sm:p-7 rounded-2xl sm:rounded-3xl bg-slate-900/90 border border-indigo-500/30 sm:border-2 hover:border-indigo-500 transition-all duration-300 shadow-xl flex flex-row md:flex-col justify-between items-center md:items-stretch gap-3 md:gap-0 hover:-translate-y-0.5 md:hover:-translate-y-1 cursor-pointer"
@@ -108,7 +108,7 @@ export function BrandGatewayHero() {
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 md:block">
                   <h3 className="text-xs sm:text-xl font-black text-white group-hover:text-indigo-300 transition-colors truncate">
-                    SANDY DIGITAL STUDIO
+                    SARA DIGITAL STUDIO
                   </h3>
                   <span className="md:hidden px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 text-[9px] font-bold shrink-0">
                     Tech & Dev
