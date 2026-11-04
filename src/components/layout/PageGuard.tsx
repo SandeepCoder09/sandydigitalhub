@@ -218,7 +218,7 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
 
           <div className="p-4 rounded-2xl bg-gray-900/60 border border-gray-700 text-xs text-gray-400 space-y-1 text-left">
             <div className="font-bold text-gray-200">Need Urgent Assistance?</div>
-            <p>Call Store Support: +91 8756454282 (Mon-Sat 10:00 AM - 8:00 PM)</p>
+            <p>Call Store Support: +91 9118269278 (Mon-Sat 10:00 AM - 8:00 PM)</p>
           </div>
 
           <div className="pt-2">
