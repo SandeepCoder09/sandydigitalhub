@@ -106,7 +106,7 @@ export function Footer() {
           </div>
 
           <div className="mt-5 grid gap-3 rounded-2xl border border-violet-300/15 bg-white/[.035] p-3 sm:grid-cols-2">
-            <a href="tel:+918756454282" className="flex items-center gap-2 text-xs font-semibold text-slate-200 hover:text-white"><Phone size={14} className="text-violet-300" /> +91 8756454282</a>
+            <a href="tel:+919118269278" className="flex items-center gap-2 text-xs font-semibold text-slate-200 hover:text-white"><Phone size={14} className="text-violet-300" /> +91 9118269278</a>
             <a href="mailto:admin@sandydigitalhub.com" className="flex items-center gap-2 text-xs font-semibold text-slate-200 hover:text-white"><Mail size={14} className="text-violet-300" /> admin@sandydigitalhub.com</a>
           </div>
           <p className="mt-4 flex items-start gap-2 border-t border-violet-300/15 pt-4 text-[10px] leading-relaxed text-slate-400">
@@ -132,7 +132,7 @@ export function Footer() {
             </span>
           </Link>
           <div className="flex shrink-0 items-center gap-1.5">
-            <a href="tel:+918756454282" aria-label="Call Sandy Digital Hub" className="grid h-9 w-9 place-items-center rounded-xl border border-violet-300/20 bg-violet-400/10 text-violet-200 transition hover:-translate-y-0.5 hover:bg-violet-400/20"><Phone size={15} /></a>
+            <a href="tel:+919118269278" aria-label="Call Sandy Digital Hub" className="grid h-9 w-9 place-items-center rounded-xl border border-violet-300/20 bg-violet-400/10 text-violet-200 transition hover:-translate-y-0.5 hover:bg-violet-400/20"><Phone size={15} /></a>
             <Link href="/contact" className="hidden rounded-xl border border-violet-300/20 bg-violet-400/10 px-3 py-2 text-[10px] font-bold text-violet-100 transition hover:bg-violet-400/20 sm:inline-flex">Contact</Link>
             <button onClick={() => setExpanded((value) => !value)} aria-expanded={expanded} aria-label={expanded ? 'Collapse footer details' : 'Expand footer details'} className="inline-flex h-9 items-center gap-1.5 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 text-[10px] font-extrabold text-white shadow-[0_5px_18px_rgba(124,58,237,.35)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(124,58,237,.45)]">
               {expanded ? 'Close' : 'Explore'} {expanded ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
