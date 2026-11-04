@@ -8,7 +8,7 @@ import { ECOSYSTEM_CONFIG } from '@/config/ecosystem';
 
 export const metadata: Metadata = {
   title: 'About Our Ecosystem | SANDY DIGITAL ECOSYSTEM',
-  description: 'Learn about the two interconnected divisions of SANDY DIGITAL ECOSYSTEM: SARA DIGITAL HUB for citizen services and SANDY DIGITAL STUDIO for modern software engineering.',
+  description: 'Learn about the two interconnected divisions of SANDY DIGITAL ECOSYSTEM: SANDY DIGITAL HUB for citizen services and SARA DIGITAL STUDIO for modern software engineering.',
 };
 
 export default function AboutPage() {
@@ -43,7 +43,7 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
-            {/* Division 1: SARA DIGITAL HUB */}
+            {/* Division 1: SANDY DIGITAL HUB */}
             <div className="bg-white rounded-3xl p-6 sm:p-8 border border-purple-200 shadow-xs hover:shadow-md transition-all space-y-5 flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center">
@@ -81,7 +81,7 @@ export default function AboutPage() {
               </Link>
             </div>
 
-            {/* Division 2: SANDY DIGITAL STUDIO */}
+            {/* Division 2: SARA DIGITAL STUDIO */}
             <div className="bg-white rounded-3xl p-6 sm:p-8 border border-indigo-200 shadow-xs hover:shadow-md transition-all space-y-5 flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center">
