@@ -27,8 +27,8 @@ const DEFAULT_ARTICLES = [
   },
   {
     slug: 'save-studio-project-quotation',
-    title: 'How does the Sandy Digital Studio Project Calculator work?',
-    category: 'Sandy Digital Studio',
+    title: 'How does the Sara Digital Studio Project Calculator work?',
+    category: 'Sara Digital Studio',
     division: 'SANDY_STUDIO',
     summary: 'How to calculate custom website and app development estimates and save official quote references.',
     content: `Our [Project Cost Calculator](/calculator) allows you to select your target project type (Business Website, Fullstack Web App, Mobile App, or UI/UX Design), choose necessary add-on modules, and generate an itemized estimate.\n\n### Saving Your Quote:\n* Click **Save & Generate Official Quote ID**.\n* A unique reference ID (e.g. \`SDS-2026-00124\`) will be issued.\n* Your quote is valid for 30 days and locks in your estimated base rates.`,
@@ -98,7 +98,7 @@ export async function GET(req: NextRequest) {
       categories: [
         'ALL',
         'Service Requests',
-        'Sandy Digital Studio',
+        'Sara Digital Studio',
         'Partner Network',
         'Payments & Refunds',
         'Free Tools',
@@ -113,7 +113,7 @@ export async function GET(req: NextRequest) {
       categories: [
         'ALL',
         'Service Requests',
-        'Sandy Digital Studio',
+        'Sara Digital Studio',
         'Partner Network',
         'Payments & Refunds',
         'Free Tools',
