@@ -20,7 +20,7 @@ export function StudioHero() {
             className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 sm:px-4 sm:py-2 rounded-full bg-slate-900/90 border border-violet-500/30 text-violet-300 text-[10px] sm:text-xs font-black uppercase tracking-wider shadow-lg shadow-purple-950/40"
           >
             <Code2 size={13} className="text-violet-400 sm:w-[15px] sm:h-[15px]" />
-            <span>SANDY DIGITAL STUDIO · TECH & SOFTWARE</span>
+            <span>SARA DIGITAL STUDIO · TECH & SOFTWARE</span>
           </motion.div>
 
           {/* Main Headline */}
@@ -43,7 +43,7 @@ export function StudioHero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-xs sm:text-lg lg:text-xl text-slate-300 max-w-2xl mx-auto font-medium leading-relaxed"
           >
-            From high-performance responsive websites to custom web applications and mobile platforms, Sandy Digital Studio helps businesses and creators turn ideas into polished digital products.
+            From high-performance responsive websites to custom web applications and mobile platforms, Sara Digital Studio helps businesses and creators turn ideas into polished digital products.
           </motion.p>
 
           {/* CTAs */}
