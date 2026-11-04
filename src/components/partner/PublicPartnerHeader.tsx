@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 export function PublicPartnerHeader({ partner }: { partner: any }) {
   const primaryColor = partner.branding?.primaryColor || '#7C3AED';
-  const whatsappNumber = partner.whatsapp?.replace(/[^0-9]/g, '') || '918756454282';
+  const whatsappNumber = partner.whatsapp?.replace(/[^0-9]/g, '') || '919118269278';
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-2xs">
