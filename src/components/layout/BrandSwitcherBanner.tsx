@@ -39,7 +39,7 @@ export function BrandSwitcherBanner() {
               }`}
             >
               <ShieldCheck size={13} className={!isStudio ? 'text-white' : 'text-purple-400'} />
-              <span>SARA DIGITAL HUB</span>
+              <span>SANDY DIGITAL HUB</span>
             </Link>
 
             <Link
@@ -51,7 +51,7 @@ export function BrandSwitcherBanner() {
               }`}
             >
               <Code2 size={13} className={isStudio ? 'text-white' : 'text-indigo-400'} />
-              <span>SANDY DIGITAL STUDIO</span>
+              <span>SARA DIGITAL STUDIO</span>
               <span className="text-[9px] px-1.5 py-0.2 rounded-md bg-white/20 text-white font-black uppercase tracking-wider">
                 TECH
               </span>
