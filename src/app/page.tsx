@@ -14,7 +14,7 @@ export default function Home() {
       {/* 1. Brand Ecosystem Gateway Card Switcher */}
       <BrandGatewayHero />
 
-      {/* 2. SARA DIGITAL HUB Hero */}
+      {/* 2. SANDY DIGITAL HUB Hero */}
       <HeroSection />
 
       {/* 3. Local Trust & Operational Transparency Strip */}
