@@ -167,7 +167,7 @@ export default function DocumentChecklistPage() {
   const shareChecklist = () => {
     const text = `📋 *Document Checklist for ${selectedService.title}*\n\nRequired Documents:\n` +
       selectedService.documentsRequired.map((d, i) => `${i + 1}. ${d.name} ${d.isMandatory ? '(Mandatory)' : '(Optional)'}`).join('\n') +
-      `\n\n📌 Apply Online at Sandy Digital Hub: https://sandydigitalhub.com/services\n📞 Phone: +91 8756454282`;
+      `\n\n📌 Apply Online at Sandy Digital Hub: https://sandydigitalhub.com/services\n📞 Phone: +91 9118269278`;
     
     if (navigator.share) {
       navigator.share({ title: selectedService.title, text });
@@ -269,9 +269,9 @@ export default function DocumentChecklistPage() {
               <p className="text-[11px] sm:text-xs text-purple-100 font-medium leading-relaxed">
                 Unsure about your documents or need doorstep document pickup in Fatehpur? Call our team directly.
               </p>
-              <a href="tel:+918756454282" className="block relative z-10">
+              <a href="tel:+919118269278" className="block relative z-10">
                 <Button className="w-full bg-white hover:bg-purple-50 text-[#7C3AED] hover:text-[#6D28D9] font-extrabold text-xs rounded-lg sm:rounded-xl shadow-md transition-all hover:scale-[1.02] h-9 sm:h-10">
-                  📞 Call +91 8756454282
+                  📞 Call +91 9118269278
                 </Button>
               </a>
             </div>
