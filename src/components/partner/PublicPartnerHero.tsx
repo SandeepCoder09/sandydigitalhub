@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export function PublicPartnerHero({ partner, onOpenRequestModal }: { partner: any; onOpenRequestModal: () => void }) {
   const primaryColor = partner.branding?.primaryColor || '#7C3AED';
-  const whatsappNumber = partner.whatsapp?.replace(/[^0-9]/g, '') || '918756454282';
+  const whatsappNumber = partner.whatsapp?.replace(/[^0-9]/g, '') || '919118269278';
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-white pt-10 pb-16 lg:pt-16 lg:pb-24 border-b border-slate-200/80">
