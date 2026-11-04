@@ -78,7 +78,7 @@ export function OrderTrackingModal({ order, isOpen, onClose }: OrderTrackingModa
       order.services?.map((s: any) => s.title).join(', ') || 'Services'
     }. Please update me on the live status.`
   );
-  const whatsappUrl = `https://wa.me/+918756454282?text=${whatsappText}`;
+  const whatsappUrl = `https://wa.me/+919118269278?text=${whatsappText}`;
 
   return (
     <AnimatePresence>
