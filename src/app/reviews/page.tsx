@@ -118,7 +118,7 @@ export default function ReviewsPage() {
             Client Ratings & <span className="text-[#7C3AED]">Verified Reviews</span>
           </h1>
           <p className="max-w-2xl mx-auto text-xs sm:text-base text-slate-600 font-medium leading-relaxed">
-            Real customer experiences across <strong>SARA DIGITAL HUB</strong> citizen facilitation and <strong>SANDY DIGITAL STUDIO</strong> technology projects.
+            Real customer experiences across <strong>SANDY DIGITAL HUB</strong> citizen facilitation and <strong>SARA DIGITAL STUDIO</strong> technology projects.
           </p>
 
           {/* Unified Stats Strip */}
@@ -166,7 +166,7 @@ export default function ReviewsPage() {
                     : 'text-slate-500 hover:text-slate-800'
                 }`}
               >
-                <FileText size={13} className="text-purple-600" /> SARA Digital Hub
+                <FileText size={13} className="text-purple-600" /> Sandy Digital Hub
               </button>
               <button
                 onClick={() => setSelectedDivision('SANDY_STUDIO')}
@@ -176,7 +176,7 @@ export default function ReviewsPage() {
                     : 'text-slate-500 hover:text-slate-800'
                 }`}
               >
-                <Globe size={13} className="text-indigo-600" /> Sandy Digital Studio
+                <Globe size={13} className="text-indigo-600" /> Sara Digital Studio
               </button>
             </div>
           </div>
@@ -244,7 +244,7 @@ export default function ReviewsPage() {
                   <span className={`text-[9px] font-black px-2 py-0.5 rounded-md ${
                     r.division === 'SANDY_STUDIO' ? 'bg-indigo-50 text-indigo-700' : 'bg-purple-50 text-purple-700'
                   }`}>
-                    {r.division === 'SANDY_STUDIO' ? 'Studio' : 'SARA Hub'}
+                    {r.division === 'SANDY_STUDIO' ? 'Studio' : 'Sandy Hub'}
                   </span>
                 </div>
               </div>
@@ -300,8 +300,8 @@ export default function ReviewsPage() {
                       onChange={e => setFormDivision(e.target.value as any)}
                       className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-purple-400"
                     >
-                      <option value="SARA_HUB">SARA Digital Hub</option>
-                      <option value="SANDY_STUDIO">Sandy Digital Studio</option>
+                      <option value="SARA_HUB">Sandy Digital Hub</option>
+                      <option value="SANDY_STUDIO">Sara Digital Studio</option>
                     </select>
                   </div>
 
