@@ -11,11 +11,11 @@ import { ContactCTA } from "@/components/home/ContactCTA";
 export default function Home() {
   return (
     <>
-      {/* 1. Brand Ecosystem Gateway Card Switcher */}
-      <BrandGatewayHero />
-
-      {/* 2. SANDY DIGITAL HUB Hero */}
+      {/* 1. Futuristic digital ecosystem hero */}
       <HeroSection />
+
+      {/* 2. Dual-platform ecosystem gateway */}
+      <BrandGatewayHero />
 
       {/* 3. Local Trust & Operational Transparency Strip */}
       <LocalTrustStrip />
