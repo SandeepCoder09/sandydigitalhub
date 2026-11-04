@@ -45,7 +45,7 @@ const CASE_STUDIES: Record<string, CaseStudy> = {
   },
   'sandy-hub': {
     slug: 'sandy-hub',
-    title: 'SARA DIGITAL HUB Multi-Tenant Platform',
+    title: 'SANDY DIGITAL HUB Multi-Tenant Platform',
     projectType: 'Internal Product',
     category: 'Enterprise Citizen Platform',
     industry: 'Digital Governance & Public Facilitation',
@@ -85,10 +85,10 @@ const CASE_STUDIES: Record<string, CaseStudy> = {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const project = CASE_STUDIES[slug];
-  if (!project) return { title: 'Project Case Study | Sandy Digital Studio' };
+  if (!project) return { title: 'Project Case Study | Sara Digital Studio' };
 
   return {
-    title: `${project.title} | Case Study | SANDY DIGITAL STUDIO`,
+    title: `${project.title} | Case Study | SARA DIGITAL STUDIO`,
     description: project.objective,
   };
 }
@@ -202,7 +202,7 @@ export default async function PortfolioDetailPage({ params }: { params: Promise<
         <div className="p-8 rounded-3xl bg-indigo-950 text-white text-center space-y-4 shadow-xl">
           <h3 className="text-xl sm:text-2xl font-black">Want to build something similar?</h3>
           <p className="text-xs sm:text-sm text-indigo-200 font-medium max-w-md mx-auto">
-            Calculate estimated development pricing or schedule a discovery call with SANDY DIGITAL STUDIO.
+            Calculate estimated development pricing or schedule a discovery call with SARA DIGITAL STUDIO.
           </p>
           <div className="pt-2 flex justify-center gap-3">
             <Link href="/calculator">
