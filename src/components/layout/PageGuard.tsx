@@ -87,8 +87,8 @@ export function PageGuard({ children, navbar, footer, liveChat }: PageGuardProps
           <main className="flex-1">
             {content}
           </main>
-          {footer}
         </div>
+        {footer}
         {liveChat}
       </div>
     );
