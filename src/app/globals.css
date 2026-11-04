@@ -556,3 +556,110 @@
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
 }
+
+
+/* ============================================================
+   PUBLIC SITE POLISH — consistent violet surfaces, icon accents,
+   and readable text across every public route.
+   ============================================================ */
+[data-site-theme="violet-dark"] main {
+  color: #f3edff;
+  background: transparent;
+}
+[data-site-theme="violet-dark"] main > div[class*="bg-slate-50"],
+[data-site-theme="violet-dark"] main > div[class*="bg-gray-50"],
+[data-site-theme="violet-dark"] main > section[class*="bg-slate-50"],
+[data-site-theme="violet-dark"] main > section[class*="bg-gray-50"] {
+  background: transparent !important;
+}
+[data-site-theme="violet-dark"] main .bg-white.rounded-xl,
+[data-site-theme="violet-dark"] main .bg-white.rounded-2xl,
+[data-site-theme="violet-dark"] main .bg-white.rounded-3xl,
+[data-site-theme="violet-dark"] main .bg-slate-50.rounded-xl,
+[data-site-theme="violet-dark"] main .bg-slate-50.rounded-2xl,
+[data-site-theme="violet-dark"] main .bg-slate-50.rounded-3xl,
+[data-site-theme="violet-dark"] main .bg-slate-50\/90.rounded-xl,
+[data-site-theme="violet-dark"] main .bg-gray-50.rounded-xl,
+[data-site-theme="violet-dark"] main .bg-gray-50.rounded-2xl,
+[data-site-theme="violet-dark"] main .bg-gray-50.rounded-3xl {
+  background: linear-gradient(145deg, rgba(35,25,55,.97), rgba(19,13,32,.98)) !important;
+  border-color: rgba(184,145,255,.3) !important;
+  color: #f3edff !important;
+}
+[data-site-theme="violet-dark"] main .text-slate-900,
+[data-site-theme="violet-dark"] main .text-gray-900,
+[data-site-theme="violet-dark"] main .text-slate-800,
+[data-site-theme="violet-dark"] main .text-gray-800 {
+  color: #f5f0ff !important;
+}
+[data-site-theme="violet-dark"] main .text-slate-700,
+[data-site-theme="violet-dark"] main .text-gray-700,
+[data-site-theme="violet-dark"] main .text-slate-600,
+[data-site-theme="violet-dark"] main .text-gray-600 {
+  color: #d1c6e1 !important;
+}
+[data-site-theme="violet-dark"] main .text-slate-500,
+[data-site-theme="violet-dark"] main .text-gray-500,
+[data-site-theme="violet-dark"] main .text-slate-400,
+[data-site-theme="violet-dark"] main .text-gray-400 {
+  color: #b7a9cb !important;
+}
+[data-site-theme="violet-dark"] main .border-slate-100,
+[data-site-theme="violet-dark"] main .border-slate-200,
+[data-site-theme="violet-dark"] main .border-gray-100,
+[data-site-theme="violet-dark"] main .border-gray-200 {
+  border-color: rgba(184,145,255,.24) !important;
+}
+[data-site-theme="violet-dark"] main svg.lucide:not([class*="text-"]),
+[data-site-theme="violet-dark"] footer svg.lucide:not([class*="text-"]) {
+  color: #b99aff;
+  filter: drop-shadow(0 0 5px rgba(168,121,255,.22));
+}
+[data-site-theme="violet-dark"] main .bg-purple-50,
+[data-site-theme="violet-dark"] main .bg-purple-50\/80,
+[data-site-theme="violet-dark"] main .bg-purple-100,
+[data-site-theme="violet-dark"] main .bg-indigo-50,
+[data-site-theme="violet-dark"] main .bg-indigo-100 {
+  background-color: rgba(124,58,237,.18) !important;
+  color: #e3d5ff !important;
+  border-color: rgba(184,145,255,.28) !important;
+}
+[data-site-theme="violet-dark"] main .text-emerald-800,
+[data-site-theme="violet-dark"] main .text-green-800 {
+  color: #86efc0 !important;
+}
+[data-site-theme="violet-dark"] main .text-rose-600,
+[data-site-theme="violet-dark"] main .text-red-600 {
+  color: #fda4af !important;
+}
+[data-site-theme="violet-dark"] main .text-indigo-600,
+[data-site-theme="violet-dark"] main .text-blue-600 {
+  color: #a5b4fc !important;
+}
+[data-site-theme="violet-dark"] main .text-purple-600,
+[data-site-theme="violet-dark"] main .text-purple-700 {
+  color: #c4a5ff !important;
+}
+[data-site-theme="violet-dark"] main input,
+[data-site-theme="violet-dark"] main textarea,
+[data-site-theme="violet-dark"] main select {
+  background-color: #130d20 !important;
+  color: #f5f0ff !important;
+  border-color: rgba(184,145,255,.38) !important;
+}
+[data-site-theme="violet-dark"] main input::placeholder,
+[data-site-theme="violet-dark"] main textarea::placeholder {
+  color: #a99bbd !important;
+}
+[data-site-theme="violet-dark"] footer.sdh-page-footer .grid {
+  align-items: start;
+}
+[data-site-theme="violet-dark"] footer.sdh-page-footer a {
+  color: #d4c9e5;
+}
+@media (max-width: 639px) {
+  [data-site-theme="violet-dark"] footer.sdh-page-footer > div {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.25rem !important;
+  }
+}
