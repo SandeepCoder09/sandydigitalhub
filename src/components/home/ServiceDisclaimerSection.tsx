@@ -24,10 +24,10 @@ export function ServiceDisclaimerSection() {
 
           <div className="text-xs text-slate-600 leading-relaxed space-y-2.5 font-medium border-t border-slate-100 pt-4">
             <p>
-              <strong>SARA DIGITAL HUB</strong> operates as an independent digital facilitation and cyber assistance center. We assist customers with filling online forms, application document processing, photo resizing, and navigation on public government and institutional portals.
+              <strong>SANDY DIGITAL HUB</strong> operates as an independent digital facilitation and cyber assistance center. We assist customers with filling online forms, application document processing, photo resizing, and navigation on public government and institutional portals.
             </p>
             <p>
-              <strong>Disclaimer of Affiliation:</strong> SARA DIGITAL HUB is not directly affiliated with, endorsed by, or representing any government department or statutory agency unless specifically authorized. Final application acceptance, processing times, issuance of certificates, and approval decisions remain solely subject to the jurisdiction of the respective official authority or government department.
+              <strong>Disclaimer of Affiliation:</strong> SANDY DIGITAL HUB is not directly affiliated with, endorsed by, or representing any government department or statutory agency unless specifically authorized. Final application acceptance, processing times, issuance of certificates, and approval decisions remain solely subject to the jurisdiction of the respective official authority or government department.
             </p>
             <p>
               <strong>Transparent Fee Structure:</strong> Our service charges represent professional assistance, document handling, and technical facilitation fees. All official government fees (if applicable) are clearly itemized before submission.
