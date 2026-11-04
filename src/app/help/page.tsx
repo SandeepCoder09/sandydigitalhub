@@ -71,7 +71,7 @@ export default function HelpCenterPage() {
             How can we <span className="text-purple-400">help you today?</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 font-medium max-w-xl mx-auto">
-            Find answers to common questions about SARA DIGITAL HUB services, tracking, project quotes, and partner onboarding.
+            Find answers to common questions about SANDY DIGITAL HUB services, tracking, project quotes, and partner onboarding.
           </p>
 
           {/* Instant Search Bar */}
