@@ -7,8 +7,8 @@ import { StudioPricing } from '@/components/studio/StudioPricing';
 import { StudioEnquiryForm } from '@/components/studio/StudioEnquiryForm';
 
 export const metadata: Metadata = {
-  title: 'Sandy Digital Studio · Modern Websites, Web Apps & Technology Solutions',
-  description: 'Sandy Digital Studio designs and builds modern websites, web applications, mobile platforms, and custom software for businesses and creators.',
+  title: 'Sara Digital Studio · Modern Websites, Web Apps & Technology Solutions',
+  description: 'Sara Digital Studio designs and builds modern websites, web applications, mobile platforms, and custom software for businesses and creators.',
 };
 
 export default function StudioPage() {
