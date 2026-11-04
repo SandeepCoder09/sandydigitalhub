@@ -27,7 +27,7 @@ export function PublicServiceRequestModal({
   const toast = useToast();
 
   const primaryColor = partner.branding?.primaryColor || '#7C3AED';
-  const whatsappNumber = partner.whatsapp?.replace(/[^0-9]/g, '') || '918756454282';
+  const whatsappNumber = partner.whatsapp?.replace(/[^0-9]/g, '') || '919118269278';
   const servicePrice = selectedService?.customPrice ?? selectedService?.basePrice ?? 50;
 
   const handleSubmit = async (e: React.FormEvent) => {
