@@ -52,7 +52,7 @@ const hubMainNavItems: NavItem[] = [
 ];
 
 const hubSecondaryNavItems: NavItem[] = [
-  { key: 'Studio', label: 'Sandy Digital Studio', path: '/studio', icon: Briefcase },
+  { key: 'Studio', label: 'Sara Digital Studio', path: '/studio', icon: Briefcase },
   { key: 'Partners', label: 'Partner Network', path: '/partners', icon: Compass },
   { key: 'Support', label: 'Support & Help', path: '/support', icon: PhoneCall },
   { key: 'Reviews', label: 'Verified Reviews', path: '/reviews', icon: Star },
@@ -68,7 +68,7 @@ const studioMainNavItems: NavItem[] = [
 ];
 
 const studioSecondaryNavItems: NavItem[] = [
-  { key: 'Sara Hub', label: '← SARA Digital Hub', path: '/', icon: Home },
+  { key: 'Sara Hub', label: '← Sandy Digital Hub', path: '/', icon: Home },
   { key: 'Support', label: 'Support Ticket Center', path: '/support', icon: PhoneCall },
   { key: 'Status', label: 'Platform Status', path: '/status', icon: Zap },
   { key: 'Contact', label: 'Contact Studio Team', path: '/contact', icon: PhoneCall },
@@ -249,7 +249,7 @@ export function AppSidebar({ initialSession }: AppSidebarProps = {}) {
               CURRENT WORKSPACE
             </div>
             <div className="text-[12.5px] font-bold text-slate-800 truncate mt-0.5">
-              {isStudio ? 'SANDY DIGITAL STUDIO' : 'SARA DIGITAL HUB'}
+              {isStudio ? 'SARA DIGITAL STUDIO' : 'SANDY DIGITAL HUB'}
             </div>
             <div className="text-[10.5px] text-slate-500 truncate">
               {isStudio ? 'Web, App & Tech Solutions' : 'Citizen & Document Services'}
