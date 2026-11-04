@@ -59,7 +59,7 @@ export function OrderReceiptModal({ order, onClose }: OrderReceiptModalProps) {
             <div>
               <div className="text-lg font-black text-gray-900 tracking-tight">SANDY DIGITAL HUB</div>
               <div className="text-[10px] text-gray-500 font-medium">Digital Agency & Jan Seva Center</div>
-              <div className="text-[10px] text-gray-500 font-medium">Fatehpur, UP · Phone: +91 8756454282</div>
+              <div className="text-[10px] text-gray-500 font-medium">Fatehpur, UP · Phone: +91 9118269278</div>
             </div>
             <div className="text-right">
               <span className="px-2.5 py-1 rounded-md bg-purple-100 text-[#7C3AED] text-[10px] font-black uppercase">
