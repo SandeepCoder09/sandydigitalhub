@@ -540,7 +540,7 @@
 }
 
 
-/* The footer itself stays in normal document flow; only its compact dock floats. */
+/* Full website footer remains in normal document flow. */
 [data-site-theme="violet-dark"] footer.sdh-page-footer {
   position: relative !important;
   inset: auto !important;
@@ -549,46 +549,10 @@
   overflow: visible !important;
   isolation: auto !important;
 }
-[data-site-theme="violet-dark"] footer.sdh-page-footer::before {
-  display: block;
-}
-[data-site-theme="violet-dark"] footer.sdh-page-footer .sdh-footer-dock {
-  position: fixed !important;
-  inset-inline: 0 !important;
-  bottom: calc(5.8rem + env(safe-area-inset-bottom, 0px)) !important;
-  z-index: 60 !important;
-  width: auto !important;
-  pointer-events: auto !important;
-}
-[data-site-theme="violet-dark"] footer.sdh-page-footer .sdh-footer-panel {
-  position: relative;
-  max-height: min(68dvh, 68vh);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  pointer-events: auto;
-}
 [data-site-theme="violet-dark"] nav[aria-label="Mobile Navigation"] {
   background: rgba(16, 11, 29, .96) !important;
   border-color: rgba(184, 145, 255, .24) !important;
   box-shadow: 0 -10px 34px rgba(0, 0, 0, .28) !important;
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-}
-@media (min-width: 1024px) {
-  [data-site-theme="violet-dark"] footer.sdh-page-footer .sdh-footer-dock {
-    bottom: 1rem !important;
-  }
-  [data-site-theme="violet-dark"] footer.sdh-page-footer .sdh-footer-panel {
-    max-height: min(72dvh, 72vh);
-  }
-}
-@media (max-width: 640px) {
-  [data-site-theme="violet-dark"] footer.sdh-page-footer .sdh-footer-dock {
-    margin-inline: .65rem;
-  }
-  [data-site-theme="violet-dark"] footer.sdh-page-footer .sdh-footer-panel {
-    margin-inline: .65rem;
-    padding: 1rem;
-    border-radius: 1.25rem;
-  }
 }
