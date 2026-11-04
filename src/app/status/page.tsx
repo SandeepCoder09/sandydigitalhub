@@ -70,7 +70,7 @@ export default function StatusPage() {
             System Operational <span className="text-purple-400">Status</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 font-medium max-w-xl mx-auto">
-            Live operational status across all SARA DIGITAL HUB and SANDY DIGITAL STUDIO platform subsystems.
+            Live operational status across all SANDY DIGITAL HUB and SARA DIGITAL STUDIO platform subsystems.
           </p>
 
           {/* Overall Health Card */}
