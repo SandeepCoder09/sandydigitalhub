@@ -64,7 +64,7 @@ export function Footer() {
   return (
     <footer className="sdh-page-footer relative w-full text-slate-200">
       {/* Full website footer content — normal document flow, not part of the floating dock. */}
-      <div className="border-t border-violet-300/20 bg-[radial-gradient(ellipse_at_15%_0%,rgba(124,58,237,.18),transparent_42%),linear-gradient(145deg,#1b1230_0%,#100b1d_58%,#0c0815_100%)] px-4 pb-8 pt-10 sm:px-8 sm:pb-10 sm:pt-14 lg:ml-[272px] lg:px-10">
+      <div className="border-t border-violet-300/20 bg-[radial-gradient(ellipse_at_15%_0%,rgba(124,58,237,.18),transparent_42%),linear-gradient(145deg,#1b1230_0%,#100b1d_58%,#0c0815_100%)] px-4 pb-24 pt-6 sm:px-8 sm:pb-10 sm:pt-10 lg:ml-[272px] lg:px-10">
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-2 gap-x-4 gap-y-5 sm:gap-x-6 sm:gap-y-7 lg:grid-cols-[1.35fr_1fr_1fr_1fr_1fr]">
             <div className="col-span-2 max-w-none lg:col-span-1 lg:max-w-sm">
