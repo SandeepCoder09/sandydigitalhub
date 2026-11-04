@@ -23,7 +23,7 @@ export function Skeleton({
 /**
  * Full page loading overlay for major route transitions
  */
-export function PageLoader({ message = 'Loading SARA Digital Hub...' }: { message?: string }) {
+export function PageLoader({ message = 'Loading Sandy Digital Hub...' }: { message?: string }) {
   return (
     <div
       className="min-h-[60vh] flex flex-col items-center justify-center p-6 space-y-4 text-center"
