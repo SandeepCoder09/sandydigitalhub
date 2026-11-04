@@ -4,7 +4,7 @@ export const FLAGSHIP_PARTNERS = [
   {
     partnerId: 'SDH-MAIN-01',
     branchCode: 'SDH-HQ',
-    name: 'SARA Digital Hub (Main Branch - Fatehpur)',
+    name: 'Sandy Digital Hub (Main Branch - Fatehpur)',
     slug: 'sara-digital-hub-main',
     ownerName: 'Sandeep Kumar',
     ownerEmail: 'sandydigitalhub@gmail.com',
@@ -20,7 +20,7 @@ export const FLAGSHIP_PARTNERS = [
     branding: {
       primaryColor: '#7C3AED',
       accentColor: '#4F46E5',
-      tagline: 'Official SARA Digital Citizen Services Facilitation Center',
+      tagline: 'Official Sandy Digital Citizen Services Facilitation Center',
       description: 'Main flagship hub for Govt forms, certificates, pancard, passport, voter services & citizen facilitation.',
       businessHours: '8:30 AM - 8:00 PM',
     },
@@ -37,7 +37,7 @@ export const FLAGSHIP_PARTNERS = [
   {
     partnerId: 'SDS-TECH-01',
     branchCode: 'SDS-HQ',
-    name: 'Sandy Digital Studio (Software & Tech Center)',
+    name: 'Sara Digital Studio (Software & Tech Center)',
     slug: 'sandy-digital-studio-hq',
     ownerName: 'Sandeep Kumar',
     ownerEmail: 'contact@sandydigitalstudio.com',
