@@ -6,7 +6,7 @@ import { DEFAULT_STUDIO_PACKAGES, DEFAULT_STUDIO_ADDONS } from '@/lib/pricingDat
 import { ECOSYSTEM_CONFIG } from '@/config/ecosystem';
 
 export const metadata: Metadata = {
-  title: 'Development Packages & Pricing | SANDY DIGITAL STUDIO',
+  title: 'Development Packages & Pricing | SARA DIGITAL STUDIO',
   description: 'Transparent fixed packages and custom quotation estimates for web development, fullstack apps, and mobile engineering.',
 };
 
