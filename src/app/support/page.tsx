@@ -443,7 +443,7 @@ export default function SupportCenterPage() {
                   >
                     <option value="SERVICE_REQUEST">Service Request & Status</option>
                     <option value="PAYMENT_BILLING">Payment & Invoices</option>
-                    <option value="STUDIO_PROJECT">Sandy Digital Studio Project</option>
+                    <option value="STUDIO_PROJECT">Sara Digital Studio Project</option>
                     <option value="PARTNER_SUPPORT">Partner Center Inquiries</option>
                     <option value="FREE_TOOLS">Free Digital Tools</option>
                     <option value="OTHER">Other Inquiry</option>
