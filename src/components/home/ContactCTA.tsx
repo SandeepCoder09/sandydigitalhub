@@ -39,7 +39,7 @@ export function ContactCTA() {
                 <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Link href="tel:+918756454282">
+            <Link href="tel:+919118269278">
               <Button variant="outline" size="lg" className="w-full sm:w-auto h-11 sm:h-14 px-6 sm:px-8 text-xs sm:text-lg rounded-xl sm:rounded-2xl bg-transparent border-white/20 text-white hover:bg-white/10 hover:text-white">
                 <PhoneCall className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 {t('cta.btn.call')}
