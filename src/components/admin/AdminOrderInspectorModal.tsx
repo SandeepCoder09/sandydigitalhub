@@ -130,7 +130,7 @@ export function AdminOrderInspectorModal({ order, isOpen, onClose, onOrderUpdate
           ` : ''}
 
           <div class="footer">
-            Sandy Digital Hub • Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India - 212656 • Phone: +91 8756454282
+            Sandy Digital Hub • Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India - 212656 • Phone: +91 9118269278
           </div>
         </body>
       </html>
