@@ -32,7 +32,7 @@ export default function CalculatorPage() {
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>(['seo']);
   const [timeline, setTimeline] = useState<'normal' | 'express'>('normal');
 
-  // ── SARA Hub Facilitation Options ──
+  // ── Sandy Hub Facilitation Options ──
   const [selectedHubServices, setSelectedHubServices] = useState<string[]>(['pan_new']);
   const [deliveryOption, setDeliveryOption] = useState<'digital' | 'home_delivery'>('digital');
 
@@ -202,7 +202,7 @@ export default function CalculatorPage() {
 
   const copyQuoteSummary = () => {
     if (!savedQuote) return;
-    const summary = `📄 PROJECT QUOTATION\nQuote ID: ${savedQuote.quoteNumber}\nProject: ${savedQuote.projectType}\nClient: ${savedQuote.name}\nEstimated Total: ₹${savedQuote.estimatedTotal.toLocaleString('en-IN')}\nValid Until: ${new Date(savedQuote.expiresAt).toLocaleDateString('en-IN')}\n\nGenerated via Sandy Digital Studio`;
+    const summary = `📄 PROJECT QUOTATION\nQuote ID: ${savedQuote.quoteNumber}\nProject: ${savedQuote.projectType}\nClient: ${savedQuote.name}\nEstimated Total: ₹${savedQuote.estimatedTotal.toLocaleString('en-IN')}\nValid Until: ${new Date(savedQuote.expiresAt).toLocaleDateString('en-IN')}\n\nGenerated via Sara Digital Studio`;
     navigator.clipboard.writeText(summary);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
@@ -220,7 +220,7 @@ export default function CalculatorPage() {
             Ecosystem <span className="text-[#7C3AED]">Price Calculator</span>
           </h1>
           <p className="max-w-2xl mx-auto text-xs sm:text-base text-slate-600 font-medium leading-relaxed">
-            Generate itemized estimates for software engineering with <strong>SANDY DIGITAL STUDIO</strong> or citizen facilitation services through <strong>SARA DIGITAL HUB</strong>.
+            Generate itemized estimates for software engineering with <strong>SARA DIGITAL STUDIO</strong> or citizen facilitation services through <strong>SANDY DIGITAL HUB</strong>.
           </p>
 
           {/* Ecosystem Division Switcher */}
@@ -234,7 +234,7 @@ export default function CalculatorPage() {
               }`}
             >
               <Globe size={14} className="text-indigo-600" />
-              <span>SANDY DIGITAL STUDIO (Software & Web)</span>
+              <span>SARA DIGITAL STUDIO (Software & Web)</span>
             </button>
             <button
               onClick={() => setCalculatorMode('hub')}
@@ -245,7 +245,7 @@ export default function CalculatorPage() {
               }`}
             >
               <FileText size={14} className="text-purple-600" />
-              <span>SARA DIGITAL HUB (Citizen Services)</span>
+              <span>SANDY DIGITAL HUB (Citizen Services)</span>
             </button>
           </div>
         </div>
@@ -253,7 +253,7 @@ export default function CalculatorPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         
-        {/* ── MODE 1: SANDY DIGITAL STUDIO ESTIMATOR ── */}
+        {/* ── MODE 1: SARA DIGITAL STUDIO ESTIMATOR ── */}
         {calculatorMode === 'studio' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
             
@@ -489,7 +489,7 @@ export default function CalculatorPage() {
           </div>
         )}
 
-        {/* ── MODE 2: SARA DIGITAL HUB CITIZEN SERVICES ESTIMATOR ── */}
+        {/* ── MODE 2: SANDY DIGITAL HUB CITIZEN SERVICES ESTIMATOR ── */}
         {calculatorMode === 'hub' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
             <div className="lg:col-span-8 space-y-6">
@@ -572,7 +572,7 @@ export default function CalculatorPage() {
               <div className="bg-slate-900 text-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-800 shadow-2xl sticky top-24 space-y-4 sm:space-y-5">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-purple-400">
-                    SARA DIGITAL HUB TOTAL
+                    SANDY DIGITAL HUB TOTAL
                   </span>
                   <div className="text-3xl sm:text-4xl font-black text-white mt-1">
                     ₹{calculateHubTotal().toLocaleString('en-IN')}
@@ -618,7 +618,7 @@ export default function CalculatorPage() {
                 <h3 className="text-base font-black text-gray-900">
                   {savedQuote ? 'Official Quotation Generated' : 'Save Project Quotation'}
                 </h3>
-                <p className="text-xs text-gray-500 font-medium">SANDY DIGITAL STUDIO Pricing Engine</p>
+                <p className="text-xs text-gray-500 font-medium">SARA DIGITAL STUDIO Pricing Engine</p>
               </div>
               <button
                 onClick={() => setIsQuoteModalOpen(false)}
