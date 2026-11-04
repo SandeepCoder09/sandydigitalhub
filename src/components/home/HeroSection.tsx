@@ -1,130 +1,84 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, CheckCircle2, Zap, Image as ImageIcon, Star } from "lucide-react";
-import { motion } from "framer-motion";
 import Image from "next/image";
-import { useLanguage } from "@/context/LanguageContext";
+import { motion } from "framer-motion";
+import { ArrowRight, Sparkles, ShieldCheck, Zap, Headset, FileText, CreditCard, Globe, Wrench, Briefcase } from "lucide-react";
+
+const highlights = [
+  { label: "100% Secure", icon: ShieldCheck, color: "text-emerald-300" },
+  { label: "Fast Processing", icon: Zap, color: "text-amber-300" },
+  { label: "Expert Support", icon: Headset, color: "text-cyan-300" },
+];
+
+const orbitItems = [
+  { label: "Forms", icon: FileText, color: "text-fuchsia-300", bg: "bg-fuchsia-500/15 border-fuchsia-400/30" },
+  { label: "PAN", icon: CreditCard, color: "text-cyan-300", bg: "bg-cyan-500/15 border-cyan-400/30" },
+  { label: "Web", icon: Globe, color: "text-emerald-300", bg: "bg-emerald-500/15 border-emerald-400/30" },
+  { label: "Jobs", icon: Briefcase, color: "text-blue-300", bg: "bg-blue-500/15 border-blue-400/30" },
+  { label: "Tools", icon: Wrench, color: "text-pink-300", bg: "bg-pink-500/15 border-pink-400/30" },
+];
 
 export function HeroSection() {
-  const { t } = useLanguage();
-
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-purple-50/40 via-white to-white pt-4 pb-8 sm:pt-10 sm:pb-16 lg:pt-14 lg:pb-24">
-      {/* Ambient Glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[#7C3AED]/15 to-[#A855F7]/10 blur-[130px] rounded-full pointer-events-none -z-0" />
-
-      <div className="container mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center lg:text-left"
-          >
-            {/* Trust Badge */}
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-4 sm:py-2 rounded-full bg-white border border-purple-200 shadow-xs sm:shadow-md text-[#7C3AED] text-[10px] sm:text-xs font-extrabold uppercase tracking-wider mb-3 sm:mb-6 hover:scale-105 transition-transform cursor-pointer">
-              <Sparkles size={12} className="text-[#7C3AED] sm:w-3.5 sm:h-3.5" />
-              <span>SANDY DIGITAL HUB · SERVICE PORTAL</span>
+    <section className="relative isolate overflow-hidden bg-[#100B1D] text-white pt-7 pb-7 sm:pt-12 sm:pb-12 lg:pt-16 lg:pb-16">
+      <div className="pointer-events-none absolute -top-28 left-[12%] h-80 w-80 rounded-full bg-violet-600/20 blur-[110px]" />
+      <div className="pointer-events-none absolute right-0 top-1/4 h-96 w-96 rounded-full bg-fuchsia-600/10 blur-[120px]" />
+      <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-7 lg:grid-cols-[1.02fr_.98fr] lg:gap-10">
+          <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }} className="text-center lg:text-left">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet-400/25 bg-violet-500/10 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[.13em] text-violet-200 sm:mb-5 sm:text-xs">
+              <Sparkles size={13} className="text-fuchsia-300" /> One Digital Ecosystem
             </div>
-
-            <h1 className="text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 leading-tight mb-3 sm:mb-6">
-              Your Trusted <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-[#7C3AED] via-[#6D28D9] to-[#A855F7] bg-clip-text text-transparent">
-                Digital Service Center
-              </span>
+            <h1 className="mb-3 text-[2rem] font-black leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
+              Sandy Digital <span className="bg-gradient-to-r from-violet-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">Hub</span>
             </h1>
-
-            <p className="text-xs sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 mb-4 sm:mb-8 leading-relaxed font-medium">
-              From online applications and document assistance to professional digital services, get fast, secure and transparent support from one convenient place.
+            <p className="mb-2 text-sm font-semibold text-violet-100 sm:text-lg">
+              Citizen Services · Online Forms · Utility Tools · Digital Solutions
             </p>
-
-            {/* Action CTAs */}
-            <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-4 justify-center lg:justify-start mb-4 sm:mb-10">
-              <Link href="/services">
-                <Button size="lg" className="w-full sm:w-auto text-xs sm:text-base font-extrabold h-11 sm:h-13 px-6 sm:px-8 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-xl sm:rounded-2xl shadow-md sm:shadow-xl shadow-purple-500/20 hover:shadow-purple-500/35 transition-all hover:scale-105 group">
-                  <Zap className="mr-1.5 h-4 w-4 sm:h-5 sm:w-5 fill-white" /> Get Digital Service
-                  <ArrowRight className="ml-1.5 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
+            <p className="mx-auto mb-5 max-w-xl text-xs leading-6 text-slate-300 sm:mb-7 sm:text-base sm:leading-7 lg:mx-0">
+              A complete digital platform for government-service assistance, online applications, document solutions and modern technology services.
+            </p>
+            <div className="mb-5 flex flex-col justify-center gap-2.5 sm:flex-row lg:justify-start">
+              <Link href="/services" className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 text-sm font-extrabold text-white shadow-lg shadow-violet-900/40 transition hover:-translate-y-0.5 hover:brightness-110">
+                Explore Services <ArrowRight size={16} />
               </Link>
-
-              <Link href="/track-order">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto text-xs sm:text-base font-bold h-11 sm:h-13 px-5 sm:px-7 border-2 border-purple-200 text-gray-800 hover:text-[#7C3AED] hover:border-[#7C3AED] hover:bg-purple-50 rounded-xl sm:rounded-2xl transition-all hover:scale-105">
-                  Track My Request
-                </Button>
+              <Link href="/track-order" className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-violet-300/40 bg-white/[.04] px-5 text-sm font-bold text-violet-100 transition hover:bg-violet-500/15">
+                <FileText size={16} /> Track Your Order
               </Link>
             </div>
-
-            {/* Micro Guarantees */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-6 text-[10px] sm:text-xs font-bold text-gray-700 pt-3 sm:pt-4 border-t border-gray-100">
-              <div className="flex items-center gap-1 sm:gap-1.5">
-                <CheckCircle2 size={13} className="text-emerald-500 sm:w-[15px] sm:h-[15px]" />
-                <span>Secure Assistance</span>
-              </div>
-              <div className="flex items-center gap-1 sm:gap-1.5">
-                <CheckCircle2 size={13} className="text-emerald-500 sm:w-[15px] sm:h-[15px]" />
-                <span>Transparent Charges</span>
-              </div>
-              <div className="flex items-center gap-1 sm:gap-1.5">
-                <CheckCircle2 size={13} className="text-emerald-500 sm:w-[15px] sm:h-[15px]" />
-                <span>Fast Support</span>
-              </div>
-              <div className="flex items-center gap-1 sm:gap-1.5">
-                <CheckCircle2 size={13} className="text-emerald-500 sm:w-[15px] sm:h-[15px]" />
-                <span>WhatsApp Help</span>
-              </div>
+            <div className="grid grid-cols-3 gap-2 border-t border-white/10 pt-4">
+              {highlights.map(({ label, icon: Icon, color }) => (
+                <div key={label} className="flex items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/[.035] px-2 py-2 text-[10px] font-bold text-slate-200 sm:text-xs">
+                  <Icon size={15} className={color} /> <span>{label}</span>
+                </div>
+              ))}
             </div>
           </motion.div>
 
-          {/* 3D Interactive Card Showcase */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative mx-auto w-full max-w-lg lg:max-w-none perspective-1000 mt-2 sm:mt-0"
-          >
-            {/* Floating Badge 1 - Desktop only */}
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="hidden sm:flex absolute -top-6 -left-6 z-20 bg-white p-4 rounded-2xl border border-purple-100 shadow-2xl items-center gap-3"
-            >
-              <div className="w-10 h-10 rounded-xl bg-[#7C3AED] text-white flex items-center justify-center font-bold shadow-md shadow-purple-300">
-                <Zap size={20} className="fill-white" />
+          <motion.div initial={{ opacity: 0, scale: .94 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: .7, delay: .12 }} className="relative mx-auto w-full max-w-[560px]">
+            <div className="absolute inset-8 rounded-full bg-violet-600/20 blur-3xl" />
+            <div className="relative overflow-hidden rounded-[1.7rem] border border-violet-300/25 bg-gradient-to-br from-[#24143d] via-[#151027] to-[#0d1229] p-2 shadow-[0_20px_70px_rgba(109,40,217,.22)] sm:p-3">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem] border border-white/10 bg-[#17112a]">
+                <Image src="/hero-dashboard.png" alt="Sandy Digital Hub digital services dashboard" fill priority sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#100B1D]/55 via-transparent to-violet-900/10" />
+                <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between rounded-xl border border-white/15 bg-[#100b1d]/75 px-3 py-2 backdrop-blur-xl">
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-[.16em] text-violet-300">Your digital ecosystem</p>
+                    <p className="text-xs font-extrabold text-white sm:text-sm">Everything in one place</p>
+                  </div>
+                  <div className="flex -space-x-1.5">
+                    {orbitItems.slice(0, 3).map(({ label, icon: Icon, color }) => <span key={label} className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#17112a] bg-[#30204b]"><Icon size={14} className={color} /></span>)}
+                  </div>
+                </div>
               </div>
-              <div>
-                <div className="text-xs text-gray-500 font-semibold">{t('hero.badge1.label')}</div>
-                <div className="text-sm font-black text-gray-900">{t('hero.badge1.value')}</div>
-              </div>
-            </motion.div>
-
-            {/* Floating Badge 2 - Desktop only */}
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-              className="hidden sm:flex absolute -bottom-6 -right-6 z-20 bg-white p-4 rounded-2xl border border-green-100 shadow-2xl items-center gap-3"
-            >
-              <div className="w-10 h-10 rounded-xl bg-[#22C55E] text-white flex items-center justify-center font-bold shadow-md shadow-green-300">
-                <Star size={20} className="fill-white" />
-              </div>
-              <div>
-                <div className="text-xs text-gray-500 font-semibold">{t('hero.badge2.label')}</div>
-                <div className="text-sm font-black text-gray-900">{t('hero.badge2.value')}</div>
-              </div>
-            </motion.div>
-
-            {/* Main Showcase Image */}
-            <div className="relative rounded-2xl sm:rounded-3xl bg-white p-2 sm:p-3 ring-1 ring-purple-100/80 shadow-xl sm:shadow-2xl shadow-purple-500/8 overflow-hidden transform hover:scale-[1.02] transition-transform duration-500">
-              <div className="rounded-xl sm:rounded-2xl overflow-hidden aspect-[4/3] relative flex items-center justify-center border border-purple-50 bg-gradient-to-br from-purple-50 to-indigo-50">
-                <Image
-                  src="/hero-dashboard.png"
-                  alt="Sandy Digital Hub Services Showcase"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
+            </div>
+            <div className="pointer-events-none absolute -right-2 top-3 hidden grid-cols-2 gap-2 sm:grid">
+              {orbitItems.map(({ label, icon: Icon, color, bg }) => (
+                <div key={label} className={`flex items-center gap-2 rounded-xl border px-2.5 py-2 text-[10px] font-bold shadow-xl backdrop-blur-xl ${bg} ${color}`}>
+                  <Icon size={15} /> {label}
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
