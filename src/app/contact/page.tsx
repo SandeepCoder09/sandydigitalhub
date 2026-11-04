@@ -82,13 +82,13 @@ export default function ContactPage() {
 
               <div className="space-y-4 text-xs font-medium">
                 <a
-                  href="tel:+918756454282"
+                  href="tel:+919118269278"
                   className="flex items-start gap-3 p-3.5 rounded-2xl bg-purple-50 hover:bg-purple-100 transition-colors text-purple-950"
                 >
                   <Phone size={16} className="text-purple-600 shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold block text-purple-900">Helpline / WhatsApp</span>
-                    <span className="text-[11px] text-purple-700">+91 8756454282 (Mon–Sat, 9AM–7PM)</span>
+                    <span className="text-[11px] text-purple-700">+91 9118269278 (Mon–Sat, 9AM–7PM)</span>
                   </div>
                 </a>
 
