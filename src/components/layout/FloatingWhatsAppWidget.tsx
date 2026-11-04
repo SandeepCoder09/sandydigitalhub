@@ -7,7 +7,7 @@ export function FloatingWhatsAppWidget() {
   const [showTooltip, setShowTooltip] = useState(true);
 
   const defaultMsg = encodeURIComponent("Hi Sandy Digital Hub! I have an inquiry regarding your digital services.");
-  const whatsappUrl = `https://wa.me/+918756454282?text=${defaultMsg}`;
+  const whatsappUrl = `https://wa.me/+919118269278?text=${defaultMsg}`;
 
   return (
     <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex items-center gap-3">
