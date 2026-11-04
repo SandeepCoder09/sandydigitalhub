@@ -42,7 +42,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
   ];
 
   const whatsappText = encodeURIComponent(`Hi Sandy Digital Hub! I need an update regarding my order ${brandedId}.`);
-  const whatsappUrl = `https://wa.me/+918756454282?text=${whatsappText}`;
+  const whatsappUrl = `https://wa.me/+919118269278?text=${whatsappText}`;
 
   const handlePrintWorkOrder = () => {
     const printContent = `
@@ -107,7 +107,7 @@ export function OrderDetailsModal({ order, user, isOpen, onClose }: OrderDetails
           ` : ''}
 
           <div className="footer">
-            Sandy Digital Hub • Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India • Phone: +91 8756454282
+            Sandy Digital Hub • Bairi, Khakhreru, Fatehpur, Uttar Pradesh, India • Phone: +91 9118269278
           </div>
         </body>
       </html>
