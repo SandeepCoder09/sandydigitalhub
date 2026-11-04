@@ -26,7 +26,7 @@ export function HeroSection() {
             {/* Trust Badge */}
             <div className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-4 sm:py-2 rounded-full bg-white border border-purple-200 shadow-xs sm:shadow-md text-[#7C3AED] text-[10px] sm:text-xs font-extrabold uppercase tracking-wider mb-3 sm:mb-6 hover:scale-105 transition-transform cursor-pointer">
               <Sparkles size={12} className="text-[#7C3AED] sm:w-3.5 sm:h-3.5" />
-              <span>SARA DIGITAL HUB · SERVICE PORTAL</span>
+              <span>SANDY DIGITAL HUB · SERVICE PORTAL</span>
             </div>
 
             <h1 className="text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 leading-tight mb-3 sm:mb-6">
