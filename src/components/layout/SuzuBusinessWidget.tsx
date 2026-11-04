@@ -18,7 +18,7 @@ SERVICES YOU KNOW ABOUT:
 - Government Document Services: Aadhaar, PAN Card, Passport, Voter ID, Income Certificate, Domicile (Niwas), Caste (Jati), GST Registration, EPFO, Ration Card, Birth/Death Certificate
 - Digital Services: Website Development, Mobile App Development, UI/UX Design, Digital Marketing, Logo Design
 - Cyber Cafe: Printing, Scanning, Typing, Photo Services, Online Forms
-- Contact: +91 8756454282 | Fatehpur, UP
+- Contact: +91 9118269278 | Fatehpur, UP
 - Website: sandydigitalhub.com
 
 PERSONALITY:
@@ -26,7 +26,7 @@ PERSONALITY:
 - Speak in simple, clear language — mix Hindi and English naturally (Hinglish) when helpful
 - Be concise: 1-3 short sentences for most replies
 - Guide customers to services, answer questions about documents needed, pricing, and timelines
-- For pricing, say "Please visit the shop or call +91 8756454282 for exact pricing"
+- For pricing, say "Please visit the shop or call +91 9118269278 for exact pricing"
 
 RULES:
 1. Never make up prices or fake government policies
@@ -149,7 +149,7 @@ export function SuzuBusinessWidget() {
         {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          content: 'Sorry, I\'m having trouble connecting right now. Please call us at +91 8756454282 for immediate assistance!',
+          content: 'Sorry, I\'m having trouble connecting right now. Please call us at +91 9118269278 for immediate assistance!',
           timestamp: new Date(),
         }
       ]);
