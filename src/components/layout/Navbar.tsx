@@ -26,7 +26,7 @@ export async function Navbar() {
       {/* ─────────────────────────────────────────────────────────────
           2. MOBILE TOP HEADER BAR (< lg)
       ───────────────────────────────────────────────────────────── */}
-      <header className="lg:hidden sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs">
+      <header className="lg:hidden sticky top-0 z-40 w-full border-b border-violet-300/20 bg-[#100B1D]/95 text-white backdrop-blur-xl shadow-[0_8px_28px_rgba(0,0,0,.25)]">
         <div className="container mx-auto px-3 sm:px-6">
           <div className="flex h-13 sm:h-14 items-center justify-between gap-2.5">
             {/* Logo */}
