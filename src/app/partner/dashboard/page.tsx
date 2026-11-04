@@ -119,7 +119,7 @@ export default function PartnerDashboardPage() {
           {dashboardData.suspensionReason}
         </p>
         <p className="text-xs text-slate-400">
-          Please contact SARA Central Support at <strong>+91 8756454282</strong> or email <strong>info@sandydigitalhub.com</strong>.
+          Please contact SARA Central Support at <strong>+91 9118269278</strong> or email <strong>info@sandydigitalhub.com</strong>.
         </p>
       </div>
     );
