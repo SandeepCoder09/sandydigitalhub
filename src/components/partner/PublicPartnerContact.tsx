@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 export function PublicPartnerContact({ partner }: { partner: any }) {
   const primaryColor = partner.branding?.primaryColor || '#7C3AED';
-  const whatsappNumber = partner.whatsapp?.replace(/[^0-9]/g, '') || '918756454282';
+  const whatsappNumber = partner.whatsapp?.replace(/[^0-9]/g, '') || '919118269278';
 
   return (
     <section className="py-16 sm:py-20 bg-white border-b border-slate-200">
