@@ -88,7 +88,7 @@ Description: ${formData.description}`,
 
             <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs text-slate-400 space-y-1 text-left">
               <div className="font-bold text-white">Direct WhatsApp Connect:</div>
-              <p>For urgent scope discussions, WhatsApp us directly at <strong>+91 8756454282</strong> with reference <strong>{refId}</strong>.</p>
+              <p>For urgent scope discussions, WhatsApp us directly at <strong>+91 9118269278</strong> with reference <strong>{refId}</strong>.</p>
             </div>
 
             <Button
