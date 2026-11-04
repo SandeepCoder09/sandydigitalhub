@@ -499,7 +499,7 @@ export function AccountDashboardClient({ user, stats }: AccountDashboardClientPr
                 Connect instantly with our support team for any document queries.
               </p>
             </div>
-            <a href="https://wa.me/918756454282?text=Hello%20Sandy%20Digital%20Hub,%20I%20need%20help%20with%20my%20service." target="_blank" rel="noreferrer">
+            <a href="https://wa.me/919118269278?text=Hello%20Sandy%20Digital%20Hub,%20I%20need%20help%20with%20my%20service." target="_blank" rel="noreferrer">
               <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl h-9 flex items-center justify-center gap-1.5">
                 <MessageCircle size={14} /> Open WhatsApp
               </Button>
