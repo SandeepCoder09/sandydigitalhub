@@ -67,7 +67,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="sdh-fixed-footer fixed bottom-[4.35rem] lg:bottom-0 left-0 right-0 z-[60] text-slate-200">
+    <footer className="sdh-page-footer relative w-full text-slate-200">
       {expanded && (
         <div className="sdh-footer-panel mx-2 sm:mx-4 lg:ml-[290px] mb-2 max-h-[68vh] overflow-y-auto rounded-[1.6rem] border border-violet-300/25 bg-[#130d20]/[.97] p-4 sm:p-6 shadow-[0_24px_80px_rgba(0,0,0,.58),0_1px_0_rgba(255,255,255,.08)_inset] backdrop-blur-2xl animate-in slide-in-from-bottom-4 duration-300">
           <div className="mb-5 flex items-start justify-between gap-4 border-b border-violet-300/15 pb-4">
@@ -120,7 +120,7 @@ export function Footer() {
         </div>
       )}
 
-      <div className="sdh-footer-dock relative mx-2 sm:mx-4 lg:ml-[290px] overflow-hidden rounded-2xl border border-violet-300/25 bg-[#171025]/95 shadow-[0_12px_42px_rgba(0,0,0,.48),0_1px_0_rgba(255,255,255,.1)_inset] backdrop-blur-2xl">
+      <div className="sdh-footer-dock fixed bottom-[5.8rem] lg:bottom-4 left-0 right-0 z-[60] mx-2 sm:mx-4 lg:ml-[290px] overflow-hidden rounded-2xl border border-violet-300/25 bg-[#171025]/95 shadow-[0_12px_42px_rgba(0,0,0,.48),0_1px_0_rgba(255,255,255,.1)_inset] backdrop-blur-2xl">
         <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-violet-300/80 to-transparent" />
         <div className="flex min-h-[58px] items-center justify-between gap-2 px-3 py-2 sm:px-4">
           <Link href="/" className="flex min-w-0 items-center gap-2.5">
