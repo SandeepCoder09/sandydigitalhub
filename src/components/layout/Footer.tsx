@@ -7,7 +7,7 @@ import { ECOSYSTEM_CONFIG } from '@/config/ecosystem';
 
 const linkGroups = [
   {
-    title: 'SARA Digital Hub',
+    title: 'Sandy Digital Hub',
     icon: FileText,
     color: 'text-violet-300',
     links: [
@@ -20,7 +20,7 @@ const linkGroups = [
     ],
   },
   {
-    title: 'Sandy Digital Studio',
+    title: 'Sara Digital Studio',
     icon: Globe,
     color: 'text-fuchsia-300',
     links: [
