@@ -469,7 +469,7 @@ export default function CalculatorPage() {
                   </Button>
 
                   <a
-                    href={`https://wa.me/918756454282?text=Hello%20Sandy%20Digital%20Studio,%20I%20calculated%20an%20estimate%20of%20₹${calculateStudioSubtotal()}%20for%20a%20${encodeURIComponent(STUDIO_PACKAGES[projectType].name)}.%20Please%20guide%20me.`}
+                    href={`https://wa.me/919118269278?text=Hello%20Sandy%20Digital%20Studio,%20I%20calculated%20an%20estimate%20of%20₹${calculateStudioSubtotal()}%20for%20a%20${encodeURIComponent(STUDIO_PACKAGES[projectType].name)}.%20Please%20guide%20me.`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block"
@@ -478,7 +478,7 @@ export default function CalculatorPage() {
                       variant="outline"
                       className="w-full border-slate-700 text-slate-200 hover:bg-slate-800 rounded-xl text-xs font-bold h-10 cursor-pointer"
                     >
-                      Discuss on WhatsApp (+91 8756454282)
+                      Discuss on WhatsApp (+91 9118269278)
                     </Button>
                   </a>
                 </div>
@@ -730,7 +730,7 @@ export default function CalculatorPage() {
                     {copied ? 'Copied Summary' : 'Copy Quote Details'}
                   </button>
                   <a
-                    href={`https://wa.me/918756454282?text=Hello%20Sandy%20Digital%20Studio,%20I%20saved%20Quotation%20${savedQuote.quoteNumber}%20for%20₹${savedQuote.estimatedTotal}.%20Let's%20discuss%20the%20scope.`}
+                    href={`https://wa.me/919118269278?text=Hello%20Sandy%20Digital%20Studio,%20I%20saved%20Quotation%20${savedQuote.quoteNumber}%20for%20₹${savedQuote.estimatedTotal}.%20Let's%20discuss%20the%20scope.`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1"
